@@ -1,0 +1,46 @@
+.Card {
+  border: 1px #EDEFF2 solid;
+  border-radius: 8px;
+  padding: 20px;
+  background-color: white;
+}
+.Card h3 {
+  color: #2B3674;
+  text-align: right;
+  font-feature-settings: "clig" off, "liga" off;
+  font-family: Readex Pro;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 22px; /* 137.5% */
+}
+.Card p {
+  color: #7E8799;
+  text-align: right;
+  font-feature-settings: "clig" off, "liga" off;
+  font-family: Readex Pro;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px; /* 150% */
+}
+
+.Input {
+  border: 1px solid #EDEFF2;
+  border-radius: 8px;
+  background-color: white;
+  margin-bottom: 20px;
+  display: flex;
+}
+.Input input {
+  border: none;
+  width: 100%;
+  outline: none;
+  padding: 5px;
+}
+.Input div {
+  background-color: #0062FF;
+  color: white;
+  padding: 10px;
+  border-radius: 8px;
+}/*# sourceMappingURL=ShoppingCart.module.css.map */

@@ -1,0 +1,118 @@
+.LoginContainer {
+  min-height: 100vh;
+}
+.goBack {
+  color: #a3aed0;
+  font-size: 14px;
+  margin-top: 50px;
+  text-align: end;
+}
+.LoginForm {
+  margin-top: 100px;
+}
+.LoginForm h3 {
+  color: #2b3674;
+
+  text-align: start;
+  font-family: Readex Pro;
+  font-size: 36px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 56px; /* 155.556% */
+  letter-spacing: -0.72px;
+}
+.LoginForm p {
+  color: #5a6a85;
+
+  text-align: start;
+  font-family: Readex Pro;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 100%; /* 16px */
+  letter-spacing: -0.32px;
+}
+.LoginBanner {
+  background-image: url("./../../../assets/images/LoginBanner.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  border-end-end-radius: 200px;
+}
+.googleBtn {
+  border-radius: 16px;
+  border: none;
+  padding-block: 20px;
+  background: #f4f7fe;
+  min-width: 400px;
+  color: #2b3674;
+
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 20px; /* 142.857% */
+  letter-spacing: -0.28px;
+}
+.line {
+  border: 1px solid #e1e2e6;
+  margin-top: 50px;
+  margin-bottom: 50px;
+  position: relative;
+}
+.line span {
+  position: absolute;
+  top: 50%; /* Move the element 50% from the top */
+  left: 50%; /* Move the element 50% from the left */
+  transform: translate(-50%, -50%); /* Center the element */
+  background-color: #fcfcfc;
+  padding: 20px;
+}
+.forgotPassword {
+  color: #0062ff !important;
+
+  font-family: Readex Pro;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 20px; /* 142.857% */
+  letter-spacing: -0.28px;
+  text-decoration: none;
+}
+.SubmitBtn {
+  transition: 0.4s;
+  display: flex;
+  width: 100%;
+
+  padding: 20px 8px !important;
+
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+  border-radius: 16px !important;
+
+  background: #0062ff !important;
+
+  p {
+    color: #fff;
+  }
+
+  border: none;
+  display: block;
+  text-align: center;
+  font-family: "Readex Pro", sans-serif !important;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 100%; /* 14px */
+  letter-spacing: -0.28px;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield; /* Firefox */
+}

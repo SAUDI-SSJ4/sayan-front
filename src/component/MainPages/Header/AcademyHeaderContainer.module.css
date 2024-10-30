@@ -1,0 +1,7 @@
+.Container {
+  background-image: url("../../../assets/images/HomeBg.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  padding-top: 25px;
+  padding-bottom: 115px !important;
+}/*# sourceMappingURL=AcademyHeaderContainer.module.css.map */

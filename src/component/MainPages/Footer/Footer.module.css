@@ -1,0 +1,41 @@
+.FooterContainer {
+  padding: 47px 100px;
+  background: #0062FF;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  font-family: "Tajawal", sans-serif !important;
+  margin-top: 150px;
+  color: white;
+}
+@media (max-width: 430px) {
+  .FooterContainer {
+    padding: 47px 30px;
+  }
+}
+.FooterContainer h2 {
+  font-family: "Tajawal", sans-serif !important;
+}
+@media (max-width: 1002px) {
+  .FooterContainer h2 {
+    margin-top: 30px;
+  }
+}
+.FooterContainer p {
+  font-family: "Tajawal", sans-serif !important;
+}
+
+.CopyRight {
+  text-align: center;
+  background: #0062FF;
+  border-top: solid 1px rgba(237, 239, 242, 0.24);
+  padding-block: 32px;
+  text-align: center;
+  color: white;
+  font-family: "Tajawal", sans-serif !important;
+}
+
+.Socials img {
+  cursor: pointer;
+}/*# sourceMappingURL=Footer.module.css.map */
