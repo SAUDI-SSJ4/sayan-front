@@ -1,0 +1,43 @@
+.FooterContainer {
+  padding: 47px 100px;
+  background: #0062ff;
+  display: flex;
+  @media (max-width: 430px) {
+    padding: 47px 30px;
+  }
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  font-family: "Tajawal", sans-serif !important;
+  color: white;
+  h2 {
+    font-family: "Tajawal", sans-serif !important;
+    @media (max-width: 1002px) {
+      margin-top: 30px;
+    }
+  }
+  p {
+    font-family: "Tajawal", sans-serif !important;
+  }
+}
+.CopyRight {
+  text-align: center;
+  background: #0062ff;
+  border-top: solid 1px rgba(237, 239, 242, 0.24);
+  padding-block: 32px;
+  text-align: center;
+  color: white;
+  font-family: "Tajawal", sans-serif !important;
+  cursor: pointer;
+}
+.Socials {
+  img {
+    cursor: pointer;
+    max-width: 200px;
+    max-height: 200px;
+  }
+}
+
+a {
+  color: white;
+}

@@ -1,0 +1,67 @@
+.firstCard{
+    padding: 20px;
+    border-radius: 10px;
+border: 1px solid #EDEFF2;
+
+background: #FFF;
+.CardImage{
+   overflow: hidden;
+   border-radius: 10px;
+max-height: 185px;
+position: relative;
+.Dropdown{
+    position: absolute;
+    top:15px;
+    right: 15px;
+  
+    
+        button{
+        background-color: white;
+        
+      color:#1E02AA !important;
+      font-weight: 600;
+      border-radius: 10px;
+        }
+ 
+}
+img{
+    width: 100%;
+    height: 100%;
+}
+}
+}
+.CardInfo{
+
+    padding-inline-end: 13px ;
+    position: relative;
+    z-index: 5;
+    img{
+        width: 60px;
+        height: 60px;
+       
+margin-top: -30px;
+    }
+    h2{
+        color: #2B3674;
+
+text-align: right;
+font-family: Readex Pro;
+font-size: 20px;
+font-style: normal;
+font-weight: 700;
+line-height: 32px; /* 160% */
+letter-spacing: -0.4px;
+    }
+    p{
+        display: flex;
+        gap: 5px;
+        color: #A3AED0;
+
+font-family: Readex Pro;
+font-size: 16px;
+font-style: normal;
+font-weight: 500;
+line-height: 30px; /* 187.5% */
+letter-spacing: -0.32px;
+    }
+}

@@ -1,0 +1,10 @@
+.card-wallet {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-60%, -50%);
+}
+
+.card-wallet img {
+  max-width: 300px;
+}

@@ -1,0 +1,52 @@
+.StudentRateContainer{
+    margin-top: -200px;
+    @media (max-width: 767px) {
+        margin-top: -100px;
+    }
+    .SectionTitle{
+  font-family: "Tajawal", sans-serif !important;
+text-align: center;
+position: relative;
+z-index: 2 ;
+font-size: 28px;color: #272727;
+font-weight: 800;
+&:after{
+    content: "";
+    position: absolute;
+    left: 50%;
+    z-index: 1;
+    transform: translateX(-50%);
+    width: 98px;
+    height: 18px;
+    bottom: 0;
+    background: rgba(255, 130, 15, 0.33);
+}
+    }
+}
+.RateCard{
+    padding: 33px 27px;
+    background: var(--01, #FFF);
+
+/* صس */
+box-shadow: 0px 0px 40px 0px rgba(13, 119, 188, 0.1);
+.RateName{
+    color: #12141D;
+text-align: right;
+font-family: "Tajawal", sans-serif !important;
+
+font-size: 18px;
+font-style: normal;
+font-weight: 700;
+line-height: 24px; /* 133.333% */
+}
+.RateParagraph{
+    color: var(--black, #1D1D1D);
+text-align: right;
+font-family: "Tajawal", sans-serif !important;
+margin-block: 25px;
+font-size: 18px;
+font-style: normal;
+font-weight: 500;
+line-height: 26px; /* 144.444% */
+}
+}

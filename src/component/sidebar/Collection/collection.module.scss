@@ -1,0 +1,56 @@
+.smallCollection {
+    max-height: 0px;
+    margin-inline-start: 10px;
+    padding-inline: 10px;
+    transition: 0.4s ease-in-out;
+    overflow: hidden;
+    color:    #7E8799;
+ 
+}
+.mainIcon {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+    cursor: pointer;
+    padding: 10px;
+    
+    div {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+    span {
+        font-size: 18px;
+      
+        color:    #7E8799;
+    }
+    .arrow{
+        transition: 0.4s;
+    }
+    &.active {
+        padding: 10px;
+        border-radius: 5px;
+        
+        color: white !important;
+        background-color:    #0062FF;
+        .arrow{
+            color:white !important;
+
+            
+        }
+        span {
+            font-size: 18px;
+        
+            color: white !important;
+        }
+    }
+}
+a{
+    text-decoration: none;
+}
+.arrow{
+    position: relative;
+    z-index: 100;
+}

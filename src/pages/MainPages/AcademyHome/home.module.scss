@@ -1,0 +1,192 @@
+.Container {
+  margin-inline: 100px;
+  padding-bottom: 30px;
+  max-width: 1300px;
+  margin: 30px auto;
+
+  @media (max-width: 600px) {
+    margin-inline: 10px !important;
+  }
+}
+.BannerText {
+  h1 {
+    font-family: "Noto Kufi Arabic";
+    font-size: 58px;
+    font-weight: 700;
+    line-height: 72.8px;
+    color: #1c1c1c;
+    margin-bottom: 20px;
+    @media (max-width: 600px) {
+      font-size: 38px;
+      text-align: center;
+    }
+  }
+  p {
+    font-family: "Noto Kufi Arabic";
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 32px;
+    color: #4e4e4e;
+    @media (max-width: 600px) {
+      font-size: 20px;
+      text-align: center;
+    }
+  }
+}
+
+.BtnContainer {
+  display: flex;
+  @media (max-width: 600px) {
+    justify-content: center;
+  }
+}
+.Primary {
+  margin-top: 15px;
+  color: white;
+  cursor: pointer;
+  background-color: #0062ff;
+  padding: 8px 30px;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 20px;
+  border: 1px solid #0062ff;
+  transition: 0.4s;
+  line-height: 24px;
+  &:hover {
+    background-color: white;
+    color: #0062ff;
+  }
+  @media (max-width: 600px) {
+    font-size: 18px;
+    text-align: center;
+  }
+}
+.AnimatedImage {
+  animation: Move 4s infinite;
+}
+
+@keyframes Move {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(20px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+.AllSubject {
+  margin-top: 80px;
+  padding-top: 50px;
+  padding-bottom: 50px;
+  background-color: #f8f8f8;
+  .SubjectHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 30px;
+    margin-bottom: 30px;
+    h1 {
+      font-size: 28px;
+      font-family: "Noto Kufi Arabic";
+      font-size: 28px;
+      font-weight: 800;
+      line-height: 37.8px;
+    }
+    .Filters {
+      display: flex;
+      gap: 20px;
+      div {
+        border-radius: 100px;
+        background-color: white;
+        font-size: 18px;
+        transition: 0.4s;
+        cursor: pointer;
+        padding: 15px 28px;
+        &.Active {
+          background-color: #0062ff;
+          color: white;
+        }
+      }
+    }
+  }
+  .SideBar {
+    background-color: white;
+    padding: 20px;
+    border-radius: 20px;
+    h2 {
+      font-family: "Noto Kufi Arabic";
+      font-size: 24px;
+      font-weight: 700;
+      line-height: 45.53px;
+      text-align: right;
+      color: #2b3674;
+    }
+    .Lien {
+      padding: 10px;
+      border-bottom: 1px solid #edeff2;
+    }
+
+    .accordionTitel {
+      font-size: 16px;
+      font-weight: 800;
+      color: #0062ff;
+      margin-bottom: 0;
+    }
+
+    .accordionActiveItem {
+      margin-right: 25px;
+      font-family: "Readex Pro";
+      font-size: 16px;
+      font-weight: 700;
+      line-height: 20px;
+      text-align: right;
+      color: #2b3674;
+    }
+
+    .accordionItem {
+      margin-right: 25px;
+      font-family: "Readex Pro";
+      font-size: 16px;
+      font-weight: 400;
+      line-height: 20px;
+      color: #2b3674;
+    }
+    .InputRadio {
+      border-radius: 20% !important;
+      border: 2px solid #e1e2e6 !important;
+    }
+  }
+}
+.SubmitBtn {
+  cursor: pointer;
+  width: 100%;
+  text-align: center;
+  border-radius: 10px;
+  border: 1px solid #0fe8e8;
+  color: #0fe8e8;
+  background-color: #fff;
+  padding: 15px 0px;
+  font-family: "Readex Pro", sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 20px;
+  text-align: center;
+  
+  transition: 0.4s;
+  &:hover {
+    background-color: #0fe8e8;
+    color: white;
+  }
+}
+
+.accordionTitle {
+  font-family: "Readex Pro", sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 20px;
+  text-align: right;
+  color: #2b3674;
+}
