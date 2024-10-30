@@ -1,0 +1,67 @@
+.Container {
+  border-radius: 21px;
+  background: #fff;
+  box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.05);
+  display: flex;
+  overflow: hidden;
+  z-index: 1000;
+  position: relative;
+  gap: 40px;
+  align-items: center;
+  padding: 18px 33px;
+}
+.Container .Title {
+  color: #202020;
+  min-width: 160px;
+  text-align: right;
+  font-family: "Tajawal", sans-serif !important;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 800;
+}
+.Container .Title h2 {
+  font-size: 20px;
+  line-height: 127%;
+}
+
+.SwieperContainer {
+  display: flex;
+  flex: 1;
+}
+.SwieperContainer .SliderCard {
+  gap: 20px;
+  padding: 8px;
+  border-radius: 8px;
+  transition: 0.4s;
+  align-items: center;
+}
+.SwieperContainer .SliderCard .Icon {
+  width: 60px;
+  height: 60px;
+  background-color: #f9f9ff;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(0, 0, 0, 0.03);
+}
+.SwieperContainer .SliderCard h2 {
+  font-family: "Tajawal", sans-serif !important;
+  color: #2b3674;
+  font-size: 28px;
+  margin: 0px;
+}
+.SwieperContainer .SliderCard p {
+  color: #636363;
+  text-align: right;
+  font-family: "Tajawal", sans-serif !important;
+  margin: 0px;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 150%; /* 27px */
+}
+.SwieperContainer .SliderCard:hover {
+  background-color: #f9f9ff;
+  padding: 8px;
+}/*# sourceMappingURL=Numbers.module.css.map */

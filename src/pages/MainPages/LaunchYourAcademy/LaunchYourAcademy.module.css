@@ -1,0 +1,393 @@
+.Container {
+  margin-inline: 100px;
+  margin-top: 30px;
+  padding-bottom: 30px;
+}
+@media (max-width: 600px) {
+  .Container {
+    margin-inline: 10px !important;
+  }
+}
+
+.BannerText h1 {
+  font-size: 56px;
+  color: #1C1C1C;
+  margin-bottom: 20px;
+  line-height: 130%;
+}
+.BannerText h1 span {
+  color: #0062FF;
+}
+@media (max-width: 600px) {
+  .BannerText h1 {
+    font-size: 38px;
+    text-align: center;
+  }
+}
+.BannerText p {
+  font-size: 20px;
+  color: #4E4E4E;
+  max-width: 800px;
+  text-align: center;
+}
+@media (max-width: 600px) {
+  .BannerText p {
+    font-size: 20px;
+    text-align: center;
+  }
+}
+
+.BtnContainer {
+  display: flex;
+  justify-content: center;
+}
+
+.Primary {
+  margin-top: 30px;
+  color: white;
+  cursor: pointer;
+  background-color: #0062FF;
+  padding: 8px 30px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 20px;
+  border: 1px solid #0062FF;
+  transition: 0.4s;
+}
+.Primary:hover {
+  background-color: white;
+  color: #0062FF;
+}
+@media (max-width: 600px) {
+  .Primary {
+    font-size: 18px;
+    text-align: center;
+  }
+}
+
+.FloaitngImage {
+  animation: UpDown 4s infinite;
+}
+
+.FloaitngImage1 {
+  animation: Move 4s infinite;
+  width: 295px;
+  height: 215px;
+}
+@media (max-width: 1200px) {
+  .FloaitngImage1 {
+    width: 200px;
+    height: 150px;
+  }
+}
+@media (max-width: 1020px) {
+  .FloaitngImage1 {
+    display: none;
+  }
+}
+
+.FloaitngImage2 {
+  animation: Move2 4s infinite;
+  width: 295px;
+  height: 215px;
+}
+@media (max-width: 1200px) {
+  .FloaitngImage2 {
+    width: 200px;
+    height: 150px;
+  }
+}
+@media (max-width: 1020px) {
+  .FloaitngImage2 {
+    display: none;
+  }
+}
+
+@keyframes Move {
+  0% {
+    transform: translate(0px, 0px) rotate(0deg);
+  }
+  50% {
+    transform: translate(20px, -20px) rotate(8deg);
+  }
+  100% {
+    transform: translate(0px, 0px) rotate(0deg);
+  }
+}
+@keyframes Move2 {
+  0% {
+    transform: translate(0px, 0px) rotate(0deg);
+  }
+  50% {
+    transform: translate(20px, 20px) rotate(8deg);
+  }
+  100% {
+    transform: translate(0px, 0px) rotate(0deg);
+  }
+}
+@keyframes UpDown {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+.WhoText h2 {
+  font-size: 32px;
+}
+.WhoText h2 span {
+  color: #0062FF;
+}
+.WhoText p {
+  font-size: 20px;
+  line-height: 160%;
+}
+
+.GoalCard {
+  padding: 20px;
+  border-radius: 24px;
+  box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.05);
+  display: flex;
+  height: 100%;
+  transition: 0.4s;
+  flex-direction: column;
+}
+.GoalCard:hover {
+  transform: translateY(-10px);
+}
+.GoalCard .GoalIcon {
+  border-radius: 20px;
+  padding: 15px;
+  background-color: #F9F9FF;
+  border: 1px solid rgba(0, 0, 0, 0.03);
+}
+.GoalCard h2 {
+  margin-top: 20px;
+  color: #2B3674;
+  font-size: 20px;
+}
+.GoalCard p {
+  color: #474747;
+  font-size: 18px;
+}
+
+.BackGroundParent {
+  background-image: url("../../../assets/images/Pokeh.png");
+  background-position: bottom right;
+  background-size: cover;
+  padding-bottom: 100px;
+}
+
+.MidBanner {
+  position: relative;
+}
+
+.FlotatingText {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 32px;
+  color: black;
+  font-weight: 600;
+  text-align: center;
+}
+@media (max-width: 600px) {
+  .FlotatingText {
+    font-size: 18px;
+    display: flex;
+  }
+}
+
+.CornerImage {
+  position: absolute;
+  right: 20px;
+  bottom: 20px;
+}
+
+.NumberCount {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+@media (max-width: 734px) {
+  .NumberCount {
+    width: 100%;
+  }
+}
+.NumberCount:nth-child(1) {
+  border-bottom: 1px solid #EAEFF4;
+  padding-bottom: 50px;
+  border-left: 1px solid #EAEFF4;
+}
+@media (max-width: 734px) {
+  .NumberCount:nth-child(1) {
+    width: 100%;
+    border-left: none;
+  }
+}
+.NumberCount:nth-child(2) {
+  border-bottom: 1px solid #EAEFF4;
+  padding-bottom: 50px;
+}
+@media (max-width: 734px) {
+  .NumberCount:nth-child(2) {
+    width: 100%;
+    border-left: none;
+    padding-top: 50px;
+    padding-bottom: 50px;
+    border-bottom: 1px solid #EAEFF4;
+  }
+}
+.NumberCount:nth-child(3) {
+  padding-top: 50px;
+  border-left: 1px solid #EAEFF4;
+}
+@media (max-width: 734px) {
+  .NumberCount:nth-child(3) {
+    width: 100%;
+    border-left: none;
+    padding-top: 50px;
+    padding-bottom: 50px;
+    border-bottom: 1px solid #EAEFF4;
+  }
+}
+.NumberCount:nth-child(4) {
+  padding-top: 50px;
+}
+@media (max-width: 734px) {
+  .NumberCount:nth-child(4) {
+    width: 100%;
+    border-left: none;
+  }
+}
+.NumberCount .NumberStyle {
+  font-size: 50px;
+  font-weight: 600;
+  color: #2B3674;
+}
+.NumberCount .NumberStyle i {
+  color: #0062FF;
+}
+.NumberCount .NumebrText {
+  color: #2B3674;
+  font-size: 24px;
+  text-align: center;
+}
+
+.NumberContinaer {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.DownPokeh {
+  background-image: url("../../../assets/images/DownPokeh.png");
+  background-size: cover;
+}
+
+.VisionCard {
+  box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.05);
+  max-width: 600px;
+  flex: 1;
+  border-radius: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-color: white;
+  padding: 25px;
+  text-align: center;
+}
+.VisionCard h2 {
+  font-size: 32px;
+  color: black;
+  margin-bottom: 20px;
+}
+.VisionCard p {
+  color: #4E4E4E;
+  font-size: 18 px;
+}
+
+.SSImage {
+  width: 66px;
+  height: 94px;
+  position: absolute;
+  z-index: 1;
+  transform: translateX(60px);
+  top: 40px;
+  transition: 0.4s;
+  animation: Movment 4s infinite;
+}
+
+.StudyGirl {
+  animation: MovmentGirl 5s infinite;
+  position: relative;
+  z-index: 2;
+}
+
+@keyframes Movment {
+  0% {
+    top: 40px;
+  }
+  50% {
+    top: 60px;
+  }
+  100% {
+    top: 40px;
+  }
+}
+@keyframes MovmentGirl {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+.SubBtn {
+  width: 100%;
+  margin-top: 30px;
+  text-align: center;
+  background-color: #0062FF;
+  color: white;
+  cursor: pointer;
+  padding-block: 15px;
+  border-radius: 10px;
+}
+
+.Swithcer {
+  background-color: #FCFCFC;
+  border: 1px solid #EAEFF4;
+  margin-bottom: 50px;
+  max-width: 100%;
+  display: flex;
+  position: relative;
+  border-radius: 15px;
+}
+.Swithcer div {
+  cursor: pointer;
+  font-weight: bold;
+  position: relative;
+  transition: 0.4s;
+  z-index: 2;
+  padding: 10px 80px;
+}
+.Swithcer div.acitve {
+  color: white;
+}
+.Swithcer .marker {
+  width: 50%;
+  height: 100%;
+  background-color: #0062FF;
+  border-radius: 15px;
+  position: absolute;
+  z-index: 1;
+  transition: 0.4s;
+}/*# sourceMappingURL=LaunchYourAcademy.module.css.map */
