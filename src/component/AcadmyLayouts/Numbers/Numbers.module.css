@@ -1,0 +1,50 @@
+.Container {
+  border-radius: 21px;
+  background: #FFF;
+  box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.05);
+  display: flex;
+  overflow: hidden;
+  gap: 40px;
+  align-items: center;
+  padding: 30px 80px;
+}
+.Container .Title {
+  color: #009AFF;
+  min-width: 150px;
+  text-align: right;
+  font-family: "Tajawal", sans-serif !important;
+  font-size: 32px;
+  font-style: normal;
+  font-weight: 800;
+  line-height: 127%; /* 40.64px */
+}
+.Container .Title span {
+  color: #00FFCE;
+  font-family: "Tajawal", sans-serif !important;
+  font-size: 32px;
+  font-style: normal;
+  font-weight: 800;
+  line-height: 127%;
+}
+
+.SwieperContainer .SliderCard {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+.SwieperContainer .SliderCard h2 {
+  font-family: "Tajawal", sans-serif !important;
+  color: #009AFF;
+  font-size: 28px;
+  margin: 0px;
+}
+.SwieperContainer .SliderCard p {
+  color: #636363;
+  text-align: right;
+  font-family: "Tajawal", sans-serif !important;
+  margin: 0px;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 150%; /* 27px */
+}/*# sourceMappingURL=Numbers.module.css.map */

@@ -1,0 +1,79 @@
+.CardContainer {
+  padding: 16px;
+  border-radius: 20px;
+  background: var(--white, #fff);
+  transition: 0.4s;
+  box-shadow: 0px 0px 120px 0px rgba(0, 0, 0, 0.1);
+  &:hover {
+    box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.15);
+    transform: translateY(-10px);
+  }
+  p {
+    margin-block: 30px;
+    color: #202020;
+    font-family: Tajawal;
+    font-size: 20px;
+    font-weight: 800;
+    line-height: 30px;
+    text-align: right;
+  }
+  span {
+    color: #636363;
+    font-family: "Tajawal";
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 24px;
+    text-align: right;
+  }
+  .ImageContainer {
+    position: relative;
+
+    img {
+      width: 100%;
+      border-radius: 20px;
+    }
+    .Badge {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      padding: 7px 15px;
+      font-weight: 600;
+      border-radius: 30px;
+      background: #df932d;
+      color: white;
+    }
+    .detials {
+      display: flex;
+      position: absolute;
+      justify-content: space-between;
+      color: black;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 15px;
+      font-weight: 800;
+      bottom: -10px;
+      width: 90%;
+      border-radius: 30px;
+      background: #fff;
+      box-shadow: 0px 0px 30px 0px rgba(13, 119, 188, 0.1);
+    }
+  }
+  .Footer {
+    display: flex;
+    align-items: center;
+    span {
+      color: #a79f9f;
+      font-family: "Cairo";
+      font-size: 16px;
+      font-weight: 700;
+      line-height: 29.98px;
+      text-align: right;
+    }
+    justify-content: space-between;
+    img {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+    }
+  }
+}

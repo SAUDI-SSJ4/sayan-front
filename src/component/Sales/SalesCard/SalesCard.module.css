@@ -1,0 +1,66 @@
+.CardHeader {
+  background-color: #FCFCFC;
+  display: flex;
+  justify-content: space-between;
+  padding: 32px;
+  align-items: center;
+  gap: 50px;
+}
+.CardHeader .HeaderImage {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+.CardHeader .HeaderImage h3 {
+  font-size: 20px;
+  margin: 0;
+  color: #2B3674;
+}
+.CardHeader .HeaderImage span {
+  color: #7E8799;
+}
+
+.Card {
+  border: 1px solid #EDEFF2;
+  border-radius: 12px;
+  min-width: 417px;
+  margin-top: 45px;
+}
+.Card .CardBody {
+  padding: 32px;
+}
+.Card .CardBody h4 {
+  color: #2B3674;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 32px; /* 160% */
+}
+.Card .CardBody .dataRow {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+.Card .CardBody .dataRow p {
+  color: #7E8799;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 32px; /* 160% */
+}
+.Card .CardBody .dataRow span {
+  color: #0E85FF;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 32px; /* 200% */
+}
+.Card .CardFooter {
+  padding: 32px;
+  display: flex;
+  gap: 20px;
+  color: #0E85FF;
+  align-items: center;
+  cursor: pointer;
+  font-size: 16px;
+}/*# sourceMappingURL=SalesCard.module.css.map */
