@@ -1,5 +1,10 @@
 /* NEW CLASSESS STYLE CSS */
 /* START SUBJECT CLASSESS */
+:root {
+  --primary-color: #3498db;
+  --text-color: #2ecc71;
+}
+
 .navbar--1 {
   transition: all 0.5s;
 }

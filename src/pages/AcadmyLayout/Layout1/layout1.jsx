@@ -25,7 +25,7 @@ const Layout1 = () => {
   const { acdemyId } = useParams();
   const { data: profileData, isLoading, errors } = useAcademyHome(acdemyId);
   const [templateLayout, settemplateLayout] = useState();
-  const [colors, setColors] = useState({ primary: '', text: '' });
+  const [colors, setColors] = useState({ primary: '#3498db', text: '#2ecc71' });
   useEffect(() => {
     console.log(profileData);
     settemplateLayout(profileData?.template_id);
