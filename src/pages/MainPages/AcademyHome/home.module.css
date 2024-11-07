@@ -1,0 +1,141 @@
+.Container {
+  margin-inline: 100px;
+  margin-top: 30px;
+  padding-bottom: 30px;
+  max-width: 1300px;
+  margin:30px auto;
+}
+@media (max-width: 600px) {
+  .Container {
+    margin-inline: 10px !important;
+  }
+}
+
+.BannerText h1 {
+  font-size: 58px;
+  font-weight: 700;
+  line-height: 72.8px;
+  color: #1c1c1c;
+  margin-bottom: 20px;
+}
+@media (max-width: 600px) {
+  .BannerText h1 {
+    font-size: 38px;
+    text-align: center;
+  }
+}
+.BannerText p {
+  font-size: 20px;
+  color: #4E4E4E;
+}
+@media (max-width: 600px) {
+  .BannerText p {
+    font-size: 20px;
+    text-align: center;
+  }
+}
+
+.BtnContainer {
+  display: flex;
+}
+@media (max-width: 600px) {
+  .BtnContainer {
+    justify-content: center;
+  }
+}
+
+.Primary {
+  margin-top: 30px;
+  color: white;
+  cursor: pointer;
+  background-color: #0062FF;
+  padding: 8px 30px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 24px;
+  border: 1px solid #0062FF;
+  transition: 0.4s;
+}
+.Primary:hover {
+  background-color: white;
+  color: #0062FF;
+}
+@media (max-width: 600px) {
+  .Primary {
+    font-size: 18px;
+    text-align: center;
+  }
+}
+
+.AnimatedImage {
+  animation: Move 4s infinite;
+}
+
+@keyframes Move {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(20px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+.AllSubject {
+  margin-top: 80px;
+  padding-top: 50px;
+  padding-bottom: 50px;
+  background-color: #F8F8F8;
+}
+.AllSubject .SubjectHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 30px;
+  margin-bottom: 30px;
+}
+.AllSubject .SubjectHeader h1 {
+  font-size: 28px;
+}
+.AllSubject .SubjectHeader .Filters {
+  display: flex;
+  gap: 20px;
+}
+.AllSubject .SubjectHeader .Filters div {
+  border-radius: 100px;
+  background-color: white;
+  font-size: 18px;
+  transition: 0.4s;
+  cursor: pointer;
+  padding: 15px 28px;
+}
+.AllSubject .SubjectHeader .Filters div.Active {
+  background-color: #0062FF;
+  color: white;
+}
+.AllSubject .SideBar {
+  background-color: white;
+  padding: 20px;
+  border-radius: 20px;
+}
+.AllSubject .SideBar h2 {
+  font-size: 24px;
+}
+
+.SubmitBtn {
+  width: 100%;
+  text-align: center;
+  cursor: pointer;
+  color: #0FE8E8;
+  border-radius: 10px;
+  border: 1px solid #0FE8E8;
+  padding: 15px 0px;
+  font-weight: 600px;
+  transition: 0.4s;
+}
+.SubmitBtn:hover {
+  background-color: #0FE8E8;
+  color: white;
+}/*# sourceMappingURL=home.module.css.map */
