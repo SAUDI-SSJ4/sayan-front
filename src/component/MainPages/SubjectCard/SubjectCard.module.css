@@ -26,7 +26,7 @@
 }
 .CardContainer .Badge {
   border-radius: 18px;
-  background: #009AFF;
+  background: var(--primary-color);
   color: #FFF;
   text-align: right;
   font-family: "Tajawal", sans-serif !important;

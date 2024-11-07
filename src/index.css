@@ -113,7 +113,7 @@
 .swiper-button-next:after {
   font-size: 20px !important;
   font-weight: bold;
-  color: #009aff;
+  color: var(--primary-color);
   transition: all 0.5s;
 }
 

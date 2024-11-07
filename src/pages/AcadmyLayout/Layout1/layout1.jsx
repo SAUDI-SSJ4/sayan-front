@@ -25,10 +25,17 @@ const Layout1 = () => {
   const { acdemyId } = useParams();
   const { data: profileData, isLoading, errors } = useAcademyHome(acdemyId);
   const [templateLayout, settemplateLayout] = useState();
-
+  const [colors, setColors] = useState({ primary: '', text: '' });
   useEffect(() => {
     console.log(profileData);
     settemplateLayout(profileData?.template_id);
+    // COMMENT: the colors will be here untile wifind the solution
+    setColors({ primary: profileData?.template_primary_color, text: profileData?.template_text_color });
+
+      // Set CSS variables on :root
+      document.documentElement.style.setProperty('--primary-color', primaryColor);
+      document.documentElement.style.setProperty('--text-color', textColor);
+  
   }, [profileData]);
   console.log(profileData);
 
@@ -55,14 +62,14 @@ const Layout1 = () => {
                   {profileData?.data?.slider?.content}
                 </p>
                 <div className="Btn buttons-header">
-                  <div className="Primary button-one-1 button-head">ابداء الان</div>
+                  <div className="Primary button-one-1 button-head">{profileData?.data?.slider?.main_btn}</div>
                   <a
                     className="Secondry button-one-1 text-decoration-none"
                     href={profileData?.data?.slider?.video}
                     target="_blank"
                     rel="noreferrer"
                   >
-                    مشاهدة فيديو
+                   {profileData?.data?.slider?.secondary_btn}
                     <PlayBtn />
                   </a>
                 </div>

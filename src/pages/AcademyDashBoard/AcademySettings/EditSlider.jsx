@@ -20,6 +20,8 @@ const validationSchema = Yup.object().shape({
   title: Yup.string().required("Title is required"),
   sub_title: Yup.string().required("Sub Title is required"),
   content: Yup.string().required("Content is required"),
+  main_btn: Yup.string().required("main button is required"),
+  secondary_btn: Yup.string().required("secondary button is required"),
   image: Yup.mixed().required("Image is required"),
   // video: Yup.mixed().required("Video is required"),
   // video_type: Yup.string().required("Video type is required"),
@@ -65,6 +67,8 @@ const EditSlider = () => {
       sub_title: "",
       content: "",
       image: null,
+      main_btn: null,
+      secondary_btn: null,
       // video: null,
       // video_type: "",
     },
@@ -75,6 +79,8 @@ const EditSlider = () => {
       formData.append("sub_title", values.sub_title);
       formData.append("content", values.content);
       formData.append("image", values.image);
+      formData.append("main_btn", values.main_btn);
+      formData.append("secondary_btn", values.secondary_btn);
       // formData.append("video", values.video);
       // formData.append("video_type", values.video_type);
       mutation.mutateAsync(formData);
@@ -182,7 +188,43 @@ const EditSlider = () => {
                       )}
                     </div>
                   </div>
-        
+                  
+
+                  <div className="col-lg-6 col-md-12">
+                    <div className="CustomFormControl">
+                      <label htmlFor="main_btn">main button</label>
+                      <input
+                        type="text"
+                        id="main_btn"
+                        name="main_btn"
+                        value={formik.values.main_btn}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        placeholder="Enter main button here"
+                      />
+                      {formik.touched.main_btn && formik.errors.main_btn && (
+                        <p>{formik.errors.main_btn}</p>
+                      )}
+                    </div>
+                  </div>
+
+                  <div className="col-lg-6 col-md-12">
+                    <div className="CustomFormControl">
+                      <label htmlFor="secondary_btn">secondary button</label>
+                      <input
+                        type="text"
+                        id="secondary_btn"
+                        name="secondary_btn"
+                        value={formik.values.secondary_btn}
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        placeholder="Enter secondary button here"
+                      />
+                      {formik.touched.secondary_btn && formik.errors.secondary_btn && (
+                        <div>{formik.errors.secondary_btn}</div>
+                      )}
+                    </div>
+                  </div>
                   <JustifyContentWrapper className="mt-4">
                   <ButtonSpinner titel="إضافة" isPending={mutation.isPending} />
                   </JustifyContentWrapper>

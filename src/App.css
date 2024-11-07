@@ -1301,7 +1301,7 @@ body.dark-mode {
 }
 
 .aboutAcademyLayout .SectionText h2 span {
-  color: #009aff;
+  color: var(--primary-color);
   font-family: "Tajawal", sans-serif !important;
 }
 
@@ -1337,10 +1337,10 @@ body.dark-mode {
 }
 
 .aboutAcademyLayout .SectionText .Btn .Primary {
-  background-color: #009aff;
+  background-color: var(--primary-color);
   padding: 20px 48px;
   border-radius: 49px;
-  border: 1px solid #009aff;
+  border: 1px solid var(--primary-color);
   transition: 0.4s;
   cursor: pointer;
   color: white;
@@ -1355,7 +1355,7 @@ body.dark-mode {
 
 .aboutAcademyLayout .SectionText .Btn .Primary:hover {
   background-color: white;
-  color: #009aff;
+  color: var(--primary-color);
 }
 
 @media (max-width: 768px) {
@@ -1379,7 +1379,7 @@ body.dark-mode {
   padding: 10px 48px;
   transition: 0.4s;
   border-radius: 49px;
-  color: #009aff;
+  color: var(--primary-color);
   font-family: "Tajawal", sans-serif !important;
   display: flex;
   font-weight: 700;
@@ -1387,8 +1387,8 @@ body.dark-mode {
   font-size: 16px;
   gap: 24px;
   align-items: center;
-  border: 1px solid #009aff;
-  color: #009aff;
+  border: 1px solid var(--primary-color);
+  color: var(--primary-color);
 }
 
 @media (max-width: 768px) {
@@ -1402,7 +1402,7 @@ body.dark-mode {
 }
 
 .aboutAcademyLayout .SectionText .Btn .Secondry:hover {
-  background-color: #009aff;
+  background-color: var(--primary-color);
   color: white;
 }
 
@@ -1432,7 +1432,7 @@ body.dark-mode {
 }
 
 .LayoutSectionTitle span {
-  color: #009aff;
+  color: var(--primary-color);
   font-family: "Tajawal", sans-serif !important;
   font-size: 28px;
   font-style: normal;
@@ -1449,6 +1449,7 @@ body.dark-mode {
 
   .swiper-button-prev {
     left: 10px !important;
+    
     display: none !important;
   }
 

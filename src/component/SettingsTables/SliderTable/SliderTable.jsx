@@ -183,6 +183,53 @@ const SliderTable = ({ checkAllHandler, checkedKeys, setData, setCheckedKeys, se
               dataKey="content"
             />
           </Column>
+          {/* COMMENT: add btns in table  */}
+          <Column flexGrow={1} minWidth={150}>
+            <HeaderCell
+              style={{
+                paddingBlock: "18px",
+                textAlign: "center",
+                fontSize: "14px",
+                color: "#2B3674",
+                fontWeight: "700",
+              }}
+            >
+              الزر الرئيسي
+            </HeaderCell>
+            <Cell
+              style={{
+                padding: "10px 0",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              {sliderData?.main_btn}
+            </Cell>
+          </Column>
+          <Column flexGrow={1} minWidth={150}>
+            <HeaderCell
+              style={{
+                paddingBlock: "18px",
+                textAlign: "center",
+                fontSize: "14px",
+                color: "#2B3674",
+                fontWeight: "700",
+              }}
+            >
+              الزر الثانوي
+            </HeaderCell>
+            <Cell
+              style={{
+                padding: "10px 0",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              {sliderData?.secondary_btn}
+            </Cell>
+          </Column>
           <Column minWidth={150}>
             <HeaderCell
               style={{

@@ -1,6 +1,6 @@
 .FooterContainer {
   padding: 47px 100px;
-  background: #0062FF;
+  background: var(--primary-color);
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
