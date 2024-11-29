@@ -22,13 +22,19 @@ import TemplateTable from "../../../component/SettingsTables/TemplateTable/Templ
 import { getData } from "../../../framework/accademy/production";
 import TrainingTable from "./../../../component/TrainingTable/TrainigTable";
 import Template from "./Template";
+import StudentRatesTable from "../../../component/SettingsTables/StudentRatesTable/StudentRatesTable";
+import { Button } from "rsuite";
+import { useDeleteOpinion } from "../../../framework/accademy/academysetting-opinions";
+import { Error } from "@mui/icons-material";
+import { toast } from "react-toastify";
+import { DeleteAcademyFaq, DeleteAcademyOpinion } from "../../../utils/apis/client/academy";
 
 const AcademySettings = () => {
   const [TableOrNot, setTableOrNot] = useState(true);
   const [checkedKeys, setCheckedKeys] = useState([]);
   const [data, setData] = useState([]);
   const [ShowDeleteModal, setDeleteModal] = useState(false);
-
+  const [isRefresh, setIsRefresh] = useState(false);
   let location = useLocation();
   console.log(location.pathname.split("/")[3]);
 
@@ -41,6 +47,79 @@ const AcademySettings = () => {
       }
     });
   };
+  const DeleteSelectedOpinions = async () => {
+    
+    try {
+      // Create an array of deletion promises
+      const deletionPromises = checkedKeys.map((item) =>
+        DeleteAcademyOpinion(item.id)
+    );
+    
+      // Wait for all deletions to finish
+      const results = await Promise.all(deletionPromises)
+      
+      // Check each response and handle success/failure
+      let successCount = 0;
+      results.forEach((res, index) => {
+        if (res.success) {
+          successCount++;
+          toast.success(`تم حذف تعليق ${checkedKeys[index].student_name} بنجاح`);
+          setCheckedKeys([]);
+          setIsRefresh(true);
+        } else {
+          toast.error(`حدث خطأ عند حذف العنصر ${checkedKeys[index].id}`);
+        }
+      });
+  
+      if (successCount > 0) {
+        // Refresh the table data
+        const updatedData = data.filter(
+          (item) => !checkedKeys.some((key) => key.id === item.id)
+        );
+        setData(updatedData);
+      }
+    } catch (error) {
+      toast.error("حدث خطأ أثناء حذف العناصر");
+      console.error("Error deleting opinions:", error);
+    }
+  };
+  const DeleteSelectedFAQs = async () => {
+    try {
+      // Create an array of deletion promises
+      const deletionPromises = checkedKeys.map((item) =>
+        DeleteAcademyFaq(item.id) // Assume DeleteFAQ is the API function for deleting a FAQ
+      );
+  
+      // Wait for all deletions to finish
+      const results = await Promise.all(deletionPromises);
+  
+      // Check each response and handle success/failure
+      let successCount = 0;
+      results.forEach((res, index) => {
+        if (res.success) {
+          successCount++;
+          toast.success(`تم حذف السؤال الشائع ${checkedKeys[index].id} بنجاح`);
+          setCheckedKeys([]);
+          setIsRefresh(true);
+        } else {
+          toast.error(`حدث خطأ عند حذف العنصر ${checkedKeys[index].id}`);
+        }
+      });
+  
+      if (successCount > 0) {
+        // Refresh the table data
+        const updatedData = data.filter(
+          (item) => !checkedKeys.some((key) => key.id === item.id)
+        );
+        setData(updatedData);
+      }
+    } catch (error) {
+      toast.error("حدث خطأ أثناء حذف العناصر");
+      console.error("Error deleting FAQs:", error);
+    }
+  };
+  
+  
 
   const getTitle = () => {
     switch (true) {
@@ -50,6 +129,8 @@ const AcademySettings = () => {
         return " من نحن";
       case location.pathname.includes("/settings/faq"):
         return " الاسئلة الشائعة";
+      case location.pathname.includes("/settings/ratesOfStudents"):
+        return " اراء الطلبة";
       case location.pathname.includes("/settings/call-to-action"):
         return " ادارة الاعدادات";
       case location.pathname.includes("/settings/footer"):
@@ -76,11 +157,23 @@ const AcademySettings = () => {
               {getTitle()}
               </div>
             </div>
-            {location.pathname.includes("/settings/faq") ? (
-              <Link to={"/academy/settings/faq/add"} className="addBtn">
+            {location.pathname.includes("/settings/ratesOfStudents") ? (
+              <div className="d-flex align-items-center gap-3 flex-wrap  ">
+              {checkedKeys.length>0?<Button onClick={()=>DeleteSelectedOpinions()} size="lg" appearance="primary" color="red" > حذف المحددة</Button>:""}
+              <Link to={"/academy/settings/ratesOfStudents/add"} className="addBtn">
                 <AddCircleIcon />
                 أضافة
               </Link>
+              </div>
+            ) :location.pathname.includes("/settings/faq") ? (
+           
+               <div className="d-flex align-items-center gap-3 flex-wrap  ">
+               {checkedKeys.length>0?<Button onClick={()=>DeleteSelectedFAQs()} size="lg" appearance="primary" color="red" > حذف المحددة</Button>:""}
+               <Link to={"/academy/settings/faq/add"} className="addBtn">
+                <AddCircleIcon />
+                أضافة
+              </Link>
+               </div>
             ) : (
               ""
             )}
@@ -144,6 +237,18 @@ const AcademySettings = () => {
                 setCheckedKeys={setCheckedKeys}
                 checkAllHandler={checkAllHandler}
                 setData={setData}
+                isRefresh={isRefresh}
+                setIsRefresh={setIsRefresh}
+              />
+            ):location.pathname.includes("/settings/ratesOfStudents") ?(
+              <StudentRatesTable
+                checkedKeys={checkedKeys}
+                setDeleteModal={setDeleteModal}
+                setCheckedKeys={setCheckedKeys}
+                checkAllHandler={checkAllHandler}
+                setData={setData}
+                isRefresh={isRefresh}
+                setIsRefresh={setIsRefresh}
               />
             ) : location.pathname.includes("/settings/call-to-action") ? (
               <CallToActionTable

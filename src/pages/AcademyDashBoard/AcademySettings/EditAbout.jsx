@@ -11,6 +11,7 @@ import { useMutation } from "@tanstack/react-query";
 import { getAbout, postAbout } from "../../../utils/apis/client/academy";
 import { JustifyContentWrapper } from "../../../utils/styles";
 import { ButtonSpinner } from "../../../component/UI/Buttons/ButtonSpinner";
+import { isValidURL } from "../../../utils/helpers";
 
 const validationSchema = Yup.object().shape({
   title: Yup.string().required("title is required"),
@@ -39,7 +40,7 @@ const EditAbout = () => {
   };
 
   const mutation = useMutation({
-    mutationFn: (data) => postAbout(data),
+    mutationFn: (data) => postAbout(formik.values.id,data),
     onSuccess: () => {
       toast.success("Data updated successfully", {
         position: "top-left",
@@ -60,12 +61,27 @@ const EditAbout = () => {
     validationSchema,
     onSubmit: (values) => {
       const formData = new FormData();
-      formData.append("image", values.image);
-      formData.append("title", values.title);
-      formData.append("sub_title", values.sub_title);
-      formData.append("content", values.content);
-      formData.append("feature_one", values.feature_one);
-      formData.append("feature_two", values.feature_two);
+      if (!isValidURL(values.image)) {
+        formData.append("image", values.image);
+      }
+      if (values.title) {
+        formData.append("title", values.title);
+      }
+      if (values.sub_title) {
+        formData.append("sub_title", values.sub_title);
+      }
+      if (values.content) {
+        formData.append("content", values.content);
+      }
+      if (values.feature_one) {
+        formData.append("feature_one", values.feature_one);
+      }
+      if (values.feature_two) {
+        formData.append("feature_two", values.feature_two);
+      } 
+     
+      console.log(formData.get("image"));
+
       mutation.mutateAsync(formData);
     },
   });
@@ -75,7 +91,7 @@ const EditAbout = () => {
     getAbout()
       .then((data) => {
         console.log(data);
-        // formik.setValues(data);
+        formik.setValues(data.about);
       })
       .catch((error) => {
         console.log(error);
@@ -85,7 +101,7 @@ const EditAbout = () => {
 
   return isLoading ? (
     <div className="w-full h-50 d-flex justify-content-center align-items-center">
-      <Spinner className="" />
+      <Spinner />
     </div>
   ) : (
     <div className="mb-5 all-info-top-header main-info-top">

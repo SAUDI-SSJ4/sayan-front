@@ -12,7 +12,7 @@ import quma from "../../../assets/images/quma.png";
 import StudentRateSection from "../../../component/AcadmyLayouts/studentRate/StudentRate";
 import AcademyFooter from "../../../component/AcadmyLayouts/Footer/Footer";
 import MouseAnimation from "../../../assets/images/Animation.gif";
-import { Spinner } from "react-bootstrap";
+import { Button, Spinner } from "react-bootstrap";
 import { useAcademyHome } from "../../../framework/website/academy-home";
 import { useEffect, useState } from "react";
 import axiosInstance from "../../../../axios";
@@ -20,24 +20,58 @@ import { useParams } from "react-router-dom";
 import layout2Image from "../../../assets/images/layout2.png";
 import AcademyLayoutNavbar from "../../../component/AcadmyLayouts/AcademyLayoutNavbar/AcademyLayoutNavbar";
 import FAQ from "../../../component/AcadmyLayouts/Faq/FAQ";
+import { getAllAcademySettings } from "../../../utils/apis/client/academy";
 
 const Layout1 = () => {
-  const { acdemyId } = useParams();
-  const { data: profileData, isLoading, errors } = useAcademyHome(acdemyId);
-  const [templateLayout, settemplateLayout] = useState();
-  const [colors, setColors] = useState({ primary: '#3498db', text: '#2ecc71' });
-  useEffect(() => {
-    console.log(profileData);
-    settemplateLayout(profileData?.template_id);
-    // COMMENT: the colors will be here untile wifind the solution
-    setColors({ primary: profileData?.template_primary_color, text: profileData?.template_text_color });
-
-      // Set CSS variables on :root
-      document.documentElement.style.setProperty('--primary-color', primaryColor);
-      document.documentElement.style.setProperty('--text-color', textColor);
+  const { id } = useParams();
   
-  }, [profileData]);
-  console.log(profileData);
+  // const { data: profileData, isLoading, errors } = useAcademyHome(id);
+  const [websiteData, setWebsiteData] = useState();
+  const [isLoading, setIsLoading] = useState(true);
+  const [academyId, setAcademyId] = useState();
+  useEffect(() => {
+    setIsLoading(true)
+    getAllAcademySettings(id)
+      .then((data) => {
+        // setAcademyId(data.template.id)
+        console.log("data",websiteData)
+        setWebsiteData(data);
+        data.template?.name?document.title = data.template?.name:null;
+        // setColors({ primary: data.template.primary_color, text: data.template.text_color });
+        
+        // Set CSS variables on :root
+        data.template?.secondary_color?document.documentElement.style.setProperty('--primary-color', data.template?.primary_color):null;
+        data.template?.secondary_color?document.documentElement.style.setProperty('--text-color', data.template?.secondary_color):null;   
+    // Update the favicon
+    const faviconElement = document.querySelector("link[rel='icon']");
+    if (faviconElement && data.template?.favicon) {
+      faviconElement.href = data.template?.favicon;
+    } else {
+      const newFavicon = document.createElement("link");
+      newFavicon.rel = "icon";
+      newFavicon.href = data.template.favicon;
+      document.head.appendChild(newFavicon);
+    }
+    
+      })
+      .catch((error) => {
+        console.log(error);
+    }).finally(() => setIsLoading(false));
+  }, []);
+
+
+  const [templateLayout, settemplateLayout] = useState(1);
+  // useEffect(() => {
+  //   console.log(profileData);
+  //   settemplateLayout(profileData?.template_id);
+  //   // COMMENT: the colors will be here untile wifind the solution
+  //   setColors({ primary: profileData?.primary_color, text: profileData?.text_color });
+
+  //     // Set CSS variables on :root
+  //     document.documentElement.style.setProperty('--primary-color', primaryColor);
+  //     document.documentElement.style.setProperty('--text-color', textColor);
+  
+  // }, [profileData]);
 
   if (isLoading)
     return (
@@ -45,39 +79,39 @@ const Layout1 = () => {
         <Spinner />
       </div>
     );
-  console.log(templateLayout);
+ 
   return (
     <>
-      <AcademyLayoutNavbar navSettings={profileData} />
+      <AcademyLayoutNavbar navSettings={websiteData} />
       {templateLayout === 1 ? (
         <div className="container mb-4">
           <div className="row aboutAcademyLayout g-3 mt-3">
             <div className="col-lg-6">
               <div data-aos="fade-up" className="SectionText">
-                <h2>
-                  <span>{profileData?.data?.slider?.title}</span> <br />
-                  {profileData?.data?.slider?.sub_title} <span>.</span>
+                <h2 >
+                  <span>{websiteData?.slider?.title}</span> <br />
+                  {websiteData?.slider?.sub_title} <span>.</span>
                 </h2>
                 <p className="fs-6 fw-medium text-content--1">
-                  {profileData?.data?.slider?.content}
+                  {websiteData?.slider?.content}
                 </p>
                 <div className="Btn buttons-header">
-                  <div className="Primary button-one-1 button-head">{profileData?.data?.slider?.main_btn}</div>
+                  <a href={websiteData?.slider?.first_button_link} className="Primary button-one-1 button-head">{websiteData?.slider?.first_button_title}</a>
                   <a
                     className="Secondry button-one-1 text-decoration-none"
-                    href={profileData?.data?.slider?.video}
+                    href={websiteData?.slider?.second_button_link}
                     target="_blank"
                     rel="noreferrer"
                   >
-                   {profileData?.data?.slider?.secondary_btn}
-                    <PlayBtn />
+                   {websiteData?.slider?.second_button_title}
+                    <PlayBtn color={websiteData?.template?.primary_color}  iconColor={websiteData?.template?.primary_color} />
                   </a>
                 </div>
               </div>
             </div>
             <div className="col-lg-6">
               <div data-aos="fade-right" className="SectionImage">
-                <img src={profileData?.data?.slider?.image} alt="Slider" />
+                <img src={websiteData?.slider?.image} alt="Slider" />
               </div>
             </div>
           </div>
@@ -89,10 +123,10 @@ const Layout1 = () => {
             />
           </div>
         </div>
-      ) : (
-        <div className="container d-flex justify-content-center mt-5">
-          <img src={layout2Image} style={{ maxWidth: "100%" }} />
-        </div>
+      ) : ( null
+        // <div className="container d-flex justify-content-center mt-5">
+        //   <img src={layout2Image} style={{ maxWidth: "100%" }} />
+        // </div>
       )}
 
       {/* نبذة عن المعلم */}
@@ -100,15 +134,15 @@ const Layout1 = () => {
         <div className="container mt-5">
           <div className="row g-3 aboutAcademyLayout">
             <div className="col-lg-6">
-              <div data-aos="fade-up" className="SectionImage">
-                <img src={profileData?.data?.about?.image} alt="About Image" />
+              <div data-aos="fade-up"  className="SectionImage">
+                <img src={websiteData?.about?.image} alt="About Image" />
               </div>
             </div>
             <div className="col-lg-6">
               <div className="SectionText">
                 <h2 data-aos="fade-up" data-aos-duration="1000">
-                  <span>{profileData?.data?.about?.title}</span> <br />
-                  {profileData?.data?.about?.sub_title} <span>.</span>
+                  <span>{websiteData?.about?.title}</span> <br />
+                  {websiteData?.about?.sub_title} <span>.</span>
                 </h2>
                 <p
                   data-aos="fade-up"
@@ -116,7 +150,7 @@ const Layout1 = () => {
                   data-aos-delay="100"
                   className="fs-6 fw-medium text-content--1"
                 >
-                  {profileData?.data?.about?.content}
+                  {websiteData?.about?.content}
                 </p>
                 <div
                   className="d-flex"
@@ -140,7 +174,7 @@ const Layout1 = () => {
                     className="title-text--1"
                   >
                     <CertificationIcon />
-                    {profileData?.data?.about?.feature_one}
+                    {websiteData?.about?.feature_one}
                   </div>
                   <div
                     data-aos="fade-right"
@@ -166,7 +200,7 @@ const Layout1 = () => {
                     className="title-text--1"
                   >
                     <GraduateIcon />
-                    {profileData?.data?.about?.feature_two}
+                    {websiteData?.about?.feature_two}
                   </div>
                 </div>
               </div>
@@ -175,13 +209,13 @@ const Layout1 = () => {
         </div>
       </div>
 
-      <SubjectSlider mainData={profileData} />
-      <ProductSlider academyData={profileData} />
-      <PartnerSection />
+      {/* <SubjectSlider mainData={profileData} /> */}
+      {/* <ProductSlider academyData={profileData} /> */}
+      {/* <PartnerSection /> */}
       <StudentRateSection />
       <span className="pt-5 pb-5"></span>
-      <FAQ profileData={profileData} />
-      {profileData?.data?.calltoactions?.map((e, i) => {
+      <FAQ profileData={websiteData} />
+      {/* {websiteData?.calltoactions?.map((e, i) => {
         return (
           <div
             key={i}
@@ -221,8 +255,8 @@ const Layout1 = () => {
             </div>
           </div>
         );
-      })}
-      <AcademyFooter footerData={profileData?.data} />
+      })} */}
+      <AcademyFooter footerData={websiteData} />
     </>
   );
 };

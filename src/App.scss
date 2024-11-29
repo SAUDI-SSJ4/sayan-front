@@ -1198,7 +1198,7 @@ body.dark-mode {
       font-weight: 800;
       line-height: 75px;
       span {
-        color: #009aff;
+        color: var(--primary-color);
         font-family: "Tajawal", sans-serif !important;
       }
       @media (max-width: 768px) {
@@ -1225,13 +1225,13 @@ body.dark-mode {
       margin-top: 30px;
       gap: 14px;
       .Primary {
-        background-color: #009aff;
+        background-color: var(--primary-color);
         padding: 20px 48px;
         border-radius: 49px;
-        border: 1px solid #009aff;
+        border: 1px solid var(--primary-color);
         &:hover {
           background-color: white;
-          color: #009aff;
+          color: var(--primary-color);
         }
         @media (max-width: 768px) {
           padding: 10px 23px;
@@ -1266,14 +1266,14 @@ body.dark-mode {
           transition: 0.4s;
         }
         &:hover {
-          background-color: #009aff;
+          background-color: var(--primary-color);
           color: white;
           path {
             fill: white;
           }
         }
         border-radius: 49px;
-        color: #009aff;
+        color: var(--primary-color);
         font-family: "Tajawal", sans-serif !important;
         display: flex;
         font-weight: 700;
@@ -1282,8 +1282,8 @@ body.dark-mode {
         font-size: 16px;
         gap: 24px;
         align-items: center;
-        border: 1px solid #009aff;
-        color: #009aff;
+        border: 1px solid var(--primary-color);
+        color: var(--primary-color);
       }
     }
   }
@@ -1306,7 +1306,7 @@ body.dark-mode {
   font-weight: 800;
   line-height: normal;
   span {
-    color: #009aff;
+    color: var(--primary-color);
     font-family: "Tajawal", sans-serif !important;
 
     font-size: 28px;
@@ -1389,7 +1389,7 @@ body.dark-mode {
     min-height: 300px;
   }
   button {
-    color: #009aff;
+    color: var(--primary-color);
     text-align: center;
     font-family: Tajawal;
     font-size: 16px;
@@ -1397,12 +1397,12 @@ body.dark-mode {
     font-weight: 700;
     line-height: normal;
     border-radius: 49px;
-    border: 1px solid #009aff;
+    border: 1px solid var(--primary-color);
     padding: 16px 80px;
     background-color: transparent;
     transition: 0.4s;
     &:hover {
-      background-color: #009aff;
+      background-color: var(--primary-color);
       color: white;
     }
   }
@@ -1559,3 +1559,4 @@ body {
     font-size: 36px;
   }
 }
+

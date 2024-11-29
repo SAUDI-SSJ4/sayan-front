@@ -56,3 +56,7 @@ export const generateUUID = () => {
   });
 }
 
+export const isValidURL=(data)=> {
+  const urlRegex = /^(https?:\/\/)?([\w-]+(\.[\w-]+)+)([\w.,@?^=%&:/~+#-]*[\w@?^=%&/~+#-])?$/;
+  return urlRegex.test(data);
+}

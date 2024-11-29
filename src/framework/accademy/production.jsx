@@ -1,27 +1,37 @@
 // src/services/production.jsx
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { academyAPI } from "../../utils/apis/client/academy";
 
 
 export function getData(param) {
-  let [data, setData] = useState();
-  let [isLoading, setIsloading] = useState(true);
-  let [errors, setError] = useState();
-  useEffect(() => {
-    academyAPI
-      .get(param)
-      .then(function (response) {
-        setData(response?.data);
-      })
-      .catch(function (error) {
-        setError(error);
-      })
-      .finally(() => {
-        setIsloading(false);
-      });
-  }, []);
+  const [data, setData] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [errors, setErrors] = useState(null);
 
-  return { data, isLoading, errors };
+  const fetchData = useCallback(async () => {
+    setIsLoading(true);
+    setErrors(null);
+
+    try {
+      const response = await academyAPI.get(param);
+      setData(response?.data || []);
+    } catch (err) {
+      console.log("get data",err)
+      setErrors(err.response?.data?.message || err.message || "حدث خطأ ما");
+    } finally {
+      setIsLoading(false);
+    }
+  }, [param]);
+
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
+
+  const refresh = () => {
+    fetchData();
+  };
+
+  return { data, isLoading, errors, refresh };
 }
 
 export function sendData(url) {

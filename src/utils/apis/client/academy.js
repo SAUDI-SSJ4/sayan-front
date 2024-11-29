@@ -109,8 +109,29 @@ export const deleteProduct = async (id) => {
   return data;
 };
 
-export const postSlider = async (formData) => {
-  const { data } = await academyAPI.post("/slider", formData, {
+
+export const postAcademySettings = async (id,formData) => {
+  const { data } = await academyAPI.post(`/template/${id}`, formData, {
+    headers: { "Content-Type": "multipart/form-data" },
+    timeout: 60000,
+});
+  return data;
+};
+
+export const getAcademySettings = async () => {
+  const { data } = await academyAPI.get("/template");
+  return data;
+};
+
+
+export const getAllAcademySettings = async (id) => {
+  const { data } = await academyAPI.get(`/all-settings/${id}`);
+  return data;
+};
+
+
+export const postSlider = async (id,formData) => {
+  const { data } = await academyAPI.post(`/slider/${id}`, formData, {
     headers: { "Content-Type": "multipart/form-data" },
     timeout: 60000,
   });
@@ -122,8 +143,8 @@ export const getSlider = async () => {
   return data;
 };
 
-export const postAbout = async (formData) => {
-  const { data } = await academyAPI.post("/about", formData, {
+export const postAbout = async (id,formData) => {
+  const { data } = await academyAPI.post(`/about/${id}`, formData, {
     headers: { "Content-Type": "multipart/form-data" },
     timeout: 60000,
   });
@@ -151,6 +172,44 @@ export const postUpdateAction = async (id, formData) => {
   return data;
 };
 
+
+export const postAcademyOpinions = async (formData) => {
+  const { data } = await academyAPI.post("/opinions", formData, {
+    headers: { "Content-Type": "multipart/form-data" },
+    timeout: 60000,
+});
+  return data;
+};
+
+export const editAcademyOpinions = async (id, formData) => {
+  const { data } = await academyAPI.post(`/opinions/${id}`, formData, {
+    headers: { "Content-Type": "multipart/form-data" },
+    timeout: 60000,
+  });
+  return data;
+};
+
+export const getAcademyOpinions = async () => {
+  const { data } = await academyAPI.get("/opinions");
+  return data;
+};
+
+export const DeleteAcademyOpinion = async (id) => {
+  const { data } = await academyAPI.delete(`/opinions/${id}`);
+  return data;
+};
+
+export const DeleteAcademyFaq = async (id) => {
+  const { data } = await academyAPI.delete(`/faq/${id}`);
+  return data;
+};
+
+
+
+
+
+
+
 export const getFooter = async () => {
   const { data } = await academyAPI.get("/footer");
   return data;
@@ -163,3 +222,4 @@ export const postUpdateFooter = async (formData) => {
   });
   return data;
 };
+

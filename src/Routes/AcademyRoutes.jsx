@@ -53,11 +53,14 @@ import AddNewCourseAcademy from "../pages/AcademyDashBoard/AddNewCourseAcademy/A
 import EditAcademyProfile from "../pages/AcademyDashBoard/Profile/EditAcademyProfile";
 import toast from "react-hot-toast";
 import HomeAcademy from "../pages/MainPages/AcademyHome/HomeAcademy";
+import MainSettings from "../pages/AcademyDashBoard/AcademySettings/MainSettings";
+import EditStudentRates from "../pages/AcademyDashBoard/AcademySettings/EditStudentRates";
 const AcademyRoutes = () => {
 
   const loginType = Cookies.get("login_type");
 
   const IsAcademyAuthGaurd = ({ children }) => {
+    console.log(Cookies.get("login_type"));
     if (loginType === "academy") {
       return children;
     } else {
@@ -81,6 +84,11 @@ const AcademyRoutes = () => {
             <Route path="/academy/settings/slider/edit" element={<EditSlider />} />
             <Route path="/academy/addNewCourse" element={<AddNewCourseAcademy />} />
             <Route path="/academy/addNewCourse/:courseId/:categoryId" element={<AddNewCourseAcademy />} />
+            <Route path="/academy/settings/main" element={<MainSettings />} />
+
+            <Route path="/academy/settings/ratesOfStudents/add" element={<EditStudentRates />} />
+            <Route path="/academy/settings/ratesOfStudents/edit/:slug" element={<EditStudentRates />} />
+            
             <Route path="/academy/settings/about/edit" element={<EditAbout />} />
             <Route path="/academy/settings/faq/edit/:slug" element={<EditFaq />} />
             <Route path="/academy/settings/faq/add" element={<EditFaq />} />

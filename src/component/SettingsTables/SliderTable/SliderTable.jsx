@@ -66,14 +66,14 @@ const SliderTable = ({ checkAllHandler, checkedKeys, setData, setCheckedKeys, se
   let { data: sliderData, isLoading, errors } = useSlider();
 
   useEffect(() => {
-    academyAPI
-      .get("/slider")
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    // academyAPI
+    //   .get("/slider")
+    //   .then((res) => {
+    //     console.log(res);
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //   });
   }, [sliderData]);
 
   if (errors) return <Error />;
@@ -95,7 +95,7 @@ const SliderTable = ({ checkAllHandler, checkedKeys, setData, setCheckedKeys, se
           style={{ direction: "rtl" }}
           headerHeight={60}
           rowHeight={200}
-          data={[sliderData]}
+          data={[sliderData.slider]}
           id="table"
         >
           <Column minWidth={170} flexGrow={1} align="center">
@@ -133,7 +133,7 @@ const SliderTable = ({ checkAllHandler, checkedKeys, setData, setCheckedKeys, se
                 justifyContent: "center",
               }}
             >
-              {sliderData.title}
+              {sliderData.slider.title}
             </Cell>
           </Column>
           <Column flexGrow={1} minWidth={150}>
@@ -156,7 +156,7 @@ const SliderTable = ({ checkAllHandler, checkedKeys, setData, setCheckedKeys, se
                 justifyContent: "center",
               }}
             >
-              {sliderData.sub_title}
+              {sliderData.slider.sub_title}
             </Cell>
           </Column>
 
@@ -204,7 +204,30 @@ const SliderTable = ({ checkAllHandler, checkedKeys, setData, setCheckedKeys, se
                 justifyContent: "center",
               }}
             >
-              {sliderData?.main_btn}
+              {sliderData?.slider?.first_button_title}
+            </Cell>
+          </Column>
+          <Column flexGrow={1} minWidth={150}>
+            <HeaderCell
+              style={{
+                paddingBlock: "18px",
+                textAlign: "center",
+                fontSize: "14px",
+                color: "#2B3674",
+                fontWeight: "700",
+              }}
+            >
+              رابط الزر الرئيسي
+            </HeaderCell>
+            <Cell
+              style={{
+                padding: "10px 0",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              {sliderData?.slider?.first_button_link}
             </Cell>
           </Column>
           <Column flexGrow={1} minWidth={150}>
@@ -227,7 +250,30 @@ const SliderTable = ({ checkAllHandler, checkedKeys, setData, setCheckedKeys, se
                 justifyContent: "center",
               }}
             >
-              {sliderData?.secondary_btn}
+              {sliderData?.slider?.second_button_title}
+            </Cell>
+          </Column>
+          <Column flexGrow={1} minWidth={150}>
+            <HeaderCell
+              style={{
+                paddingBlock: "18px",
+                textAlign: "center",
+                fontSize: "14px",
+                color: "#2B3674",
+                fontWeight: "700",
+              }}
+            >
+              رابط الزر الثانوي
+            </HeaderCell>
+            <Cell
+              style={{
+                padding: "10px 0",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              {sliderData?.slider?.second_button_link}
             </Cell>
           </Column>
           <Column minWidth={150}>

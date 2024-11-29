@@ -124,8 +124,8 @@
 
 /* .swiper-button-prev:hover,
 .swiper-button-next:hover {
-  background: #009aff;
-  border-color: #009aff;
+  background: var(--primary-color);
+  border-color: var(--primary-color);
 }
 .swiper-button-prev:hover:after,
 .swiper-button-next:hover:after {

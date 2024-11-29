@@ -45,7 +45,7 @@ const ActionCell = ({ rowData, dataKey, setShow, ...props }) => {
   );
 };
 
-const FaqTable = ({ checkAllHandler, checkedKeys, setData, setCheckedKeys, setDeleteModal }) => {
+const FaqTable = ({ checkAllHandler, checkedKeys, setData,isRefresh,setIsRefresh, setCheckedKeys, setDeleteModal }) => {
   let indeterminate = false;
 
   const handleCheck = (value, checkedKeys) => {
@@ -56,8 +56,12 @@ const FaqTable = ({ checkAllHandler, checkedKeys, setData, setCheckedKeys, setDe
     }
   };
 
-  let { data: faqData, isLoading, errors } = useAllFAQ();
-
+  let { data: faqData, isLoading, errors,refresh } = useAllFAQ();
+  useEffect(()=>{
+   refresh()
+   setIsRefresh(false)
+ },[isRefresh])
+console.log(faqData)
 
   if (errors) return <Error />;
 
@@ -121,7 +125,7 @@ const FaqTable = ({ checkAllHandler, checkedKeys, setData, setCheckedKeys, setDe
                 justifyContent: "center",
                 alignItems: "center",
               }}
-              dataKey="title"
+              dataKey="question"
             />
           </Column>
 
@@ -170,7 +174,7 @@ const FaqTable = ({ checkAllHandler, checkedKeys, setData, setCheckedKeys, setDe
                 justifyContent: "center",
                 alignItems: "center",
               }}
-              dataKey="content"
+              dataKey="answer"
             />
           </Column>
           <Column flexGrow={1} minWidth={150}>

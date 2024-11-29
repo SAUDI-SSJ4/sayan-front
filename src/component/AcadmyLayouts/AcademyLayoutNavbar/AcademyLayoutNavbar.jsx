@@ -1,5 +1,5 @@
 import classes from "./AcademyLayoutNavbar.module.scss";
-import image from "../../../assets/images/acadmeylogo.png";
+// import image from "../../../assets/images/acadmeylogo.png";
 import Offcanvas from "react-bootstrap/Offcanvas";
 import MenuIcon from "@mui/icons-material/Menu";
 import { useEffect, useState } from "react";
@@ -54,7 +54,7 @@ const AcademyLayoutNavbar = ({ navSettings }) => {
       <div className={`${classes.NavBarContainer} all-navbar-layout-1`}>
         <div className={classes.NavBarRoutes}>
           <div className={classes.logo}>
-            <img src={image} alt="sayn academy logo" />
+            <img src={navSettings.template?.logo} alt="sayn academy logo" />
           </div>
           {true && !token ? (
             <div className={classes.Routes}>

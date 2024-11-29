@@ -1,8 +1,9 @@
 //slider.jsx
 import { deleteData, getData, sendData } from "./production";
 export function useAllFAQ() {
-  let{data,isLoading,errors}=getData('/faq')
-    return {data,isLoading,errors};
+  let{data,isLoading,errors,refresh}=getData(`/faq`)
+
+    return {data,isLoading,errors,refresh};
   }
 export function useSpasificFAQ(id) {
   let{data,isLoading,errors}=getData(`/faq/${id}`)

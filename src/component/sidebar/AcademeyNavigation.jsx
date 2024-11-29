@@ -359,7 +359,9 @@ const AcademeyNavigation = ({ setShow, mobile }) => {
             active={[
               "/academy/settings/slider",
               "/academy/settings/about",
+              "/academy/settings/ratesOfStudents",
               "/academy/settings/faq",
+
               "/academy/settings/call-to-action",
               "/academy/settings/footer",
               "/academy/settings/partner",
@@ -369,8 +371,10 @@ const AcademeyNavigation = ({ setShow, mobile }) => {
         }
         mainTitle={"التحكم فى الموقع"}
         acitve={[
+          "/academy/settings/main",
           "/academy/settings/slider",
           "/academy/settings/about",
+          "/academy/settings/ratesOfStudents",
           "/academy/settings/faq",
           "/academy/settings/call-to-action",
           "/academy/settings/footer",
@@ -378,6 +382,22 @@ const AcademeyNavigation = ({ setShow, mobile }) => {
           "/academy/settings/template",
         ].find((path) => location.pathname === path)}
       >
+       <NavLink
+          to="/academy/settings/main"
+          className={({ isActive, isPending }) => {
+            return isPending ? "pending" : isActive ? `${classes.Link} LinkActive` : classes.Link;
+          }}
+        >
+          <div
+            className={classes.subIcon}
+            onClick={(e) => {
+              mobile ? setShow(false) : null;
+            }}
+          >
+            <div>{ballIcon}</div>
+            <span className="title-dash-link">الاعدادات الرئيسية</span>
+          </div>
+        </NavLink>
         <NavLink
           to="/academy/settings/slider"
           className={({ isActive, isPending }) => {
@@ -410,7 +430,22 @@ const AcademeyNavigation = ({ setShow, mobile }) => {
             <span className="title-dash-link">من نحن</span>
           </div>
         </NavLink>
-
+        <NavLink
+          className={({ isActive, isPending }) => {
+            return isPending ? "pending" : isActive ? `${classes.Link} LinkActive` : classes.Link;
+          }}
+          to="/academy/settings/ratesOfStudents"
+        >
+          <div
+            className={classes.subIcon}
+            onClick={(e) => {
+              mobile ? setShow(false) : null;
+            }}
+          >
+            <div>{ballIcon}</div>
+            <span className="title-dash-link">تعديل اراء الطلبة</span>
+          </div>
+        </NavLink>
         <NavLink
           className={({ isActive, isPending }) => {
             return isPending ? "pending" : isActive ? `${classes.Link} LinkActive` : classes.Link;

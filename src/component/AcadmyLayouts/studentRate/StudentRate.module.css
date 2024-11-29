@@ -33,10 +33,10 @@
   background: var(--01, #FFF);
   /* صس */
   box-shadow: 0px 0px 40px 0px rgba(13, 119, 188, 0.1);
+  text-align: right;
 }
 .RateCard .RateName {
   color: #12141D;
-  text-align: right;
   font-family: "Tajawal", sans-serif !important;
   font-size: 18px;
   font-style: normal;
@@ -52,4 +52,6 @@
   font-style: normal;
   font-weight: 500;
   line-height: 26px; /* 144.444% */
-}/*# sourceMappingURL=StudentRate.module.css.map */
+}
+/*# sourceMappingURL=StudentRate.module.css.map */
+

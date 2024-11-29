@@ -16,6 +16,7 @@ import { useSlider, useUpdateSlider } from "../../../framework/accademy/academys
 import { Spinner } from "react-bootstrap";
 import { Error } from "@mui/icons-material";
 import {
+  useAllFAQ,
   useCreateFAQ,
   useSpasificFAQ,
   useUpdateFAQ,
@@ -36,12 +37,12 @@ const EditSlider = () => {
   let nav = useParams();
 
 
-  console.log(nav.slug);
-
+  
   let { data: sliderData, isLoading, errors } = useSpasificFAQ(nav.slug);
+  // let { data: sliderData, isLoading, errors } = useAllFAQ();
   let { data, isLoading: loader, error, postData } = useUpdateFAQ(nav.slug);
   let { data: createData, postData: postCreate } = useCreateFAQ();
-
+  
   const handleSubmit = (values) => {
     if (sliderData) {
       postData(values);
@@ -74,7 +75,7 @@ const EditSlider = () => {
   };
   const formik = useFormik({
     initialValues: {},
-    validationSchema,
+    // validationSchema,
     onSubmit: (values) => {
       handleSubmit(values);
     },
@@ -82,11 +83,14 @@ const EditSlider = () => {
 
   useEffect(() => {
     if (sliderData) {
+      console.log(sliderData)
       formik.setValues(sliderData);
     } else {
+      console.log(sliderData)
+
       formik.setValues({
-        title: "",
-        content: "",
+       question:"",
+       answer:"",
       });
     }
   }, [sliderData]);
@@ -127,13 +131,13 @@ const EditSlider = () => {
               <input
                 type="text"
                 placeholder="ادخل عنوان المقال هنا"
-                id="title"
-                name="title"
-                value={formik.values.title}
+                id="question"
+                name="question"
+                value={formik.values.question}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
               />
-              {formik.touched.title && formik.errors.title && <div>{formik.errors.title}</div>}
+              {formik.touched.question && formik.errors.question && <div>{formik.errors.question}</div>}
             </div>
           </div>
 
@@ -143,14 +147,14 @@ const EditSlider = () => {
               <textarea
                 type="text"
                 placeholder="ادخل النص هنا"
-                id="content"
-                name="content"
-                value={formik.values.content}
+                id="answer"
+                name="answer"
+                value={formik.values.answer}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
               />
-              {formik.touched.content && formik.errors.content && (
-                <div>{formik.errors.content}</div>
+              {formik.touched.answer && formik.errors.answer && (
+                <div>{formik.errors.answer}</div>
               )}
             </div>
           </div>

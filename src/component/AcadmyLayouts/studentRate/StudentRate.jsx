@@ -8,7 +8,41 @@ import "swiper/css/scrollbar";
 import RateStars from "../../../assets/images/rateStars.png";
 import quma from "../../../assets/images/quma.png";
 import { Navigation, Pagination, Scrollbar, A11y } from "swiper/modules";
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { useAllOpinions } from "../../../framework/accademy/academysetting-opinions";
+import { Spinner } from "react-bootstrap";
+import { Rate } from "rsuite";
+import { StarBorderOutlined, StarSharp, StarsOutlined, StarsTwoTone } from "@mui/icons-material";
 const StudentRateSection = ({ Laytout3 }) => {
+  const navigate = useNavigate();
+  const [show, setShow] = useState(false);
+  const [data, setData] = useState([]);
+  const [checkedKeys, setCheckedKeys] = useState([]);
+  const [deleteModal, setDeleteModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const handleCheck = (value, checkedKeys) => {
+    if (!checkedKeys.some((item) => item === value)) {
+      setCheckedKeys((perv) => [...perv, value]);
+    } else {
+      setCheckedKeys((perv) => perv.filter((item) => item !== value));
+    }
+  };
+
+  let { data: opinionsData, isLoading, errors } = useAllOpinions();
+  console.log(opinionsData)
+  if (errors) return <Error />;
+
+  if (isLoading)
+    return (
+      <div className="w-full h-50 d-flex justify-content-center align-items-center">
+        <Spinner />
+      </div>
+    );
+
+  
   return (
     <div
       className={classes.StudentRateContainer}
@@ -30,7 +64,35 @@ const StudentRateSection = ({ Laytout3 }) => {
             },
           }}
         >
-          <SwiperSlide>
+          {opinionsData?.map((e, i) => {
+            return (
+              <SwiperSlide>
+                <div className={classes.RateCard}>
+              <div className="d-flex align-items-center gap-2">
+                <img src={e.student_avatar} width={57} height={57} />
+                <div >
+                  <p className={classes.RateName}>{e.student_name}</p>
+                  
+                  <Rate className={classes.RateStarsCss}  value={e.rate} color="orange" size="sm"  readOnly renderCharacter={()=><StarBorderOutlined />} />
+
+                </div>
+              </div>
+              <div className={classes.RateParagraph}>
+             {e.opinion}
+              </div>
+              <div className="d-flex justify-content-between">
+                <h3
+                  style={{ fontSize: "14px", margin: "0px", color: "#12141D" }}
+                >
+                  {e.student_name}
+                </h3>
+                <img width={57} src={quma} />
+              </div>
+            </div>
+              </SwiperSlide>
+            );
+          })}
+          {/* <SwiperSlide>
             <div className={classes.RateCard}>
               <div className="d-flex align-items-center gap-2">
                 <img src={RateProfile} />
@@ -98,7 +160,7 @@ const StudentRateSection = ({ Laytout3 }) => {
                 <img width={57} src={quma} />
               </div>
             </div>
-          </SwiperSlide>
+          </SwiperSlide> */}
         </Swiper>
       </div>
     </div>

@@ -90,7 +90,7 @@ const AboutTable = ({ checkAllHandler, checkedKeys, setData, setCheckedKeys, set
           style={{ direction: "rtl" }}
           headerHeight={60}
           rowHeight={200}
-          data={[sliderData]}
+          data={[sliderData.about]}
           affixHorizontalScrollbar
           id="table"
         >
@@ -198,7 +198,7 @@ const AboutTable = ({ checkAllHandler, checkedKeys, setData, setCheckedKeys, set
                 justifyContent: "center",
               }}
             >
-              {sliderData.feature_one}
+              {sliderData.about.feature_one}
             </Cell>
           </Column>
           <Column flexGrow={1} minWidth={150}>
@@ -221,7 +221,7 @@ const AboutTable = ({ checkAllHandler, checkedKeys, setData, setCheckedKeys, set
                 justifyContent: "center",
               }}
             >
-              {sliderData.feature_two}
+              {sliderData.about.feature_two}
             </Cell>
           </Column>
 

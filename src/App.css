@@ -1,12 +1,14 @@
 @charset "UTF-8";
 @import url("https://fonts.googleapis.com/css2?family=Tajawal:wght@200;300;400;500;700;800&display=swap");
-
+@import '~rsuite/dist/rsuite-rtl.min.css';
+@import '~rsuite/styles/index.less';
 .title {
   font-size: 24px;
   color: #1480a3;
   font-family: "Cairo", sans-serif;
   text-align: center;
 }
+
 
 .subTitle {
   font-size: 14px;
@@ -1276,28 +1278,33 @@ body.dark-mode {
 .aboutAcademyLayout {
   align-items: center;
   font-family: "Tajawal", sans-serif !important;
+ 
 }
 
 @media (max-width: 768px) {
   .aboutAcademyLayout .SectionText {
     margin-top: 20px;
+  color: var(--primary-color);
   }
 }
 
 @media (max-width: 400px) {
   .aboutAcademyLayout .SectionText {
     margin-top: 20px;
+ 
+
   }
 }
 
 .aboutAcademyLayout .SectionText h2 {
-  color: #323232;
+  /* color: #323232; */
   text-align: right;
   font-family: "Tajawal", sans-serif !important;
   font-size: 56px;
   font-style: normal;
   font-weight: 800;
   line-height: 75px;
+  color: var(--primary-color);
 }
 
 .aboutAcademyLayout .SectionText h2 span {
@@ -1527,7 +1534,7 @@ body.dark-mode {
 }
 
 .contactUsCard button {
-  color: #009aff;
+  color: var(--primary-color);
   text-align: center;
   font-family: Tajawal;
   font-size: 16px;
@@ -1535,14 +1542,14 @@ body.dark-mode {
   font-weight: 700;
   line-height: normal;
   border-radius: 49px;
-  border: 1px solid #009aff;
+  border: 1px solid var(--primary-color);
   padding: 16px 80px;
   background-color: transparent;
   transition: 0.4s;
 }
 
 .contactUsCard button:hover {
-  background-color: #009aff;
+  background-color: var(--primary-color);
   color: white;
 }
 
@@ -1715,3 +1722,5 @@ body {
   justify-content: center;
   align-items: center;
 }
+
+
