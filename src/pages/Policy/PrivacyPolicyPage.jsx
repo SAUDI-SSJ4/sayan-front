@@ -1,5 +1,5 @@
 import NavBar from "../../component/MainPages/Header/NavBar";
-import { Subtitle, Title, Container, SectionTitle, List, ListItem, Wrapper, IconWrapper } from "./policyPageStyle";
+import { Subtitle, Title, Container, SectionTitle, List, ListItem, Wrapper, IconWrapper } from "./PolicyPageStyle.jsx";
 import { FaCheckCircle } from "react-icons/fa";
 
 const PrivacyPolicyPage = () => {

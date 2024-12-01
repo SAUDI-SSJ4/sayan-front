@@ -35,29 +35,32 @@ const validationSchema = Yup.object().shape({
 const EditSlider = () => {
   const navigate = useNavigate();
   const fileInputRef = useRef(null);
-  const [isLoading ,setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
   const [sliderId, setSliderId] = useState(null)
+
   useEffect(() => {
     setIsLoading(true)
     getSlider()
       .then((data) => {
         setSliderId(data.slider.id)
         formik.setValues(data.slider);
-        
+
       })
       .catch((error) => {
         console.log(error);
-    }).finally(() => setIsLoading(false));
+      }).finally(() => setIsLoading(false));
   }, []);
 
   const mutation = useMutation({
-    mutationFn: (data) =>{ postSlider(sliderId,data)},
-    onSuccess: () => {
+    mutationFn: (data) => { postSlider(sliderId, data) },
+    onSuccess: (res) => {
+      console.log("print from useMutation onSuccess");
+      console.log(res)
       toast.success("تم تحديث البيانات بنجاح", {
         position: "top-left",
         theme: "dark",
       });
-      navigate("/academy/settings/slider");
+      // navigate("/academy/settings/slider");
     },
     onError: (error) => {
       toast.error("حدث خطأ ما", {
@@ -83,38 +86,39 @@ const EditSlider = () => {
     validationSchema,
     onSubmit: async (values) => {
       const formData = new FormData();
-    
-    if (!isValidURL(values.image)) {
-      formData.append("image", values.image);
-    }
-    
-    if (values.title) {
-      formData.append("title", values.title);
-    }
-        if (values.sub_title) {
-          formData.append("sub_title", values.sub_title);
-        }
 
-        if (values.content) {
-           formData.append("content", values.content);
-        }        
+      if (!isValidURL(values.image)) {
+        formData.append("image", values.image);
+      }
 
-        if (values.first_button_title) {
-           formData.append("first_button_title", values.first_button_title);
-        }
+      if (values.title) {
+        formData.append("title", values.title);
+      }
 
-        if (values.first_button_link) {
-         formData.append("first_button_link", values.first_button_link);
-        }
+      if (values.sub_title) {
+        formData.append("sub_title", values.sub_title);
+      }
 
-        if (values.second_button_title) {
-         formData.append("second_button_title", values.second_button_title);
-        }
+      if (values.content) {
+        formData.append("content", values.content);
+      }
 
-        if (values.second_button_link) {
-          formData.append("second_button_link", values.second_button_link);
-        }
- 
+      if (values.first_button_title) {
+        formData.append("first_button_title", values.first_button_title);
+      }
+
+      if (values.first_button_link) {
+        formData.append("first_button_link", values.first_button_link);
+      }
+
+      if (values.second_button_title) {
+        formData.append("second_button_title", values.second_button_title);
+      }
+
+      if (values.second_button_link) {
+        formData.append("second_button_link", values.second_button_link);
+      }
+
       // Submit the formData using the mutation
       mutation.mutateAsync(formData);
     }
