@@ -182,7 +182,7 @@ export const postAcademyOpinions = async (formData) => {
 };
 
 export const editAcademyOpinions = async (id, formData) => {
-  const { data } = await academyAPI.post(`/opinions/${id}`, formData, {
+  const { data } = await academyAPI.put(`/opinions/${id}`, formData, {
     headers: { "Content-Type": "multipart/form-data" },
     timeout: 60000,
   });
@@ -223,3 +223,11 @@ export const postUpdateFooter = async (formData) => {
   return data;
 };
 
+
+export const updateFooter = async (id, formData) => {
+  const { data } = await academyAPI.post(`/footer/${id}`, formData, {
+    headers: { "Content-Type": "multipart/form-data" },
+    timeout: 60000,
+  });
+  return data;
+};

@@ -512,7 +512,7 @@ const AcademeyNavigation = ({ setShow, mobile }) => {
             <ButtonSoon className={classes.btnSoon}>قريبا</ButtonSoon>
           </div>
         </NavLink>
-        <NavLink
+        {/* <NavLink
           className={({ isActive, isPending }) => {
             return isPending ? "pending" : isActive ? `${classes.Link} LinkActive` : classes.Link;
           }}
@@ -527,7 +527,7 @@ const AcademeyNavigation = ({ setShow, mobile }) => {
             <div>{ballIcon}</div>
             <span className="title-dash-link">النموذج</span>
           </div>
-        </NavLink>
+        </NavLink> */}
       </Collection>
       <div
         to="academy/EmployeeMangment"

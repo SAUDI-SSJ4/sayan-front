@@ -95,7 +95,7 @@ const FooterTable = ({ checkAllHandler, checkedKeys, setData, setCheckedKeys, se
   };
 
 
-  const {data:footerData, isLoading, isError} = useQuery({
+  const { data: footerData, isLoading, isError } = useQuery({
     queryKey: ["Footer"],
     queryFn: () => getFooter(),
     refetchOnWindowFocus: false,
@@ -108,9 +108,9 @@ const FooterTable = ({ checkAllHandler, checkedKeys, setData, setCheckedKeys, se
 
   if (isLoading)
     return (
-        <div className="w-full h-50 d-flex justify-content-center align-items-center">
-          <Spinner className="" />
-        </div>
+      <div className="w-full h-50 d-flex justify-content-center align-items-center">
+        <Spinner className="" />
+      </div>
     );
 
 
@@ -123,7 +123,7 @@ const FooterTable = ({ checkAllHandler, checkedKeys, setData, setCheckedKeys, se
           style={{ direction: "rtl" }}
           headerHeight={60}
           rowHeight={150}
-          data={[footerData]}
+          data={[footerData?.footer]}
           id="table"
         >
           <Column width={100} align="center">

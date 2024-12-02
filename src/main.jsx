@@ -29,7 +29,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         </QueryClientProvider>
         <ToastContainer
           position="top-right"
-          autoClose={2000}
+          autoClose={3000}
           hideProgressBar={false}
           newestOnTop={false}
           closeOnClick
@@ -37,7 +37,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
           pauseOnFocusLoss
           draggable
           pauseOnHover
-          theme="colored"
+          theme="dark"
         />
       </ReduxProvider>
     </CustomProvider>

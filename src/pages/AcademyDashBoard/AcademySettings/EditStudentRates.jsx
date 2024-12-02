@@ -42,49 +42,43 @@ const EditStudentRates = () => {
   let nav = useParams();
 
 
- 
+
   let { data: opinionsData, isLoading, errors } = useSpasificOpinions(nav.slug);
+
+
+
   // let { data, isLoading: loader, error, postData } = useUpdateOpinion(nav.slug);
   // let { data: createData, postData: postCreate } = useCreateOpinion();
   const handleSubmit = (values) => {
     if (opinionsData) {
-      editAcademyOpinions(nav.slug,values).then((res)=>{
-        console.log(res)
-        if(res.success){
-          toast.success("تم تحديث البيانات بنجاح", {
-            position: "top-left",
-            autoClose: 3000,
-            hideProgressBar: true,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "dark",
-          });
-          navigate(location.pathname.replace(`/edit/${nav.slug}`, ""));
-        }
-        else{
+      editAcademyOpinions(nav.slug, values)
+        .then((res) => {
           console.log(res)
-          toast.error("حدث خطأ ما ")
-        }
-      })
+          // if (res.success) {
+          //   toast.success("تم تحديث البيانات بنجاح", {
+          //     position: "top-left",
+          //   });
+          //   navigate(location.pathname.replace(`/edit/${nav.slug}`, ""));
+          // }
+          // else {
+          //   console.log(res)
+          //   toast.error("حدث خطأ ما ")
+          // }
+        })
+        .catch((error) => {
+          console.log(error)
+        })
     } else {
-    
-      postAcademyOpinions(values).then((res)=>{
-        if(res.success){
+
+      postAcademyOpinions(values).then((res) => {
+        if (res.success) {
           toast.success("تم اضافة تعليق بنجاح", {
             position: "top-left",
-            autoClose: 3000,
-            hideProgressBar: true,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
             theme: "dark",
           });
           navigate(location.pathname.replace(`/add`, ""));
         }
-        else{
+        else {
           console.log(res)
           toast.error("حدث خطأ ما ربما اسم العنصر موجود بالفعل")
         }
@@ -139,7 +133,7 @@ const EditStudentRates = () => {
       </div>
       <div className="CustomCard formCard all-add-notific pb-4 pt-4">
         <form onSubmit={formik.handleSubmit} className="row">
-         
+
           <div className="col-lg-12 col-md-12">
             <div className="CustomFormControl">
               <label htmlFor="student_name">اسم الطالب </label>
@@ -171,21 +165,21 @@ const EditStudentRates = () => {
               {formik.touched.student_avatar && formik.errors.student_avatar && <div>{formik.errors.student_avatar}</div>}
             </div>
           </div>
-             
+
           <div className="col-lg-6 col-md-12">
-          <div className="CustomFormControl">
-  <label htmlFor="rate">تقييم الطالب </label>
-  <Rate
-    id="rate"
-    value={formik.values.rate}
-    onChange={(value) => {
-      formik.setFieldValue("rate", value); 
-    }}
-  />
-  {formik.touched.rate && formik.errors.rate && (
-    <div style={{ color: "red", fontSize: "14px" }}>{formik.errors.rate}</div>
-  )}
-</div>
+            <div className="CustomFormControl">
+              <label htmlFor="rate">تقييم الطالب </label>
+              <Rate
+                id="rate"
+                value={formik.values.rate}
+                onChange={(value) => {
+                  formik.setFieldValue("rate", value);
+                }}
+              />
+              {formik.touched.rate && formik.errors.rate && (
+                <div style={{ color: "red", fontSize: "14px" }}>{formik.errors.rate}</div>
+              )}
+            </div>
 
           </div>
 

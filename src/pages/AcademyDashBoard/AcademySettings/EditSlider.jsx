@@ -54,13 +54,11 @@ const EditSlider = () => {
   const mutation = useMutation({
     mutationFn: (data) => { postSlider(sliderId, data) },
     onSuccess: (res) => {
-      console.log("print from useMutation onSuccess");
-      console.log(res)
       toast.success("تم تحديث البيانات بنجاح", {
         position: "top-left",
         theme: "dark",
       });
-      // navigate("/academy/settings/slider");
+      navigate("/academy/settings/slider");
     },
     onError: (error) => {
       toast.error("حدث خطأ ما", {

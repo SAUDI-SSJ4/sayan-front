@@ -6,8 +6,8 @@ import { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Spinner } from "react-bootstrap";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { getFooter, postUpdateFooter } from "../../../utils/apis/client/academy";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { getFooter, updateFooter } from "../../../utils/apis/client/academy";
 import { JustifyContentWrapper } from "../../../utils/styles";
 import { ButtonSpinner } from "../../../component/UI/Buttons/ButtonSpinner";
 
@@ -17,7 +17,10 @@ const validationSchema = Yup.object().shape({
 });
 
 const EditFooter = () => {
+
   let [change, setChange] = useState(0);
+  const [isPending, setIsPending] = useState(false);
+
   let [file, setFile] = useState();
   const navigate = useNavigate();
   let location = useLocation();
@@ -34,47 +37,20 @@ const EditFooter = () => {
     setFile(e.target.files[0].file);
   };
 
-  const query = useQuery({
-    queryKey: ["Footer"],
+  const { data: footerData, isLoading } = useQuery({
+    queryKey: ["Footer_X"],
     queryFn: () => getFooter(),
     refetchOnWindowFocus: false,
     refetchOnMount: false,
     retry: 2,
   });
 
-  const mutation = useMutation({
-    mutationFn: (data) => postUpdateFooter(data),
-    onSuccess: () => {
-      toast.success("تم تحديث البيانات ", {
-        position: "top-left",
-        autoClose: 3000,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "dark",
-      });
-      navigate(location.pathname.replace(`/edit/${nav.slug}`, ""));
-    },
-    onError: () => {
-      toast.error("حدث خطأ ما ", {
-        position: "top-left",
-        autoClose: 3000,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "dark",
-      });
-    },
-  });
 
   const formik = useFormik({
     initialValues: {},
     validationSchema,
     onSubmit: (data) => {
+      setIsPending(true);
       const formData = new FormData();
       formData.append("address", data.address ?? "");
       formData.append("content", data.content);
@@ -89,22 +65,42 @@ const EditFooter = () => {
       formData.append("twitter", data.twitter);
       formData.append("updated_at", data.updated_at ?? "");
       formData.append("youtube", data.youtube);
-      mutation.mutateAsync(formData);
+
+      const queryClient = useQueryClient();
+
+      updateFooter(data.id, formData)
+        .then((res) => {
+          setIsPending(false)
+          toast.success("تم تحديث البيانات ", {
+            position: "top-left",
+          });
+          queryClient.invalidateQueries(["Footer"]);
+          navigate(location.pathname.replace(`/edit/${nav.slug}`, ""));
+        }).catch((err) => {
+          setIsPending(false)
+          toast.error("حدث خطأ ما ", {
+            position: "top-left",
+          });
+        })
     },
   });
 
+
+
+
   useEffect(() => {
-    if (query.data) {
-      formik.setValues(query.data);
+    if (footerData?.footer) {
+      formik.setValues(footerData?.footer);
     } else {
       formik.setValues({
         title: "",
         content: "",
       });
     }
-  }, [query.data]);
+  }, [footerData?.footer]);
 
-  return query.isLoading ? (
+
+  return isLoading ? (
     <div className="w-full h-50 d-flex justify-content-center align-items-center">
       <Spinner className="" />
     </div>
@@ -332,7 +328,7 @@ const EditFooter = () => {
             </div>
           </div>
           <JustifyContentWrapper className="mt-4">
-            <ButtonSpinner titel="إضافة" isPending={mutation.isPending} />
+            <ButtonSpinner titel="إضافة" isPending={isPending} />
           </JustifyContentWrapper>
         </form>
       </div>
