@@ -54,9 +54,7 @@ const Login = () => {
   const notify = (e) => toast(e);
 
   const mutation = useMutation({
-    mutationFn: (data) => {
-      return postLoginAPI(data);
-    },
+    mutationFn: (data) => postLoginAPI(data),
     onSuccess: (response) => {
       const { type, access_token } = response.data;
       if (!type === "academy") {

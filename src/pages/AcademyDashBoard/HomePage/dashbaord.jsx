@@ -7,6 +7,7 @@ import HeaderAcademy from "../../../component/HeaderAcademy/HeaderAcademy";
 import { useQuery } from "@tanstack/react-query";
 import { getHome } from "../../../utils/apis/client";
 import { isNotEmpty } from "../../../utils/helpers";
+import { useSetting } from "../../../utils/hooks/useSetting";
 
 const AcademyDashboard = () => {
   const {
@@ -29,6 +30,7 @@ const AcademyDashboard = () => {
   const currentCourses =
     isNotEmpty(homeData?.allCourses) && homeData.allCourses.slice(firstIndex, lastIndex);
   const handlePageChange = (_, page) => setCurrentPage(page);
+
 
   return (
     <Fragment>

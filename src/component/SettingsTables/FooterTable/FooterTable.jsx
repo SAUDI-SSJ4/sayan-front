@@ -1,7 +1,7 @@
 import { Table, Popover, Dropdown } from "rsuite";
 import { mockUsers } from "../DigitalProductsCard/mock";
 import { Checkbox } from "@mui/material";
-import React, { useEffect } from "react";
+import React from "react";
 import BorderColorOutlinedIcon from "@mui/icons-material/BorderColorOutlined";
 import { useNavigate } from "react-router-dom";
 import { Spinner } from "react-bootstrap";
@@ -132,9 +132,7 @@ const FooterTable = ({ checkAllHandler, checkedKeys, setData, setCheckedKeys, se
                 <Checkbox
                   inline
                   indeterminate={indeterminate}
-                  onClick={() => {
-                    checkAllHandler();
-                  }}
+                  onClick={() => checkAllHandler()}
                 />
               </div>
             </HeaderCell>

@@ -49,15 +49,15 @@ export const getCourseById = async (id) => {
 };
 
 export const createCourse = async (data) => {
-    await academyAPI.post("/course", data, {
-      headers: { "Content-Type": "multipart/form-data" },
-      onUploadProgress: (progressEvent) => {
-        console.log(`${Math.round((progressEvent.loaded / progressEvent.total) * 100)}%`);
-      },
-      maxContentLength: Infinity,
-      maxBodyLength: Infinity,
-      timeout: 120000,
-    });
+  await academyAPI.post("/course", data, {
+    headers: { "Content-Type": "multipart/form-data" },
+    onUploadProgress: (progressEvent) => {
+      console.log(`${Math.round((progressEvent.loaded / progressEvent.total) * 100)}%`);
+    },
+    maxContentLength: Infinity,
+    maxBodyLength: Infinity,
+    timeout: 120000,
+  });
 };
 
 
@@ -110,11 +110,11 @@ export const deleteProduct = async (id) => {
 };
 
 
-export const postAcademySettings = async (id,formData) => {
+export const postAcademySettings = async (id, formData) => {
   const { data } = await academyAPI.post(`/template/${id}`, formData, {
     headers: { "Content-Type": "multipart/form-data" },
     timeout: 60000,
-});
+  });
   return data;
 };
 
@@ -130,7 +130,7 @@ export const getAllAcademySettings = async (id) => {
 };
 
 
-export const postSlider = async (id,formData) => {
+export const postSlider = async (id, formData) => {
   const { data } = await academyAPI.post(`/slider/${id}`, formData, {
     headers: { "Content-Type": "multipart/form-data" },
     timeout: 60000,
@@ -143,7 +143,7 @@ export const getSlider = async () => {
   return data;
 };
 
-export const postAbout = async (id,formData) => {
+export const postAbout = async (id, formData) => {
   const { data } = await academyAPI.post(`/about/${id}`, formData, {
     headers: { "Content-Type": "multipart/form-data" },
     timeout: 60000,
@@ -177,7 +177,7 @@ export const postAcademyOpinions = async (formData) => {
   const { data } = await academyAPI.post("/opinions", formData, {
     headers: { "Content-Type": "multipart/form-data" },
     timeout: 60000,
-});
+  });
   return data;
 };
 
@@ -229,5 +229,12 @@ export const updateFooter = async (id, formData) => {
     headers: { "Content-Type": "multipart/form-data" },
     timeout: 60000,
   });
+  return data;
+};
+
+
+export const getAllSetting = async (id = null) => {
+  let url = !id ? '/all-settings' : `/all-settings/${id}`
+  const { data } = await academyAPI.get(url);
   return data;
 };

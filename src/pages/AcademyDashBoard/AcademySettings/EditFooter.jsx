@@ -10,6 +10,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { getFooter, updateFooter } from "../../../utils/apis/client/academy";
 import { JustifyContentWrapper } from "../../../utils/styles";
 import { ButtonSpinner } from "../../../component/UI/Buttons/ButtonSpinner";
+import { getChangedValues, populateFormData } from "../../../utils/helpers";
 
 const validationSchema = Yup.object().shape({
   title: Yup.string().required("title is required"),
@@ -26,6 +27,7 @@ const EditFooter = () => {
   let location = useLocation();
   let nav = useParams();
   const fileInputRef = useRef(null);
+  const queryClient = useQueryClient()
 
   const handleButtonClick = () => {
     fileInputRef.current.click();
@@ -38,7 +40,7 @@ const EditFooter = () => {
   };
 
   const { data: footerData, isLoading } = useQuery({
-    queryKey: ["Footer_X"],
+    queryKey: ["Footer"],
     queryFn: () => getFooter(),
     refetchOnWindowFocus: false,
     refetchOnMount: false,
@@ -50,41 +52,24 @@ const EditFooter = () => {
     initialValues: {},
     validationSchema,
     onSubmit: (data) => {
-      setIsPending(true);
       const formData = new FormData();
-      formData.append("address", data.address ?? "");
-      formData.append("content", data.content);
-      formData.append("email", data.email);
-      formData.append("facebook", data.facebook);
-      formData.append("image", data.image);
-      formData.append("instagram", data.instagram);
-      formData.append("linkedin", data.linkedin);
-      formData.append("phone", data.phone);
-      formData.append("snapchat", data.snapchat);
-      formData.append("title", data.title);
-      formData.append("twitter", data.twitter);
-      formData.append("updated_at", data.updated_at ?? "");
-      formData.append("youtube", data.youtube);
-
-      const queryClient = useQueryClient();
-
+      const values = getChangedValues(data, footerData?.footer);
+      populateFormData(formData, values);
+      setIsPending(true);
       updateFooter(data.id, formData)
-        .then((res) => {
-          setIsPending(false)
-          toast.success("تم تحديث البيانات ", {
-            position: "top-left",
-          });
+        .then(() => {
+          toast.success("تم تحديث البيانات ", { position: "top-left" });
           queryClient.invalidateQueries(["Footer"]);
           navigate(location.pathname.replace(`/edit/${nav.slug}`, ""));
-        }).catch((err) => {
-          setIsPending(false)
-          toast.error("حدث خطأ ما ", {
-            position: "top-left",
-          });
         })
+        .catch((error) => {
+          toast.error("حدث خطأ ما ", { position: "top-left" });
+        }).finally(() => {
+          setIsPending(false);
+        });
+
     },
   });
-
 
 
 
@@ -98,6 +83,7 @@ const EditFooter = () => {
       });
     }
   }, [footerData?.footer]);
+
 
 
   return isLoading ? (
@@ -129,7 +115,7 @@ const EditFooter = () => {
           <div className=" justify-content-center">
             <div className=" row m-auto justify-content-center">
               <img
-                src={!change ? formik?.values?.image : URL.createObjectURL(formik.values.image)}
+                src={!change && formik?.values?.image}
                 alt="Selected File"
                 style={{
                   maxWidth: "366px",
