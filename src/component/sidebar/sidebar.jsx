@@ -18,7 +18,7 @@ const SideBar = ({ flag, mobile, setShow, profileData }) => {
 
     if (loginType === "academy" &&profileData?.name && profileData?.id) {
       const encodedName = encodeURIComponent(profileData.name);
-      navigate(`/myacademy/${encodedName}/${profileData.id}/${generateUUID()}`);
+      navigate(`/acdemy/${profileData.academy_id}`);
     }else if(loginType === "student") {
       navigate("/");
     }

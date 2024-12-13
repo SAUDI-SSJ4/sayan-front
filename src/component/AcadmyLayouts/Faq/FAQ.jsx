@@ -93,7 +93,7 @@ const FAQ = ({ profileData }) => {
           data-aos-delay="100"
           className="col-lg-8 col-md-12"
         >
-          {profileData?.data?.faqs?.map((e, i) => {
+          {profileData?.faq?.map((e, i) => {
             return (
               <Accordion
                 key={i}
@@ -112,7 +112,7 @@ const FAQ = ({ profileData }) => {
                     }}
                     className="fs-6 fw-bold title-text--1"
                   >
-                    {e.title}
+                    {e.question}
                   </p>
                 </AccordionSummary>
                 <AccordionDetails>
@@ -125,7 +125,7 @@ const FAQ = ({ profileData }) => {
                     }}
                     className="fs-6 fw-medium text-content--1"
                   >
-                    {e.content}
+                    {e.answer}
                   </p>
                 </AccordionDetails>
               </Accordion>

@@ -533,7 +533,7 @@ div[dir="rtl"] .rs-check-item .rs-checkbox-checker > label {
 }
 
 .SearchAndShowbar .checkAll {
-  color: #7e8799;
+  color: #0062ff;
   display: flex;
   align-items: center;
   gap: 5px;

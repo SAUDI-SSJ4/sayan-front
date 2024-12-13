@@ -7,6 +7,8 @@ import "swiper/css/scrollbar";
 import { Navigation, Pagination, Scrollbar, A11y } from "swiper/modules";
 import { useLocation, useNavigate } from "react-router-dom";
 import SubjectCard from "../../MainPages/SubjectCard/SubjectCard";
+import { getCourse } from "../../../utils/apis/client/academy";
+import { useQuery } from "@tanstack/react-query";
 
 // Import Swiper styles
 
@@ -24,6 +26,64 @@ const SubjectSlider = ({ LayOut2, Laytout3, mainData }) => {
 
     setPath(temp);
   });
+  // make a temp data for courses add temp coureses to tempCourses useState
+const [AllCoursesPage, setAllCoursesPage] = useState([
+  {
+    id: 1,
+    image: "path/to/image1.jpg",
+    title: "Data Structures",
+    type: "Programming",
+    rated: 4.5,
+    short_content: "Learn about the different data structures and their implementations in C++.",
+    academy_image: "path/to/academy_image1.jpg",
+    trainer: "John Doe",
+    academy: "Tech Academy",
+    price: "$199",
+  },
+  {
+    id: 2,
+    image: "path/to/image2.jpg",
+    title: "Algorithms",
+    type: "Programming",
+    rated: 4.7,
+    short_content: "Learn about the different algorithms and their implementations in C++.",
+    academy_image: "path/to/academy_image2.jpg",
+    trainer: "Jane Smith",
+    academy: "Code Academy",
+    price: "$249",
+  },
+  {
+    id: 3,
+    image: "path/to/image3.jpg",
+    title: "Object-Oriented Programming",
+    type: "Programming",
+    rated: 4.6,
+    short_content: "Learn about the different object-oriented programming concepts and their implementations in C++.",
+    academy_image: "path/to/academy_image3.jpg",
+    trainer: "Emily Johnson",
+    academy: "Learn Academy",
+    price: "$299",
+  },    
+]);
+
+
+  const {
+    data: courses,
+    isLoadingCourses,
+    errorsCourses,
+  } = useQuery({
+    queryKey: ["ACourses"],
+    queryFn: () => getCourse(),
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
+    retry: 2,
+    onSuccess: (data) => {
+      console.log("dataa",data)
+      setAllCoursesPage(data);
+    },
+  });
+
+
   return (
     <div
       data-aos="fade-up"
@@ -99,7 +159,7 @@ const SubjectSlider = ({ LayOut2, Laytout3, mainData }) => {
         className="mySwiperContainer  pb-5 SubjectSlider-slide-swiper"
         wrapperClass="container pt-lg-3  px-0"
       >
-        {mainData?.courses?.map((e, i) => {
+        {AllCoursesPage?.map((e, i) => {
           return (
             <SwiperSlide key={i}>
               <div className="d-flex justify-content-center ">

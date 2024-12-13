@@ -48,6 +48,7 @@ a {
 
   .mainIcon {
     display: flex;
+    
     justify-content: space-between;
     align-items: center;
     margin-top: 10px;
@@ -55,7 +56,11 @@ a {
     div {
       display: flex;
       align-items: center;
+      
       gap: 5px;
+      position: relative;
+
+      
     }
 
     span {
@@ -71,6 +76,7 @@ a {
     z-index: 2;
     align-items: center;
     gap: 5px;
+    position: relative;
 
     div {
       display: flex;
@@ -135,6 +141,7 @@ a {
     z-index: -1;
   }
   .mainIcon {
+    
     span {
       position: absolute;
       opacity: 0;
@@ -161,6 +168,7 @@ a {
 }
 .activeLink {
   .mainIcon {
+    
     padding: 10px;
     border-radius: 5px;
     color: white !important;
@@ -232,6 +240,8 @@ subIcon .Link {
 }
 
 .btnSoon {
+  top:27px !important;
+right: -30px !important;
   margin-right: 10px;
   margin-bottom: -2px;
 }

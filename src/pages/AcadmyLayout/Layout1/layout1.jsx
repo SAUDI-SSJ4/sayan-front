@@ -34,7 +34,7 @@ const Layout1 = () => {
     getAllAcademySettings(id)
       .then((data) => {
         // setAcademyId(data.template.id)
-        console.log("data",websiteData)
+        console.log("data",data)
         setWebsiteData(data);
         data.template?.name?document.title = data.template?.name:null;
         // setColors({ primary: data.template.primary_color, text: data.template.text_color });
@@ -209,7 +209,7 @@ const Layout1 = () => {
         </div>
       </div>
 
-      {/* <SubjectSlider mainData={profileData} /> */}
+      <SubjectSlider mainData={websiteData} />
       {/* <ProductSlider academyData={profileData} /> */}
       {/* <PartnerSection /> */}
       <StudentRateSection />

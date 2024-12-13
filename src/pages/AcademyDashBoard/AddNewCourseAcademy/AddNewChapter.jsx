@@ -76,7 +76,7 @@ const AddNewChapter = () => {
     >
       {({ setFieldValue, errors, touched }) => (
         <Form className="d-flex flex-column align-items-center w-100">
-          <div className="col-lg-6 col-md-12">
+          <div className="col-12">
             <div className="CustomFormControl">
               <label htmlFor="title">العنوان</label>
               <Field
@@ -93,7 +93,7 @@ const AddNewChapter = () => {
             </div>
           </div>
 
-          <div className="col-lg-6 col-md-12">
+          <div className="col-12">
             <div className="CustomFormControl">
               <label htmlFor="content">الوصف</label>
               <Field
@@ -111,40 +111,6 @@ const AddNewChapter = () => {
             </div>
           </div>
 
-          <div className="justify-content-center">
-            <div className="row g-3 button-content--1 m-auto justify-content-center">
-              <img
-                src={previewImage || defualt}
-                alt="Course"
-                style={{
-                  maxWidth: "366px",
-                  maxHeight: "212px",
-                  objectFit: "contain",
-                  marginTop: "10px",
-                }}
-              />
-
-              <div className="d-flex justify-content-center">
-                <input
-                  type="file"
-                  ref={fileInputRef}
-                  style={{ display: "none" }}
-                  onChange={(e) => handleFileChange(e, setFieldValue)}
-                />
-                <div
-                  style={{
-                    background: "white",
-                    marginTop: "25px",
-                    marginBottom: "30px",
-                  }}
-                  className="updateBtn"
-                  onClick={() => fileInputRef.current.click()}
-                >
-                  رفع صورة الدورة التدريبية
-                </div>
-              </div>
-            </div>
-          </div>
 
           <button type="submit" className={style.saveBtnTwo}>
             حفظ

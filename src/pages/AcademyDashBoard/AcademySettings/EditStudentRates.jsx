@@ -25,9 +25,14 @@ import UploadImage from "../../../component/UI/UploadFile/UploadImage";
 import { useCreateOpinion, useSpasificOpinions, useUpdateOpinion } from "../../../framework/accademy/academysetting-opinions";
 import { editAcademyOpinions, postAcademyOpinions } from "../../../utils/apis/client/academy";
 
-
-
-
+const getChangedValues = (currentValues, initialValues) => {
+  return Object.keys(currentValues).reduce((changed, key) => {
+    if (currentValues[key] !== initialValues[key]) {
+      changed[key] = currentValues[key];
+    }
+    return changed;
+  }, {});
+};
 
 const validationSchema = Yup.object().shape({
   student_name: Yup.string().required("الاسم مطلوبا"),
@@ -41,50 +46,34 @@ const EditStudentRates = () => {
   let location = useLocation();
   let nav = useParams();
 
-
-
   let { data: opinionsData, isLoading, errors } = useSpasificOpinions(nav.slug);
 
-
-
-  // let { data, isLoading: loader, error, postData } = useUpdateOpinion(nav.slug);
-  // let { data: createData, postData: postCreate } = useCreateOpinion();
   const handleSubmit = (values) => {
+    const changedValues = getChangedValues(values, opinionsData?.data || {});
     if (opinionsData) {
-      editAcademyOpinions(nav.slug, values)
+      editAcademyOpinions(nav.slug, changedValues)
         .then((res) => {
-          console.log(res)
-          // if (res.success) {
-          //   toast.success("تم تحديث البيانات بنجاح", {
-          //     position: "top-left",
-          //   });
-          //   navigate(location.pathname.replace(`/edit/${nav.slug}`, ""));
-          // }
-          // else {
-          //   console.log(res)
-          //   toast.error("حدث خطأ ما ")
-          // }
+          console.log(res);
         })
         .catch((error) => {
-          console.log(error)
-        })
+          console.log(error);
+        });
     } else {
-
       postAcademyOpinions(values).then((res) => {
         if (res.success) {
           toast.success("تم اضافة تعليق بنجاح", {
             position: "top-left",
             theme: "dark",
           });
-          navigate(location.pathname.replace(`/add`, ""));
+          navigate(location.pathname.replace(/add/, ""));
+        } else {
+          console.log(res);
+          toast.error("حدث خطأ ما ربما اسم العنصر موجود بالفعل");
         }
-        else {
-          console.log(res)
-          toast.error("حدث خطأ ما ربما اسم العنصر موجود بالفعل")
-        }
-      })
+      });
     }
   };
+
   const formik = useFormik({
     initialValues: {},
     validationSchema,
@@ -95,11 +84,9 @@ const EditStudentRates = () => {
 
   useEffect(() => {
     if (opinionsData) {
-      console.log(opinionsData)
       formik.setValues(opinionsData.data);
     } else {
-      formik.setValues({
-      });
+      formik.setValues({});
     }
   }, [opinionsData]);
 
@@ -133,7 +120,6 @@ const EditStudentRates = () => {
       </div>
       <div className="CustomCard formCard all-add-notific pb-4 pt-4">
         <form onSubmit={formik.handleSubmit} className="row">
-
           <div className="col-lg-12 col-md-12">
             <div className="CustomFormControl">
               <label htmlFor="student_name">اسم الطالب </label>
@@ -155,7 +141,6 @@ const EditStudentRates = () => {
               <label htmlFor="student_avatar">صورة الطالب </label>
               <UploadImage
                 type="text"
-                // placeholder="ادخل عنوان المقال هنا"
                 id="student_avatar"
                 name="student_avatar"
                 currentImage={formik.values.student_avatar}
@@ -180,7 +165,6 @@ const EditStudentRates = () => {
                 <div style={{ color: "red", fontSize: "14px" }}>{formik.errors.rate}</div>
               )}
             </div>
-
           </div>
 
           <div className="col-lg-12 col-md-12">

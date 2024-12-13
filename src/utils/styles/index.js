@@ -48,6 +48,9 @@ export const Spinner = styled.div`
 `;
 
 export const ButtonSoon = styled.p`
+position: absolute;
+top:-14px;
+right: 5px;
 max-width: 60px;
   border-radius: 20px;
   background: rgba(255, 71, 71, 0.07);

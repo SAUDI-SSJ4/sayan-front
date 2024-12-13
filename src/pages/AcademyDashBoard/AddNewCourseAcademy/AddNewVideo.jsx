@@ -1,0 +1,116 @@
+import React, { useState } from "react";
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import style from "./AddNewCourse.module.css";
+import VideoEditor from "../../../component/UI/VideoEditor";
+
+// Validation Schema
+const videoUploadSchema = Yup.object().shape({
+  title: Yup.string().required("عنوان الفيديو مطلوب"),
+  description: Yup.string().required("وصف الفيديو مطلوب"),
+  file: Yup.mixed().required("ملف الفيديو مطلوب"),
+  duration: Yup.number()
+    .min(1, "مدة الفيديو يجب أن تكون على الأقل دقيقة واحدة")
+    .required("مدة الفيديو مطلوبة"),
+});
+
+const AddNewVideo = ({ courseData, setCourseData }) => {
+  const [uploadSuccess, setUploadSuccess] = useState(false);
+
+  const videoFormik = useFormik({
+    initialValues: {
+      title: "",
+      description: "",
+      file: null,
+      duration: "",
+    },
+    validationSchema: videoUploadSchema,
+    onSubmit: (values) => {
+      console.log("Uploaded Video Data:", values);
+      setCourseData({
+        ...courseData,
+        videos: [...(courseData.videos || []), values],
+      });
+      setUploadSuccess(true);
+      videoFormik.resetForm();
+    },
+  });
+
+  const handleFileChange = (event) => {
+    videoFormik.setFieldValue("file", event.currentTarget.files[0]);
+  };
+
+  return (
+    <div className="container">
+      <div className="row">
+        <div className="d-flex w-100">
+          <div className={`${style.boardLap} w-100 bg-body rounded`}>
+            <h4>إضافة فيديو جديد</h4>
+            {uploadSuccess && (
+              <div className="alert alert-success">تم رفع الفيديو بنجاح!</div>
+            )}
+            <form onSubmit={videoFormik.handleSubmit}>
+              <div className="CustomFormControl col-12">
+                {/* <label>رفع ملف الفيديو</label>
+                <input
+                  type="file"
+                  name="file"
+                  accept="video/*"
+                  onChange={handleFileChange}
+                  className="form-control"
+                  required
+                /> */}
+        <VideoEditor setFieldValue={videoFormik.setFieldValue} />
+    
+                {/* {videoFormik.touched.file && videoFormik.errors.file && (
+                  <div className="text-danger">{videoFormik.errors.file}</div>
+                )} */}
+              </div>
+              <div className="CustomFormControl col-12">
+                <label>عنوان الفيديو</label>
+                <input
+                  type="text"
+                  placeholder="أدخل عنوان الفيديو"
+                  name="title"
+                  value={videoFormik.values.title}
+                  onChange={videoFormik.handleChange}
+                  className="form-control"
+                  required
+                />
+                {videoFormik.touched.title && videoFormik.errors.title && (
+                  <div className="text-danger">{videoFormik.errors.title}</div>
+                )}
+              </div>
+
+              <div className="CustomFormControl col-12">
+                <label>وصف الفيديو</label>
+                <textarea
+                  placeholder="أدخل وصف الفيديو"
+                  name="description"
+                  value={videoFormik.values.description}
+                  onChange={videoFormik.handleChange}
+                  className="form-control"
+                  required
+                ></textarea>
+                {videoFormik.touched.description &&
+                  videoFormik.errors.description && (
+                    <div className="text-danger">
+                      {videoFormik.errors.description}
+                    </div>
+                  )}
+              </div>
+
+              <div className="CustomFormControl col-12 text-center">
+                <button type="submit" className="btn btn-primary">
+                  رفع الفيديو
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default AddNewVideo;

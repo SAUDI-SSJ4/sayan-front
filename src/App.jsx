@@ -48,7 +48,7 @@ function App() {
         <AcademyRoutes />
       ) : null}
       <Routes>
-      <Route path="/myacademy/:name/:id/:slug" element={<HomeAcademy />} />
+      {/* <Route path="/myacademy/:name/:id/:slug" element={<HomeAcademy />} /> */}
       <Route path="/acdemy/:id" element={<Layout1 />} />
 
         <Route index path="/" element={<Home />} />

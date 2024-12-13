@@ -8,7 +8,6 @@ const TrainingCoursesCard = ({
   image,
   active,
   name,
-  onClick,
   onCheck,
   checked,
   notAdmin,
@@ -16,7 +15,6 @@ const TrainingCoursesCard = ({
 }) => {
   const router = useNavigate();
   useEffect(() => {
-    console.log(notAdmin);
   });
   return (
     <div className={classes.Card}>
@@ -25,8 +23,8 @@ const TrainingCoursesCard = ({
         {notAdmin ? null : (
           <div
             className={`${classes.CardCheck} ${checked && classes.Checked}`}
-            onClick={onCheck}
-          >
+              onClick={onCheck}
+            >
             <AnimatePresence>
               {checked && (
                 <motion.div

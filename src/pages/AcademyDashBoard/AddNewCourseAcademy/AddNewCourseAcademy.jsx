@@ -57,7 +57,12 @@ function AddNewCourseAcademy() {
                 </div>
               </div>
 
-              {courseId && categoryId ? (
+
+                <ContinueButton bgColor="#0062ff" onClick={() => setStepper(1)}>
+                  استمرار
+                </ContinueButton>
+              
+              {/* {courseId && categoryId ? (
                 <ContinueButton bgColor="#0062ff" onClick={() => setStepper(1)}>
                   استمرار
                 </ContinueButton>
@@ -65,7 +70,7 @@ function AddNewCourseAcademy() {
                 <ContinueButton bgColor="#8e8e93" disabled>
                   استمرار
                 </ContinueButton>
-              )}
+              )} */}
             </div>
             <AddNewCourseStepOneForm
               setNextStep={setNextStep}
@@ -79,7 +84,7 @@ function AddNewCourseAcademy() {
 
       {stepper === 1 && (
         <div className="mb-5 all-info-top-header main-info-top">
-          <div className="CustomCard formCard all-add-notific pb-4 pt-4 flex-column justify-content-center">
+          <div className="bg-white border-2 formCard all-add-notific pb-4 pt-4 flex-column justify-content-center">
             <div className={style.steperProg}>
               <ProgsaveButton
                 onClick={() => {

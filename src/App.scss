@@ -504,12 +504,15 @@ div[dir="rtl"] .rs-check-item .rs-checkbox-checker > label {
   padding-inline: 20px;
   padding-block: 20px;
   .checkAll {
-    color: #7e8799;
+    color: #636363;
     display: flex;
     align-items: center;
     gap: 5px;
     cursor: pointer;
     font-weight: 700;
+    &.active {
+      color: #0e85ff;
+    }
   }
   .midDIv,
   .EndDiv {
@@ -519,7 +522,7 @@ div[dir="rtl"] .rs-check-item .rs-checkbox-checker > label {
       display: flex;
       align-items: center;
       gap: 5px;
-      padding: 8px 15px;
+      padding: 0px 15px;
       cursor: pointer;
       border: 1px solid #edeff2;
       &.Active {

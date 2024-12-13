@@ -9,7 +9,7 @@ import RateStars from "../../../assets/images/rateStars.png";
 import quma from "../../../assets/images/quma.png";
 import { Navigation, Pagination, Scrollbar, A11y } from "swiper/modules";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAllOpinions } from "../../../framework/accademy/academysetting-opinions";
 import { Spinner } from "react-bootstrap";
 import { Rate } from "rsuite";
@@ -23,17 +23,39 @@ const StudentRateSection = ({ Laytout3 }) => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const handleCheck = (value, checkedKeys) => {
-    if (!checkedKeys.some((item) => item === value)) {
-      setCheckedKeys((perv) => [...perv, value]);
-    } else {
-      setCheckedKeys((perv) => perv.filter((item) => item !== value));
+  const [opinions, setOpinions]= useState([
+    {
+      student_name: "أحمد محمد",
+      student_avatar: null,
+      rate: 4,
+      opinion: "هذا المحتوى فيه شرح بسيط وسهل فهمه وشرح لكل حاجة بالتفصيل والصور والفيديوهات وايضا يوجد تمارين تطبيقية واختبارات شاملة ومتكررة مما يساعد على فهم المادة بشكل افضل.",
+ },
+    {
+      student_name: "أحمد محمد",
+      student_avatar: null,
+      rate: 4,
+      opinion: "هذا المحتوى فيه شرح بسيط وسهل فهمه وشرح لكل حاجة بالتفصيل والصور والفيديوهات وايضا يوجد تمارين تطبيقية واختبارات شاملة ومتكررة مما يساعد على فهم المادة بشكل افضل.",
+    },
+    {
+      student_name: "أحمد محمد",
+      student_avatar: null,
+      rate: 4,
+      opinion: "هذا المحتوى فيه شرح بسيط وسهل فهمه وشرح لكل حاجة بالتفصيل والصور والفيديوهات وايضا يوجد تمارين تطبيقية واختبارات شاملة ومتكررة مما يساعد على فهم المادة بشكل افضل.",
     }
-  };
+
+  ])
+
 
   let { data: opinionsData, isLoading, errors } = useAllOpinions();
-  console.log(opinionsData)
-  if (errors) return <Error />;
+  useEffect(() =>{
+   if(opinionsData){
+
+     setOpinions(opinionsData)
+    }
+    console.log(opinions)
+  },[isLoading])
+
+  // if (errors) return <Error />;
 
   if (isLoading)
     return (
@@ -64,7 +86,7 @@ const StudentRateSection = ({ Laytout3 }) => {
             },
           }}
         >
-          {opinionsData?.map((e, i) => {
+          {opinions?.map((e, i) => {
             return (
               <SwiperSlide>
                 <div className={classes.RateCard}>

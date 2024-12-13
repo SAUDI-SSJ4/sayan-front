@@ -55,3 +55,30 @@ letter-spacing: -1px;
 }
 
 /* You can adjust the background color and text colors based on your preference */
+.displayTypeSwitcher .btn {
+    padding: 8px 16px;
+    margin: 0 5px;
+    border: 1px solid #ccc;
+    background-color: white;
+    cursor: pointer;
+  }
+  
+  .displayTypeSwitcher .btn.active {
+    background-color: #007bff;
+    color: white;
+    border-color: #007bff;
+  }
+  
+  .tag-custom {
+    background-color: #e6f7e6;  /* Custom background for "live" */
+    border-radius: 20px;
+    font-size: 14px;
+    padding: 5px 15px;
+    display: inline-flex;
+    align-items: center;
+  }
+  
+  .tag-custom.blue {
+    background-color: #e6f0ff;  /* Custom background for "recorded" */
+  }
+  
