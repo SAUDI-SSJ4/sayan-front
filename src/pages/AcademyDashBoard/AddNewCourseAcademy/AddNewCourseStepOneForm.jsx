@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import defualt from "../../../assets/images/img.png";
@@ -6,10 +6,10 @@ import chroma from "chroma-js";
 import Select from "react-select";
 import Swal from "sweetalert2";
 import { useQuery } from "@tanstack/react-query";
-import { getAllcategories, getTrainer } from "../../../utils/apis/client/academy";
-import { useCreateCourseMutation } from "../../../../services/mutation";
+import { academyAPI, getAllcategories, getTrainer } from "../../../utils/apis/client/academy";
 import { useNavigate } from "react-router-dom";
 import { ButtonSpinner } from "../../../component/UI/Buttons/ButtonSpinner";
+import { populateFormData } from "../../../utils/helpers";
 
 const typeOptions = [
   { value: "recorded", label: "تفاعلية", color: "#673ab7" },
@@ -68,7 +68,7 @@ export const AddNewCourseStepOneForm = ({
   const navigate = useNavigate();
   const fileInputRef = useRef(null);
   const videoInputRef = useRef(null);
-  const mutation = useCreateCourseMutation();
+  const [isPending, setIsPending] = useState(false);
 
   const navigateWithIds = (courseId, categoryId) => {
     navigate(`/academy/addNewCourse/${courseId}/${categoryId}`, { replace: true });
@@ -90,43 +90,36 @@ export const AddNewCourseStepOneForm = ({
       short_video: null,
     },
     validationSchema,
-    onSubmit: (values, { resetForm }) => {
+    onSubmit: async (values, { resetForm }) => {
       const formData = new FormData();
-      Object.entries(values).forEach(([key, value]) => {
-        if (value !== null && value !== "") formData.append(key, value);
+      populateFormData(formData, values)
+      try {
+        setIsPending(true)
+      const res = await academyAPI.post(`/course`, formData, {
+        headers: {'Content-Type': 'multipart/form-data'},
       });
+      console.log('Response:', res.data);
+      }catch(error) {
+        console.log(error)
 
-      Swal.fire({
-        title: "اضافة الدورة",
-        text: "هل تريد اضافة هذة الدورة",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "اضافة",
-        cancelButtonText: "لا",
-      }).then(async (result) => {
-        if (result.isConfirmed) {
-          try {
-            const { data } = await mutation.mutateAsync(formData);
-            setNextStep(true);
-            setCourseDataId(data.data.id);
-            setCourseDataCategoryId(values.category_id);
-            navigateWithIds(data.data.id, values.category_id);
-            setStepper(1);
-          } catch (error) {
-            setNextStep(false);
-            Swal.fire({
-              title: "فشل",
-              text: "حدث خطأ أثناء محاولة إضافة الدورة. يرجى المحاولة مرة أخرى.",
-              icon: "error",
-              confirmButtonText: "موافق",
-            });
-          }
-        }
-      });
+      }finally {
+        setIsPending(false)
+      }
+
+
+      // const res = await academyAPI.post(`${import.meta.env.VITE_SERVER_ACADEMY_DEV}/course`, formData, {
+      //   headers: {'Content-Type': 'multipart/form-data'},
+      // });
+      // console.log('Response:', res.data);
+
+
+
+
     },
   });
+
+
+
 
   const handleFileChange = (e) => {
     formik.setFieldValue("image", e.currentTarget.files[0]);
@@ -414,7 +407,7 @@ export const AddNewCourseStepOneForm = ({
       </div>
       {isFormFilled() && (
         <div className="col-12">
-          <ButtonSpinner isPending={mutation.isPending} />
+          <ButtonSpinner isPending={isPending} />
         </div>
       )}
     </form>

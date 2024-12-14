@@ -29,6 +29,7 @@ import AcademyRegister from "./pages/AcademyDashBoard/Register/Register";
 import AuthGaurdRoute from "./Routes/AuthGaurdRoute";
 import HomeAcademy from "./pages/MainPages/AcademyHome/HomeAcademy";
 import PrivacyPolicyPage from "./pages/Policy/PrivacyPolicyPage";
+import TestPage from "./TestPage";
 
 
 function App() {
@@ -52,6 +53,9 @@ function App() {
       <Route path="/acdemy/:id" element={<Layout1 />} />
 
         <Route index path="/" element={<Home />} />
+        
+        <Route index path="/test" element={<TestPage />} />
+
         <Route path="/LaunchYourAcademy" element={<LaunchYourAcademy />} />
         <Route path="/EmployeeTrainning" element={<EmployeeTrainning />} />
         <Route path="/Ai" element={<Ai />} />

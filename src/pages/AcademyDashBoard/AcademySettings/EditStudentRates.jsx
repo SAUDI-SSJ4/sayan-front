@@ -51,10 +51,15 @@ const EditStudentRates = () => {
   const handleSubmit = (values) => {
     const changedValues = getChangedValues(values, opinionsData?.data || {});
     if (opinionsData) {
+<<<<<<< HEAD
       editAcademyOpinions(nav.slug, changedValues)
         .then((res) => {
           console.log(res);
         })
+=======
+      editAcademyOpinions(nav.slug, values)
+        .then((res) => {})
+>>>>>>> 7570d96 (Your commit message)
         .catch((error) => {
           console.log(error);
         });
@@ -139,6 +144,7 @@ const EditStudentRates = () => {
           <div className="col-lg-6 col-md-12">
             <div className="CustomFormControl">
               <label htmlFor="student_avatar">صورة الطالب </label>
+<<<<<<< HEAD
               <UploadImage
                 type="text"
                 id="student_avatar"
@@ -147,6 +153,19 @@ const EditStudentRates = () => {
                 onChange={(value) => formik.setFieldValue("student_avatar", value)}
                 onBlur={formik.handleBlur}
               />
+=======
+              {formik.values.student_avatar &&
+                <UploadImage
+                  type="text"
+                  // placeholder="ادخل عنوان المقال هنا"
+                  id="student_avatar"
+                  name="student_avatar"
+                  currentImage={formik.values.student_avatar}
+                  onChange={(value) => formik.setFieldValue("student_avatar", value)}
+                  onBlur={formik.handleBlur}
+                />
+              }
+>>>>>>> 7570d96 (Your commit message)
               {formik.touched.student_avatar && formik.errors.student_avatar && <div>{formik.errors.student_avatar}</div>}
             </div>
           </div>

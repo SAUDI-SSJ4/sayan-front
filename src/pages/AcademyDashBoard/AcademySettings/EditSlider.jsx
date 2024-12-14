@@ -9,14 +9,19 @@ import {
   JustifyContentWrapper,
   SetImageButton,
 } from "../../../utils/styles";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { postSlider, getSlider } from "../../../utils/apis/client/academy";
 import { ButtonSpinner } from "../../../component/UI/Buttons/ButtonSpinner";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { MainSpinner } from "../../../component/UI/MainSpinner";
 import { Button } from "rsuite";
+<<<<<<< HEAD
 import { getChangedValues, isValidURL } from "../../../utils/helpers";
+=======
+import { getChangedValues, populateFormData } from "../../../utils/helpers";
+import { useToast } from "../../../utils/hooks/useToast";
+import { useSlider } from "../../../utils/hooks/get/useSetting";
+import { useSetSilider } from "../../../utils/hooks/set/useSetting";
+>>>>>>> 7570d96 (Your commit message)
 
 const validationSchema = Yup.object().shape({
   title: Yup.string().required("العنوان مطلوب"),
@@ -32,6 +37,7 @@ const validationSchema = Yup.object().shape({
 const EditSlider = () => {
   const navigate = useNavigate();
   const fileInputRef = useRef(null);
+<<<<<<< HEAD
   const [isLoading, setIsLoading] = useState(false);
   const [sliderId, setSliderId] = useState(null);
   const [initialValues, setInitialValues] = useState(null);
@@ -67,6 +73,26 @@ const EditSlider = () => {
       });
     },
   });
+=======
+  const [ids, setIds] = useState({ sliderId: null, academyId: null });
+  const [slider, setSlider] = useState([])
+  const { data: sliderData, isLoading, errors } = useSlider();
+
+  useEffect(() => {
+    if (sliderData?.slider) {
+      setIds({
+        sliderId: sliderData.slider.id,
+        academyId: sliderData.slider.academy_id,
+      });
+      setSlider(sliderData.slider)
+      formik.setValues(sliderData.slider);
+    }
+
+  }, [sliderData?.slider]);
+
+
+  const mutation = useSetSilider(ids.sliderId , ids.academyId);
+>>>>>>> 7570d96 (Your commit message)
 
   const formik = useFormik({
     initialValues: {
@@ -80,6 +106,7 @@ const EditSlider = () => {
       second_button_link: "",
     },
     validationSchema,
+<<<<<<< HEAD
     onSubmit: async (values) => {
       const changedValues = getChangedValues(initialValues, values);
       const formData = new FormData();
@@ -94,6 +121,15 @@ const EditSlider = () => {
 
       mutation.mutateAsync(formData);
     },
+=======
+    onSubmit: async (data) => {
+      const formData = new FormData();
+      const values = getChangedValues(data, slider);
+      populateFormData(formData, values)
+      mutation.mutateAsync(formData);
+
+    }
+>>>>>>> 7570d96 (Your commit message)
   });
 
   return (

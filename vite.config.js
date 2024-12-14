@@ -11,5 +11,9 @@ export default defineConfig({
       "@store": "/redux",
     },
   },
+
+  optimizeDeps: {
+    include: ['@ffmpeg/ffmpeg'],
+  },
   
 });

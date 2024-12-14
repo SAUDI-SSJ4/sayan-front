@@ -48,7 +48,6 @@ export const useCreateCourseMutation = () => {
   return useMutation({
     mutationFn: (data) => createCourse(data),
     onSuccess: ({data}) => {
-      console.log("Print from useCreateCourseMutation: ");
       console.log(data);
       queryClient.invalidateQueries({ queryKey: ["studentCourses"] });
     },

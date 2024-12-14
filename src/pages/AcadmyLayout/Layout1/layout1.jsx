@@ -21,14 +21,13 @@ import layout2Image from "../../../assets/images/layout2.png";
 import AcademyLayoutNavbar from "../../../component/AcadmyLayouts/AcademyLayoutNavbar/AcademyLayoutNavbar";
 import FAQ from "../../../component/AcadmyLayouts/Faq/FAQ";
 import { getAllAcademySettings } from "../../../utils/apis/client/academy";
+import { useQuery } from "@tanstack/react-query";
 
 const Layout1 = () => {
   const { id } = useParams();
   
-  // const { data: profileData, isLoading, errors } = useAcademyHome(id);
   const [websiteData, setWebsiteData] = useState();
   const [isLoading, setIsLoading] = useState(true);
-  const [academyId, setAcademyId] = useState();
   useEffect(() => {
     setIsLoading(true)
     getAllAcademySettings(id)
@@ -60,18 +59,46 @@ const Layout1 = () => {
   }, []);
 
 
-  const [templateLayout, settemplateLayout] = useState(1);
-  // useEffect(() => {
-  //   console.log(profileData);
-  //   settemplateLayout(profileData?.template_id);
-  //   // COMMENT: the colors will be here untile wifind the solution
-  //   setColors({ primary: profileData?.primary_color, text: profileData?.text_color });
+  // const { data, error, isLoading } = useQuery(
+  //   ["academySettings", id],
+  //   () => getAllAcademySettings(id),
+  //   {
+  //     onSuccess: (data) => {
+  //       // Set the website data
+  //       console.log("data", data);
 
-  //     // Set CSS variables on :root
-  //     document.documentElement.style.setProperty('--primary-color', primaryColor);
-  //     document.documentElement.style.setProperty('--text-color', textColor);
-  
-  // }, [profileData]);
+  //       // Update document title
+  //       if (data.template?.name) {
+  //         document.title = data.template.name;
+  //       }
+
+  //       // Set CSS variables on :root
+  //       if (data.template?.primary_color) {
+  //         document.documentElement.style.setProperty("--primary-color", data.template.primary_color);
+  //       }
+  //       if (data.template?.secondary_color) {
+  //         document.documentElement.style.setProperty("--text-color", data.template.secondary_color);
+  //       }
+
+  //       // Update the favicon
+  //       const faviconElement = document.querySelector("link[rel='icon']");
+  //       if (faviconElement && data.template?.favicon) {
+  //         faviconElement.href = data.template.favicon;
+  //       } else if (data.template?.favicon) {
+  //         const newFavicon = document.createElement("link");
+  //         newFavicon.rel = "icon";
+  //         newFavicon.href = data.template.favicon;
+  //         document.head.appendChild(newFavicon);
+  //       }
+  //     },
+  //     onError: (error) => {
+  //       console.error("Error fetching academy settings:", error);
+  //     },
+  //   }
+  // );
+
+
+  const [templateLayout, settemplateLayout] = useState(1);
 
   if (isLoading)
     return (

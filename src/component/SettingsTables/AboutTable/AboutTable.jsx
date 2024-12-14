@@ -1,21 +1,11 @@
-import { Table, Popover, Whisper, Dropdown, IconButton, Progress } from "rsuite";
-import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
-import Button from "react-bootstrap/Button";
-import Modal from "react-bootstrap/Modal";
+import { Table } from "rsuite";
 import { mockUsers } from "../DigitalProductsCard/mock";
-import { Checkbox } from "@mui/material";
 import React, { useEffect } from "react";
-import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 import BorderColorOutlinedIcon from "@mui/icons-material/BorderColorOutlined";
 import { useNavigate } from "react-router-dom";
-import AreaChart from "../../charts/doubleArea";
-
-import AreaChartNormal from "../../charts/AreaChart";
-import { useSlider } from "../../../framework/accademy/academysetting-slider";
 import { Error } from "@mui/icons-material";
-import { Spinner } from "react-bootstrap";
-import { useAbout } from "../../../framework/accademy/academysetting-about";
 import { MainSpinner } from "../../UI/MainSpinner";
+import { useAbout } from "../../../utils/hooks/get/useSetting";
 
 const { Column, HeaderCell, Cell } = Table;
 const data = mockUsers(1);
@@ -71,7 +61,7 @@ const ActionCell = ({ rowData, dataKey, setShow, ...props }) => {
 const AboutTable = ({ checkAllHandler, checkedKeys, setData, setCheckedKeys, setDeleteModal }) => {
   const router = useNavigate();
 
-  let { data: sliderData, isLoading, errors } = useAbout();
+  let { data: sliderData = [], isLoading, errors } = useAbout();
 
   useEffect(() => {
     console.log(sliderData);

@@ -1,12 +1,10 @@
 import { Table, Popover, Dropdown } from "rsuite";
-import { Checkbox } from "@mui/material";
 import React, { useEffect } from "react";
 import BorderColorOutlinedIcon from "@mui/icons-material/BorderColorOutlined";
 import { useNavigate } from "react-router-dom";
-import { useSlider } from "../../../framework/accademy/academysetting-slider";
 import { Error } from "@mui/icons-material";
 import { Spinner } from "react-bootstrap";
-import { academyAPI } from "../../../utils/apis/client/academy";
+import { useSlider } from "../../../utils/hooks/get/useSetting";
 
 const { Column, HeaderCell, Cell } = Table;
 
@@ -63,28 +61,17 @@ const SliderTable = ({ checkAllHandler, checkedKeys, setData, setCheckedKeys, se
 
   const router = useNavigate();
 
-  let { data: sliderData, isLoading, errors } = useSlider();
-
-  useEffect(() => {
-    // academyAPI
-    //   .get("/slider")
-    //   .then((res) => {
-    //     console.log(res);
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
-  }, [sliderData]);
+  const { data: sliderData, isLoading, errors } = useSlider();
 
   if (errors) return <Error />;
-  if (isLoading)
+
+  if (isLoading) {
     return (
-      <>
-        <div className="w-full h-50 d-flex justify-content-center align-items-center">
-          <Spinner className="" />
-        </div>
-      </>
+      <div className="w-full h-50 d-flex justify-content-center align-items-center">
+        <Spinner className="" />
+      </div>
     );
+  }
 
   return (
     <div style={{ backgroundColor: "white", padding: "10px" }}>

@@ -9,8 +9,13 @@ import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import { JustifyContentWrapper } from "../../../utils/styles";
 import { ButtonSpinner } from "../../../component/UI/Buttons/ButtonSpinner";
+<<<<<<< HEAD
 import { getAbout, postAbout } from "../../../utils/apis/client/academy";
 import { getChangedValues, isValidURL } from "../../../utils/helpers";
+=======
+import { getChangedValues, isValidURL, populateFormData } from "../../../utils/helpers";
+import { useSetAbout } from "../../../utils/hooks/set/useSetting";
+>>>>>>> 7570d96 (Your commit message)
 
 const validationSchema = Yup.object({
   title: Yup.string().required("Title is required"),
@@ -24,11 +29,18 @@ const EditAbout = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const fileInputRef = useRef(null);
+<<<<<<< HEAD
   const [isLoading, setIsLoading] = useState(false);
   const [file, setFile] = useState(null);
   const [change, setChange] = useState(0);
   const [initialValues, setInitialValues] = useState({});
  
+=======
+  let [change, setChange] = useState(0);
+  const [file, setFile] = useState();
+  const [aboutId, setAboutId] = useState(null);
+
+>>>>>>> 7570d96 (Your commit message)
   const handleButtonClick = () => {
     fileInputRef.current.click();
   };
@@ -40,6 +52,7 @@ const EditAbout = () => {
     setFile(selectedFile);
   };
 
+<<<<<<< HEAD
   const mutation = useMutation({
     mutationFn: (data) => postAbout(formik.values.id, data),
     onSuccess: () => {
@@ -50,12 +63,29 @@ const EditAbout = () => {
       toast.error("An error occurred", { position: "top-left", theme: "dark" });
     },
   });
+=======
+  const { data: aboutData = [], isLoading } = useAbout()
+
+  useEffect(() => {
+
+    if (aboutData?.about) {
+      console.log(aboutData.about);
+      setAboutId(aboutData.about.id)
+      formik.setValues(aboutData.about);
+    }
+
+  }, [aboutData?.about]);
+
+
+  const mutation = useSetAbout(aboutId);
+>>>>>>> 7570d96 (Your commit message)
 
   const formik = useFormik({
     initialValues: {},
     validationSchema,
-    onSubmit: (values) => {
+    onSubmit: (data) => {
       const formData = new FormData();
+<<<<<<< HEAD
       const newValues = getChangedValues(values,initialValues)
       Object.keys(newValues).forEach((key) => {
         if (key === "image") {
@@ -64,10 +94,15 @@ const EditAbout = () => {
           formData.append(key, newValues[key]);
         }
       });
+=======
+      const values = getChangedValues(data, aboutData.about);
+      populateFormData(formData, values)
+>>>>>>> 7570d96 (Your commit message)
       mutation.mutateAsync(formData);
     },
   });
 
+<<<<<<< HEAD
   useEffect(() => {
     setIsLoading(true);
     getAbout()
@@ -77,6 +112,9 @@ const EditAbout = () => {
       .catch(console.error)
       .finally(() => setIsLoading(false));
   }, []);
+=======
+
+>>>>>>> 7570d96 (Your commit message)
 
   return isLoading ? (
     <div className="w-full h-50 d-flex justify-content-center align-items-center">
