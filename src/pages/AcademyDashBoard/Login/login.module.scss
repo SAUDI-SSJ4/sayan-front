@@ -4,11 +4,12 @@
 .goBack {
   color: #a3aed0;
   font-size: 14px;
-  margin-top: 50px;
+  margin-top: 40px;
   text-align: end;
 }
 .LoginForm {
-  margin-top: 76px;
+  margin-top: 112px;
+  margin-right: 10px;
 }
 .LoginForm h3 {
   color: #2b3674;
@@ -19,9 +20,12 @@
   font-weight: 700;
   line-height: 56px; /* 155.556% */
   letter-spacing: -0.72px;
+  margin-right: 5px;
+
 }
 .LoginForm p {
   color: #5a6a85;
+  margin-right: 5px;
 
   text-align: start;
   font-family: Readex Pro;
@@ -32,10 +36,17 @@
   letter-spacing: -0.32px;
 }
 .LoginBanner {
-  background-image: url("./../../../assets/images/LoginBanner.png");
-  background-size: cover;
+  background-image: url("./../../../assets/images/signInBackGroundImage.png");
+  background-size: contain;
   background-repeat: no-repeat;
   border-end-end-radius: 200px;
+  background-position: right;
+  display: flex;
+  justify-content: flex-start;
+  padding-bottom: 20px;
+  padding-right: 0px;
+  align-items: flex-end;
+  
 }
 .googleBtn {
   border-radius: 16px;
@@ -54,6 +65,10 @@
 .line {
   border: 1px solid #e1e2e6;
   margin-top: 50px;
+  margin-bottom: 50px;
+  position: relative;
+}
+.divider {
   margin-bottom: 50px;
   position: relative;
 }
@@ -108,4 +123,46 @@
 
 .BtnText {
   margin: 0%;
+}
+
+
+.footerList {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 25px;
+  font-size: 14px;
+  margin-top: 20px;
+  list-style: none;
+  color:white;
+  Button {
+   
+    background: linear-gradient(to right, #868CFF, #4318FF);
+    border-radius: 50%;
+    padding: 14px;
+    svg {
+      color: #fff;
+      font-size: 20px;
+      transform: rotate(-27.5deg);
+    }
+  }
+}
+
+.formGroup {
+  margin-bottom: 25px;
+  label {
+    color: #2b3674;
+    font-size: 14px;
+    letter-spacing: -0.28px;
+    font-weight: 600;
+  }
+}
+
+.copyright {
+  justify-self: end;
+  align-self: flex-end;
+  position: absolute;
+    bottom: 50px;
+    left: 140px;
+    color : #a3aed0;
 }

@@ -79,12 +79,11 @@ const AcademyLogin = () => {
   return (
     <AcademyFormContener>
       <form onSubmit={formik.handleSubmit}>
-        <div className={`${classes.formGroup} mb-2`}>
-          <label htmlFor="email" className="mb-2 fs-6 fw-medium">
+        <div className={`${classes.formGroup} `}>
+          <label htmlFor="email" className="mb-2" >
             البريد الإلكتروني
           </label>
           <TextField
-            className={classes.formGroup}
             fullWidth
             id="email"
             name="email"
@@ -100,14 +99,14 @@ const AcademyLogin = () => {
             InputProps={{
               style: {
                 borderRadius: "10px",
-                border: "1px solid #E1E2E6",
+                border: "0.5px solid #E1E2E6",
               },
             }}
           />
         </div>
         <Toaster />
-        <div className={`${classes.formGroup} mb-2`}>
-          <label htmlFor="password" className="mb-2 fs-6 fw-medium">
+        <div className={`${classes.formGroup}`}>
+          <label htmlFor="password" className="mb-2">
             كلمة المرور
           </label>
           <TextField
