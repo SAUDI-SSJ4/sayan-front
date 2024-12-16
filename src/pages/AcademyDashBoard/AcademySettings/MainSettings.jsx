@@ -1,15 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
-<<<<<<< HEAD
-import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
-import { useMutation } from "@tanstack/react-query";
-import { useFormik } from "formik";
-=======
 import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { isEmptyArray, useFormik } from "formik";
->>>>>>> 7570d96 (Your commit message)
 import * as Yup from "yup";
 import styled from "styled-components";
 import { Button, Input, InputGroup } from "rsuite";
@@ -17,15 +10,9 @@ import { ContentCopy, DisplaySettings } from "@mui/icons-material";
 import { MainSpinner } from "../../../component/UI/MainSpinner";
 import UploadImage from "../../../component/UI/UploadFile/UploadImage";
 import Cookies from "js-cookie";
-<<<<<<< HEAD
-import { getAcademySettings, postAcademySettings } from "../../../utils/apis/client/academy";
-import { getChangedValues, isValidURL } from "../../../utils/helpers";
-
-=======
 import { getChangedValues, isValidURL, populateFormData } from "../../../utils/helpers";
 import { useAcademySettings } from "../../../utils/hooks/get/useSetting";
 import { useSetAcademySettings } from "../../../utils/hooks/set/useSetting";
->>>>>>> 7570d96 (Your commit message)
 const validationSchema = Yup.object().shape({
   name: Yup.string().required("اسم الأكاديمية مطلوب"),
   logo: Yup.string().required("شعار الأكاديمية مطلوب"),
@@ -71,46 +58,6 @@ const ColorInput = ({ label, name, value, onChange, error }) => (
 
 const MainSettings = () => {
   const navigate = useNavigate();
-<<<<<<< HEAD
-  const [isLoading, setIsLoading] = useState(false);
-  const [initialValues, setInitialValues] = useState({});
-  const academyId = Cookies.get("academy_id");
-
-  const loadSettings = async () => {
-    try {
-      setIsLoading(true);
-      const data = await getAcademySettings();
-      const template = data.template;
-      setInitialValues({
-        name: template.name,
-        primary_color: template.primary_color,
-        secondary_color: template.secondary_color,
-        logo: template.logo,
-        favicon: template.favicon,
-      });
-      formik.setValues({ ...template });
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    loadSettings();
-  }, []);
-
-  const mutation = useMutation({
-    mutationFn: (data) => postAcademySettings(academyId, data),
-    onSuccess: () => {
-      toast.success("تم تحديث البيانات بنجاح", { position: "top-left", theme: "dark" });
-      window.location.reload();
-    },
-    onError: () => {
-      toast.error("حدث خطأ ما", { position: "top-left", theme: "dark" });
-    },
-  });
-=======
   const fileInputRef = useRef(null);
   const [isLoading, setIsLoading] = useState(false)
   const [initialValues, setInitialValues] = useState({})
@@ -144,31 +91,15 @@ const MainSettings = () => {
 
 
   const mutation = useSetAcademySettings(academyId);
->>>>>>> 7570d96 (Your commit message)
 
   const formik = useFormik({
     initialValues,
     validationSchema,
-<<<<<<< HEAD
-    onSubmit: (values) => {
-      const newValues = getChangedValues(values, initialValues);
-      const formData = new FormData();
-
-      Object.keys(newValues).forEach((key) => {
-        if (key === "logo" || key === "favicon") {
-          if (!isValidURL(newValues[key])) formData.append(key, newValues[key]);
-        } else {
-          formData.append(key, newValues[key]);
-        }
-      });
-
-=======
     onSubmit: (data) => {
       if (!AcademySettingsData?.template) return;
       const formData = new FormData();
       const values = getChangedValues(data, AcademySettingsData?.template);
       populateFormData(formData, values)
->>>>>>> 7570d96 (Your commit message)
       mutation.mutateAsync(formData);
     },
   });
@@ -206,31 +137,19 @@ const MainSettings = () => {
           {isLoading ? (
             <MainSpinner css="vh-100" />
           ) : (
-<<<<<<< HEAD
-            <form className="row " onSubmit={formik.handleSubmit}>
-              <div className="col-lg-12 col-md-12">
-                <div className="CustomFormControl">
-                  <StyledLabel htmlFor="name">اسم الأكاديمية :</StyledLabel>
-                  <Input
-=======
             <form className="row" onSubmit={formik.handleSubmit}>
 
               <div className="col-lg-12 col-md-12">
                 <div className="CustomFormControl">
                   <label htmlFor="name">اسم الأكاديمية :</label>
                   <input
->>>>>>> 7570d96 (Your commit message)
                     type="text"
                     id="name"
                     name="name"
                     value={formik.values.name}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
-<<<<<<< HEAD
-                    placeholder="أدخل اسم الأكاديمية"
-=======
                     placeholder="أدخل  اسم الأكاديمية"
->>>>>>> 7570d96 (Your commit message)
                   />
                   {formik.touched.name && formik.errors.name && (
                     <StyledError>{formik.errors.name}</StyledError>
@@ -238,42 +157,6 @@ const MainSettings = () => {
                 </div>
               </div>
 
-<<<<<<< HEAD
-              {renderField("شعار الأكاديمية", "logo", UploadImage)}
-              {renderField("الأيقونة المفضلة للأكاديمية", "favicon", UploadImage)}
-              <div className="col-lg-6 col-md-12 mt-4">
-              <ColorInput
-                label="اللون الأساسي"
-                name="primary_color"
-                value={formik.values.primary_color}
-                onChange={(value) => formik.setFieldValue("primary_color", value)}
-                error={formik.touched.primary_color && formik.errors.primary_color}
-                />
-                </div>
-                <div className="col-lg-6 col-md-12 mt-4">
-
-
-              <ColorInput
-                label="اللون الثانوي"
-                name="secondary_color"
-                value={formik.values.secondary_color}
-                onChange={(value) => formik.setFieldValue("secondary_color", value)}
-                error={formik.touched.secondary_color && formik.errors.secondary_color}
-                />
-                </div>
-
-              <div className="d-flex align-items-center gap-4 mt-4">
-                {formik.dirty && (
-                  <>
-                    <Button size="lg" type="submit" appearance="primary">
-                      حفظ التغييرات
-                    </Button>
-                    <Button size="lg" onClick={() => formik.resetForm()}>
-                      إلغاء
-                    </Button>
-                  </>
-                )}
-=======
               <div className="col-lg-6 col-md-12">
                 <div className="CustomFormControl">
                   <StyledLabel htmlFor="logo" className="form-label">
@@ -343,7 +226,6 @@ const MainSettings = () => {
                   </>
                   ) : null
                 }
->>>>>>> 7570d96 (Your commit message)
               </div>
             </form>
           )}
@@ -353,28 +235,4 @@ const MainSettings = () => {
   );
 };
 
-<<<<<<< HEAD
-=======
-const ColorInput = ({ label, name, value, onChange, error }) => (
-  <div>
-    <StyledLabel htmlFor={name}>{label}:</StyledLabel>
-    <div className="d-flex flex-row align-items-center gap-2">
-      <Input
-        type="color"
-        style={{ height: "34px", width: "34px", border: "1px solid #777", padding: '5px', borderRadius: "5px" }}
-        value={value}
-        onChange={onChange}
-      />
-      <InputGroup>
-        <Input disabled value={value} />
-        <InputGroup.Button>
-          <ContentCopy style={{ width: "1.2rem", height: "1.2rem" }} />
-        </InputGroup.Button>
-      </InputGroup>
-    </div>
-    {error && <StyledError>{error}</StyledError>}
-  </div>
-);
-
->>>>>>> 7570d96 (Your commit message)
 export default MainSettings;

@@ -8,7 +8,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import HeaderAcademy from "../../../component/HeaderAcademy/HeaderAcademy";
 import ProductIcon from "../../../assets/icons/ProductIcon";
 import { Loader } from "rsuite";
-import { academyAPI } from "../../../utils/apis/client/academy";
+import { academy_client } from "../../../utils/apis/client.config";
 
 const AddEditProducts = () => {
   const { id } = useParams();
@@ -28,7 +28,7 @@ const AddEditProducts = () => {
 
   useEffect(() => {
     if (id) {
-      academyAPI
+      academy_client
         .get(`/product/${id}`)
         .then((response) => {
           console.log({ response });
@@ -87,7 +87,7 @@ const AddEditProducts = () => {
     try {
       if (id) {
         // Update existing product
-        const response = await academyAPI.put(`/product/${id}`, formData, {
+        const response = await academy_client.put(`/product/${id}`, formData, {
           headers: {
             "Content-Type": "multipart/form-data",
           },
@@ -97,7 +97,7 @@ const AddEditProducts = () => {
         navigate("/academy/Products");
       } else {
         // Create a new product
-        const response = await academyAPI.post("/product", formData, {
+        const response = await academy_client.post("/product", formData, {
           headers: {
             "Content-Type": "multipart/form-data",
           },

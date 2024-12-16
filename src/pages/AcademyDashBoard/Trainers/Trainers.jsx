@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import DeleteModal from "../../../component/UI/DeleteModal/DeleteModal";
 import AcademyDeleteModal from "../../../component/UI/DeleteModal/AcademyDeleteModal";
-import { academyAPI } from "../../../utils/apis/client/academy";
+import { academy_client } from "../../../utils/apis/client.config";
 
 export default function Trainers() {
   const [rowData, setRowData] = useState([]);
@@ -19,7 +19,7 @@ export default function Trainers() {
 
   const fetchTrainers = async () => {
     try {
-      const { data } = await academyAPI.get("/trainer");
+      const { data } = await academy_client.get("/trainer");
       const formattedData = data?.data?.map((trainer) => ({
         id: trainer?.id,
         academy_id: trainer?.academy_id,
@@ -46,7 +46,7 @@ export default function Trainers() {
 
   const handleDelete = async () => {
     try {
-      await academyAPI.delete(`/trainer/${deletingId}`);
+      await academy_client.delete(`/trainer/${deletingId}`);
       toast.success("تم حذف المدرب بنجاح");
       setShowModal(false);
       fetchTrainers();

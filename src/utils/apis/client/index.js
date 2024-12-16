@@ -1,90 +1,86 @@
-import axios from "axios";
-import client from "./client";
+import { website_client } from "../client.config";
+
 
 // Login API
 export const postLoginAPI = async (data) => {
-  const SERVER_URL =
-    import.meta.env.VITE_APP_ENV === "pro"
-      ? import.meta.env.VITE_SERVER_PRO
-      : import.meta.env.VITE_SERVER_DEV;
-  return await axios.post(`${SERVER_URL}/login`, data);
+  return await website_client.post(`/login`, data);
 };
 
 // Client APIs
 export const postProfile = (data) =>
-  client.post("profile", data, {
+  website_client.post("profile", data, {
     headers: { "Content-Type": "multipart/form-data" },
   });
 
 export const getAuthProfile = async () => {
-  const { data: response } = await client.get("/profile");
+  const { data: response } = await website_client.get("/profile");
   return response.data;
 };
 
-export const postToggle = (data) => client.post("/toggle", data);
+export const postToggle = (data) => website_client.post("/toggle", data);
 
 export const getHome = async () => {
-  const { data: response } = await client.get("/home");
+  const { data: response } = await website_client.get("/home");
   return response;
 };
 
-export const getPackages = () => client.get("/packages");
+export const getPackages = () => website_client.get("/packages");
 
 export const getBlogs = async () => {
-  const { data: response } = await client.get("/blogs");
+  const { data: response } = await website_client.get("/blogs");
   return response;
 };
 
-export const getFAQ = () => client.get("/faq");
+export const getFAQ = () => website_client.get("/faq");
 
-export const getCategories = () => client.get("/categories");
+export const getCategories = () => website_client.get("/categories");
 
-export const getCourses = () => client.get("/courses");
+export const getCourses = () => website_client.get("/courses");
 
 export const getCourseById = async (id) => {
-  const { data } = await client.get(`/course/${id}`);
+  const { data } = await website_client.get(`/course/${id}`);
   return data;
 };
 
-export const postBuy = (data) => client.post("/buy", data);
+export const postBuy = (data) => website_client.post("/buy", data);
 
 export const getPayments = async () => {
-  const { data } = await client.get("/payments");
+  const { data } = await website_client.get("/payments");
   return data.data;
 };
 
 export const getStudentHome = async () => {
-  const res = await client.get("/student/home");
+  const res = await website_client.get("/student/home");
   return res.data;
 };
 
 export const getStudentCourses = async () => {
-  const { data: res } = await client.get("/mycourses");
+  const { data: res } = await website_client.get("/mycourses");
   return res.data;
 };
 
 export const getStudentProducts = async () => {
-  const { data: res } = await client.get("/myproducts");
+  const { data: res } = await website_client.get("/myproducts");
   return res.data;
 };
 
 export const getStudentFavourites = async () => {
-  const { data: res } = await client.get("/favourites");
+  const { data: res } = await website_client.get("/favourites");
   return res.data;
 };
 
 export const getStudentWallet = async () => {
-  const { data: res } = await client.get("/wallet");
+  const { data: res } = await website_client.get("/wallet");
   return res;
 };
 
 // Academy APIs
 export const getAuthAcademyProfile = async () => {
-  const { data } = await client.get("/profile-academy");
+  const { data } = await website_client.get("/profile-academy");
   return data;
 };
 
 export const getProfile = async () => {
-  const { data } = await client.get("/profile");
+  const { data } = await website_client.get("/profile");
   return data;
 };

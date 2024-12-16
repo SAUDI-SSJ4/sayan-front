@@ -12,7 +12,7 @@ import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import OtpVerification from "../../signin/OtpVerification";
-import { academyAPI } from "../../../utils/apis/client/academy";
+import { academy_client } from "../../../utils/apis/client.config";
 
 const AcademyRegister = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -38,7 +38,7 @@ const AcademyRegister = () => {
   const signinSubmit = async () => {
     setLoading(true);
     try {
-      const { data } = await academyAPI.post("/register", formData);
+      const { data } = await academy_client.post("/register", formData);
       setSearchParams({ step: "otp" }); 
       toast.success("تم ارسال الرمز الي بريدك الالكتروني الذي أدخلته");
     } catch (error) {

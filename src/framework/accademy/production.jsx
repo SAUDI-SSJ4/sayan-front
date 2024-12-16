@@ -1,6 +1,6 @@
 // src/services/production.jsx
 import { useCallback, useEffect, useState } from "react";
-import { academyAPI } from "../../utils/apis/client/academy";
+import { academy_client } from "../../utils/apis/client.config";
 
 
 export function getData(param) {
@@ -13,7 +13,7 @@ export function getData(param) {
     setErrors(null);
 
     try {
-      const response = await academyAPI.get(param);
+      const response = await academy_client.get(param);
       setData(response?.data || []);
     } catch (err) {
       console.log("get data",err)
@@ -42,7 +42,7 @@ export function sendData(url) {
     setIsloading(true);
     setError(null);
     try {
-      const response = await academyAPI.post(url, postData);
+      const response = await academy_client.post(url, postData);
       setData(response.data);
     } catch (err) {
       setError(err.response ? err.response.data : err.message);
@@ -63,7 +63,7 @@ export function putData(url) {
     setIsloading(true);
     setError(null);
     try {
-      const response = await academyAPI.put(url, postData);
+      const response = await academy_client.put(url, postData);
       setData(response.data);
     } catch (err) {
       setError(err.response ? err.response.data : err.message);
@@ -84,7 +84,7 @@ export function deleteData(url) {
     setIsloading(true);
     setError(null);
     try {
-      const response = await academyAPI.delete(url);
+      const response = await academy_client.delete(url);
       setData(response.data);
     } catch (err) {
       setError(err.response ? err.response.data : err.message);

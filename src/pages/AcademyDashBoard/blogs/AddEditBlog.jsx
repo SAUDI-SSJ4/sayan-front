@@ -8,7 +8,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import HeaderAcademy from "../../../component/HeaderAcademy/HeaderAcademy";
 import BlogIcon from "../../../assets/icons/BlogIcon";
 import { Loader } from "rsuite";
-import { academyAPI } from "../../../utils/apis/client/academy";
+import { academy_client } from "../../../utils/apis/client.config";
 
 const AddEditBlog = () => {
   const { id } = useParams();
@@ -25,7 +25,7 @@ const AddEditBlog = () => {
   useEffect(() => {
     if (id) {
       setLoading(true); // Set loading to true while fetching
-      academyAPI
+      academy_client
         .get(`/blog/${id}`)
         .then((response) => {
           const blog = response?.data?.data;
@@ -68,7 +68,7 @@ const AddEditBlog = () => {
 
     try {
       if (id) {
-        const response = await academyAPI.put(`/api/blog/${id}`, formData, {
+        const response = await academy_client.put(`/api/blog/${id}`, formData, {
           headers: {
             "Content-Type": "multipart/form-data",
           },
@@ -79,7 +79,7 @@ const AddEditBlog = () => {
 
         console.log(formData)
 
-        const response = await academyAPI.post("/api/blog", formData, {
+        const response = await academy_client.post("/api/blog", formData, {
           headers: {
             "Content-Type": "multipart/form-data",
           },

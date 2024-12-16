@@ -7,7 +7,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import HeaderAcademy from "../../../component/HeaderAcademy/HeaderAcademy";
-import { academyAPI } from "../../../utils/apis/client/academy";
+import { academy_client } from "../../../utils/apis/client.config";
 
 export default function AddEditAdmins() {
   const { id } = useParams();
@@ -22,7 +22,7 @@ export default function AddEditAdmins() {
   useEffect(() => {
     if (id) {
       // Fetch trainer details by id and set as initial values
-      academyAPI.get(`/admin/${id}`).then((response) => {
+      academy_client.get(`/admin/${id}`).then((response) => {
         setInitialValues({
           name: response.data.name,
           email: response.data.email,
@@ -58,12 +58,12 @@ export default function AddEditAdmins() {
     try {
       if (id) {
         // PUT request to update trainer details
-        const response = await academyAPI.put(`/admin/${id}`, values);
+        const response = await academy_client.put(`/admin/${id}`, values);
         toast.success("Trainer updated successfully!");
         console.log("Trainer updated:", response.data);
       } else {
         // POST request to add a new trainer
-        const response = await academyAPI.post("/admin", values);
+        const response = await academy_client.post("/admin", values);
         toast.success("Trainer added successfully!");
         console.log("Trainer added:", response.data);
       }

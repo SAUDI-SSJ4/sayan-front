@@ -5,7 +5,7 @@ import WalletCustomIcon from "../../../assets/icons/WalletCustomIcon";
 import { toast } from "react-toastify";
 import TableAg from "../../../component/table/TableAg";
 import { Loader } from "rsuite";
-import { academyAPI } from "../../../utils/apis/client/academy";
+import { academy_client } from "../../../utils/apis/client.config";
 
 const AcademeyWallet = () => {
   const [loading, setLoading] = useState(true);
@@ -14,7 +14,7 @@ const AcademeyWallet = () => {
 
   const getWalletData = async () => {
     try {
-      const response = await academyAPI.get("/wallet");
+      const response = await academy_client.get("/wallet");
       setWalletData(response?.data);
       const formatedData = response?.data?.activity?.map((item) => ({
         id: item?.id,

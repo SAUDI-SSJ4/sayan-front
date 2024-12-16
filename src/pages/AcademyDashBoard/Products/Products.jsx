@@ -52,7 +52,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import AcademyDeleteModal from "../../../component/UI/DeleteModal/AcademyDeleteModal";
-import { academyAPI } from "../../../utils/apis/client/academy";
+import { academy_client } from "../../../utils/apis/client.config";
 
 export default function Products() {
   const [rowData, setRowData] = useState([]);
@@ -64,7 +64,7 @@ export default function Products() {
 
   const fetchProducts = async () => {
     try {
-      const { data } = await academyAPI.get("/product");
+      const { data } = await academy_client.get("/product");
       console.log(data);
       
       const formattedData = data?.data?.map((product) => ({
@@ -95,7 +95,7 @@ export default function Products() {
   }, []);
   const handleDelete = async () => {
     try {
-      await academyAPI.delete(`/product/${deletingId}`);
+      await academy_client.delete(`/product/${deletingId}`);
       toast.success("تم حذف المنتج بنجاح");
       setShowModal(false);
       fetchProducts();

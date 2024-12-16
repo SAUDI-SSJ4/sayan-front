@@ -6,8 +6,8 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import BlogIcon from "../../../assets/icons/BlogIcon";
 import moment from "moment";
-import { academyAPI } from "../../../utils/apis/client/academy";
 import { isNotEmpty } from "../../../utils/helpers";
+import { academy_client } from "../../../utils/apis/client.config";
 
 export default function StudentInfo() {
   const [rowData, setRowData] = useState([]);
@@ -17,7 +17,7 @@ export default function StudentInfo() {
   useEffect(() => {
     const fetchStudents = async () => {
       try {
-        const { data: response } = await academyAPI.get("/student");
+        const { data: response } = await academy_client.get("/student");
 
         const formattedData = isNotEmpty(response?.data) && response.data.map((studebt) => ({
             id: studebt?.id,

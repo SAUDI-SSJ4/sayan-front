@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { Button, Card, Col, Row } from "react-bootstrap";
 import { Loader } from "rsuite";
-import { academyAPI } from "../../../utils/apis/client/academy";
+import { academy_client } from "../../../utils/apis/client.config";
 
 export default function Template() {
   const [loading, setLoading] = useState(true);
@@ -14,7 +14,7 @@ export default function Template() {
   
   const getTemplateData = async () => {
     try {
-      const response = await academyAPI.get("/template");
+      const response = await academy_client.get("/template");
       setTemplateData(response?.data?.template || []);
       setPrimaryColor(response?.data?.template?.template_primary_color ?? "#000");
       setTextColor(response?.data?.template?.template_text_color ?? "#fff");
@@ -31,7 +31,7 @@ export default function Template() {
 
   const handleSave = async () => {
     try {
-      await academyAPI.post("/template", {
+      await academy_client.post("/template", {
         template_id: selectedTemplate,
         template_primary_color: primaryColor,
         template_text_color: textColor,

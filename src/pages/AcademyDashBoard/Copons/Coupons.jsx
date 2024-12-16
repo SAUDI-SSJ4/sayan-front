@@ -51,6 +51,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import moment from "moment";
 import CouponIcon from "../../../assets/icons/CouponIcon";
+import { academy_client } from "../../../utils/apis/client.config";
 
 export default function Coupons() {
   const [rowData, setRowData] = useState([]);
@@ -60,7 +61,7 @@ export default function Coupons() {
   useEffect(() => {
     const fetchStudents = async () => {
       try {
-        const { data } = await academyAPI.get("/coupon");
+        const { data } = await academy_client.get("/coupon");
         console.log({ data });
         const formattedData = data?.data?.map((copon) => ({
           id: copon?.id,

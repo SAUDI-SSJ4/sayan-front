@@ -4,12 +4,12 @@ import * as Yup from "yup";
 import defualt from "../../../assets/images/img.png";
 import chroma from "chroma-js";
 import Select from "react-select";
-import Swal from "sweetalert2";
 import { useQuery } from "@tanstack/react-query";
-import { academyAPI, getAllcategories, getTrainer } from "../../../utils/apis/client/academy";
+import {  getAllcategories, getTrainer } from "../../../utils/apis/client/academy";
 import { useNavigate } from "react-router-dom";
 import { ButtonSpinner } from "../../../component/UI/Buttons/ButtonSpinner";
 import { populateFormData } from "../../../utils/helpers";
+import { academy_client } from "../../../utils/apis/client.config";
 
 const typeOptions = [
   { value: "recorded", label: "تفاعلية", color: "#673ab7" },
@@ -95,7 +95,7 @@ export const AddNewCourseStepOneForm = ({
       populateFormData(formData, values)
       try {
         setIsPending(true)
-      const res = await academyAPI.post(`/course`, formData, {
+      const res = await academy_client.post(`/course`, formData, {
         headers: {'Content-Type': 'multipart/form-data'},
       });
       console.log('Response:', res.data);
@@ -105,16 +105,6 @@ export const AddNewCourseStepOneForm = ({
       }finally {
         setIsPending(false)
       }
-
-
-      // const res = await academyAPI.post(`${import.meta.env.VITE_SERVER_ACADEMY_DEV}/course`, formData, {
-      //   headers: {'Content-Type': 'multipart/form-data'},
-      // });
-      // console.log('Response:', res.data);
-
-
-
-
     },
   });
 

@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import HeaderAcademy from "../../../component/HeaderAcademy/HeaderAcademy";
 import { Loader } from "rsuite";
-import { academyAPI } from "../../../utils/apis/client/academy";
+import { academy_client } from "../../../utils/apis/client.config";
 
 export default function AddEditTrainers() {
   const { id } = useParams();
@@ -25,7 +25,7 @@ export default function AddEditTrainers() {
   useEffect(() => {
     if (id) {
       setLoading(true);
-      academyAPI.get(`/trainer/${id}`).then((response) => {
+      academy_client.get(`/trainer/${id}`).then((response) => {
         setInitialValues({
           name: response?.data?.data?.name,
           email: response?.data?.data?.email,
@@ -58,7 +58,7 @@ export default function AddEditTrainers() {
 
     try {
       if (id) {
-        const response = await academyAPI.put(`/trainer/${id}`, formData, {
+        const response = await academy_client.put(`/trainer/${id}`, formData, {
           headers: {
             "Content-Type": "multipart/form-data",
           },
@@ -66,7 +66,7 @@ export default function AddEditTrainers() {
         toast.success("تم تحديث المدرب بنجاح!");
         console.log("Trainer updated:", response.data);
       } else {
-        const response = await academyAPI.post("/trainer", formData, {
+        const response = await academy_client.post("/trainer", formData, {
           headers: {
             "Content-Type": "multipart/form-data",
           },

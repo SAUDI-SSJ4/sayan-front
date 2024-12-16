@@ -14,14 +14,10 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { MainSpinner } from "../../../component/UI/MainSpinner";
 import { Button } from "rsuite";
-<<<<<<< HEAD
-import { getChangedValues, isValidURL } from "../../../utils/helpers";
-=======
 import { getChangedValues, populateFormData } from "../../../utils/helpers";
 import { useToast } from "../../../utils/hooks/useToast";
 import { useSlider } from "../../../utils/hooks/get/useSetting";
 import { useSetSilider } from "../../../utils/hooks/set/useSetting";
->>>>>>> 7570d96 (Your commit message)
 
 const validationSchema = Yup.object().shape({
   title: Yup.string().required("العنوان مطلوب"),
@@ -37,43 +33,6 @@ const validationSchema = Yup.object().shape({
 const EditSlider = () => {
   const navigate = useNavigate();
   const fileInputRef = useRef(null);
-<<<<<<< HEAD
-  const [isLoading, setIsLoading] = useState(false);
-  const [sliderId, setSliderId] = useState(null);
-  const [initialValues, setInitialValues] = useState(null);
-
-  useEffect(() => {
-    setIsLoading(true);
-    getSlider()
-      .then((data) => {
-        setSliderId(data.slider.id);
-        setInitialValues(data.slider);
-        formik.setValues(data.slider);
-      })
-      .catch((error) => {
-        console.log(error);
-      })
-      .finally(() => setIsLoading(false));
-  }, []);
-
- 
-  const mutation = useMutation({
-    mutationFn: (data) => postSlider(sliderId, data),
-    onSuccess: () => {
-      toast.success("تم تحديث البيانات بنجاح", {
-        position: "top-left",
-        theme: "dark",
-      });
-      navigate("/academy/settings/slider");
-    },
-    onError: () => {
-      toast.error("حدث خطأ ما", {
-        position: "top-left",
-        theme: "dark",
-      });
-    },
-  });
-=======
   const [ids, setIds] = useState({ sliderId: null, academyId: null });
   const [slider, setSlider] = useState([])
   const { data: sliderData, isLoading, errors } = useSlider();
@@ -92,7 +51,6 @@ const EditSlider = () => {
 
 
   const mutation = useSetSilider(ids.sliderId , ids.academyId);
->>>>>>> 7570d96 (Your commit message)
 
   const formik = useFormik({
     initialValues: {
@@ -106,22 +64,6 @@ const EditSlider = () => {
       second_button_link: "",
     },
     validationSchema,
-<<<<<<< HEAD
-    onSubmit: async (values) => {
-      const changedValues = getChangedValues(initialValues, values);
-      const formData = new FormData();
-
-      Object.keys(changedValues).forEach((key) => {
-        if (key === "image" && !isValidURL(changedValues[key])) {
-          formData.append(key, changedValues[key]);
-        } else {
-          formData.append(key, changedValues[key]);
-        }
-      });
-
-      mutation.mutateAsync(formData);
-    },
-=======
     onSubmit: async (data) => {
       const formData = new FormData();
       const values = getChangedValues(data, slider);
@@ -129,7 +71,6 @@ const EditSlider = () => {
       mutation.mutateAsync(formData);
 
     }
->>>>>>> 7570d96 (Your commit message)
   });
 
   return (

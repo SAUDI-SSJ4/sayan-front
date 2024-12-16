@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import Swal from "sweetalert2";
@@ -14,6 +14,9 @@ const validationSchema = Yup.object().shape({
 });
 
 function AddNewLesson({ CategoryID, CourseID }) {
+
+  console.log("ids")
+  console.log(CategoryID, CourseID)
   const mutation = useCreateLessonMutation();
   const videoInputRef = useRef(null);
 
@@ -76,16 +79,22 @@ function AddNewLesson({ CategoryID, CourseID }) {
   });
 
   const handleVideoChange = (e) => {
-    formik.setFieldValue("video", e.target.files[0]);
+    const selectedFile = e.target.files[0];
+    if (selectedFile) {
+      formik.setFieldValue("video", selectedFile);
+    }
   };
 
   const isFormFilled = () => formik.values.title && formik.values.content && formik.values.video;
+
 
   return (
     <div className={style.boardLap}>
       <h4>إضافة درس جديد</h4>
       <form onSubmit={formik.handleSubmit} className="row g-3 w-80 justify-content-center m-auto">
         <div className="justify-content-center">
+
+
           <div className="row g-3 button-content--1 m-auto justify-content-center">
             {formik.values.video && (
               <video

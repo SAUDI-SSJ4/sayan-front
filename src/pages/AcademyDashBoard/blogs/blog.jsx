@@ -52,7 +52,7 @@ import { toast } from "react-toastify";
 import BlogIcon from "../../../assets/icons/BlogIcon";
 import AcademyDeleteModal from "../../../component/UI/DeleteModal/AcademyDeleteModal";
 import { FaEdit, FaTrash } from "react-icons/fa";
-import { academyAPI } from "../../../utils/apis/client/academy";
+import { academy_client } from "../../../utils/apis/client.config";
 
 export default function Blogs() {
   const [rowData, setRowData] = useState([]);
@@ -65,8 +65,7 @@ export default function Blogs() {
   const fetchBlogs = async () => {
     try {
 
-      const { data } = await academyAPI.get("/blog");
-      console.log(data);
+      const { data } = await academy_client.get("/blog");
       
       const formattedData = data?.data?.map((blog) => ({
         id: blog?.id,
@@ -94,7 +93,7 @@ export default function Blogs() {
   }, []);
   const handleDelete = async () => {
     try {
-      await academyAPI.delete(`/blog/${deletingId}`);
+      await academy_client.delete(`/blog/${deletingId}`);
       toast.success("تم حذف المدونة بنجاح");
       setShowModal(false);
       fetchBlogs();

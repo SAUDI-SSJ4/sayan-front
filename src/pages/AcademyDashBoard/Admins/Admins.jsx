@@ -49,7 +49,7 @@ import TableAg from "../../../component/table/TableAg";
 import { Loader } from "rsuite";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { academyAPI } from "../../../utils/apis/client/academy";
+import { academy_client } from "../../../utils/apis/client.config";
 
 export default function Admins() {
   const [rowData, setRowData] = useState([]);
@@ -59,7 +59,7 @@ export default function Admins() {
   useEffect(() => {
     const fetchTrainers = async () => {
       try {
-        const response = await academyAPI.get("/admin");
+        const response = await academy_client.get("/admin");
         const formattedData = response.data.map((trainer) => ({
           name: trainer.name,
           id: trainer.id,

@@ -7,6 +7,7 @@ import CouponIcon from "../../../assets/icons/CouponIcon";
 import HeaderAcademy from "../../../component/HeaderAcademy/HeaderAcademy";
 import { toast } from "react-toastify"; // Import toast
 import { useNavigate } from "react-router-dom";
+import { academy_client } from "../../../utils/apis/client.config";
 
 // Validation Schema
 const validationSchema = Yup.object({
@@ -53,7 +54,7 @@ const AddCoupon = () => {
         validationSchema={validationSchema}
         onSubmit={async (values, { setSubmitting }) => {
           try {
-            await academyAPI.post("/coupon", values);
+            await academy_client.post("/coupon", values);
             toast.success("تم إضافة الكوبون بنجاح");
             navigate("/academy/Coupons");
           } catch (error) {

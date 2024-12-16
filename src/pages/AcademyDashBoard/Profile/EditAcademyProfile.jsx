@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 import HeaderAcademy from "../../../component/HeaderAcademy/HeaderAcademy";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { academyAPI } from "../../../utils/apis/client/academy";
+import { academy_client } from "../../../utils/apis/client.config";
 
 const EditAcademyProfile = () => {
   // const { data: profileData, isLoading, errors } = useProfile();
@@ -101,7 +101,7 @@ const EditAcademyProfile = () => {
       }
 
       try {
-        await academyAPI.post("/updateacademyprofile", formData, {
+        await academy_client.post("/updateacademyprofile", formData, {
           headers: {
             "Content-Type": "multipart/form-data",
           },

@@ -6,8 +6,8 @@ import CategoriesCardContainer from "../../../component/Categories/CategoriesCar
 import CategoriesTable from "../../../component/Categories/CategoriesTable/CategoriesTable";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
-import { academyAPI } from "../../../utils/apis/client/academy";
 import { ConstructionOutlined } from "@mui/icons-material";
+import { academy_client } from "../../../utils/apis/client.config";
 
 const Categories = () => {
   const [TableOrNot, setTableOrNot] = useState(false);
@@ -16,7 +16,7 @@ const Categories = () => {
   const [permissions, setPermissions] = useState([]);
 
   useEffect(() => {
-    academyAPI.get("subscriptions").then(({ data }) => {
+    academy_client.get("subscriptions").then(({ data }) => {
       console.log(data.data);
       setPermissions(data.data);
     });
