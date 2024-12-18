@@ -17,8 +17,8 @@ import { useMutation } from "@tanstack/react-query";
 import { postLoginAPI } from "../../../utils/apis/client";
 
 const AcademyLogin = () => {
-  
   const [showPassword, setShowPassword] = useState(false);
+  const [showForgotPassword, setShowForgotPassword] = useState(false);
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -51,7 +51,7 @@ const AcademyLogin = () => {
     },
     onError: (error) => {
       console.log(error);
-      toast.error(error?.response?.data?.message || "خطأ");
+      toast.error(error?.response?.data?.message || "خطأ");
     },
   });
 
@@ -76,109 +76,156 @@ const AcademyLogin = () => {
     }
   };
 
+  const handleForgotPassword = async (email) => {
+    try {
+      // Add your forgot password API call here
+      toast.success("تم إرسال رابط إعادة تعيين كلمة المرور إلى بريدك الإلكتروني");
+      setShowForgotPassword(false);
+    } catch (error) {
+      toast.error("حدث خطأ أثناء إرسال رابط إعادة تعيين كلمة المرور");
+    }
+  };
+
   return (
-    <AcademyFormContener>
-      <form onSubmit={formik.handleSubmit}>
-        <div className={`${classes.formGroup} `}>
-          <label htmlFor="email" className="mb-2" >
-            البريد الإلكتروني
-          </label>
+    <AcademyFormContener showForgotPassword={showForgotPassword}>
+      {showForgotPassword ? (
+        <div className={classes.forgotPasswordForm}>
           <TextField
             fullWidth
-            id="email"
-            name="email"
+            id="resetEmail"
+            name="resetEmail"
             type="email"
-            value={formik.values.email}
-            onChange={(e) => {
-              formik.handleChange(e);
-              setEmail(e.target.value);
-            }}
-            onBlur={formik.handleBlur}
-            error={formik.touched.email && Boolean(formik.errors.email)}
-            helperText={formik.touched.email && formik.errors.email}
+            placeholder="البريد الإلكتروني"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
             InputProps={{
               style: {
                 borderRadius: "10px",
-                border: "0.5px solid #E1E2E6",
               },
             }}
           />
+          <div className="mt-3 d-flex gap-2">
+            <button
+              className={classes.SubmitBtn}
+              onClick={() => handleForgotPassword(email)}
+            >
+              إرسال
+            </button>
+            <button
+              className={classes.cancelBtn}
+              onClick={() => setShowForgotPassword(false)}
+            >
+              إلغاء
+            </button>
+          </div>
         </div>
-        <Toaster />
-        <div className={`${classes.formGroup}`}>
-          <label htmlFor="password" className="mb-2">
-            كلمة المرور
-          </label>
-          <TextField
-            fullWidth
-            id="password"
-            name="password"
-            type={showPassword ? "text" : "password"}
-            value={formik.values.password}
-            onChange={(e) => {
-              formik.handleChange(e);
-              setPassword(e.target.value);
-            }}
-            onBlur={formik.handleBlur}
-            error={formik.touched.password && Boolean(formik.errors.password)}
-            helperText={formik.touched.password && formik.errors.password}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <IconButton onClick={togglePasswordVisibility}>
-                    {showPassword ? <Visibility /> : <VisibilityOff />}
-                  </IconButton>
-                </InputAdornment>
-              ),
-              style: {
-                borderRadius: "10px",
-                border: "1px solid #E1E2E6",
-              },
-            }}
-          />
-        </div>
-        <div
-          className={`${classes.checkboxContainer} d-flex justify-content-between align-items-center`}
-        >
-          <FormControlLabel
-            control={
-              <Checkbox
-                id="rememberMe"
-                name="rememberMe"
-                checked={formik.values.rememberMe}
-                onChange={formik.handleChange}
-                color="primary"
-              />
-            }
-            sx={{ margin: "0px" }}
-            label="تذكرني"
-          />
+      ) : (
+        <form onSubmit={formik.handleSubmit}>
+          <div className={`${classes.formGroup} `}>
+            <label htmlFor="email" className="mb-2" >
+              البريد الإلكتروني
+            </label>
+            <TextField
+              fullWidth
+              id="email"
+              name="email"
+              type="email"
+              value={formik.values.email}
+              onChange={(e) => {
+                formik.handleChange(e);
+                setEmail(e.target.value);
+              }}
+              onBlur={formik.handleBlur}
+              error={formik.touched.email && Boolean(formik.errors.email)}
+              helperText={formik.touched.email && formik.errors.email}
+              InputProps={{
+                style: {
+                  borderRadius: "10px",
+                  border: "0.5px solid #E1E2E6",
+                },
+              }}
+            />
+          </div>
+          <Toaster />
+          <div className={`${classes.formGroup}`}>
+            <label htmlFor="password" className="mb-2">
+              كلمة المرور
+            </label>
+            <TextField
+              fullWidth
+              id="password"
+              name="password"
+              type={showPassword ? "text" : "password"}
+              value={formik.values.password}
+              onChange={(e) => {
+                formik.handleChange(e);
+                setPassword(e.target.value);
+              }}
+              onBlur={formik.handleBlur}
+              error={formik.touched.password && Boolean(formik.errors.password)}
+              helperText={formik.touched.password && formik.errors.password}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton onClick={togglePasswordVisibility}>
+                      {showPassword ? <Visibility /> : <VisibilityOff />}
+                    </IconButton>
+                  </InputAdornment>
+                ),
+                style: {
+                  borderRadius: "10px",
+                  border: "1px solid #E1E2E6",
+                },
+              }}
+            />
+          </div>
+          <div
+            className={`${classes.checkboxContainer} d-flex justify-content-between align-items-center`}
+          >
+            <FormControlLabel
+              control={
+                <Checkbox
+                  id="rememberMe"
+                  name="rememberMe"
+                  checked={formik.values.rememberMe}
+                  onChange={formik.handleChange}
+                  color="primary"
+                />
+              }
+              sx={{ margin: "0px" }}
+              label="تذكرني"
+            />
 
-          <a href="/forget-password" className={`${classes.forgotPassword}`}>
-            نسيت كلمة المرور؟
-          </a>
-        </div>
-        <button
-          className={`${classes.SubmitBtn} mt-2`}
-          style={{ display: "flex", justifyContent: "center" }}
-          onClick={() => {
-            logInFunction();
-          }}
-        >
-          {mutation.isPending ? (
-            <div className="loader"></div>
-          ) : (
-            <p className={classes.BtnText}> تسجيل الدخول</p>
-          )}
-        </button>
+            <div 
+              className={`${classes.forgotPassword}`}
+              onClick={() => setShowForgotPassword(true)}
+              style={{cursor: "pointer"}}
+            >
+              نسيت كلمة المرور؟
+            </div>
+          </div>
+          <button
+            className={`${classes.SubmitBtn} mt-2`}
+            style={{ display: "flex", justifyContent: "center" }}
+            onClick={() => {
+              logInFunction();
+            }}
+          >
+            {mutation.isPending ? (
+              <div className="loader"></div>
+            ) : (
+              <p className={classes.BtnText}> تسجيل الدخول</p>
+            )}
+          </button>
 
-        <div className={`${classes.ddd} mt-4`}>
-          <span className={`${classes.nothaveaccount}`}>ليس لديك حساب؟</span>{" "}
-          <Link to="/signin" className={`${classes.forgotPassword}`} style={{ cursor: "pointer" }}>
-            انشاء حساب جديد
-          </Link>
-        </div>
-      </form>
+          <div className={`${classes.ddd} mt-4`}>
+            <span className={`${classes.nothaveaccount}`}>ليس لديك حساب؟</span>{" "}
+            <Link to="/signin" className={`${classes.forgotPassword}`} style={{ cursor: "pointer" }}>
+              انشاء حساب جديد
+            </Link>
+          </div>
+        </form>
+      )}
     </AcademyFormContener>
   );
 };

@@ -33,11 +33,50 @@ line-height: 100%; /* 16px */
 letter-spacing: -0.32px;
 }
 .LoginBanner{
-    background-image: url('./../../assets/images/LoginBanner.png');
+    background-image: url('./../../assets/images/signupBackground.png');
     background-size: cover;
     background-repeat: no-repeat;
-    border-end-end-radius: 200px;
+    border-end-end-radius: 150px;
+    background-position:  top;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 40px;
+    padding-left: 5vw;
+    align-items:flex-end;
+    
 }
+.logo{
+    align-self: flex-end;
+    // justify-self: flex-end;
+}
+
+.footerList {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 25px;
+    font-size: 14px;
+    margin-top: 20px;
+    list-style: none;
+    color:white;
+    Button {
+     
+      background: linear-gradient(to right, #868CFF, #4318FF);
+      border-radius: 50%;
+      padding: 14px;
+      svg {
+        color: #fff;
+        font-size: 20px;
+        transform: rotate(-27.5deg);
+      }
+    }
+  a {
+    color: #fff !important;
+    text-decoration: none;
+  }
+  }
+
 .googleBtn{
     border-radius:16px;
 border: none;
@@ -55,8 +94,8 @@ letter-spacing: -0.28px;
 }
 .line{
     border: 1px solid #E1E2E6;
-    margin-top: 50px;
-    margin-bottom: 50px;
+    margin-top: 35px;
+    margin-bottom: 35px;
     position: relative;
 }
 .line span {
@@ -118,3 +157,12 @@ input[type="number"]::-webkit-outer-spin-button {
 input[type="number"] {
   -moz-appearance: textfield; /* Firefox */
 }
+
+.copyright {
+    justify-self: end;
+    align-self: flex-end;
+    position: absolute;
+      bottom: 50px;
+      left: 140px;
+      color : #a3aed0;
+  }

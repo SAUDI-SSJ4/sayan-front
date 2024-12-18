@@ -20,11 +20,16 @@ import { login } from "../../../redux/AuthSlice";
 import toast, { Toaster } from "react-hot-toast";
 import { postLoginAPI } from "../../utils/api";
 import { useMutation } from "@tanstack/react-query";
+import { Button as RBtn } from "rsuite";
 
 import Cookies from "js-cookie";
+import { WiMoonWaningCrescent3 } from "react-icons/wi";
+
+import logo from "../../assets/images/logo.png"
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const [showForgotPassword, setShowForgotPassword] = useState(false);
   const router = useNavigate();
   const Dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
@@ -35,6 +40,7 @@ const Login = () => {
     email,
     password,
   };
+  console.log("test test")
 
   const formik = useFormik({
     initialValues: {
@@ -75,9 +81,34 @@ const Login = () => {
     await mutation.mutateAsync(formData);
   };
 
+  const handleForgotPassword = async (email) => {
+    try {
+      // Add your forgot password API call here
+      notify("تم إرسال رابط إعادة تعيين كلمة المرور إلى بريدك الإلكتروني");
+      setShowForgotPassword(false);
+    } catch (error) {
+      notify("حدث خطأ أثناء إرسال رابط إعادة تعيين كلمة المرور");
+    }
+  };
+
   return (
-    <div className={`row g-3 ${classes.LoginContainer}`}>
-      <div className={`col-lg-6 col-md-12 ${classes.LoginBanner} bg-login-banner`}></div>
+    <div className={`row gx-3 ${classes.LoginContainer}`}>
+      <div className={`${classes.LoginBanner} col-lg-6 col-md-12  bg-login-banner`}>
+       <img src={logo} className={`${classes.logo}`} />
+        <div>
+          <ul className={` ${classes.footerList}`}>
+            <li> 
+              <RBtn>
+                <WiMoonWaningCrescent3 />
+              </RBtn>
+            </li>
+            <li><Link to="/" style={{textDecoration: 'none'}}>منصة سيان</Link></li>
+            <li><Link to="/terms" style={{textDecoration: 'none'}}>الشروط والأحكام</Link></li>
+            <li><Link to="/privacy" style={{textDecoration: 'none'}}>سياسة الخصوصية</Link></li>
+            <li><Link to="/signin" style={{textDecoration: 'none'}}>اطلق اكاديميتك</Link></li>
+          </ul>
+        </div>
+      </div>
       <div className="col-lg-6 col-md-12 d-flex  justify-content-center">
         <div
           className="login-form--1"
@@ -92,121 +123,164 @@ const Login = () => {
               العودة للصفحة الرئيسية <ArrowBackIosIcon />
             </Link>
           </div>
-          <div className={`${classes.LoginForm}  `}>
-            <h3 className="fs-6 fw-bold  title-text--1">تسجيل الدخول</h3>
-            <p> ادخل المعلومات الخاصة بحسابك</p>
-            {/**
-              <button
-              className={`${classes.googleBtn} button-login--1 d-flex  align-items-center  gap-3 justify-content-center  mt-3`}
-            >
-              الدخول باستخدام حساب جوجل <img src={GoogleIcon} />
-            </button>
-            <div className={`${classes.line}`}>
-              <span>أو</span>
-              </div>*/}
-            <div className={`${classes.line}`}></div>
-            <form onSubmit={formik.handleSubmit}>
-              <div className={`${classes.formGroup} mb-2`}>
-                <label htmlFor="email" className="mb-2 fs-6 fw-medium">
-                  البريد الإلكتروني
-                </label>
+          {showForgotPassword ? (
+              <div className={classes.forgotPasswordForm}>
+                <h3>إعادة تعيين كلمة المرور</h3>
+                <p>أدخل بريدك الإلكتروني لإعادة تعيين كلمة المرور</p>
                 <TextField
                   fullWidth
-                  id="email"
-                  name="email"
+                  id="resetEmail"
+                  name="resetEmail"
                   type="email"
-                  value={formik.values.email}
-                  onChange={(e) => {
-                    formik.handleChange(e);
-                    setEmail(e.target.value);
-                  }}
-                  onBlur={formik.handleBlur}
-                  error={formik.touched.email && Boolean(formik.errors.email)}
-                  helperText={formik.touched.email && formik.errors.email}
+                  placeholder="البريد الإلكتروني"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   InputProps={{
                     style: {
                       borderRadius: "10px",
-                      border: "1px solid #E1E2E6",
                     },
                   }}
                 />
-              </div>
-              <Toaster />
-              <div className={`${classes.formGroup} mb-2`}>
-                <label htmlFor="password" className="mb-2 fs-6 fw-medium">
-                  كلمة المرور
-                </label>
-                <TextField
-                  fullWidth
-                  id="password"
-                  name="password"
-                  type={showPassword ? "text" : "password"}
-                  value={formik.values.password}
-                  onChange={(e) => {
-                    formik.handleChange(e);
-                    setPassword(e.target.value);
-                  }}
-                  onBlur={formik.handleBlur}
-                  error={formik.touched.password && Boolean(formik.errors.password)}
-                  helperText={formik.touched.password && formik.errors.password}
-                  InputProps={{
-                    endAdornment: (
-                      <InputAdornment position="end">
-                        <IconButton onClick={togglePasswordVisibility}>
-                          {showPassword ? <Visibility /> : <VisibilityOff />}
-                        </IconButton>
-                      </InputAdornment>
-                    ),
-                    style: {
-                      borderRadius: "10px",
-                      border: "1px solid #E1E2E6",
-                    },
-                  }}
-                />
-              </div>
-
-              <div
-                className={`${classes.checkboxContainer} d-flex justify-content-between align-items-center`}
-              >
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      id="rememberMe"
-                      name="rememberMe"
-                      checked={formik.values.rememberMe}
-                      onChange={formik.handleChange}
-                      color="primary"
-                    />
-                  }
-                  sx={{ margin: "0px" }}
-                  label="تذكرني"
-                />
-
-                <div href="/forgot-password" className={`${classes.forgotPassword}`}>
-                  نسيت كلمة المرور؟
+                <div className="mt-3 d-flex gap-2">
+                  <button
+                    className={classes.SubmitBtn}
+                    onClick={() => handleForgotPassword(email)}
+                  >
+                    إرسال
+                  </button>
+                  <button
+                    className={classes.cancelBtn}
+                    onClick={() => setShowForgotPassword(false)}
+                  >
+                    إلغاء
+                  </button>
                 </div>
               </div>
-              <div className={`${classes.ddd} mt-2 text-center`}>
-                <span className={`${classes.nothaveaccount}`}>ليس لديك حساب؟</span>{" "}
-                <Link
-                  to="/signin"
-                  className={`${classes.forgotPassword}`}
-                  style={{ cursor: "pointer" }}
+            ) : (
+            <div className={`${classes.LoginForm}  `}>
+            <h2>تسجيل الدخول</h2>
+            <p> ادخل المعلومات الخاصة بحسابك</p>
+            
+           
+              <form onSubmit={formik.handleSubmit}>
+                <div>
+                  <button
+                    className={`${classes.googleBtn} button-login--1 d-flex  align-items-center  gap-3 justify-content-center  mt-3`}
+                  >
+                    الدخول باستخدام حساب جوجل <img src={GoogleIcon} />
+                  </button>
+                  <div className={`${classes.line}`}>
+                    <span>أو</span>
+                  </div>
+                </div>
+                <div className={`${classes.formGroup} `}>
+                  <label htmlFor="email" className="mb-2">
+                    البريد الإلكتروني <span  style={{color: "red"}} >*</span>
+                  </label>
+                  <TextField
+                    fullWidth
+                    id="email"
+                    name="email"
+                    type="email"
+                    value={formik.values.email}
+                    onChange={(e) => {
+                      formik.handleChange(e);
+                      setEmail(e.target.value);
+                    }}
+                    onBlur={formik.handleBlur}
+                    error={formik.touched.email && Boolean(formik.errors.email)}
+                    helperText={formik.touched.email && formik.errors.email}
+                    InputProps={{
+                      style: {
+                        borderRadius: "10px",
+                      },
+                    }}
+                  />
+                </div>
+                <Toaster />
+                <div className={`${classes.formGroup} `}>
+                  <label htmlFor="password" className="mb-2"> 
+                    كلمة المرور <span style={{color: "red"}}>*</span>
+                  </label>
+                  <TextField
+                    fullWidth
+                    id="password"
+                    name="password"
+                    type={showPassword ? "text" : "password"}
+                    value={formik.values.password}
+                    onChange={(e) => {
+                      formik.handleChange(e);
+                      setPassword(e.target.value);
+                    }}
+                    onBlur={formik.handleBlur}
+                    error={formik.touched.password && Boolean(formik.errors.password)}
+                    helperText={formik.touched.password && formik.errors.password}
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <IconButton onClick={togglePasswordVisibility}>
+                            {showPassword ? <Visibility /> : <VisibilityOff />}
+                          </IconButton>
+                        </InputAdornment>
+                      ),
+                      style: {
+                        borderRadius: "10px",
+                      },
+                    }}
+                  />
+                </div>
+
+                <div
+                  className={`${classes.checkboxContainer} d-flex justify-content-between align-items-center`}
                 >
-                  انشاء حساب جديد
-                </Link>
-              </div>
-              <button
-                className={`${classes.SubmitBtn} mt-2`}
-                style={{ display: "flex", justifyContent: "center" }}
-                onClick={() => {
-                  logInFunction();
-                }}
-              >
-                {loading ? <div className="loader"></div> : <p> تسجيل الدخول</p>}
-              </button>
-            </form>
-          </div>
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        id="rememberMe"
+                        name="rememberMe"
+                        checked={formik.values.rememberMe}
+                        onChange={formik.handleChange}
+                        color="primary"
+                      />
+                    }
+                    sx={{ margin: "0px" }}
+                    label="تذكرني"
+                  />
+
+                  <div 
+                    className={`${classes.forgotPassword}`}
+                    onClick={() => setShowForgotPassword(true)}
+                    style={{cursor: "pointer"}}
+                  >
+                    نسيت كلمة المرور؟
+                  </div>
+                </div>
+                
+                <button
+                  className={`${classes.SubmitBtn} mt-2`}
+                  style={{ display: "flex", justifyContent: "center" }}
+                  onClick={() => {
+                    logInFunction();
+                  }}
+                >
+                  {loading ? <div className="loader"></div> : <> تسجيل الدخول</>}
+                </button>
+                <div className={`${classes.ddd} mt-2 text-center`}>
+                  <span className={`${classes.nothaveaccount}`}>ليس لديك حساب؟</span>{" "}
+                  <Link
+                    to="/student/signin"
+                    className={`${classes.forgotPassword}`}
+                    style={{ cursor: "pointer" }}
+                  >
+                    انشاء حساب جديد
+                  </Link>
+                </div>
+              </form>
+            
+            <div className={classes.copyright}>
+              © 2023 جميع الحقوق محفوظة لمنصة سيان
+            </div>
+          </div>)}
         </div>
       </div>
     </div>

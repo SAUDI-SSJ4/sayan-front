@@ -50,13 +50,14 @@ import AddNewSale from "../pages/sales/AddNewSale";
 import Login from "../pages/login/login";
 import { Route, Routes } from "react-router-dom";
 import LayOut from "../pages/layout/layout";
+import LoginAdmin from "../pages/LoginAdmin/LoginAdmin";
 
 const AdminRoute = () => {
   return (
     <LayOut>
       <Routes>
-        <Route index path="admin/" element={<Dashboard />} />
-        <Route path="admin/login" element={<Login />} />
+        <Route path="admin" element={<Dashboard />} />
+        <Route path="admin/login" element={<LoginAdmin />} />
         <Route path="admin/users/*" element={<Users />} />
         <Route path="admin/profile" element={<Profile />} />
         <Route path="admin/StudentRate" element={<StudentRate />} />

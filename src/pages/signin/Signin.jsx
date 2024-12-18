@@ -15,6 +15,9 @@ import OtpVerification from "./OtpVerification";
 import { toast } from "react-toastify";
 import client from "../../utils/apis/client/client";
 
+import logo from "../../assets/images/logo.png";
+import { Button } from "rsuite";
+import { WiMoonWaningCrescent3 } from "react-icons/wi";
 const Signin = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -69,10 +72,24 @@ const Signin = () => {
     setShowPassword(!showPassword);
   };
   return (
-    <div className={`row g-3 ${classes.LoginContainer}`}>
-      <div
-        className={`col-lg-6 col-md-12 ${classes.LoginBanner} bg-login-banner`}
-      ></div>
+    <div className={`row gx-3 ${classes.LoginContainer}`}>
+      <div className={`col-lg-6 col-md-12 ${classes.LoginBanner} bg-login-banner`}>
+       <img src={logo} className={`${classes.logo}`} />
+        <div>
+          <ul className={` ${classes.footerList}`}>
+            <li>
+              <Button>
+                <WiMoonWaningCrescent3 />
+              </Button>
+            </li>
+            <li><Link to="/" style={{textDecoration: 'none',color:"#fff"}}>منصة سيان</Link></li>
+            <li><Link to="/terms" style={{textDecoration: 'none',color:"#fff"}}>الشروط والأحكام</Link></li>
+            <li><Link to="/privacy" style={{textDecoration: 'none',color:"#fff"}}>سياسة الخصوصية</Link></li>
+            <li><Link to="/student/signin" style={{textDecoration: 'none',color:"#fff"}}>الانضمام كطالب</Link></li>
+          </ul>
+        </div>
+      </div>
+     
       <div className="col-lg-6 col-md-12 d-flex justify-content-center">
         <div
           className="login-form--1"
@@ -89,13 +106,12 @@ const Signin = () => {
           </div>
           {step !== "otp" ? (
             <div className={`${classes.LoginForm}`}>
-              <h3 className="fs-6 fw-bold title-text--1">انشاء حساب</h3>
+              <h3 >انشاء حساب</h3>
               <p>ادخل المعلومات الخاصة بحسابك لاستقبال رمز OTP</p>
-              <div className={`${classes.line}`}></div>
               <form onSubmit={formik.handleSubmit}>
                 <div className={`${classes.formGroup} mb-2`}>
                   <label htmlFor="name" className="mb-2 fs-6 fw-medium">
-                    الإسم
+                    إسم الاكاديمية <span style={{color: "red"}}>*</span>
                   </label>
                   <TextField
                     fullWidth
@@ -113,14 +129,15 @@ const Signin = () => {
                     InputProps={{
                       style: {
                         borderRadius: "10px",
-                        border: "1px solid #E1E2E6",
+                        
+                        height:"48px"
                       },
                     }}
                   />
                 </div>
                 <div className={`${classes.formGroup} mb-2`}>
                   <label htmlFor="email" className="mb-2 fs-6 fw-medium">
-                    البريد الإلكتروني
+                    البريد الإلكتروني <span style={{color: "red"}}>*</span>
                   </label>
                   <TextField
                     fullWidth
@@ -138,14 +155,16 @@ const Signin = () => {
                     InputProps={{
                       style: {
                         borderRadius: "10px",
-                        border: "1px solid #E1E2E6",
+                        
+                        height:"48px"
+
                       },
                     }}
                   />
                 </div>
                 <div className={`${classes.formGroup} mb-2`}>
                   <label htmlFor="phone" className="mb-2 fs-6 fw-medium">
-                    رقم الهاتف
+                    رقم الهاتف <span style={{color: "red"}}>*</span>
                   </label>
                   <TextField
                     fullWidth
@@ -163,7 +182,9 @@ const Signin = () => {
                     InputProps={{
                       style: {
                         borderRadius: "10px",
-                        border: "1px solid #E1E2E6",
+                        
+                        height:"48px"
+
                       },
                     }}
                   />
@@ -171,7 +192,7 @@ const Signin = () => {
 
                 <div className={`${classes.formGroup} mb-2`}>
                   <label htmlFor="password" className="mb-2 fs-6 fw-medium">
-                    كلمة المرور
+                    كلمة المرور <span style={{color: "red"}}>*</span>
                   </label>
                   <TextField
                     fullWidth
@@ -200,12 +221,70 @@ const Signin = () => {
                       ),
                       style: {
                         borderRadius: "10px",
-                        border: "1px solid #E1E2E6",
+                        
+                        height:"48px"
+
                       },
                     }}
                   />
                 </div>
+                <div className={`${classes.formGroup} `}>
+                <label htmlFor="profileImage" className="mb-2">
+                  شعار الاكادمية <span style={{color: "red"}}>*</span>
+                </label>
+                <TextField
+                  fullWidth
+                  id="profileImage"
+                  name="profileImage"
+                  placeholder="اختر شعار الاكادمية"
+                  value={formik.values.profileImage?.name || ''}
+                  InputProps={{
+                    readOnly: true,
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <Button
+                          component="label"
+                          variant="text" 
+                          sx={{
+                            backgroundColor: '#F4F7FE',
+                            color: '#2B3674',
+                            '&:hover': {
+                              backgroundColor: '#E6EAF8'
+                            }
+                          }}
+                        >
+                          رفع
+                          <input 
+                            type="file"
+                            hidden
+                            accept="image/*"
+                            onChange={(event) => {
+                              const file = event.target.files[0];
+                              formik.setFieldValue("profileImage", file);
+                            }}
+                          />
+                        </Button>
+                      </InputAdornment>
+                    ),
+                    style: {
+                      borderRadius: "10px",
+                      height: "48px"
+                    },
+                  }}
+                  error={formik.touched.profileImage && Boolean(formik.errors.profileImage)}
+                  helperText={formik.touched.profileImage && formik.errors.profileImage}
+                />
+                </div>
 
+                <button
+                  className={`${classes.SubmitBtn} mt-4`}
+                  onClick={signinSubmit}
+                  disabled={loading}
+                  style={{ display: "flex", justifyContent: "center",color:"#fff" }}
+                >
+                  {loading ? <div className="loader"></div> : <span>ارسال</span>}
+                </button>
+                
                 <div className={`${classes.ddd} mt-2 text-center`}>
                   <span className={`${classes.nothaveaccount}`}>
                     لديك حساب بالفعل
@@ -218,14 +297,6 @@ const Signin = () => {
                     تسجيل الدخول
                   </Link>
                 </div>
-                <button
-                  className={`${classes.SubmitBtn} mt-2`}
-                  onClick={signinSubmit}
-                  disabled={loading}
-                  style={{ display: "flex", justifyContent: "center" }}
-                >
-                  {loading ? <div className="loader"></div> : <p>ارسال</p>}
-                </button>
               </form>
             </div>
           ) : (
@@ -233,8 +304,13 @@ const Signin = () => {
               <OtpVerification email={email} />
             </div>
           )}
+          <div className={classes.copyright}>
+          © 2023 جميع الحقوق محفوظة لمنصة سيان
+          </div>
         </div>
+        
       </div>
+      
     </div>
   );
 };

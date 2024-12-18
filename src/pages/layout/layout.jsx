@@ -20,10 +20,10 @@ const LayOut = ({ children }) => {
     return <MainSpinner />;
   }
 
-  if (user) {
+  // if (user) {
     return (
       <Fragment>
-        {["/login", "/register", "/home"].some((path) =>
+        {["/login", "/register", "/home", "/signin"].some((path) =>
           location.pathname.includes(path)
         ) ? (
           children
@@ -53,9 +53,9 @@ const LayOut = ({ children }) => {
         )}
       </Fragment>
     );
-  }
+  // }
 
-  return <Navigate to="/login" state={{ from: location }} replace />;
+  // return <Navigate to="/login" state={{ from: location }} replace />;
 };
 
 export default LayOut;

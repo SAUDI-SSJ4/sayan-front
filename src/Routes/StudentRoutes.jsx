@@ -71,6 +71,7 @@ import LayOut from "../pages/layout/layout";
 import StudentProducts from "../pages/Student/StudentProducts/StudentProducts";
 import CourseDetails from "../pages/TrainingCourses/CourseDetails";
 import CourseExam from "../pages/TrainingCourses/Exam";
+import StudentSignIn from "../pages/studentSignIn/signin";
 
 const StudentRoute = () => {
 
@@ -98,6 +99,13 @@ const StudentRoute = () => {
             element={
               <div key="login">
                 <Login />
+              </div>
+            }
+          />
+          <Route path="student/signin"
+            element={
+              <div key="signin">
+                <StudentSignIn />
               </div>
             }
           />
