@@ -1,104 +1,94 @@
-import React, { useState } from "react";
-import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
-import { Formik, Form, Field } from "formik";
+import React, { useState } from 'react';
+import axios from 'axios';
 
-const S3Uploader = () => {
-  const [uploadProgress, setUploadProgress] = useState(null);
-  const [uploadMessage, setUploadMessage] = useState("");
+const TestPage = () => {
+  const [files, setFiles] = useState(null);
+  const [uploadTime, setUploadTime] = useState(null);
+  const [response, setResponse] = useState(null);
+  const [error, setError] = useState(null);
 
-  // S3 Configuration
-  const s3Config = {
-    bucketName: import.meta.env.VITE_APP_S3_BUCKET_NAME,
-    region: import.meta.env.VITE_APP_S3_REGION,
-    accessKeyId: import.meta.env.VITE_APP_AWS_ACCESS_KEY_ID,
-    secretAccessKey: import.meta.env.VITE_APP_AWS_SECRET_ACCESS_KEY,
+  const handleFileChange = (event) => {
+    setFiles(event.target.files);
+    setUploadTime(null);
+    setResponse(null);
+    setError(null);
   };
 
-  // AWS S3 Client
-  const s3Client = new S3Client({
-    region: s3Config.region,
-    credentials: {
-      accessKeyId: s3Config.accessKeyId,
-      secretAccessKey: s3Config.secretAccessKey,
-    },
-  });
+  const handleSubmit = async (event) => {
+    event.preventDefault();
 
-  const uploadToS3 = async (file) => {
+    if (!files || files.length === 0) {
+      setError('Please select at least one file to upload.');
+      return;
+    }
+
+    const formData = new FormData();
+    // Append all selected files to the form data
+    Array.from(files).forEach((file) => {
+      formData.append('video', file);
+    });
+
+    const startTime = Date.now();
+
     try {
-      const params = {
-        Bucket: s3Config.bucketName,
-        Key: `uploads/videos/${Date.now()}-${file.name}`,
-        Body: file,
-        ContentType: file.type,
-      };
-
-      const command = new PutObjectCommand(params);
-
-      // Monitor upload progress
-      const progressTracker = {
-        httpUploadProgress: (progress) => {
-          setUploadProgress(
-            Math.round((progress.loaded / progress.total) * 100)
-          );
+      const res = await axios.post('http://localhost:8000/api/v2/upload', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
         },
-      };
+      });
 
-      await s3Client.send(command, progressTracker);
-      setUploadMessage("Upload Successful!");
-      setUploadProgress(null);
-    } catch (error) {
-      console.error("Upload failed:", error);
-      setUploadMessage("Upload failed. Please try again.");
+      const endTime = Date.now();
+      setUploadTime((endTime - startTime) / 1000); // Convert to seconds
+      setResponse(res.data);
+      setError(null);
+    } catch (err) {
+      setError(err.response?.data || 'An error occurred during the upload.');
+      setUploadTime(null);
+      setResponse(null);
     }
   };
 
   return (
-    <div className="upload-container">
-      <h2>Upload Video to S3</h2>
-      <Formik
-        initialValues={{ video: null }}
-        validate={(values) => {
-          const errors = {};
-          if (!values.video) {
-            errors.video = "Please select a video file.";
-          }
-          return errors;
-        }}
-        onSubmit={async (values, { setSubmitting, resetForm }) => {
-          const file = values.video;
-          if (file) {
-            setUploadMessage("");
-            await uploadToS3(file);
-          }
-          resetForm();
-          setSubmitting(false);
-        }}
-      >
-        {({ setFieldValue, isSubmitting, errors, touched }) => (
-          <Form>
-            <div>
-              <input
-                name="video"
-                type="file"
-                accept="video/*"
-                onChange={(event) => setFieldValue("video", event.target.files[0])}
-              />
-              {errors.video && touched.video && (
-                <div style={{ color: "red" }}>{errors.video}</div>
-              )}
-            </div>
-            <button type="submit" disabled={isSubmitting}>
-              {isSubmitting ? "Uploading..." : "Upload"}
-            </button>
-          </Form>
-        )}
-      </Formik>
+    <div className="p-4">
+      <h1 className="text-xl font-bold mb-4">Test Multiple Video Upload</h1>
+      <form onSubmit={handleSubmit}>
+        <div className="mb-4">
+          <label className="block mb-2 font-semibold">Select videos:</label>
+          <input 
+            type="file" 
+            onChange={handleFileChange} 
+            accept="video/*" 
+            multiple
+            className="border rounded p-2"
+          />
+        </div>
+        <button
+          type="submit"
+          className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
+        >
+          Upload
+        </button>
+      </form>
 
-      {uploadProgress !== null && <p>Upload Progress: {uploadProgress}%</p>}
+      {uploadTime && (
+        <div className="mt-4 text-green-600">
+          <p>Upload completed in {uploadTime} seconds.</p>
+        </div>
+      )}
 
-      {uploadMessage && <p>{uploadMessage}</p>}
+      {response && (
+        <div className="mt-4 text-green-600">
+          <p>Response: {JSON.stringify(response)}</p>
+        </div>
+      )}
+
+      {error && (
+        <div className="mt-4 text-red-600">
+          <p>Error: {error}</p>
+        </div>
+      )}
     </div>
   );
 };
 
-export default S3Uploader;
+export default TestPage;
