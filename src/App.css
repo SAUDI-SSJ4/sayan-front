@@ -2,6 +2,10 @@
 @import url("https://fonts.googleapis.com/css2?family=Tajawal:wght@200;300;400;500;700;800&display=swap");
 @import '~rsuite/dist/rsuite-rtl.min.css';
 @import '~rsuite/styles/index.less';
+
+
+
+
 .title {
   font-size: 24px;
   color: #1480a3;
@@ -1722,5 +1726,6 @@ body {
   justify-content: center;
   align-items: center;
 }
+
 
 

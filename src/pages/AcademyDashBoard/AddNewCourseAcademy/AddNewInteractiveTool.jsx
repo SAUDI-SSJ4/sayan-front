@@ -1,13 +1,10 @@
+import { Box, Modal, Typography } from "@mui/material";
 import React, { useState } from "react";
-import {
-  Modal,
-  Button,
-  Placeholder,
-  Radio,
-  Form,
-  Input,
-  RadioGroup,
-} from "rsuite";
+import style from "./AddNewCourse.module.css"
+import Brush from "../../../assets/icons/Brush.svg?react";
+import FlippingCardIcon from "../../../assets/icons/flippingCard.svg?react";
+import ListingIcon from "../../../assets/icons/listingIcon.svg?react";
+import { Button } from "rsuite";
 
 const AddNewInteractiveTool = ({ addNewLesson, setAddNewLesson, open, handleClose }) => {
   const [step, setStep] = useState(1); // تحديد الخطوة الحالية
@@ -17,113 +14,83 @@ const AddNewInteractiveTool = ({ addNewLesson, setAddNewLesson, open, handleClos
   // التعامل مع اختيار الأداة
   const handleToolSelection = (value) => {
     
-    setAddNewLesson(value);
     setSelectedTool(value);
     // setStep(2); // الانتقال إلى الخطوة التالية (إدخال المعلمات)
-    handleClose();
+   
 };
+
 
   // التعامل مع إرسال النموذج
   const handleFormSubmit = () => {
     console.log("تم إرسال النموذج:", { selectedTool, toolParams });
+    setAddNewLesson(selectedTool);
+
     handleClose(); // إغلاق النموذج بعد الإرسال
   };
 
   return (
-    <Modal open={open} onClose={handleClose}>
-      <Modal.Header>
-        <Modal.Title>نموذج متعدد الخطوات</Modal.Title>
-      </Modal.Header>
-      <Modal.Body>
-        {step === 1 && (
-          <div>
-            <h5>اختر الأداة</h5>
+    <Modal open={open} onClose={handleClose} aria-labelledby="modal-modal-title" aria-describedby="modal-modal-description">
+      <Box className={`${style.modal}`} >
+        <div className="d-flex flex-row align-items-start gap-4">
+        <Brush/>
+        <h2 className={`${style.modalTitle}`} id="modal-modal-title">
+          اضافة اداة تفاعلية
+        </h2>
+        </div>
+        <Box >
+          {step === 1 && (
             <div
-              style={{
-                display: "flex",
-                gap: "2rem",
-                justifyContent: "space-between",
-                alignItems: "center",
-                margin: "1rem",
-              }}
+            style={{
+              display: "flex",
+              gap: "1rem",
+              flexDirection:"column",
+              justifyContent: "space-between",
+              
+              alignItems: "start",
+              margin: "1rem",
+            }}
             >
+              <h5 className={`${style.modalSubTitle}`}>حدد الاداة التي تريد اضافتها للدرس<span style={{ color:"#e44"}}>*</span></h5>
               <div
-                onClick={() => handleToolSelection("flippingCard")}
                 style={{
-                    border: "1px solid #b0b0b0",
-                    borderRadius: "4px",
-                    padding: "1rem",
-                    textAlign: "center",
-                    cursor: "pointer",
-                    backgroundColor:"white",
-                    color: "#505050",
-                    boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)"
-                       ,
-                    transition: "all 0.3s ease",
-                    width: "100%",
-                  }}
-              >
-                <strong>بطاقة مقلوبة</strong>
-              </div>
-              <div
-                onClick={() => handleToolSelection("hiddenCards")}
-                style={{
-                  border: "1px solid #b0b0b0",
-                  borderRadius: "4px",
-                  padding: "1rem",
-                  textAlign: "center",
-                  cursor: "pointer",
-                  backgroundColor:"white",
-                  color: "#505050",
-                  boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.1)"
-                     ,
-                  transition: "all 0.3s ease",
-                  width: "100%",
+                  display: "flex",
+                  gap: "2rem",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  margin: "0rem 0.5rem",
                 }}
               >
-                <strong>أداة التعليمية</strong>
+                <div
+                  onClick={() => handleToolSelection("flippingCard")}
+               className={`${style.toolCard} ${selectedTool === "flippingCard" ? style.selectedTool : ""}`}
+                >
+                  <FlippingCardIcon/>
+                  <p>بطاقة مقلوبة</p>
+                </div>
+                <div
+                  onClick={() => handleToolSelection("hiddenCards")}
+                  className={`${style.toolCard} ${selectedTool === "hiddenCards" ? style.selectedTool : ""}`}
+                  >
+                  <ListingIcon/>
+                  <p>أداة التعليمية</p>
+                </div>
               </div>
             </div>
-          </div>
-        )}
-
-        {/* {step === 2 && selectedTool === "flippingCard" && (
-          <Form onSubmit={handleFormSubmit}>
-            <Form.Group>
-              <Form.ControlLabel>أدخل معلمات بطاقة مقلوبة</Form.ControlLabel>
-
-              <Input
-                value={toolParams}
-                onChange={setToolParams}
-                placeholder="أدخل معلمات البطاقة المقلوبة"
-              />
-            </Form.Group>
-            <Modal.Footer>
-              <Button onClick={handleFormSubmit} appearance="primary">
-                إرسال
-              </Button>
-              <Button onClick={handleClose} appearance="subtle">
-                إلغاء
-              </Button>
-            </Modal.Footer>
-          </Form>
-        )} */}
-
-        {/* {step === 2 && selectedTool === "otherTool" && (
-          <div>
-            <h5>معلمات الأداة الأخرى</h5>
-            <Placeholder.Paragraph rows={3} />
-            <Modal.Footer>
-              <Button onClick={handleClose} appearance="primary">
-                موافق
-              </Button>
-              <Button onClick={handleClose} appearance="subtle">
-                إلغاء
-              </Button>
-            </Modal.Footer>
-          </div>
-        )} */}
-      </Modal.Body>
+          )}
+        </Box>
+        <Box sx={{
+          display:'flex'
+          , gap:'1rem'
+        }}>
+        <Button onClick={handleFormSubmit} appearance="primary">
+          انشاء
+        </Button>
+        <Button onClick={handleClose}>
+          الرجوع
+        </Button>
+      </Box>
+      </Box>
+     
     </Modal>
   );
 };

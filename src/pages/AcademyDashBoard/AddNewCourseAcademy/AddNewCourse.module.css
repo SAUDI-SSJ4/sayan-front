@@ -91,7 +91,7 @@
   }
 
   .sideSecLap {
-    background-color: #EDEFF2;
+    background-color: #FBFBFB;
     width: fit-content;
     padding: 10px;
     & > div {
@@ -118,39 +118,32 @@
     justify-content: space-between;
     height: 100%;
     .sideup {
-
+      display: flex;
+      justify-content: space-between;
     }
     .iconText {
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
+      text-align: center;
       cursor: pointer;
-      padding: 10px;
-      margin: 15px 0;
-      width: 150px;
-      img{
-        width: 30px;
-        margin-bottom: 5px;
-
+      padding:2.5px 10px;
+      margin: 5px 0px;
+      width: 135px;
+      border-radius: 6px;
+      transition: all 0.3s ease;
+      transform: scale(1);
+      svg {
+        width: 22.5px;
+        height: 22.5px;
+        margin-top: 15px;
+        margin-bottom: 10px;
       }
-     
-    }
-
-    .iconTextNotCursor {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      padding: 10px;
-      margin: 15px 0;
-      width: 150px;
-      img{
-        width: 30px;
-        margin-bottom: 5px;
-
+      p {
+        font-size: smaller;
+        font-weight: 500;
       }
-     
     }
   }
 
@@ -225,3 +218,111 @@
    border-radius: 8px;
   text-wrap: nowrap;
   }
+
+
+  .activeButton {
+  background-color: #0062FF; /* Primary background color */
+  color: #fff; /* White color for text and SVG */
+  svg > path {
+    fill: #fff;
+    
+  }
+  }
+
+
+  
+        .lessonType {
+          min-width: 34px;
+          height: 34px;
+          background-color: rgba(30,2,170, 0.2);
+          border-radius: 50%;
+          padding: 7px;
+          path {
+            fill: rgb(30,2,170);
+          }
+        }
+
+        .lessonTypeActive {
+          background-color: rgba(30, 30, 30, 0.1);
+            path {
+            fill: white;
+          }
+        }
+
+
+       .deleteBtn {
+
+         padding: 3px; /* Some padding for a comfortable click area */
+         border-radius: 5px; /* Rounded corners for a modern look */
+         text-wrap: nowrap; /* Ensure the text doesn't wrap */
+         transition: background-color 0.2s ease-in-out; /* Smooth transition for hover effect */
+         background-color: rgba(240, 0, 0, 0.2) ; /* A slightly darker red for hover */
+         svg {
+          width: 22.5px;
+         }
+         svg > path {
+           fill :#ff0602;
+         }
+       }
+       .deleteBtn:hover {
+        background-color: rgba(240, 0, 0, 0.4); /* A slightly darker red for hover */
+        /* A slightly darker red for hover */
+         cursor: pointer; /* Change cursor to pointer on hover */
+       }
+
+
+
+
+
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  
+}
+.modalTitle {
+  font-size: larger;
+  font-weight: 650;
+  padding: 0px;
+  margin: 0px;
+}
+
+.modalSubTitle {
+  font-size: small;
+  font-weight: 650;
+  padding: 0px;
+  margin: 0px;
+}
+.toolCard{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap:5px;
+  border: 1px solid #f0f0f0;
+  border-radius: 4px;
+  padding: 1.5rem;
+  font-weight: 600;
+  text-align: center;
+  cursor: pointer;
+  background-color: white;
+  color: #505080;
+  transition: all 0.3s ease;
+  width: 100%;
+
+}
+.toolCard > p {
+  margin: 0px;
+  min-width: fit-content;
+} 
+
+.selectedTool {
+  background-color: #f0f0f0;
+  color: #505080;
+}
+

@@ -1,19 +1,15 @@
 import React, { useRef, useEffect, useState } from "react";
 import { Formik, Form, Field, useFormik } from "formik";
 import * as Yup from "yup";
-import videotype from "../../../assets/icons/videotype.png";
-import examtype from "../../../assets/icons/examtype.png";
+import Videotype from "../../../assets/icons/videoType.svg?react";
+import Examtype from "../../../assets/icons/examType.svg?react";
 import style from "./AddNewCourse.module.css";
-import vact1 from "../../../assets/icons/Vector.svg";
-import vact2 from "../../../assets/icons/Vector (1).svg";
-import vact3 from "../../../assets/icons/Vector (2).svg";
-import vact4 from "../../../assets/icons/dd.svg";
-import vact5 from "../../../assets/icons/Widget 4.svg";
-import {
-  Accordion,
-  AccordionDetails,
-  AccordionSummary,
-} from "../../../component/MainPages/FAQ/Accordion";
+import Vact1 from "../../../assets/icons/Vector.svg?react";
+import Vact2 from "../../../assets/icons/Vector (1).svg?react";
+import Vact3 from "../../../assets/icons/Vector (2).svg?react";
+import Vact4 from "../../../assets/icons/dd.svg?react";
+import Vact5 from "../../../assets/icons/Widget 4.svg?react";
+
 import AddNewLesson from "./AddNewLesson";
 import AddNewChapter from "./AddNewChapter";
 import { useCreateLessonMutation } from "../../../../services/mutation";
@@ -35,6 +31,11 @@ import AddFlippingCard from "./AddFlippingCard";
 import FlippingCardSideBar from "./SideBars/FlippingCardSideBar";
 import HiddenCardsSideBar from "./SideBars/HiddenCardsSideBar";
 import AddHiddenCards from "./AddHiddenCards";
+import IconTextButton from "./UI/IconTextButton";
+import CustomAccordion from "./UI/CustomAccordion";
+import { color } from "framer-motion";
+import { Delete } from "@mui/icons-material";
+import DeleteButton from "./UI/DeleteButton";
 
 // Validation schema using Yup
 const validationSchema = Yup.object().shape({
@@ -139,155 +140,142 @@ function AddNewCourseSteperTwo() {
   };
 
   const [ExamData, setExamData] = useState(null);
-  
+
   const [flippingCards, setFlippingCards] = useState([]);
 
   const [hiddenCards, setHiddenCards] = useState([]);
 
-
-
-
   const [openInteractive, setOpenInteractive] = useState(false);
 
+  const handleAccordionChange = (panel, isExpanded) => {
+    setExpanded(isExpanded ? panel : null);
+  };
 
+  const [cardData, setCardData] = useState({
+    color: "#007bff",
+    imageUrl: "https://via.placeholder.com/400x200",
+    title: "عنوان البطاقة",
+    content: "محتوى البطاقة يظهر هنا.",
+  });
 
   return (
     <div className={style.mainSec}>
       <div className={style.container}>
         <div className={`${style.sidexld} d-flex`}>
           <div className={style.sideBarNav}>
-            <div className={`${style.sideup} d-flex flex-column`}>
-              <div className="d-flex align-items-center justify-content-between  ">
-                <div
-                  className={`${style.iconTextNotCursor} disabled position-relative`}
-                  onClick={() => setAddNewLesson("video")}
-                >
-                  <img src={vact1} alt="icon" />
-                  <p className="text-nowrap text-center">اضافة فيديو </p>
-                  <ButtonSoon>قريبا</ButtonSoon>
-                </div>
-              </div>
+            <div className={`${style.sideup} d-flex flex-column`} style={{ padding: "12px", transition: "all 0.3s ease" }}>
+              <IconTextButton
+                isActive={addNewLesson === "video"}
+                onClick={() => setAddNewLesson("video")}
+                icon={Vact1}
+                text="اضافة فيديو"
+              />
 
-              <div className="d-flex align-items-center justify-content-between ">
-                <div
-                  className={`${style.iconTextNotCursor} disabled position-relative`}
-                  onClick={() => {setAddNewLesson("interactive");setOpenInteractive(true)}}
-                >
-                  <img src={vact2} alt="icon" />
-                  <p className="text-nowrap text-center">اضافة اداة تفاعلية</p>
-                  <ButtonSoon>قريبا</ButtonSoon>
-                </div>
-              </div>
+              <IconTextButton
+                isActive={addNewLesson === "interactive"}
+                onClick={() => { setAddNewLesson("interactive"); setOpenInteractive(true) }}
+                icon={Vact2}
+                text="اضافة اداة تفاعلية"
+              />
 
-              <div className="d-flex align-items-center justify-content-between ">
-                <div
-                  className={style.iconText}
-                  onClick={() => setAddNewLesson(2)}
-                >
-                  <img src={vact3} alt="icon" />
-                  <p>اضافة اختبار</p>
-                </div>
-              </div>
+              <IconTextButton
+                isActive={addNewLesson === 2}
+                onClick={() => setAddNewLesson(2)}
+                icon={Vact3}
+                text="اضافة اختبار"
+              />
             </div>
 
-            <div className={style.sidedown}>
-              <div className="d-flex align-items-center justify-content-between ">
-                <div
-                  className={style.iconText}
-                  onClick={() => setAddNewLesson(1)}
-                >
-                  <img src={vact4} alt="icon" />
-                  <p>اضافة درس</p>
-                </div>
-              </div>
-              <div className="d-flex align-items-center justify-content-between position-relative">
-                <div
-                  className={style.iconTextNotCursor}
-                  onClick={() => setAddNewLesson(0)}
-                >
-                  <img src={vact5} alt="icon" />
-                  <p>اضافة فصل جديد</p>
-                </div>
-                <ButtonSoon>قريبا</ButtonSoon>
-              </div>
+            <div className={style.sidedown} style={{ padding: "12px", transition: "all 0.3s ease" }}>
+              <IconTextButton
+                isActive={addNewLesson === 1}
+                onClick={() => setAddNewLesson(1)}
+                icon={Vact4}
+                text="اضافة درس"
+              />
+              <IconTextButton
+                isActive={addNewLesson === 0}
+                onClick={() => setAddNewLesson(0)}
+                icon={Vact5}
+                text="اضافة فصل جديد"
+              />
             </div>
           </div>
+
+
           <div className={style.sideSecLap}>
-            {CatFunctionalty?.data?.categories?.map((e, i) => (
-              <Accordion
-                style={{
-                  width: "280px",
-                  padding: "10px",
-                  margin: "10px",
-                }}
-                onClick={() => {
-                  setCategoryDetails(e);
-                  setAddNewLesson(2);
-                }}
-                key={i}
-                expanded={expanded === `panel${i}`}
-                onChange={handleChange(`panel${i}`)}
-              >
-                <AccordionSummary
-                  aria-controls="panel1d-content"
-                  id="panel1d-header"
+            <CustomAccordion
+              data={CatFunctionalty?.data?.categories || []}
+              defaultExpanded={expanded}
+              onPanelChange={handleAccordionChange}
+              renderSummary={(category, i) => (
+                <p
+                  style={{
+                    fontSize: '14px',
+                    color: '#2b3674',
+                    fontWeight: '650',
+                    margin: '0',
+                    display: 'flex',
+                    justifyContent: 'space-around'
+                    , alignItems: 'center',
+                    gap: '5px', width: '100%'
+                  }}
                 >
-                  <p
-                    style={{
-                      fontSize: "16px",
-                      color: "#292D32",
-                      fontWeight: "600",
-                    }}
-                    className="fs-6 fw-bold  title-text--1"
-                  >
-                    {formatLongText(e.title, 15)}
-                  </p>
-                </AccordionSummary>
-                <AccordionDetails>
-                  <div
-                    style={{
-                      fontSize: "14px",
-                      color: "#585C61",
-                      fontWeight: "400",
-                      padding: "10px !important",
-                      margin: "10px !important",
-                      backgroundColor: "red !important",
-                    }}
-                    className="fs-6 fw-medium text-content--1"
-                  >
-                    {e.lessons.map((lesson, index) => (
-                      <div
-                        key={index}
-                        onClick={() => handleLessonClick(lesson)}
-                        style={{
-                          display: "flex",
-                          alignItems: "center",
-                          gap: "10px",
-                          padding: "10px",
-                          marginBottom: "5px",
-                          cursor: "pointer",
-                          backgroundColor:
-                            selectedLesson === lesson ? "#f2f2f0" : "#fff",
-                          border:
-                            selectedLesson === lesson
-                              ? "2px solid #007bff"
-                              : "1px solid #ddd",
-                          borderRadius: "5px",
-                        }}
-                        className="lesson-item"
-                      >
-                        <img
-                          src={lesson.type === "video" ? videotype : examtype}
-                          alt="lesson type"
-                          style={{ width: "24px", height: "24px" }}
-                        />
-                        <span>{lesson?.video?.title}</span>
-                      </div>
-                    ))}
-                  </div>
-                </AccordionDetails>
-              </Accordion>
-            ))}
+                  {category.lessons.includes(selectedLesson) ? <DeleteButton />:""}
+                  {formatLongText(category.title, 15)}
+                  <span style={{ color: '#6B7280', fontSize: '14px' }}>
+                    ({i + 1}/{category.lessons.length})
+                  </span>
+                </p>
+              )}
+              renderDetails={(category) => (
+                <div
+                  style={{
+                    fontSize: '14px',
+                    color: '#585C61',
+                    fontWeight: '600',
+                    padding: '0px',
+                    margin: '10px',
+                  }}
+                >
+                  {category.lessons.map((lesson, index) => (
+                    <div
+                      key={index}
+                      onClick={() => handleLessonClick(lesson)}
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '10px',
+                        padding: '15px',
+                        marginBottom: '5px',
+                        cursor: 'pointer',
+                        backgroundColor:
+                          selectedLesson === lesson ? '#007bff' : '#fff',
+                        color: selectedLesson === lesson ? '#fff' : '#2b3674',
+                        border:
+                          selectedLesson === lesson
+                            ? '2px solid #007bff'
+                            : '1px solid #ddd',
+                        borderRadius: '15px',
+                      }}
+                      className="lesson-item"
+                    >
+                     {selectedLesson === lesson ? <DeleteButton/>:""}
+                      {lesson.type === 'video' ? <Videotype
+                        alt="lesson type"
+                        className={`${style.lessonType} ${selectedLesson === lesson ? style.lessonTypeActive : ""}`}
+                      /> : <Examtype
+                        alt="lesson type"
+                        className={`${style.lessonType} ${selectedLesson === lesson ? style.lessonTypeActive : ""}`}
+
+                      />}
+
+                      <span>{lesson?.video?.title}</span>
+                    </div>
+                  ))}
+                </div>
+              )}
+            />
           </div>
         </div>
         {addNewLesson === 0 ? (
@@ -323,25 +311,24 @@ function AddNewCourseSteperTwo() {
             CourseID={categoryId}
           />
         ) : addNewLesson === "video" ? (
-          <AddNewVideo/>
+          <AddNewVideo />
         ) : addNewLesson === "flippingCard" ? (
           <div>
-            <AddFlippingCard flippingCards={flippingCards} setFlippingCards={setFlippingCards} />
+            <AddFlippingCard cardData={cardData}  flippingCards={flippingCards} setFlippingCards={setFlippingCards} />
           </div>
         ) : addNewLesson === "hiddenCards" ? (
           <div>
-
-          <AddHiddenCards hiddenCards={hiddenCards} setHiddenCards={setHiddenCards} />
+            <AddHiddenCards cardData={cardData} hiddenCards={hiddenCards} setHiddenCards={setHiddenCards} />
           </div>
-        ) :(
+        ) : (
           <div>test ??!!</div>
         )}
 
-        <AddNewInteractiveTool addNewLesson={addNewLesson} setAddNewLesson={setAddNewLesson} open={openInteractive} handleClose={()=>setOpenInteractive(false)}/>
+        <AddNewInteractiveTool addNewLesson={addNewLesson} setAddNewLesson={setAddNewLesson} open={openInteractive} handleClose={() => setOpenInteractive(false)} />
         <div className={`${style.sidexld} d-flex`}>
           <div className={style.sideSettings}>
             {addNewLesson === 1 ? (
-              <RSForm
+              /*<RSForm
                 layout="vertical"
                 style={{
                   maxWidth: 400,
@@ -457,7 +444,8 @@ function AddNewCourseSteperTwo() {
                 <Button appearance="primary" type="submit">
                   إرسال
                 </Button>
-              </RSForm>
+              </RSForm>*/
+              <div/>
             ) : null}
             {addNewLesson === 2 ? (
               <div
@@ -519,10 +507,10 @@ function AddNewCourseSteperTwo() {
               </div>
             ) : null}
 
-            {addNewLesson === "video" ?<VideoEditorSideBar/> : <div/>}
-            {addNewLesson === "flippingCard" ?<FlippingCardSideBar flippingCards={flippingCards} setFlippingCards={setFlippingCards} /> : <div/>}
-            {addNewLesson === "hiddenCards" ?<HiddenCardsSideBar hiddenCards={hiddenCards} setHiddenCards={setHiddenCards} /> : <div/>}
-        
+            {addNewLesson === "video" ? <VideoEditorSideBar /> : <div />}
+            {addNewLesson === "flippingCard" ? <FlippingCardSideBar cardData={cardData} setCardData={setCardData} flippingCards={flippingCards} setFlippingCards={setFlippingCards} /> : <div />}
+            {addNewLesson === "hiddenCards" ? <HiddenCardsSideBar cardData={cardData} setCardData={setCardData} hiddenCards={hiddenCards} setHiddenCards={setHiddenCards} /> : <div />}
+
           </div>
         </div>
       </div>
