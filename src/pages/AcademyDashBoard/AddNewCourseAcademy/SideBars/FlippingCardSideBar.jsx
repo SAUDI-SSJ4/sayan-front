@@ -1,31 +1,43 @@
 import React, { useState } from 'react';
-import { Modal, Button, Form, Input } from 'rsuite';
+import { Modal, Button, Form, Input, Dropdown } from 'rsuite';
 import { AiFillEye } from 'react-icons/ai';
 import FlippingCard from '../../../../component/UI/FlippingCard';
 import ColorPickerWithPreview from '../../../../component/UI/Inputs/ColorPicker';
+import { Delete } from '@mui/icons-material';
 
-const FlippingCardSideBar = ({ flippingCards, setFlippingCards,cardData, setCardData }) => {
+const FlippingCardSideBar = ({ flippingCards, setFlippingCards, cardData, setCardData }) => {
   const [showPreview, setShowPreview] = useState(false);
+  const [showPreview1, setShowPreview1] = useState(false);
+  const [selectedCardIndex, setSelectedCardIndex] = useState(-1);
 
   const toggleModal = () => setShowPreview(!showPreview);
 
-
   const handleChange = (field, value) => {
-    console.log(value)
     setCardData((prevData) => ({
       ...prevData,
       [field]: value,
     }));
   };
+
   const handleSubmit = () => {
-    console.log(cardData)
     setFlippingCards([...flippingCards, cardData])
     setCardData({
       color: "#007bff",
       imageUrl: "https://via.placeholder.com/400x200",
       title: "عنوان البطاقة",
       content: "محتوى البطاقة يظهر هنا.",
-    })
+    });
+    setSelectedCardIndex(-1);
+  }
+
+  const resetForm = () => {
+    setCardData({
+      color: "#007bff",
+      imageUrl: "https://via.placeholder.com/400x200",
+      title: "عنوان البطاقة",
+      content: "محتوى البطاقة يظهر هنا.",
+    });
+    setSelectedCardIndex(-1);
   }
 
   return (
@@ -34,6 +46,7 @@ const FlippingCardSideBar = ({ flippingCards, setFlippingCards,cardData, setCard
       className="container col-12 p-5 mt-4"
     >
 
+
       <h4>إعدادات الأداة</h4>
       <div className="d-flex flex-column gap-2 border-bottom">
         <div className="d-flex justify-content-between p-2">
@@ -41,6 +54,47 @@ const FlippingCardSideBar = ({ flippingCards, setFlippingCards,cardData, setCard
           <div>بطاقات مقلوبة</div>
         </div>
         <div>
+      <div className='w-100'>
+        <div className="d-flex row justify-content-center mt-4">
+       { flippingCards.map((card, index) => (
+         <div key={index} className="col-10 p-2" style={{
+           border: selectedCardIndex === index ? 'rgb(0, 123, 255)' : 'none',
+           backgroundColor: selectedCardIndex === index ? 'rgba(0, 123, 255, 0.1)' : 'transparent',
+           borderRadius: '10px',
+           cursor: 'pointer',
+           display: 'flex',
+           flexDirection: 'column',
+           gap: '10px'
+         }} onClick={() => {
+          setCardData(card);
+          setSelectedCardIndex(index);
+          setShowPreview1(true);
+        }} >
+           <FlippingCard
+             cardData={card}
+             
+           />
+           {selectedCardIndex === index && (
+             <Button
+               appearance="ghost"
+               color='red'
+               onClick={() => {
+                 setFlippingCards(
+                   flippingCards.filter((c) => c !== card)
+                 );
+                 setShowPreview1(false);
+               }}
+             >
+              <Delete />
+               حذف
+             </Button>
+           )}
+         </div>
+              ))}
+        </div>
+
+      </div>
+
       <Form  className='w-100'>
         <Form.Group className='CustomFormControl' >
           <Form.ControlLabel>عنوان البطاقة</Form.ControlLabel>
@@ -53,11 +107,11 @@ const FlippingCardSideBar = ({ flippingCards, setFlippingCards,cardData, setCard
         </Form.Group>
 
         <Form.Group className='CustomFormControl'>
-          <Form.ControlLabel>رابط الصورة</Form.ControlLabel>
+          <Form.ControlLabel>صورة البطاقة</Form.ControlLabel>
           <Input
-            placeholder="أدخل رابط الصورة"
-            value={cardData.imageUrl}
-            onChange={(value) => handleChange('imageUrl', value)}
+            type="file"
+            onChange={(e) => handleChange('imageUrl', URL.createObjectURL(e.target.files[0]))}
+            value={""}
           />
         </Form.Group>
 
@@ -73,8 +127,20 @@ const FlippingCardSideBar = ({ flippingCards, setFlippingCards,cardData, setCard
         <Form.Group className='CustomFormControl'>
           <ColorPickerWithPreview label={"لون البطاقة"} name={"لون البطاقة"} value={cardData.color} onChange={(value) => handleChange('color', value)} />
         </Form.Group>
-        <div className='d-flex justify-content-center'>
-          <Button className='btn btn-primary' onClick={handleSubmit}>انشاء البطاقة</Button>
+        <div className='d-flex justify-content-center gap-2'>
+          {selectedCardIndex !== -1 ? (
+            <>
+              <Button className='btn btn-primary' onClick={() => {
+                const updatedCards = [...flippingCards];
+                updatedCards[selectedCardIndex] = { ...cardData };
+                setFlippingCards(updatedCards);
+                resetForm();
+              }}>تحديث البطاقة</Button>
+              <Button className='btn btn-secondary' onClick={resetForm}>إلغاء</Button>
+            </>
+          ) : (
+            <Button className='btn btn-primary' onClick={handleSubmit}>انشاء البطاقة</Button>
+          )}
         </div>
       </Form>
         </div>

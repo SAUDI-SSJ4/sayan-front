@@ -1576,3 +1576,36 @@ body {
   }
 }
 
+
+
+
+.wraper {
+  margin: 0 auto;
+  width: 90%;
+/* 
+  Be careful with height set on
+  the parent of a sticky element.
+  Uncomment to see issue.
+*/
+/*   height: 40%; */
+/* 
+  overflow cannot be used on
+  parents of position: sticky, 
+  uncomment to demonstrate the issue.
+*/
+/*   overflow: hidden; */
+/*   overflow-y: scroll; */
+}
+
+.asider {
+  background: #eee;
+  float: right;
+  width: 20%;
+  padding: 1em;
+  /* position sticky */
+  position: sticky;
+  top: 3em;
+}
+.contenter {
+  width: 50%;
+}

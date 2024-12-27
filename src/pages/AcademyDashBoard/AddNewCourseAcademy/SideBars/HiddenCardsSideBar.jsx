@@ -111,15 +111,19 @@ const HiddenCardsSideBar = ({ hiddenCards, setHiddenCards,cardData, setCardData 
             {/* Timeline Marker */}
             <div
               style={{
-                width: '15px',
-                height: '15px',
+                width: '32px',
+                height: '32px',
                 backgroundColor: card.color,
+                color: '#fff',
                 borderRadius: '50%',
                 flexShrink: 0,
                 marginRight: '1rem',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
                 position: 'relative',
               }}
-            >
+            > {index+1}
               {/* Connecting Line */}
               {index !== hiddenCards.length - 1 && (
                 <div
@@ -129,7 +133,7 @@ const HiddenCardsSideBar = ({ hiddenCards, setHiddenCards,cardData, setCardData 
                     left: '50%',
                     width: '2px',
                     height: 'calc(100% - 15px)',
-                    backgroundColor: '#007bff',
+                    // backgroundColor: '#007bff',
                     transform: 'translateX(-50%)',
                   }}
                 ></div>

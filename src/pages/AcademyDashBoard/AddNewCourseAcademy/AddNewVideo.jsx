@@ -3,6 +3,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import style from "./AddNewCourse.module.css";
 import VideoEditor from "../../../component/UI/VideoEditor";
+import { Button } from "rsuite";
 
 // Validation Schema
 const videoUploadSchema = Yup.object().shape({
@@ -60,8 +61,8 @@ const AddNewVideo = ({ courseData, setCourseData }) => {
                   className="form-control"
                   required
                 /> */}
-        <VideoEditor setFieldValue={videoFormik.setFieldValue} />
-    
+                <VideoEditor setFieldValue={videoFormik.setFieldValue} />
+
                 {/* {videoFormik.touched.file && videoFormik.errors.file && (
                   <div className="text-danger">{videoFormik.errors.file}</div>
                 )} */}
@@ -100,13 +101,29 @@ const AddNewVideo = ({ courseData, setCourseData }) => {
                   )}
               </div>
 
-              <div className="CustomFormControl col-12 text-center">
-                <button type="submit" className="btn btn-primary">
-                  رفع الفيديو
-                </button>
+              <div className="col-12 d-flex justify-content-center mt-3 ">
+                <div className="col-lg-6 col-md-12 offset-lg-3 offset-md-0 m-1 text-center">
+                  <Button
+                    type="submit"
+                    style={{
+                      padding: "15px 30px",
+                      fontSize: "18px",
+                      width: "100%",
+                    }}
+                    appearance="primary"
+                  >
+                    رفع الفيديو
+                  </Button>
+                </div>
               </div>
             </form>
           </div>
+        </div>
+      </div>
+
+      <div className={`${style.sidexld} d-flex`}>
+        <div className={style.sideSettings}>
+          <VideoEditorSideBar />
         </div>
       </div>
     </div>

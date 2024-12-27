@@ -98,29 +98,38 @@ function AddNewLesson({ CategoryID, CourseID }) {
 
 
           <div className="col-lg-11 col-md-12">
-            <div className="CustomFormControl">
-              <label htmlFor="title">العنوان</label>
+            <div className={style.formControl}>
+              <label
+                htmlFor="title"
+                className={style.label}
+              >
+                العنوان
+              </label>
               <input
                 type="text"
-                placeholder="ادخل عنوان الدورة هنا"
+                placeholder="ادخل عنوان الدرس هنا"
                 id="title"
                 name="title"
                 value={formik.values.title}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
+                className={style.input}
               />
-              {formik.touched.title && formik.errors.title && <div>{formik.errors.title}</div>}
+              {formik.touched.title && formik.errors.title && (
+                <div className={style.error}>{formik.errors.title}</div>
+              )}
             </div>
           </div>
          
         
         </div>
-        <div className="col-lg-11 col-md-12">
-
-<Button type="submit" style={{
-  padding:'10px 18px',
-}} appearance="primary">ارسال</Button>
-</div>
+        <div className="col-lg-6 col-md-12" >
+          <Button type="submit" style={{
+            padding: '15px 30px',
+            fontSize: '18px',
+            width: '100%'
+          }} appearance="primary">اضافة</Button>
+        </div>
         <div className="col-12 text-center">
           {isFormFilled() && <ButtonSpinner bgColor="#6ada31" isPending={mutation.isPending} />}
         </div>

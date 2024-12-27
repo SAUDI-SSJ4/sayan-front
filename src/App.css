@@ -1729,3 +1729,7 @@ body {
 
 
 
+body, html {
+  font: 12px/16px sans-serif;
+  height: 100%;
+}
