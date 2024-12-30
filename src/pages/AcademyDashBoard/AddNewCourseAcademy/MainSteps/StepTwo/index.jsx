@@ -2,32 +2,32 @@ import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import { Form as RSForm, Button, IconButton, Panel } from "rsuite";
 import * as Yup from "yup";
-import { useCreateLessonMutation } from "../../../../services/mutation";
-import { ButtonSoon } from "../../../utils/styles";
-import { formatLongText } from "../../../utils/helpers";
-import style from "./AddNewCourse.module.css";
+import { useCreateLessonMutation } from "../../../../../../services/mutation";
+import { ButtonSoon } from "../../../../../utils/styles";
+import { formatLongText } from "../../../../../utils/helpers";
+import style from "../../AddNewCourse.module.css";
 
-import Videotype from "../../../assets/icons/videoType.svg?react";
-import Examtype from "../../../assets/icons/examType.svg?react";
-import Vact1 from "../../../assets/icons/Vector.svg?react";
-import Vact2 from "../../../assets/icons/Vector (1).svg?react";
-import Vact3 from "../../../assets/icons/Vector (2).svg?react";
-import Vact4 from "../../../assets/icons/dd.svg?react";
-import Vact5 from "../../../assets/icons/Widget 4.svg?react";
+import Videotype from "../../../../../assets/icons/videoType.svg?react";
+import Examtype from "../../../../../assets/icons/examType.svg?react";
+import Vact1 from "../../../../../assets/icons/Vector.svg?react";
+import Vact2 from "../../../../../assets/icons/Vector (1).svg?react";
+import Vact3 from "../../../../../assets/icons/Vector (2).svg?react";
+import Vact4 from "../../../../../assets/icons/dd.svg?react";
+import Vact5 from "../../../../../assets/icons/Widget 4.svg?react";
 
-import AddNewLesson from "./AddNewLesson";
-import AddNewChapter from "./AddNewChapter";
-import AddNewExam from "./AddNewExam";
-import AddNewVideo from "./AddNewVideo";
-import VideoEditorSideBar from "./SideBars/VideoEditorSideBar";
-import AddNewInteractiveTool from "./AddNewInteractiveTool";
-import AddFlippingCard from "./AddFlippingCard";
-import FlippingCardSideBar from "./SideBars/FlippingCardSideBar";
-import HiddenCardsSideBar from "./SideBars/HiddenCardsSideBar";
-import AddHiddenCards from "./AddHiddenCards";
-import IconTextButton from "./UI/IconTextButton";
-import CustomAccordion from "./UI/CustomAccordion";
-import DeleteButton from "./UI/DeleteButton";
+import AddNewLesson from "./Features/AddNewLesson";
+import AddNewChapter from "./Features/AddNewChapter";
+import AddNewExam from "./Features/AddNewExam";
+import AddNewVideo from "./Features/AddNewVideo";
+import VideoEditorSideBar from "../../SideBars/VideoEditorSideBar";
+import AddNewInteractiveTool from "./Features/InteractiveTools/AddNewInteractiveTool";
+import AddFlippingCard from "./Features/InteractiveTools/Cards/AddFlippingCard";
+import FlippingCardSideBar from "../../SideBars/FlippingCardSideBar";
+import HiddenCardsSideBar from "../../SideBars/HiddenCardsSideBar";
+import AddHiddenCards from "./Features/InteractiveTools/Cards/AddHiddenCards";
+import IconTextButton from "../../UI/IconTextButton";
+import CustomAccordion from "../../UI/CustomAccordion";
+import DeleteButton from "../../UI/DeleteButton";
 
 const fakeData = {
   data: {
@@ -96,7 +96,7 @@ function AddNewCourseSteperTwo() {
           text="اضافة فيديو"
         />
         <IconTextButton
-          isActive={addNewLesson === "interactive"}
+          isActive={addNewLesson === "interactive" || addNewLesson === "flippingCard" || addNewLesson === "hiddenCard"}
           onClick={() => { setAddNewLesson("interactive"); setOpenInteractive(true) }}
           icon={Vact2}
           text="اضافة اداة تفاعلية"
@@ -200,8 +200,8 @@ function AddNewCourseSteperTwo() {
         </div>
       );
       case "video": return <AddNewVideo />;
-      case "flippingCard": return <AddFlippingCard cardData={cardData} flippingCards={flippingCards} setFlippingCards={setFlippingCards} />;
-      case "hiddenCards": return <AddHiddenCards cardData={cardData} hiddenCards={hiddenCards} setHiddenCards={setHiddenCards} />;
+      case "flippingCard": return <AddFlippingCard setCardData={setCardData} cardData={cardData} flippingCards={flippingCards} setFlippingCards={setFlippingCards} />;
+      case "hiddenCards": return <AddHiddenCards setCardData={setCardData} cardData={cardData} hiddenCards={hiddenCards} setHiddenCards={setHiddenCards} />;
       default: return <div>test ??!!</div>;
     }
   };

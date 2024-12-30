@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import style from "./AddNewCourse.module.css";
+import style from "../../../AddNewCourse.module.css";
 import Swal from "sweetalert2";
 import axios from "axios";
 import { Button } from "rsuite";

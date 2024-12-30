@@ -19,7 +19,7 @@ export const AcademyFormContener = ({ showForgotPassword, children }) => {
           <li><Link to="/" style={{ textDecoration: 'none' }}>منصة سيان</Link></li>
           <li><Link to="/terms" style={{ textDecoration: 'none' }}>الشروط والأحكام</Link></li>
           <li><Link to="/privacy" style={{ textDecoration: 'none' }}>سياسة الخصوصية</Link></li>
-          <li><Link to="/student/register" style={{ textDecoration: 'none' }}>الانضمام كطالب</Link></li>
+          <li><Link to="/student/signin" style={{ textDecoration: 'none' }}>الانضمام كطالب</Link></li>
         </ul>
       </div>
 

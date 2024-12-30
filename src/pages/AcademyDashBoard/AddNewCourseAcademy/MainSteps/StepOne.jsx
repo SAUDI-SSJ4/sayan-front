@@ -1,15 +1,15 @@
 import React, { useRef, useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import defualt from "../../../assets/images/img.png";
+import defualt from "../../../../assets/images/img.png";
 import chroma from "chroma-js";
 import Select from "react-select";
 import { useQuery } from "@tanstack/react-query";
-import {  getAllcategories, getTrainer } from "../../../utils/apis/client/academy";
+import {  getAllcategories, getTrainer } from "../../../../utils/apis/client/academy";
 import { useNavigate } from "react-router-dom";
-import { ButtonSpinner } from "../../../component/UI/Buttons/ButtonSpinner";
-import { populateFormData } from "../../../utils/helpers";
-import { academy_client } from "../../../utils/apis/client.config";
+import { ButtonSpinner } from "../../../../component/UI/Buttons/ButtonSpinner";
+import { populateFormData } from "../../../../utils/helpers";
+import { academy_client } from "../../../../utils/apis/client.config";
 
 const typeOptions = [
   { value: "recorded", label: "تفاعلية", color: "#673ab7" },

@@ -2,9 +2,9 @@ import React, { useRef, useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import Swal from "sweetalert2";
-import { useCreateLessonMutation } from "../../../../services/mutation";
-import style from "./AddNewCourse.module.css";
-import { ButtonSpinner } from "../../../component/UI/Buttons/ButtonSpinner";
+import { useCreateLessonMutation } from "../../../../../../../services/mutation";
+import style from "../../../AddNewCourse.module.css";
+import { ButtonSpinner } from "../../../../../../component/UI/Buttons/ButtonSpinner";
 import { Button } from "rsuite";
 
 // Validation schema using Yup

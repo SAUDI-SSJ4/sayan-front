@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import style from "./AddNewCourse.module.css";
-import VideoEditor from "../../../component/UI/VideoEditor";
+import style from "../../../AddNewCourse.module.css";
+import VideoEditor from "../../../../../../component/UI/VideoEditor";
 import { Button } from "rsuite";
 
 // Validation Schema
@@ -121,11 +121,11 @@ const AddNewVideo = ({ courseData, setCourseData }) => {
         </div>
       </div>
 
-      <div className={`${style.sidexld} d-flex`}>
+      {/* <div className={`${style.sidexld} d-flex`}>
         <div className={style.sideSettings}>
           <VideoEditorSideBar />
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };

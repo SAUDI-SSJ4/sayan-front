@@ -11,6 +11,9 @@ import { Link } from "react-router-dom";
 import { handleRateStare, isObject, handleLevels } from "../../../utils/helpers";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { MainSpinner } from "../../../component/UI/MainSpinner";
+import { ShoppingCart } from "@mui/icons-material";
+import { useCart } from "../../../context/CartContext";
+import toast from "react-hot-toast";
 
 export const CourseCard = ({
   active,
@@ -20,16 +23,28 @@ export const CourseCard = ({
   setshowBuyCourses,
   isLoading,
 }) => {
+  const { addToCart } = useCart();
 
   if(isLoading) {
     return (
       <MainSpinner />
     )
   }
-  
+
+  const handleAddToCart = () => {
+    const course = {
+      id: courseData.course.id,
+      title: courseData.course.title,
+      price: courseData.course.price,
+      image: courseData.course.image,
+    };
+    addToCart(course);
+    toast.success('تمت إضافة الدورة إلى عربة التسوق');
+  };
+
   return (
     <React.Fragment>
-      <div className={`${Style.CourseTitle}`}>
+      <div className={Style.CourseTitle}>
         <h2 className="p-0 m-0">{ isObject(courseData?.course) && courseData.course.title}</h2>
         <h4>{ isObject(courseData?.course) && handleRateStare(courseData.course.rated)}</h4>
       </div>
@@ -80,13 +95,16 @@ export const CourseCard = ({
             <div className={Style.JoinBtn} onClick={() => setshowBuyCourses(true)}>
               انضم الان <ArrowBackIcon />
             </div>
+            <div className={Style.AddToCartBtn} onClick={handleAddToCart}>
+              اضافة الى العربة <ShoppingCart />
+            </div>
             <div className="mt-4">
               <div className={Style.Line}>
-                <img src={fi_4626794} />
+                <img src={fi_4626794} alt="Level" />
                 {isObject(courseData?.course) &&  handleLevels(courseData.course.level)}
               </div>
               <div className={Style.Line}>
-                <img src={fi_860780} />
+                <img src={fi_860780} alt="Lessons" />
                 {isObject(courseData?.course) && courseData.course.lessons_count} دروس تعليمية
               </div>
             </div>
@@ -98,7 +116,7 @@ export const CourseCard = ({
             >
               <img
                 src={isObject(courseData?.course) && courseData.course.academy.image}
-                alt="image"
+                alt="Academy"
                 style={{
                   width: "50px",
                   height: "50px",

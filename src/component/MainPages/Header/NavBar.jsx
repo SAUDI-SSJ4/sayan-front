@@ -9,6 +9,7 @@ import image from "../../../assets/images/SayanLogo.png";
 import defaultAvatar from "../../../assets/images/default-user.jpg";
 import { getMenuTitle, NAVBAR_LINK } from "../../../utils/constant";
 import Cookies from 'js-cookie';
+import CartButton from './CartButton';
 
 const NavBar = ({ user }) => {
   const navigate = useNavigate();
@@ -25,7 +26,6 @@ const NavBar = ({ user }) => {
         : location.pathname.replace(/\/[^/]+\/?$/, "");
     setPath(tempPath);
   }, [location.pathname]);
-
 
   useEffect(() => {
     const handleScroll = () => setMenuFixed(window.scrollY > 100);
@@ -54,6 +54,7 @@ const NavBar = ({ user }) => {
   // Reusable user buttons based on authentication
   const renderUserButtons = () => (
     <div className={classes.NavBarBtns}>
+      <CartButton />
       {user ? (
         <Fragment>
           <div onClick={() => navigate(`${cookieValue === 'academy' ? '/academy' : '/student/dashbord'}`)} className={classes.Secondry}>

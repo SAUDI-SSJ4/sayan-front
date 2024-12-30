@@ -6,14 +6,17 @@ import { HiMiniBriefcase } from "react-icons/hi2";
 import PersonIcon from "@mui/icons-material/Person";
 import WalletIcon from "@mui/icons-material/Wallet";
 import ArticleIcon from "@mui/icons-material/Article";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import StoreIcon from "@mui/icons-material/Store";
 import classes from "./sidebar.module.scss";
 import { STUDENT_BAG_NAVIGATOR_ONE, STUDENT_BAG_NAVIGATOR_TWO } from "../../utils/constant";
 import { SingleLinkOnMenu } from "../UI/Links/SingleLinkOnMenu";
 import { SubLinkOnMenu } from "../UI/Links/SubLinkOnMenu";
+import { useCart } from "../../context/CartContext";
 
-import { FaCartShopping } from "react-icons/fa6";
 const StudentNavigation = ({ setShow, mobile }) => {
   const location = useLocation();
+  const { cartItems } = useCart();
 
   return (
     <>
@@ -82,8 +85,20 @@ const StudentNavigation = ({ setShow, mobile }) => {
         </div>
       </SingleLinkOnMenu>
 
+      <SingleLinkOnMenu path="/student/ShoppingCart">
+        <div className={classes.mainIcon}>
+          <div className={classes.cartIcon}>
+            <ShoppingCartIcon sx={{ width: "35px", height: "35px" }} />
+            {cartItems.length > 0 && (
+              <span className={classes.badge}>{cartItems.length}</span>
+            )}
+            <span className="title-dash-link">عربة التسوق</span>
+          </div>
+        </div>
+      </SingleLinkOnMenu>
+
       <Collection
-        mainIcon={<FaCartShopping size="30px" />}
+        mainIcon={<StoreIcon sx={{ width: "30px", height: "30px" }} />}
         mainTitle={"التسويق"}
         acitve={STUDENT_BAG_NAVIGATOR_TWO.find((path) => location.pathname === path)}
       >
@@ -123,13 +138,6 @@ const StudentNavigation = ({ setShow, mobile }) => {
           </div>
         </div>
       </SingleLinkOnMenu>
-
-      {/* <NavLink to="/" className="text-decoration-none" onClick={() => useLogOut()}>
-        <div className={`${classes.logout} ${classes.mainIcon}`}>
-          <ExitToApp sx={{ width: "35px", height: "35px" }} />
-          <span className="title-dash-link">تسجيل الخروج</span>
-        </div>
-      </NavLink> */}
     </>
   );
 };

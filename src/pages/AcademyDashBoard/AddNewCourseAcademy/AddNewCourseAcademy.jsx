@@ -5,9 +5,9 @@ import addcourse from "../../../assets/icons/Button.svg";
 import steper1 from "../../../assets/icons/steper1 (1).svg";
 import steper2 from "../../../assets/icons/steper2.svg";
 import style from "./AddNewCourse.module.css";
-import AddNewCourseSteperTwo from "./AddNewCourseSteperTwo";
+import AddNewCourseSteperTwo from "./MainSteps/StepTwo";
 import { ContinueButton, ProgsaveButton } from "../../../utils/styles";
-import { AddNewCourseStepOneForm } from "./AddNewCourseStepOneForm";
+import { AddNewCourseStepOneForm } from "./MainSteps/StepOne";
 
 function AddNewCourseAcademy() {
   const navigate = useNavigate();

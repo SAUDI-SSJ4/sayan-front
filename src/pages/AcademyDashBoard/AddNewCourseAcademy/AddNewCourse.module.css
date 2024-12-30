@@ -51,7 +51,8 @@
 
 .container {
   display: flex;
-  justify-content: space-between;
+  /* justify-content: space-between; */
+  width: 100%;
   min-height: 80vh;
   .saveBtnTwo {
     margin-top: 40px;

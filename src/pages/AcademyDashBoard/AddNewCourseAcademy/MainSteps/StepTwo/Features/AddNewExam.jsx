@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import style from "./AddNewCourse.module.css";
+import style from "../../../AddNewCourse.module.css";
 import { Panel, Button } from "rsuite";
 
 const examInfoSchema = Yup.object().shape({
@@ -125,28 +125,47 @@ const MultiStepExamCreation = () => {
     });
   };
 
+
+
   const renderExamInfoStep = () => (
-    <form onSubmit={examInfoFormik.handleSubmit}>
-      <div className="CustomFormControl col-12">
-        <label>عنوان الاختبار</label>
-        <input
-          type="text"
-          name="title"
-          value={examInfoFormik.values.title}
-          onChange={examInfoFormik.handleChange}
-          className="form-control"
-          required
-        />
-        {examInfoFormik.touched.title && examInfoFormik.errors.title && (
-          <div className="text-danger">{examInfoFormik.errors.title}</div>
-        )}
+    <div className={style.boardLap}>
+  <h4>عنوان الاختبار</h4>
+  <form onSubmit={examInfoFormik.handleSubmit} className="row g-3 w-80 justify-content-center m-auto">
+    <div className="justify-content-center">
+      <div className="col-lg-11 col-md-12">
+        <div className={style.formControl}>
+          <label
+            htmlFor="title"
+            className={style.label}
+          >
+            عنوان الاختبار
+          </label>
+          <input
+            type="text"
+            placeholder="ادخل عنوان الاختبار هنا"
+            id="title"
+            name="title"
+            value={examInfoFormik.values.title}
+            onChange={examInfoFormik.handleChange}
+            onBlur={examInfoFormik.handleBlur}
+            className={style.input}
+          />
+          {examInfoFormik.touched.title && examInfoFormik.errors.title && (
+            <div className={style.error}>{examInfoFormik.errors.title}</div>
+          )}
+        </div>
       </div>
-      <div className="CustomFormControl col-12 text-center mt-3">
-        <Button type="submit" appearance="primary">
-          التالي
-        </Button>
-      </div>
-    </form>
+    </div>
+    <div className="col-lg-6 col-md-12">
+      <Button type="submit" style={{
+        padding: '15px 30px',
+        fontSize: '18px',
+        width: '100%'
+      }} appearance="primary">التالي</Button>
+    </div>
+ 
+  </form>
+</div>
   );
 
   const renderExamPreview = () => (
@@ -397,15 +416,10 @@ const MultiStepExamCreation = () => {
 
   return (
     <div className="container d-flex">
-      <div className="row col-8">
-        <div className="d-flex w-100">
-          <div className={`${style.boardLap} w-100 bg-body rounded`}>
-            {currentStep === 1 && renderExamInfoStep()}
-            {currentStep === 2 && renderExamPreview()}
-          </div>
-        </div>
-      </div>
-
+      
+  {currentStep === 1 && renderExamInfoStep()}
+  {currentStep === 2 && renderExamPreview()}
+       
       {currentStep === 2 && (
         <div className={`${style.sidexld} d-flex col-4`}>
           <div className={style.sideSettings}>

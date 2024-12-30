@@ -144,3 +144,25 @@
   line-height: 53.12px;
   margin: 90px 0 90px 0;
 }
+
+.AddToCart {
+  background-color: #009aff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 15px;
+  font-family: "Tajawal", sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: darken(#009aff, 10%);
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(0, 154, 255, 0.5);
+  }
+}

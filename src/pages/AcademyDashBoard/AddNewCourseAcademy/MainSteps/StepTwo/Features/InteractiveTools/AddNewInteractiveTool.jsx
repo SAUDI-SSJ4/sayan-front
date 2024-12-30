@@ -1,9 +1,9 @@
 import { Box, Modal, Typography } from "@mui/material";
 import React, { useState } from "react";
-import style from "./AddNewCourse.module.css"
-import Brush from "../../../assets/icons/Brush.svg?react";
-import FlippingCardIcon from "../../../assets/icons/flippingCard.svg?react";
-import ListingIcon from "../../../assets/icons/listingIcon.svg?react";
+import style from "../../../../AddNewCourse.module.css"
+import Brush from "../../../../../../../assets/icons/Brush.svg?react";
+import FlippingCardIcon from "../../../../../../../assets/icons/flippingCard.svg?react";
+import ListingIcon from "../../../../../../../assets/icons/listingIcon.svg?react";
 import { Button } from "rsuite";
 
 const AddNewInteractiveTool = ({ addNewLesson, setAddNewLesson, open, handleClose }) => {

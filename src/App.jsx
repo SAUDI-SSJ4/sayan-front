@@ -30,7 +30,9 @@ import AuthGaurdRoute from "./Routes/AuthGaurdRoute";
 import HomeAcademy from "./pages/MainPages/AcademyHome/HomeAcademy";
 import PrivacyPolicyPage from "./pages/Policy/PrivacyPolicyPage";
 import TestPage from "./TestPage";
-
+import CartPage from "./pages/Cart/CartPage";
+import { CartProvider } from './context/CartContext';
+import { NotificationProvider } from './context/NotificationContext';
 
 function App() {
   const {pathname} = useLocation();
@@ -40,41 +42,45 @@ function App() {
   }, []);
 
   return (
-    <div dir="rtl">
-      {pathname.includes("/admin") ? (
-        <AdminRoute />
-      ) : pathname.includes("/student") ? (
-        <StudentRoute />
-      ) : pathname.includes("/academy") ? (
-        <AcademyRoutes />
-      ) : null}
-      <Routes>
-      {/* <Route path="/myacademy/:name/:id/:slug" element={<HomeAcademy />} /> */}
-      <Route path="/acdemy/:id" element={<Layout1 />} />
+    <NotificationProvider>
+      <CartProvider>
+        <div dir="rtl">
+          {pathname.includes("/admin") ? (
+            <AdminRoute />
+          ) : pathname.includes("/student") ? (
+            <StudentRoute />
+          ) : pathname.includes("/academy") ? (
+            <AcademyRoutes />
+          ) : null}
+          <Routes>
+          {/* <Route path="/myacademy/:name/:id/:slug" element={<HomeAcademy />} /> */}
+          <Route path="/acdemy/:id" element={<Layout1 />} />
 
-        <Route index path="/" element={<Home />} />
+            <Route index path="/" element={<Home />} />
+            <Route path="/cart" element={<CartPage />} />
+            <Route index path="/test" element={<TestPage />} />
         
-        <Route index path="/test" element={<TestPage />} />
-      
-        <Route path="/LaunchYourAcademy" element={<LaunchYourAcademy />} />
-        <Route path="/EmployeeTrainning" element={<EmployeeTrainning />} />
-        <Route path="/Ai" element={<Ai />} />
-        <Route path="/Blogs" element={<MainBlog />} />
-        <Route path="/SingleCourse/:courseId" element={<SingleCourse />} />
-        <Route path="/acdemy/:acdemyId" element={<Layout1 />} />
-        <Route path="/acdemy/:acdemyId/allBlogs" element={<AllBlogpage />} />
-        <Route path="/acdemy/:acdemyId/AllProductsPage" element={<AllProductsPage />} />
-        <Route path="/acdemy/:acdemyId/AllCoursesPage" element={<AllCoursesPage />} />
-        <Route path="/acdemy/:acdemyId/ContactUs" element={<ContactUs3 />} />
-        <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
-        <Route element={<AuthGaurdRoute />}>
-          <Route path="/login" element={<AcademyLogin />} />
-          <Route path="signin" element={<Signin />} />
-          <Route path="/Register" element={<AcademyRegister />} />
-          <Route path="/forget-password" element={<ForgetPassword />} />
-        </Route>
-      </Routes>
-    </div>
+            <Route path="/LaunchYourAcademy" element={<LaunchYourAcademy />} />
+            <Route path="/EmployeeTrainning" element={<EmployeeTrainning />} />
+            <Route path="/Ai" element={<Ai />} />
+            <Route path="/Blogs" element={<MainBlog />} />
+            <Route path="/SingleCourse/:courseId" element={<SingleCourse />} />
+            <Route path="/acdemy/:acdemyId" element={<Layout1 />} />
+            <Route path="/acdemy/:acdemyId/allBlogs" element={<AllBlogpage />} />
+            <Route path="/acdemy/:acdemyId/AllProductsPage" element={<AllProductsPage />} />
+            <Route path="/acdemy/:acdemyId/AllCoursesPage" element={<AllCoursesPage />} />
+            <Route path="/acdemy/:acdemyId/ContactUs" element={<ContactUs3 />} />
+            <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
+            <Route element={<AuthGaurdRoute />}>
+              <Route path="/login" element={<AcademyLogin />} />
+              <Route path="signin" element={<Signin />} />
+              <Route path="/Register" element={<AcademyRegister />} />
+              <Route path="/forget-password" element={<ForgetPassword />} />
+            </Route>
+          </Routes>
+        </div>
+      </CartProvider>
+    </NotificationProvider>
   );
 }
 
