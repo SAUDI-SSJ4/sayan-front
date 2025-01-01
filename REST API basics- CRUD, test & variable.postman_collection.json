@@ -1,0 +1,722 @@
+{
+	"info": {
+		"_postman_id": "a13f1521-1fbf-4151-b721-e9f8a9da97b0",
+		"name": "REST API basics: CRUD, test & variable",
+		"description": "# 🚀 Get started here\n\nThis template guides you through CRUD operations (GET, POST, PUT, DELETE), variables, and tests.\n\n## 🔖 **How to use this template**\n\n#### **Step 1: Send requests**\n\nRESTful APIs allow you to perform CRUD operations using the POST, GET, PUT, and DELETE HTTP methods.\n\nThis collection contains each of these [request](https://learning.postman.com/docs/sending-requests/requests/) types. Open each request and click \"Send\" to see what happens.\n\n#### **Step 2: View responses**\n\nObserve the response tab for status code (200 OK), response time, and size.\n\n#### **Step 3: Send new Body data**\n\nUpdate or add new data in \"Body\" in the POST request. Typically, Body data is also used in PUT request.\n\n```\n{\n    \"name\": \"Add your name in the body\"\n}\n\n ```\n\n#### **Step 4: Update the variable**\n\nVariables enable you to store and reuse values in Postman. We have created a [variable](https://learning.postman.com/docs/sending-requests/variables/) called `base_url` with the sample request [https://postman-api-learner.glitch.me](https://postman-api-learner.glitch.me). Replace it with your API endpoint to customize this collection.\n\n#### **Step 5: Add tests in the \"Scripts\" tab**\n\nAdding tests to your requests can help you confirm that your API is working as expected. You can write test scripts in JavaScript and view the output in the \"Test Results\" tab.\n\n<img src=\"https://content.pstmn.io/fa30ea0a-373d-4545-a668-e7b283cca343/aW1hZ2UucG5n\" alt=\"\" height=\"1530\" width=\"2162\">\n\n## 💪 Pro tips\n\n- Use folders to group related requests and organize the collection.\n    \n- Add more [scripts](https://learning.postman.com/docs/writing-scripts/intro-to-scripts/) to verify if the API works as expected and execute workflows.\n    \n\n## 💡Related templates\n\n[API testing basics](https://go.postman.co/redirect/workspace?type=personal&collectionTemplateId=e9a37a28-055b-49cd-8c7e-97494a21eb54&sourceTemplateId=ddb19591-3097-41cf-82af-c84273e56719)  \n[API documentation](https://go.postman.co/redirect/workspace?type=personal&collectionTemplateId=e9c28f47-1253-44af-a2f3-20dce4da1f18&sourceTemplateId=ddb19591-3097-41cf-82af-c84273e56719)  \n[Authorization methods](https://go.postman.co/redirect/workspace?type=personal&collectionTemplateId=31a9a6ed-4cdf-4ced-984c-d12c9aec1c27&sourceTemplateId=ddb19591-3097-41cf-82af-c84273e56719)",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "32288028",
+		"_collection_link": "https://lunar-space-905941.postman.co/workspace/New-Team-Workspace~b0965722-f80f-464a-af74-c914e01e905e/collection/36643211-a13f1521-1fbf-4151-b721-e9f8a9da97b0?action=share&source=collection_link&creator=32288028"
+	},
+	"item": [
+		{
+			"name": "correct_answer",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "token",
+						"value": "dgbrtdshbhtyh5634R$%$gtrhbrth55432658bhgfrhf",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"essay\": {\r\n        \"true_answer\": \"The capital of France is Paris.\",\r\n        \"student_answer\": \"Paris is the capital of France.\"\r\n    },\r\n    \"choices\": {\r\n        \"true_answer\": \"Developing new drugs\",\r\n        \"student_answer\": \"Developing new drugs\"\r\n    },\r\n    \"true_false\": {\r\n        \"true_answer\": \"False\",\r\n        \"student_answer\": \"False\"\r\n    }\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://ssj4api-hx7vlcld5q-ue.a.run.app/endpoints/correct_answer",
+					"protocol": "https",
+					"host": [
+						"ssj4api-hx7vlcld5q-ue",
+						"a",
+						"run",
+						"app"
+					],
+					"path": [
+						"endpoints",
+						"correct_answer"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "correct_answer",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "token",
+								"value": "dgbrtdshbhtyh5634R$%$gtrhbrth55432658bhgfrhf",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"essay\": {\r\n        \"true_answer\": \"The capital of France is Paris.\",\r\n        \"student_answer\": \"Paris is the capital of France.\"\r\n    },\r\n    \"choices\": {\r\n        \"true_answer\": \"Developing new drugs\",\r\n        \"student_answer\": \"Developing new drugs\"\r\n    },\r\n    \"true_false\": {\r\n        \"true_answer\": \"False\",\r\n        \"student_answer\": \"False\"\r\n    }\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://ssj4api-hx7vlcld5q-ue.a.run.app/endpoints/correct_answer",
+							"protocol": "https",
+							"host": [
+								"ssj4api-hx7vlcld5q-ue",
+								"a",
+								"run",
+								"app"
+							],
+							"path": [
+								"endpoints",
+								"correct_answer"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "nginx/1.18.0 (Ubuntu)"
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 14 Jul 2024 15:10:19 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "304"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "\"{\\n    \\\"essay\\\": {\\n        \\\"score\\\": 10,\\n        \\\"feedback\\\": \\\"Excellent job! Your answer is correct. To improve, ensure to provide more details in the future.\\\"\\n    },\\n    \\\"choices\\\": {\\n        \\\"answer\\\": \\\"correct\\\"\\n    },\\n    \\\"true_false\\\": {\\n        \\\"answer\\\": \\\"correct\\\"\\n    }\\n}\""
+				}
+			]
+		},
+		{
+			"name": "generate_question",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"context\": \"Artificial intelligence (AI) is revolutionizing many industries. In healthcare, AI is being used to analyze medical data, predict patient outcomes, and even assist in surgeries. AI algorithms can sift through vast amounts of data to detect patterns that humans might miss. However, ethical concerns arise regarding privacy, bias in algorithms, and the impact of AI on jobs.\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://ssj4api-hx7vlcld5q-ue.a.run.app/endpoints/generate_questions",
+					"protocol": "https",
+					"host": [
+						"ssj4api-hx7vlcld5q-ue",
+						"a",
+						"run",
+						"app"
+					],
+					"path": [
+						"endpoints",
+						"generate_questions"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "generate_question",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "dgbrtdshbhtyh5634R$%$gtrhbrth55432658bhgfrhf",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"context\": \"Artificial intelligence (AI) is revolutionizing many industries. In healthcare, AI is being used to analyze medical data, predict patient outcomes, and even assist in surgeries. AI algorithms can sift through vast amounts of data to detect patterns that humans might miss. However, ethical concerns arise regarding privacy, bias in algorithms, and the impact of AI on jobs.\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://ssj4api-hx7vlcld5q-ue.a.run.app/endpoints/generate_questions",
+							"protocol": "https",
+							"host": [
+								"ssj4api-hx7vlcld5q-ue",
+								"a",
+								"run",
+								"app"
+							],
+							"path": [
+								"endpoints",
+								"generate_questions"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "nginx/1.18.0 (Ubuntu)"
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 14 Jul 2024 15:09:36 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "4422"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "\"{\\n    \\\"context\\\": \\\"Artificial intelligence (AI) is revolutionizing many industries. In healthcare, AI is being used to analyze medical data, predict patient outcomes, and even assist in surgeries. AI algorithms can sift through vast amounts of data to detect patterns that humans might miss. However, ethical concerns arise regarding privacy, bias in algorithms, and the impact of AI on jobs.\\\",\\n    \\\"input_text\\\": \\\"Based on the following context, generate questions from it and specify their correct answers and guidelines if they exist. Ensure to fill all JSON structure fields, do not leave any key without a value.\\\",\\n    \\\"output_format\\\": \\\"json\\\",\\n    \\\"json_structure\\\": \\n        {\\n            \\\"questions\\\": \\n            [\\n                {\\n                    \\\"type\\\": \\\"choices\\\", \\n                    \\\"data\\\": \\n                    [\\n                        {\\n                            \\\"id\\\": 1, \\n                            \\\"question\\\": \\\"What are some of the uses of AI in healthcare?\\\", \\n                            \\\"options\\\": [\\\"Analyzing medical data\\\", \\\"Assisting in surgeries\\\", \\\"Predicting patient outcomes\\\", \\\"All of the above\\\"], \\n                            \\\"answer\\\": \\\"All of the above\\\"\\n                        }, \\n                        {\\n                            \\\"id\\\": 2, \\n                            \\\"question\\\": \\\"What is one of the ethical concerns arising from the use of AI?\\\", \\n                            \\\"options\\\": [\\\"Privacy\\\", \\\"Bias in algorithms\\\", \\\"Impact on jobs\\\", \\\"All of the above\\\"], \\n                            \\\"answer\\\": \\\"All of the above\\\"\\n                        }, \\n                        {\\n                            \\\"id\\\": 3, \\n                            \\\"question\\\": \\\"What kind of patterns can AI algorithms detect?\\\", \\n                            \\\"options\\\": [\\\"Patterns in clothing\\\", \\\"Patterns in speech\\\", \\\"Patterns in data\\\", \\\"Patterns in behaviour\\\"], \\n                            \\\"answer\\\": \\\"Patterns in data\\\"\\n                        }, \\n                        {\\n                            \\\"id\\\": 4, \\n                            \\\"question\\\": \\\"What industries is AI revolutionizing?\\\", \\n                            \\\"options\\\": [\\\"Healthcare\\\", \\\"Technology\\\", \\\"Education\\\", \\\"All of the above\\\"], \\n                            \\\"answer\\\": \\\"All of the above\\\"\\n                        }\\n                    ]\\n                }, \\n                {\\n                    \\\"type\\\": \\\"true_false\\\", \\n                    \\\"data\\\": \\n                    [\\n                        {\\n                            \\\"id\\\": 1, \\n                            \\\"question\\\": \\\"AI cannot assist in surgeries.\\\", \\n                            \\\"correct_answer\\\": \\\"False\\\"\\n                        }, \\n                        {\\n                            \\\"id\\\": 2, \\n                            \\\"question\\\": \\\"AI algorithms can only detect patterns that humans can detect.\\\", \\n                            \\\"correct_answer\\\": \\\"False\\\"\\n                        }, \\n                        {\\n                            \\\"id\\\": 3, \\n                            \\\"question\\\": \\\"AI is used to predict patient outcomes.\\\", \\n                            \\\"correct_answer\\\": \\\"True\\\"\\n                        }, \\n                        {\\n                            \\\"id\\\": 4, \\n                            \\\"question\\\": \\\"AI has no impact on jobs.\\\", \\n                            \\\"correct_answer\\\": \\\"False\\\"\\n                        }\\n                    ]\\n                }, \\n                {\\n                    \\\"type\\\": \\\"essay\\\", \\n                    \\\"data\\\": \\n                    [\\n                        {\\n                            \\\"id\\\": 1, \\n                            \\\"question\\\": \\\"Discuss the ethical concerns arising from the use of AI, and suggest potential solutions to these challenges.\\\", \\n                            \\\"guidelines\\\": \\\"The essay should specifically address privacy, bias in algorithms, and the impact of AI on jobs. Potential solutions should be realistic and feasible, taking into account current technology and ethical considerations. The essay must be well-structured with a central thesis, supporting arguments, and a conclusion.\\\"\\n                        }\\n                    ]\\n                }\\n            ]\\n        }\\n}\""
+				}
+			]
+		},
+		{
+			"name": "get_answer",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "token",
+						"value": "dgbrtdshbhtyh5634R$%$gtrhbrth55432658bhgfrhf",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"context\": \"The quick brown fox jumps over the lazy dog. This well-known sentence contains all the letters of the English alphabet, making it a pangram. Pangrams are useful for testing fonts and keyboard layouts. In addition, they help designers check the appearance of all letters in a typeface.\",\r\n  \"question\": \"What is the main point of the context?\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://ssj4api-hx7vlcld5q-ue.a.run.app/endpoints/get_answer",
+					"protocol": "https",
+					"host": [
+						"ssj4api-hx7vlcld5q-ue",
+						"a",
+						"run",
+						"app"
+					],
+					"path": [
+						"endpoints",
+						"get_answer"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "get_answer",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "dgbrtdshbhtyh5634R$%$gtrhbrth55432658bhgfrhf",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"context\": \"The quick brown fox jumps over the lazy dog. This well-known sentence contains all the letters of the English alphabet, making it a pangram. Pangrams are useful for testing fonts and keyboard layouts. In addition, they help designers check the appearance of all letters in a typeface.\",\r\n  \"question\": \"What is the main point of the context?\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://ssj4api-hx7vlcld5q-ue.a.run.app/endpoints/get_answer",
+							"protocol": "https",
+							"host": [
+								"ssj4api-hx7vlcld5q-ue",
+								"a",
+								"run",
+								"app"
+							],
+							"path": [
+								"endpoints",
+								"get_answer"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "nginx/1.18.0 (Ubuntu)"
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 14 Jul 2024 15:06:25 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "262"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"answer\": \"The main point of the context is to explain that the sentence \\\"The quick brown fox jumps over the lazy dog\\\" is a pangram. It highlights the usefulness of pangrams in testing fonts, keyboard layouts, and the appearance of all letters in a typeface.\"\n}"
+				}
+			]
+		},
+		{
+			"name": "transcribe_media",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "token",
+						"value": "dgbrtdshbhtyh5634R$%$gtrhbrth55432658bhgfrhf",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "media_file",
+							"type": "file",
+							"src": "postman-cloud:///1ef3c874-10b3-4600-bb5b-f7007872000a"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://ssj4api-hx7vlcld5q-ue.a.run.app/endpoints/transcribe_media",
+					"protocol": "https",
+					"host": [
+						"ssj4api-hx7vlcld5q-ue",
+						"a",
+						"run",
+						"app"
+					],
+					"path": [
+						"endpoints",
+						"transcribe_media"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "transcribe_media",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "dgbrtdshbhtyh5634R$%$gtrhbrth55432658bhgfrhf",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "media_file",
+									"type": "file",
+									"src": "postman-cloud:///1ef3c874-10b3-4600-bb5b-f7007872000a"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://35.238.108.54/transcribe_media",
+							"protocol": "http",
+							"host": [
+								"35",
+								"238",
+								"108",
+								"54"
+							],
+							"path": [
+								"transcribe_media"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "nginx/1.18.0 (Ubuntu)"
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 14 Jul 2024 15:04:55 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "430"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"transcript\": \"You work hard, you make money, you do it for yourself. That's not life. You go out, you seek for people who need your help, you make their lives better. You become that sponge which can absorb all the negativity and you become that person who can emit beautiful positive vibes and when you realize that you have changed someone's life and because of you, this person didn't give up. That is the day when you live.\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Chatbot",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "token",
+						"value": "dgbrtdshbhtyh5634R$%$gtrhbrth55432658bhgfrhf",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"input\": \"ماهى منصة سيان\",\r\n    \"user_id\": \"abc123\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://ssj4api-hx7vlcld5q-ue.a.run.app/endpoints/query",
+					"protocol": "https",
+					"host": [
+						"ssj4api-hx7vlcld5q-ue",
+						"a",
+						"run",
+						"app"
+					],
+					"path": [
+						"endpoints",
+						"query"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Chatbot",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "dgbrtdshbhtyh5634R$%$gtrhbrth55432658bhgfrhf",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"input\": \"ماهى منصة سيان\",\r\n    \"user_id\": \"abc123\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://35.238.108.54/query",
+							"protocol": "http",
+							"host": [
+								"35",
+								"238",
+								"108",
+								"54"
+							],
+							"path": [
+								"query"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "nginx/1.18.0 (Ubuntu)"
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 14 Jul 2024 15:03:08 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "359"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"answer\": \"منصة سيان هي منصة تعليمية مبتكرة توفر أدوات متطورة لإنشاء أكاديميات خاصة وتطوير مواد تعليمية عالية الجودة. تتيح المنصة وصولاً سهلاً للمواد التعليمية وتوفر أدوات لتعزيز تجربة التعلم للطلاب.\"\n}"
+				}
+			]
+		},
+		{
+			"name": "clear history",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "token",
+						"value": "dgbrtdshbhtyh5634R$%$gtrhbrth55432658bhgfrhf",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"user_id\": \"abc123\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://ssj4api-hx7vlcld5q-ue.a.run.app/endpoints/clear_history",
+					"protocol": "https",
+					"host": [
+						"ssj4api-hx7vlcld5q-ue",
+						"a",
+						"run",
+						"app"
+					],
+					"path": [
+						"endpoints",
+						"clear_history"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "clear history",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "token",
+								"value": "dgbrtdshbhtyh5634R$%$gtrhbrth55432658bhgfrhf",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"user_id\": \"abc123\"\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://34.46.24.38/remove_history",
+							"protocol": "http",
+							"host": [
+								"34",
+								"46",
+								"24",
+								"38"
+							],
+							"path": [
+								"remove_history"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "nginx/1.18.0 (Ubuntu)"
+						},
+						{
+							"key": "Date",
+							"value": "Sun, 14 Jul 2024 15:08:45 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "50"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"message\": \"Chat history removed for user abc123\"\n}"
+				}
+			]
+		},
+		{
+			"name": "Hello Flask",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://ssj4api-hx7vlcld5q-ue.a.run.app",
+					"protocol": "https",
+					"host": [
+						"ssj4api-hx7vlcld5q-ue",
+						"a",
+						"run",
+						"app"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "http://35.238.108.54/",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://ssj4api-hx7vlcld5q-ue.a.run.app",
+							"protocol": "https",
+							"host": [
+								"ssj4api-hx7vlcld5q-ue",
+								"a",
+								"run",
+								"app"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "nginx/1.18.0 (Ubuntu)"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 16 Jul 2024 22:42:56 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "21"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "\"Hello from FastAPI!\""
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "id",
+			"value": "1"
+		},
+		{
+			"key": "base_url",
+			"value": "https://postman-rest-api-learner.glitch.me/"
+		}
+	]
+}
