@@ -6,9 +6,9 @@ import { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Spinner } from "react-bootstrap";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { getFooter, updateFooter } from "../../../utils/apis/client/academy";
-import { JustifyContentWrapper } from "../../../utils/styles";
+import {  JustifyContentWrapper } from "../../../utils/styles";
 import { ButtonSpinner } from "../../../component/UI/Buttons/ButtonSpinner";
 import { getChangedValues, populateFormData } from "../../../utils/helpers";
 
@@ -22,22 +22,13 @@ const EditFooter = () => {
   let [change, setChange] = useState(0);
   const [isPending, setIsPending] = useState(false);
 
-  let [file, setFile] = useState();
+  const [previewUrl, setPreviewUrl] = useState(null);
   const navigate = useNavigate();
   let location = useLocation();
   let nav = useParams();
   const fileInputRef = useRef(null);
   const queryClient = useQueryClient()
 
-  const handleButtonClick = () => {
-    fileInputRef.current.click();
-  };
-
-  const handleFileChange = (e) => {
-    setChange(1);
-    formik.setFieldValue("image", e.target.files[0]);
-    setFile(e.target.files[0].file);
-  };
 
   const { data: footerData, isLoading } = useQuery({
     queryKey: ["Footer"],
@@ -54,13 +45,17 @@ const EditFooter = () => {
     onSubmit: (data) => {
       const formData = new FormData();
       const values = getChangedValues(data, footerData?.footer);
+
+      console.log(values)
+
       populateFormData(formData, values);
       setIsPending(true);
       updateFooter(data.id, formData)
-        .then(() => {
+        .then((data) => {
+          console.log(data);
           toast.success("تم تحديث البيانات ", { position: "top-left" });
           queryClient.invalidateQueries(["Footer"]);
-          navigate(location.pathname.replace(`/edit/${nav.slug}`, ""));
+          // navigate(location.pathname.replace(`/edit/${nav.slug}`, ""));
         })
         .catch((error) => {
           toast.error("حدث خطأ ما ", { position: "top-left" });
@@ -72,7 +67,20 @@ const EditFooter = () => {
   });
 
 
+  const handleButtonClick = () => {
+    fileInputRef.current.click();
+  };
 
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      formik.setFieldValue('image', file);
+      setPreviewUrl(URL.createObjectURL(file));
+    }
+  };
+
+
+  
   useEffect(() => {
     if (footerData?.footer) {
       formik.setValues(footerData?.footer);
@@ -82,7 +90,13 @@ const EditFooter = () => {
         content: "",
       });
     }
-  }, [footerData?.footer]);
+
+    return () => {
+      if (previewUrl) {
+        URL.revokeObjectURL(previewUrl);
+      }
+    };
+  }, [footerData?.footer, previewUrl]);
 
 
 
@@ -112,42 +126,48 @@ const EditFooter = () => {
       </div>
       <div className="CustomCard formCard all-add-notific pb-4 pt-4">
         <form onSubmit={formik.handleSubmit} className="row">
-          <div className=" justify-content-center">
-            <div className=" row m-auto justify-content-center">
-              <img
-                src={!change && formik?.values?.image}
-                alt="Selected File"
-                style={{
-                  maxWidth: "366px",
-                  maxHeight: "212px",
-                  objectFit: "contain",
-                  marginTop: "10px",
-                }}
-              />
-
-              <div className="d-flex button-content--1 justify-content-center">
-                <input
-                  type="file"
-                  name="image"
-                  id="image"
-                  ref={fileInputRef}
-                  style={{ display: "none" }}
-                  onChange={handleFileChange}
-                />
-                <div
-                  style={{
-                    background: "white",
-                    marginTop: "25px",
-                    marginBottom: "30px",
-                  }}
-                  className="updateBtn"
-                  onClick={handleButtonClick}
-                >
-                  رفع الصورة
-                </div>
-              </div>
+        <div className="justify-content-center">
+        <div className="row m-auto justify-content-center">
+          {previewUrl && (
+            <img
+              src={previewUrl}
+              alt="Selected File"
+              style={{
+                maxWidth: '366px',
+                maxHeight: '212px',
+                objectFit: 'contain',
+                marginTop: '10px',
+              }}
+            />
+          )}
+          <div className="d-flex button-content--1 justify-content-center">
+            <input
+              type="file"
+              name="image"
+              id="image"
+              ref={fileInputRef}
+              style={{ display: 'none' }}
+              onChange={handleFileChange}
+              accept="image/*"
+            />
+            <div
+              style={{
+                background: 'white',
+                marginTop: '25px',
+                marginBottom: '30px',
+                cursor: 'pointer',
+              }}
+              className="updateBtn"
+              onClick={handleButtonClick}
+            >
+              رفع الصورة
             </div>
           </div>
+        </div>
+      </div>
+      {formik.errors.image && formik.touched.image && (
+        <div className="error">{formik.errors.image}</div>
+      )}
           <div className="col-lg-6 col-md-12">
             <div className="CustomFormControl">
               <label htmlFor="title">العنوان </label>

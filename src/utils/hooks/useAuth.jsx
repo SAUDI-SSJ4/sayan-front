@@ -5,6 +5,7 @@ import { useEffect, useMemo } from "react";
 import { getAuthProfile, getAuthAcademyProfile } from "../apis/client";
 import Cookies from "js-cookie";
 import { setAcademyUser } from "../../../redux/AcademyAuthSlics";
+import { getStudentProfile } from "../apis/client/student";
 
 export function useAuth() {
   const dispatch = useDispatch();
@@ -20,7 +21,7 @@ export function useAuth() {
     isFetched,
   } = useQuery({
     queryKey: ["userProfile"],
-    queryFn: () => (loginType === "academy" ? getAuthAcademyProfile() : getAuthProfile()),
+    queryFn: () => (loginType === "academy" ? getAuthAcademyProfile() : getStudentProfile()),
     retry: 2,
     enabled: !!token,
     staleTime: 600000,

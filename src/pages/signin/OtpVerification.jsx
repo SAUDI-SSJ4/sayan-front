@@ -8,6 +8,7 @@ import OtpInput from "./OtpInput";
 import axiosInstance from "../../../axios";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { postVerify } from "../../utils/apis/client/student";
 
 const OtpVerification = ({ email }) => {
   const navigate = useNavigate();
@@ -23,18 +24,17 @@ const OtpVerification = ({ email }) => {
         .required("الرمز مطلوب"),
     }),
     onSubmit: (values) => {
-      formik.setSubmitting(true); // Set submitting state to true
-      axiosInstance
-        .post("/verify", { otp: values.otp, email })
+      formik.setSubmitting(true);
+      postVerify({ otp: values.otp, email })
         .then((res) => {
-          navigate("/login");
+          navigate("/student/login");
           toast.success("تم انشاء الحساب بنجاح");
         })
         .catch((error) => {
           toast.error(error?.response?.data?.message);
         })
         .finally(() => {
-          formik.setSubmitting(false); // Set submitting state to false
+          formik.setSubmitting(false);
         });
     },
   });

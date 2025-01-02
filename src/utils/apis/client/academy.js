@@ -13,6 +13,17 @@ academy_client.interceptors.request.use(
   }
 );
 
+
+
+export const postRegister = async (data) => {
+  const { data: response } = await academy_client.post("/register", data, {
+    headers: { "Content-Type": "multipart/form-data" },
+    timeout: 600000,
+  });
+  return response;
+};
+
+
 export const getCourse = async () => {
   const { data } = await academy_client.get("/course");
   return data;

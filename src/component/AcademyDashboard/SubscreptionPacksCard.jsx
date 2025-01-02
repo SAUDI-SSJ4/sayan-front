@@ -15,14 +15,15 @@ const AcademySubscreptionPacksCard = () => {
   const [isDataFetched, setIsDataFetched] = useState(false);
   let { data: profileData, isLoading, errors } = useFinance();
 
+  
   if (errors) return <Error />;
+
+
   if (isLoading)
     return (
-      <>
-        <div className="w-full h-50 d-flex justify-content-center align-items-center">
-          <Spinner className="" />
-        </div>
-      </>
+      <div className="w-full h-50 d-flex justify-content-center align-items-center">
+        <Spinner className="" />
+      </div>
     );
 
   console.log(profileData);
@@ -47,7 +48,7 @@ const AcademySubscreptionPacksCard = () => {
 
           axios
             .post(
-              "https://sayan.nour-projects.com/academy/subscripe",
+              // "https://sayan.nour-projects.com/academy/subscripe",
               { package_id: e },
               {
                 headers: {

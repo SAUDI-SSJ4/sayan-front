@@ -21,17 +21,17 @@ export const CourseCard = ({
   isLoading,
 }) => {
 
-  if(isLoading) {
+  if (isLoading) {
     return (
       <MainSpinner />
     )
   }
-  
+
   return (
     <React.Fragment>
       <div className={`${Style.CourseTitle}`}>
-        <h2 className="p-0 m-0">{ isObject(courseData?.course) && courseData.course.title}</h2>
-        <h4>{ isObject(courseData?.course) && handleRateStare(courseData.course.rated)}</h4>
+        <h2 className="p-0 m-0">{isObject(courseData?.course) && courseData.course.title}</h2>
+        <h4>{isObject(courseData?.course) && handleRateStare(courseData.course.rated)}</h4>
       </div>
       {showBuyCourses && (
         <BuyACourse
@@ -75,15 +75,16 @@ export const CourseCard = ({
         <div className="col-lg-3 col-md-12 col-12 mt-3">
           <div className={Style.detials}>
             <div className={Style.Price}>
-              { isObject(courseData?.course) && courseData.course.price} ر.س.
+              {isObject(courseData?.course) && courseData.course.price} ر.س.
             </div>
             <div className={Style.JoinBtn} onClick={() => setshowBuyCourses(true)}>
-              انضم الان <ArrowBackIcon />
+              انضم الان
+              <ArrowBackIcon />
             </div>
             <div className="mt-4">
               <div className={Style.Line}>
                 <img src={fi_4626794} />
-                {isObject(courseData?.course) &&  handleLevels(courseData.course.level)}
+                {isObject(courseData?.course) && handleLevels(courseData.course.level)}
               </div>
               <div className={Style.Line}>
                 <img src={fi_860780} />

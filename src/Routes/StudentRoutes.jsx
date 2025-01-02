@@ -94,22 +94,8 @@ const StudentRoute = () => {
         <Routes>
           <Route path="student/dashboard" element={<StudentDashboard />} />
           <Route path="student/home/*" element={<Dashboard />} />
-
-          <Route path="student/login"
-            element={
-              <div key="login">
-                <Login />
-              </div>
-            }
-          />
-          <Route path="student/signin"
-            element={
-              <div key="signin">
-                <StudentSignIn />
-              </div>
-            }
-          />
-
+          <Route path="student/login" element={<Login />} />
+          <Route path="student/signin" element={<StudentSignIn />} />
           <Route path="student/users/*" element={<Users />} />
           <Route path="student/profile" element={<Profile />} />
           <Route path="student/StudentRate" element={<StudentRate />} />
@@ -154,7 +140,7 @@ const StudentRoute = () => {
           {/* <Route path="student/PrivacyPolicy/*" element={<PrivacyPolicy />} /> */}
           {/* <Route path="student/EditPrivacy/*" element={<EditPrivacy />} /> */}
 
-        
+
 
           <Route path="student/Terms/*" element={<Terms />} />
           <Route path="student/EditTerms/*" element={<EditTerms />} />

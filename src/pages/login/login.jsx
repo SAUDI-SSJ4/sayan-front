@@ -26,6 +26,7 @@ import Cookies from "js-cookie";
 import { WiMoonWaningCrescent3 } from "react-icons/wi";
 
 import logo from "../../assets/images/logo.png"
+import { postLogin } from "../../utils/apis/client/student";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -36,11 +37,6 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const formData = {
-    email,
-    password,
-  };
-  console.log("test test")
 
   const formik = useFormik({
     initialValues: {
@@ -60,12 +56,14 @@ const Login = () => {
   const notify = (e) => toast(e);
 
   const mutation = useMutation({
-    mutationFn: (data) => postLoginAPI(data),
+    mutationFn: (data) => postLogin(data),
     onSuccess: (response) => {
       const { type, access_token } = response.data;
-      if (!type === "academy") {
+      if (type === "student") {
         Cookies.set("student_token", access_token);
         Cookies.set("student_login", true);
+        Cookies.set("student_login", true);
+        Cookies.set("login_type", "student");
         notify("تم تسجيل الدخول بنجاح 🎉");
         return router("/student/dashboard");
       }
@@ -77,13 +75,15 @@ const Login = () => {
   });
 
   const logInFunction = async () => {
-    if (!formData.email || !formData.password) return;
-    await mutation.mutateAsync(formData);
+    if (!email || !password) return;
+
+    console.log({ email, password });
+
+    await mutation.mutateAsync({ email, password });
   };
 
   const handleForgotPassword = async (email) => {
     try {
-      // Add your forgot password API call here
       notify("تم إرسال رابط إعادة تعيين كلمة المرور إلى بريدك الإلكتروني");
       setShowForgotPassword(false);
     } catch (error) {
@@ -94,18 +94,18 @@ const Login = () => {
   return (
     <div className={`row gx-3 ${classes.LoginContainer}`}>
       <div className={`${classes.LoginBanner} col-lg-6 col-md-12  bg-login-banner`}>
-       <img src={logo} className={`${classes.logo}`} />
+        <img src={logo} className={`${classes.logo}`} />
         <div>
           <ul className={` ${classes.footerList}`}>
-            <li> 
+            <li>
               <RBtn>
                 <WiMoonWaningCrescent3 />
               </RBtn>
             </li>
-            <li><Link to="/" style={{textDecoration: 'none'}}>منصة سيان</Link></li>
-            <li><Link to="/terms" style={{textDecoration: 'none'}}>الشروط والأحكام</Link></li>
-            <li><Link to="/privacy" style={{textDecoration: 'none'}}>سياسة الخصوصية</Link></li>
-            <li><Link to="/signin" style={{textDecoration: 'none'}}>اطلق اكاديميتك</Link></li>
+            <li><Link to="/" style={{ textDecoration: 'none' }}>منصة سيان</Link></li>
+            <li><Link to="/terms" style={{ textDecoration: 'none' }}>الشروط والأحكام</Link></li>
+            <li><Link to="/privacy" style={{ textDecoration: 'none' }}>سياسة الخصوصية</Link></li>
+            <li><Link to="/signin" style={{ textDecoration: 'none' }}>اطلق اكاديميتك</Link></li>
           </ul>
         </div>
       </div>
@@ -124,44 +124,44 @@ const Login = () => {
             </Link>
           </div>
           {showForgotPassword ? (
-              <div className={classes.forgotPasswordForm}>
-                <h3>إعادة تعيين كلمة المرور</h3>
-                <p>أدخل بريدك الإلكتروني لإعادة تعيين كلمة المرور</p>
-                <TextField
-                  fullWidth
-                  id="resetEmail"
-                  name="resetEmail"
-                  type="email"
-                  placeholder="البريد الإلكتروني"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  InputProps={{
-                    style: {
-                      borderRadius: "10px",
-                    },
-                  }}
-                />
-                <div className="mt-3 d-flex gap-2">
-                  <button
-                    className={classes.SubmitBtn}
-                    onClick={() => handleForgotPassword(email)}
-                  >
-                    إرسال
-                  </button>
-                  <button
-                    className={classes.cancelBtn}
-                    onClick={() => setShowForgotPassword(false)}
-                  >
-                    إلغاء
-                  </button>
-                </div>
+            <div className={classes.forgotPasswordForm}>
+              <h3>إعادة تعيين كلمة المرور</h3>
+              <p>أدخل بريدك الإلكتروني لإعادة تعيين كلمة المرور</p>
+              <TextField
+                fullWidth
+                id="resetEmail"
+                name="resetEmail"
+                type="email"
+                placeholder="البريد الإلكتروني"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                InputProps={{
+                  style: {
+                    borderRadius: "10px",
+                  },
+                }}
+              />
+              <div className="mt-3 d-flex gap-2">
+                <button
+                  className={classes.SubmitBtn}
+                  onClick={() => handleForgotPassword(email)}
+                >
+                  إرسال
+                </button>
+                <button
+                  className={classes.cancelBtn}
+                  onClick={() => setShowForgotPassword(false)}
+                >
+                  إلغاء
+                </button>
               </div>
-            ) : (
+            </div>
+          ) : (
             <div className={`${classes.LoginForm}  `}>
-            <h2>تسجيل الدخول</h2>
-            <p> ادخل المعلومات الخاصة بحسابك</p>
-            
-           
+              <h2>تسجيل الدخول</h2>
+              <p> ادخل المعلومات الخاصة بحسابك</p>
+
+
               <form onSubmit={formik.handleSubmit}>
                 <div>
                   <button
@@ -175,7 +175,7 @@ const Login = () => {
                 </div>
                 <div className={`${classes.formGroup} `}>
                   <label htmlFor="email" className="mb-2">
-                    البريد الإلكتروني <span  style={{color: "red"}} >*</span>
+                    البريد الإلكتروني <span style={{ color: "red" }} >*</span>
                   </label>
                   <TextField
                     fullWidth
@@ -190,17 +190,12 @@ const Login = () => {
                     onBlur={formik.handleBlur}
                     error={formik.touched.email && Boolean(formik.errors.email)}
                     helperText={formik.touched.email && formik.errors.email}
-                    InputProps={{
-                      style: {
-                        borderRadius: "10px",
-                      },
-                    }}
-                  />
+                    InputProps={{ style: { borderRadius: "10px" } }} />
                 </div>
                 <Toaster />
                 <div className={`${classes.formGroup} `}>
-                  <label htmlFor="password" className="mb-2"> 
-                    كلمة المرور <span style={{color: "red"}}>*</span>
+                  <label htmlFor="password" className="mb-2">
+                    كلمة المرور <span style={{ color: "red" }}>*</span>
                   </label>
                   <TextField
                     fullWidth
@@ -247,15 +242,15 @@ const Login = () => {
                     label="تذكرني"
                   />
 
-                  <div 
+                  <div
                     className={`${classes.forgotPassword}`}
                     onClick={() => setShowForgotPassword(true)}
-                    style={{cursor: "pointer"}}
+                    style={{ cursor: "pointer" }}
                   >
                     نسيت كلمة المرور؟
                   </div>
                 </div>
-                
+
                 <button
                   className={`${classes.SubmitBtn} mt-2`}
                   style={{ display: "flex", justifyContent: "center" }}
@@ -276,11 +271,12 @@ const Login = () => {
                   </Link>
                 </div>
               </form>
-            
-            <div className={classes.copyright}>
-              © 2023 جميع الحقوق محفوظة لمنصة سيان
             </div>
-          </div>)}
+          )}
+
+          {/* <div className={`${classes.copyright} mt-3`}>
+            © 2023 جميع الحقوق محفوظة لمنصة سيان
+          </div> */}
         </div>
       </div>
     </div>
