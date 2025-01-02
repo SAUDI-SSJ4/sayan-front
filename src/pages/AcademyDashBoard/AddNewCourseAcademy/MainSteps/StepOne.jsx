@@ -1,15 +1,15 @@
 import React, { useRef, useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import defualt from "../../../assets/images/img.png";
+import defualt from "../../../../assets/images/img.png";
 import chroma from "chroma-js";
 import Select from "react-select";
 import { useQuery } from "@tanstack/react-query";
-import {  getAllcategories, getTrainer } from "../../../utils/apis/client/academy";
+import {  getAllcategories, getTrainer } from "../../../../utils/apis/client/academy";
 import { useNavigate } from "react-router-dom";
-import { ButtonSpinner } from "../../../component/UI/Buttons/ButtonSpinner";
-import { populateFormData } from "../../../utils/helpers";
-import { academy_client } from "../../../utils/apis/client.config";
+import { ButtonSpinner } from "../../../../component/UI/Buttons/ButtonSpinner";
+import { populateFormData } from "../../../../utils/helpers";
+import { academy_client } from "../../../../utils/apis/client.config";
 
 const typeOptions = [
   { value: "recorded", label: "تفاعلية", color: "#673ab7" },
@@ -156,7 +156,7 @@ export const AddNewCourseStepOneForm = ({
 
   return (
     <form onSubmit={formik.handleSubmit} className="row g-3 w-80 justify-content-center m-auto">
-      <div className=" justify-content-center">
+      <div className="col-lg-6 col-md-12 justify-content-center">
         <div className=" row g-3 button-content--1 m-auto justify-content-center">
           <img
             src={formik.values.image ? URL.createObjectURL(formik.values.image) : defualt}
@@ -185,9 +185,9 @@ export const AddNewCourseStepOneForm = ({
           </div>
         </div>
       </div>
-      <div className="justify-content-center">
+      <div className="col-lg-6 col-md-12 justify-content-center">
         <div className="row g-3 button-content--1 m-auto justify-content-center">
-          {formik.values.short_video && (
+          {formik.values.short_video ? (
             <video
               width="366px"
               height="212px"
@@ -198,6 +198,19 @@ export const AddNewCourseStepOneForm = ({
               }}
             >
               <source src={URL.createObjectURL(formik.values.short_video)} type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+          ): (
+            <video
+              width="366px"
+              height="212px"
+              controls
+              style={{
+                objectFit: "contain",
+                marginTop: "10px",
+              }}
+            >
+              <source src={defualt} type="video/mp4" />
               Your browser does not support the video tag.
             </video>
           )}
@@ -290,7 +303,7 @@ export const AddNewCourseStepOneForm = ({
         </div>
       </div>
 
-      <div className="col-lg-6 col-md-12">
+      <div className="col-lg-3 col-md-6">
         <div className="CustomFormControl">
           <label htmlFor="trainer_id">المدرب</label>
           <Select
@@ -313,7 +326,7 @@ export const AddNewCourseStepOneForm = ({
         </div>
       </div>
 
-      <div className="col-lg-6 col-md-12">
+      <div className="col-lg-3 col-md-6">
         <div className="CustomFormControl">
           <label htmlFor="category_id">الفئة</label>
           <Select
@@ -336,7 +349,7 @@ export const AddNewCourseStepOneForm = ({
         </div>
       </div>
 
-      <div className="col-lg-6 col-md-12">
+      <div className="col-lg-3 col-md-6">
         <div className="CustomFormControl">
           <label htmlFor="price">السعر</label>
           <input
@@ -352,7 +365,7 @@ export const AddNewCourseStepOneForm = ({
         </div>
       </div>
 
-      <div className="col-lg-6 col-md-12">
+      <div className="col-lg-3 col-md-6">
         <div className="CustomFormControl">
           <label htmlFor="level">مستوى الطالب</label>
           <Select

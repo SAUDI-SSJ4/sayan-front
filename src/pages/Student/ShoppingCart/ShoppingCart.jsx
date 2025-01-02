@@ -1,24 +1,53 @@
+import React from 'react';
+import { useCart } from '../../../context/CartContext';
+import classes from './ShoppingCart.module.scss';
 import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
+import DeleteIcon from '@mui/icons-material/Delete';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import { useNavigate } from 'react-router-dom';
+import { RemoveShoppingCartRounded, ShoppingCartRounded } from '@mui/icons-material';
 
-import classes from "./ShoppingCart.module.scss";
-import { useState } from "react";
-import PDf from "../../../assets/icons/PDFicon.svg";
 const ShoppingCart = () => {
-  const [TableOrNot, setTableOrNot] = useState(false);
-  const [checkedKeys, setCheckedKeys] = useState([]);
-  const [data, setData] = useState([]);
-  const checkAllHandler = () => {
-    setCheckedKeys((perv) => {
-      if (
-        perv?.length === data?.length &&
-        (perv?.length !== 0 || data?.length !== 0)
-      ) {
-        return [];
-      } else {
-        return [...data];
-      }
-    });
+  const { cartItems, removeFromCart, updateQuantity, clearCart } = useCart();
+  const navigate = useNavigate();
+  console.log(cartItems)
+
+  const calculateSubtotal = () => {
+    return cartItems.reduce((total, item) => total + item.price, 0);
   };
+
+  const calculateDiscount = () => {
+    // This can be updated based on your discount logic
+    return 0;
+  };
+
+  const calculateTotal = () => {
+    return calculateSubtotal() - calculateDiscount();
+  };
+
+  if (cartItems.length === 0) {
+    return (
+      <div className={classes.emptyCart}>
+        <ShoppingCartRounded
+          sx={{
+            width: '100px',
+            height: '100px',
+            color: '#888',
+            marginBottom: '20px'
+          }}
+        />
+        <h2>عربة التسوق فارغة</h2>
+        <p>لم تقم بإضافة أي منتجات إلى عربة التسوق بعد</p>
+        <div 
+          className={classes.shopButton}
+          onClick={() => navigate('/student/Products')}
+        >
+          تصفح المنتجات
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div>
       <div className="TablePageHeader">
@@ -31,158 +60,82 @@ const ShoppingCart = () => {
           </div>
         </div>
       </div>
+
       <div className="info-details--1 pt-0">
         <div className="row gx-3 gy-4">
           <div className="col-lg-8">
-            <div className={`${classes.Card} all-cards-info`}>
-              <div
-                className="p-2 pb-4 pt-3 card-one"
-                style={{ borderBottom: "1px solid #EDEFF2" }}
-              >
-                <div className="d-flex justify-content-between align-items-center">
-                  <div className="card-details-info w-100">
-                    <div className="card-info mb-3 d-flex justify-content-between align-items-center gap-3 flex-wrap">
-                      <div className="d-flex align-items-center gap-3">
-                        <img src={PDf} />
-                        <div>
-                          <h3>عنوان المنتج</h3>
-                          <p>
-                            حجم الملف: 250 غيغا
-                            <br />
-                            اكاديمية ضوء
-                          </p>
-                        </div>
-                        
+            <div className={classes.Card}>
+              {cartItems.map((item) => (
+                <div key={item.id} className={classes.cartItem}>
+                  <div className={classes.itemContent}>
+                    <div className={classes.itemInfo}>
+                      <img src={item.image} alt={item.title} className={classes.productImage} />
+                      <div className={classes.itemDetails}>
+                        <h3>{item.title}</h3>
                       </div>
-                      <div style={{ color: "#2B3674", fontWeight: "600" }}>
-                      90.00 ر.س.
                     </div>
-                    </div>
-                    <div className="main-buttons d-flex gap-2 mt-2">
-                      <div
-                        className="btn-new"
-                        style={{
-                          border: "1px solid #EDEFF2",
-                          padding: "5px",
-                          borderRadius: "4px",
-                          color: "#0D6EFD",
-                          fontWeight: "600"
-                        }}
-                      >
-                        اضافة الى قائمة المفضلة
-                      </div>
-                      <div
-                        className="btn-new btn-remove"
-                        style={{
-                          border: "1px solid #EDEFF2",
-                          padding: "5px",
-                          borderRadius: "4px",
-                          color: "#FA3434",
-                          fontWeight: "600"
-                        }}
-                      >
-                        ازالة
-                      </div>
+                    
+                    <div className={classes.itemPrice}>
+                      {item.price.toFixed(2)} ر.س.
                     </div>
                   </div>
-                 
-                </div>
-              </div>
-              <div
-              className="p-2 pb-4 pt-3 card-one"
-              style={{ borderBottom: "1px solid #EDEFF2" }}
-            >
-              <div className="d-flex justify-content-between align-items-center">
-                <div className="card-details-info w-100">
-                  <div className="card-info mb-3 d-flex justify-content-between align-items-center gap-3 flex-wrap">
-                    <div className="d-flex align-items-center gap-3">
-                      <img src={PDf} />
-                      <div>
-                        <h3>عنوان المنتج</h3>
-                        <p>
-                          حجم الملف: 250 غيغا
-                          <br />
-                          اكاديمية ضوء
-                        </p>
-                      </div>
-                      
-                    </div>
-                    <div style={{ color: "#2B3674", fontWeight: "600" }}>
-                    90.00 ر.س.
-                  </div>
-                  </div>
-                  <div className="main-buttons d-flex gap-2 mt-2">
-                    <div
-                      className="btn-new"
-                      style={{
-                        border: "1px solid #EDEFF2",
-                        padding: "5px",
-                        borderRadius: "4px",
-                        color: "#0D6EFD",
-                        fontWeight: "600"
-                      }}
+
+                  <div className={classes.itemActions}>
+                    <button
+                      className={classes.actionButton}
+                      onClick={() => {/* Add to favorites logic */}}
                     >
-                      اضافة الى قائمة المفضلة
-                    </div>
-                    <div
-                      className="btn-new btn-remove"
-                      style={{
-                        border: "1px solid #EDEFF2",
-                        padding: "5px",
-                        borderRadius: "4px",
-                        color: "#FA3434",
-                        fontWeight: "600"
-                      }}
+                      <FavoriteIcon /> اضافة الى قائمة المفضلة
+                    </button>
+                    <button
+                      className={`${classes.actionButton} ${classes.removeButton}`}
+                      onClick={() => removeFromCart(item.id)}
                     >
-                      ازالة
-                    </div>
+                      <DeleteIcon /> ازالة
+                    </button>
                   </div>
                 </div>
-               
-              </div>
-            </div>
-             
-              <div className="main-buttons d-flex">
-                <div
-                  className="btn-new btn-remove"
-                  style={{
-                    border: "1px solid #FA3434",
-                    padding: "5px",
-                    borderRadius: "4px",
-                    color: "#FA3434",
-                    fontWeight: "600"
-                  }}
+              ))}
+
+              <div className={classes.clearCart}>
+                <button
+                  className={classes.clearButton}
+                  onClick={clearCart}
                 >
                   ازالة الكل
-                </div>
+                </button>
               </div>
             </div>
           </div>
+
           <div className="col-lg-4">
             <div className={classes.Card}>
-              <h3 className="mb-3"> لديك كوبون خصم؟</h3>
+              <h3 className="mb-3">لديك كوبون خصم؟</h3>
               <div className={classes.Input}>
                 <input type="text" placeholder="ادخل كود الخصم" />
                 <div>تطبيق</div>
               </div>
             </div>
-            <div className={classes.Card} style={{ marginTop: "30px" }}>
-              <div className="d-flex align-items-center justify-content-between">
+
+            <div className={`${classes.Card} ${classes.summary}`}>
+              <div className={classes.summaryRow}>
                 <p>المجموع</p>
-                <p>180.00 ر.س.</p>
+                <p>{calculateSubtotal().toFixed(2)} ر.س.</p>
               </div>
-              <div
-                className="d-flex align-items-center justify-content-between pb-3"
-                style={{ borderBottom: "1px solid #EDEFF2" }}
-              >
+              <div className={classes.summaryRow}>
                 <p>الخصم</p>
-                <p style={{ color: "#FA3434" }}>180.00 ر.س.</p>
+                <p className={classes.discount}>{calculateDiscount().toFixed(2)} ر.س.</p>
               </div>
-              <div className="d-flex align-items-center justify-content-between">
+              <div className={`${classes.summaryRow} ${classes.total}`}>
                 <h3>المجموع</h3>
-                <h3>180.00 ر.س.</h3>
+                <h3>{calculateTotal().toFixed(2)} ر.س.</h3>
               </div>
-              <div className="addBtn mt-3">متابعة وشراء</div>
+              <button 
+                className={classes.checkoutButton}
+                onClick={() => navigate('/student/checkout')}
+              >
+                متابعة وشراء
+              </button>
             </div>
           </div>
         </div>

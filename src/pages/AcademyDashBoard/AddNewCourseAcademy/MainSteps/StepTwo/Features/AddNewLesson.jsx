@@ -2,9 +2,10 @@ import React, { useRef, useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import Swal from "sweetalert2";
-import { useCreateLessonMutation } from "../../../../services/mutation";
-import style from "./AddNewCourse.module.css";
-import { ButtonSpinner } from "../../../component/UI/Buttons/ButtonSpinner";
+import { useCreateLessonMutation } from "../../../../../../../services/mutation";
+import style from "../../../AddNewCourse.module.css";
+import { ButtonSpinner } from "../../../../../../component/UI/Buttons/ButtonSpinner";
+import { Button } from "rsuite";
 
 // Validation schema using Yup
 const validationSchema = Yup.object().shape({
@@ -95,75 +96,40 @@ function AddNewLesson({ CategoryID, CourseID }) {
         <div className="justify-content-center">
 
 
-          <div className="row g-3 button-content--1 m-auto justify-content-center">
-            {formik.values.video && (
-              <video
-                width="366px"
-                height="212px"
-                controls
-                style={{ objectFit: "contain", marginTop: "10px" }}
-              >
-                <source src={URL.createObjectURL(formik.values.video)} type="video/" />
-                Your browser does not support the video tag.
-              </video>
-            )}
-
-            <div className="d-flex justify-content-center">
-              <input
-                type="file"
-                accept="video/*"
-                ref={videoInputRef}
-                style={{ display: "none" }}
-                onChange={handleVideoChange}
-              />
-              <div
-                style={{
-                  background: "white",
-                  marginTop: "25px",
-                  marginBottom: "30px",
-                }}
-                className="updateBtn"
-                onClick={() => videoInputRef.current.click()}
-              >
-                رفع فيديو الدورة التدريبية
-              </div>
-            </div>
-          </div>
 
           <div className="col-lg-11 col-md-12">
-            <div className="CustomFormControl">
-              <label htmlFor="title">العنوان</label>
+            <div className={style.formControl}>
+              <label
+                htmlFor="title"
+                className={style.label}
+              >
+                العنوان
+              </label>
               <input
                 type="text"
-                placeholder="ادخل عنوان الدورة هنا"
+                placeholder="ادخل عنوان الدرس هنا"
                 id="title"
                 name="title"
                 value={formik.values.title}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
+                className={style.input}
               />
-              {formik.touched.title && formik.errors.title && <div>{formik.errors.title}</div>}
-            </div>
-          </div>
-          <div className="col-lg-11 col-md-12">
-            <div className="CustomFormControl">
-              <label htmlFor="content">الوصف</label>
-              <textarea
-                rows={5}
-                placeholder="ادخل النص هنا"
-                id="content"
-                name="content"
-                value={formik.values.content}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-              />
-              {formik.touched.content && formik.errors.content && (
-                <div>{formik.errors.content}</div>
+              {formik.touched.title && formik.errors.title && (
+                <div className={style.error}>{formik.errors.title}</div>
               )}
             </div>
           </div>
+         
+        
         </div>
-
+        <div className="col-lg-6 col-md-12" >
+          <Button type="submit" style={{
+            padding: '15px 30px',
+            fontSize: '18px',
+            width: '100%'
+          }} appearance="primary">اضافة</Button>
+        </div>
         <div className="col-12 text-center">
           {isFormFilled() && <ButtonSpinner bgColor="#6ada31" isPending={mutation.isPending} />}
         </div>

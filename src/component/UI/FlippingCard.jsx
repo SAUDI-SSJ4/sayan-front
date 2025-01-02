@@ -14,7 +14,6 @@ const FlippingCard = ({ cardData }) => {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        margin: "2rem auto",
       }}
     >
       <div

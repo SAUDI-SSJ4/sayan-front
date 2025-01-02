@@ -195,6 +195,30 @@ subIcon .Link {
   }
 }
 
+.cartIcon {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  .badge {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background-color: #0062ff;
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+    min-width: 20px;
+    height: 20px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 6px;
+  }
+}
+
 .Bot {
   border-radius: 20px;
   background: linear-gradient(136deg, #22d2a7 24.6%, #23e766 103.34%);

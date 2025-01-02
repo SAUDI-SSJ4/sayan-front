@@ -72,6 +72,7 @@ import StudentProducts from "../pages/Student/StudentProducts/StudentProducts";
 import CourseDetails from "../pages/TrainingCourses/CourseDetails";
 import CourseExam from "../pages/TrainingCourses/Exam";
 import StudentSignIn from "../pages/studentSignIn/signin";
+import Checkout from "../pages/Student/Checkout/Checkout";
 
 const StudentRoute = () => {
 
@@ -162,6 +163,7 @@ const StudentRoute = () => {
           <Route path="student/AddNewSale/*" element={<AddNewSale />} />
           <Route path="student/pruchases/*" element={<Pruchases />} />
           <Route path="student/ShoppingCart/*" element={<ShoppingCart />} />
+          <Route path="student/checkout" element={<Checkout />} />
           <Route path="student/Marketing/*" element={<Marketing />} />
           <Route path="student/Transactions/*" element={<Transactions />} />
           <Route path="student/Favorate/*" element={<Favorate />} />

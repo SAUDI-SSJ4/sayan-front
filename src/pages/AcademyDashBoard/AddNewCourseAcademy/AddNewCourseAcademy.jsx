@@ -5,9 +5,9 @@ import addcourse from "../../../assets/icons/Button.svg";
 import steper1 from "../../../assets/icons/steper1 (1).svg";
 import steper2 from "../../../assets/icons/steper2.svg";
 import style from "./AddNewCourse.module.css";
-import AddNewCourseSteperTwo from "./AddNewCourseSteperTwo";
+import AddNewCourseSteperTwo from "./MainSteps/StepTwo";
 import { ContinueButton, ProgsaveButton } from "../../../utils/styles";
-import { AddNewCourseStepOneForm } from "./AddNewCourseStepOneForm";
+import { AddNewCourseStepOneForm } from "./MainSteps/StepOne";
 
 function AddNewCourseAcademy() {
   const navigate = useNavigate();
@@ -44,10 +44,7 @@ function AddNewCourseAcademy() {
         <div className="mb-5 all-info-top-header main-info-top">
           <div className="CustomCard formCard all-add-notific pb-4 pt-4 flex-column justify-content-center">
             <div className={style.steperProg}>
-              <Link to={"/academy/addNewCourse"}>
-                <ProgsaveButton onClick={nextStep && disActiveNExtStep}>حفظ كمسودة</ProgsaveButton>
-              </Link>
-
+             <div/>
               <div className={style.steperProgImg}>
                 <img src={steper1} alt="Stepper" />
                 <div className={style.steperProgtext}>
@@ -86,14 +83,7 @@ function AddNewCourseAcademy() {
         <div className="mb-5 all-info-top-header main-info-top">
           <div className="bg-white border-2 formCard all-add-notific pb-4 pt-4 flex-column justify-content-center">
             <div className={style.steperProg}>
-              <ProgsaveButton
-                onClick={() => {
-                  setStepper(0);
-                  disActiveNExtStep();
-                }}
-              >
-                حفظ كمسودة
-              </ProgsaveButton>
+            <div/>
               <div className={style.steperProgImg}>
                 <img src={steper2} alt="Stepper" />
                 <div className={style.steperProgtext}>

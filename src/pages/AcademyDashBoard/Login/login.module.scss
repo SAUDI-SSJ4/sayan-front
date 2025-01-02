@@ -46,6 +46,7 @@
   justify-content: space-between;
   padding: 25px;
   padding-left: 5vw;
+  padding-right: 5vw;
   align-items:flex-end;
   
 }
@@ -169,13 +170,18 @@
 
 .footerList {
   display: flex;
+  align-self: flex-start;
+  justify-self: flex-end;
   justify-content: center;
   align-items: center;
   gap: 25px;
   font-size: 14px;
   margin-top: 20px;
   list-style: none;
-  color:white;
+  li > a {
+    
+    color:white !important;
+  }
   Button {
    
     background: linear-gradient(to right, #868CFF, #4318FF);
