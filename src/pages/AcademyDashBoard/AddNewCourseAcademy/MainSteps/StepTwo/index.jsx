@@ -66,7 +66,7 @@ function AddNewCourseSteperTwo() {
   const [categoryDetails, setCategoryDetails] = useState();
   const [expanded, setExpanded] = useState(false);
   const [selectedLesson, setSelectedLesson] = useState(null);
-  
+
   const [flippingCards, setFlippingCards] = useState([]);
   const [hiddenCards, setHiddenCards] = useState([]);
   const [openInteractive, setOpenInteractive] = useState(false);
@@ -88,7 +88,10 @@ function AddNewCourseSteperTwo() {
 
   const renderSideBarNav = () => (
     <div className={style.sideBarNav}>
-      <div className={`${style.sideup} d-flex flex-column`} style={{ padding: "12px", transition: "all 0.3s ease" }}>
+      <div
+        className={`${style.sideup} d-flex flex-column`}
+        style={{ padding: "12px", transition: "all 0.3s ease" }}
+      >
         <IconTextButton
           isActive={addNewLesson === "video"}
           onClick={() => setAddNewLesson("video")}
@@ -96,8 +99,15 @@ function AddNewCourseSteperTwo() {
           text="اضافة فيديو"
         />
         <IconTextButton
-          isActive={addNewLesson === "interactive" || addNewLesson === "flippingCard" || addNewLesson === "hiddenCard"}
-          onClick={() => { setAddNewLesson("interactive"); setOpenInteractive(true) }}
+          isActive={
+            addNewLesson === "interactive" ||
+            addNewLesson === "flippingCard" ||
+            addNewLesson === "hiddenCard"
+          }
+          onClick={() => {
+            setAddNewLesson("interactive");
+            setOpenInteractive(true);
+          }}
           icon={Vact2}
           text="اضافة اداة تفاعلية"
         />
@@ -108,7 +118,10 @@ function AddNewCourseSteperTwo() {
           text="اضافة اختبار"
         />
       </div>
-      <div className={style.sidedown} style={{ padding: "12px", transition: "all 0.3s ease" }}>
+      <div
+        className={style.sidedown}
+        style={{ padding: "12px", transition: "all 0.3s ease" }}
+      >
         <IconTextButton
           isActive={addNewLesson === 1}
           onClick={() => setAddNewLesson(1)}
@@ -131,42 +144,73 @@ function AddNewCourseSteperTwo() {
       defaultExpanded={expanded}
       onPanelChange={handleAccordionChange}
       renderSummary={(category, i) => (
-        <p style={{
-          fontSize: '14px', color: '#2b3674', fontWeight: '650', margin: '0',
-          display: 'flex', justifyContent: 'space-around', alignItems: 'center',
-          gap: '5px', width: '100%'
-        }}>
+        <p
+          style={{
+            fontSize: "14px",
+            color: "#2b3674",
+            fontWeight: "650",
+            margin: "0",
+            display: "flex",
+            justifyContent: "space-around",
+            alignItems: "center",
+            gap: "5px",
+            width: "100%",
+          }}
+        >
           {category.lessons.includes(selectedLesson) ? <DeleteButton /> : ""}
           {formatLongText(category.title, 15)}
-          <span style={{ color: '#6B7280', fontSize: '14px' }}>
+          <span style={{ color: "#6B7280", fontSize: "14px" }}>
             ({i + 1}/{category.lessons.length})
           </span>
         </p>
       )}
       renderDetails={(category) => (
-        <div style={{
-          fontSize: '14px', color: '#585C61', fontWeight: '600',
-          padding: '0px', margin: '10px',
-        }}>
+        <div
+          style={{
+            fontSize: "14px",
+            color: "#585C61",
+            fontWeight: "600",
+            padding: "0px",
+            margin: "10px",
+          }}
+        >
           {category.lessons.map((lesson, index) => (
             <div
               key={index}
               onClick={() => handleLessonClick(lesson)}
               style={{
-                display: 'flex', alignItems: 'center', gap: '10px', padding: '15px',
-                marginBottom: '5px', cursor: 'pointer',
-                backgroundColor: selectedLesson === lesson ? '#007bff' : '#fff',
-                color: selectedLesson === lesson ? '#fff' : '#2b3674',
-                border: selectedLesson === lesson ? '2px solid #007bff' : '1px solid #ddd',
-                borderRadius: '15px',
+                display: "flex",
+                alignItems: "center",
+                gap: "10px",
+                padding: "15px",
+                marginBottom: "5px",
+                cursor: "pointer",
+                backgroundColor: selectedLesson === lesson ? "#007bff" : "#fff",
+                color: selectedLesson === lesson ? "#fff" : "#2b3674",
+                border:
+                  selectedLesson === lesson
+                    ? "2px solid #007bff"
+                    : "1px solid #ddd",
+                borderRadius: "15px",
               }}
               className="lesson-item"
             >
               {selectedLesson === lesson ? <DeleteButton /> : ""}
-              {lesson.type === 'video' ? 
-                <Videotype alt="lesson type" className={`${style.lessonType} ${selectedLesson === lesson ? style.lessonTypeActive : ""}`} /> : 
-                <Examtype alt="lesson type" className={`${style.lessonType} ${selectedLesson === lesson ? style.lessonTypeActive : ""}`} />
-              }
+              {lesson.type === "video" ? (
+                <Videotype
+                  alt="lesson type"
+                  className={`${style.lessonType} ${
+                    selectedLesson === lesson ? style.lessonTypeActive : ""
+                  }`}
+                />
+              ) : (
+                <Examtype
+                  alt="lesson type"
+                  className={`${style.lessonType} ${
+                    selectedLesson === lesson ? style.lessonTypeActive : ""
+                  }`}
+                />
+              )}
               <span>{lesson?.video?.title}</span>
             </div>
           ))}
@@ -177,53 +221,78 @@ function AddNewCourseSteperTwo() {
 
   const renderContent = () => {
     switch (addNewLesson) {
-      case 0: return <AddNewChapter CategoryID={courseId} CourseID={categoryId} />;
-      case 1: return <AddNewLesson CategoryID={courseId} CourseID={categoryId} />;
-      case 2: return <AddNewExam />;
-      case 3: return (
-        <div className={style.categoryShow}>
-          <h4 className="mb-4">عرض بيانات القسم</h4>
-          <span></span>
-          <p>العنوان : </p>
-          <h4 className="mb-4">{categoryDetails?.title}</h4>
-          <p>الوصف : </p>
-          <h4 className="mb-4">{categoryDetails?.content}</h4>
-          <p>الصورة : </p>
-          <div className={style.catImage}>
-            <img src={categoryDetails?.image} alt="" />
+      case 0:
+        return <AddNewChapter CategoryID={courseId} CourseID={categoryId} />;
+      case 1:
+        return <AddNewLesson CategoryID={courseId} CourseID={categoryId} />;
+      case 2:
+        return <AddNewExam />;
+      case 3:
+        return (
+          <div className={style.categoryShow}>
+            <h4 className="mb-4">عرض بيانات القسم</h4>
+            <span></span>
+            <p>العنوان : </p>
+            <h4 className="mb-4">{categoryDetails?.title}</h4>
+            <p>الوصف : </p>
+            <h4 className="mb-4">{categoryDetails?.content}</h4>
+            <p>الصورة : </p>
+            <div className={style.catImage}>
+              <img src={categoryDetails?.image} alt="" />
+            </div>
+            <p>عدد الدروس : </p>
+            <h4 className="mb-4">{categoryDetails?.lessons.length}</h4>
+            <button
+              className={`${style.saveBtnTwo} fs-6 mt-1`}
+              onClick={() => setAddNewLesson(1)}
+            >
+              اضافة درس جديد
+            </button>
           </div>
-          <p>عدد الدروس : </p>
-          <h4 className="mb-4">{categoryDetails?.lessons.length}</h4>
-          <button className={`${style.saveBtnTwo} fs-6 mt-1`} onClick={() => setAddNewLesson(1)}>
-            اضافة درس جديد
-          </button>
-        </div>
-      );
-      case "video": return <AddNewVideo />;
-      case "flippingCard": return <AddFlippingCard setCardData={setCardData} cardData={cardData} flippingCards={flippingCards} setFlippingCards={setFlippingCards} />;
-      case "hiddenCards": return <AddHiddenCards setCardData={setCardData} cardData={cardData} hiddenCards={hiddenCards} setHiddenCards={setHiddenCards} />;
-      default: return <div>test ??!!</div>;
+        );
+      case "video":
+        return <AddNewVideo />;
+      case "flippingCard":
+        return (
+          <AddFlippingCard
+            setCardData={setCardData}
+            cardData={cardData}
+            flippingCards={flippingCards}
+            setFlippingCards={setFlippingCards}
+          />
+        );
+      case "hiddenCards":
+        return (
+          <AddHiddenCards
+            setCardData={setCardData}
+            cardData={cardData}
+            hiddenCards={hiddenCards}
+            setHiddenCards={setHiddenCards}
+          />
+        );
+      default:
+        return <div>test ??!!</div>;
     }
   };
 
   return (
-    <div className={style.mainSec}>
-      <div className={style.container}>
-        <div className={`${style.sidexld} d-flex`}>
+    <>
+      <div className={style.dashboard}>
+        <div className={`${style.sidebar} ${style.left} ${style.first}`}>
           {renderSideBarNav()}
-          <div className={style.sideSecLap}>
-            {renderAccordion()}
-          </div>
+        </div>
+        <div className={`${style.sidebar} ${style.left} ${style.second}`}>
+          {renderAccordion()}
         </div>
         {renderContent()}
-        <AddNewInteractiveTool 
-          addNewLesson={addNewLesson} 
-          setAddNewLesson={setAddNewLesson} 
-          open={openInteractive} 
-          handleClose={() => setOpenInteractive(false)} 
-        />
       </div>
-    </div>
+      <AddNewInteractiveTool
+        addNewLesson={addNewLesson}
+        setAddNewLesson={setAddNewLesson}
+        open={openInteractive}
+        handleClose={() => setOpenInteractive(false)}
+      />
+    </>
   );
 }
 

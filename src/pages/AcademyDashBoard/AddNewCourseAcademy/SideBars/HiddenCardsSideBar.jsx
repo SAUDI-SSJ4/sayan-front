@@ -9,11 +9,22 @@ const HiddenCardsSideBar = ({ hiddenCards, setHiddenCards,cardData, setCardData 
   const [showPreview, setShowPreview] = useState(false);
 
   const handleChange = (field, value) => {
-    console.log(value)
-    setCardData((prevData) => ({
-      ...prevData,
-      [field]: value,
-    }));
+    if (field === 'order') {
+      const newOrder = parseInt(value);
+      const existingCardWithOrder = hiddenCards.find(card => card.order === newOrder);
+      if (existingCardWithOrder) {
+        const updatedCards = hiddenCards.map(card => {
+          if (card.order === newOrder) {
+            return { ...card, order: hiddenCards.length +1 };
+          }
+          return card;
+        });
+        setHiddenCards(updatedCards);
+      }
+      setCardData(prevData => ({ ...prevData, order: newOrder }));
+    } else {
+      setCardData(prevData => ({ ...prevData, [field]: value }));
+    }
   };
   const handleSubmit = () => {
     console.log(cardData)
@@ -29,8 +40,7 @@ const HiddenCardsSideBar = ({ hiddenCards, setHiddenCards,cardData, setCardData 
     const [displayCard, setDisplayCard] = useState(null);
   return (
     <div
-      style={{ padding: '2rem', minWidth: '350px', margin: 'auto', color:'#2b3674' }}
-      className="container col-12 p-5 mt-4"
+      className="container col-12 p-4 mt-4"
     >
       <h4>إعدادات الأداة</h4>
       <div className="d-flex flex-column gap-2 border-bottom">
@@ -51,11 +61,11 @@ const HiddenCardsSideBar = ({ hiddenCards, setHiddenCards,cardData, setCardData 
         </Form.Group>
 
         <Form.Group className='CustomFormControl'>
-          <Form.ControlLabel>رابط الصورة</Form.ControlLabel>
+          <Form.ControlLabel>صورة البطاقة</Form.ControlLabel>
           <Input
-            placeholder="أدخل رابط الصورة"
-            value={cardData.imageUrl}
-            onChange={(value) => handleChange('imageUrl', value)}
+            type="file"
+            onChange={(e) => handleChange('imageUrl', URL.createObjectURL(e.target.files[0]))}
+            value={""}
           />
         </Form.Group>
 
@@ -66,6 +76,21 @@ const HiddenCardsSideBar = ({ hiddenCards, setHiddenCards,cardData, setCardData 
             value={cardData.content}
             onChange={(value) => handleChange('content', value)}
           />
+        </Form.Group>
+        <Form.Group className='CustomFormControl'>
+          <Form.ControlLabel>ترتيب البطاقة</Form.ControlLabel>
+          <Input
+            as="select"
+            placeholder="اختر ترتيب البطاقة"
+            value={cardData.order}
+            onChange={(value) => handleChange('order', value)}
+          >
+            {Array.from({ length: hiddenCards.length + 1 }, (_, i) => (
+              <option key={i} value={i + 1}>
+                {i + 1}
+              </option>
+            ))}
+          </Input>
         </Form.Group>
 
         <Form.Group className='CustomFormControl'>
@@ -106,9 +131,8 @@ const HiddenCardsSideBar = ({ hiddenCards, setHiddenCards,cardData, setCardData 
       className="timeline-stack"
     >
       {hiddenCards.length > 0 ? (
-        hiddenCards.map((card, index) => (
+        hiddenCards.sort((a, b) => a.order - b.order).map((card, index) => (
           <div key={index} style={{ display: 'flex', alignItems: 'center' }}>
-            {/* Timeline Marker */}
             <div
               style={{
                 width: '32px',
@@ -123,24 +147,21 @@ const HiddenCardsSideBar = ({ hiddenCards, setHiddenCards,cardData, setCardData 
                 justifyContent: 'center',
                 position: 'relative',
               }}
-            > {index+1}
-              {/* Connecting Line */}
-              {index !== hiddenCards.length - 1 && (
+            >
+              {card.order}
+              {index !== 0 && (
                 <div
                   style={{
                     position: 'absolute',
-                    top: '15px',
+                    bottom: '15px',
                     left: '50%',
                     width: '2px',
                     height: 'calc(100% - 15px)',
-                    // backgroundColor: '#007bff',
                     transform: 'translateX(-50%)',
                   }}
                 ></div>
               )}
             </div>
-
-            {/* Timeline Content */}
             <Panel
               bordered
               bodyFill
@@ -164,7 +185,7 @@ const HiddenCardsSideBar = ({ hiddenCards, setHiddenCards,cardData, setCardData 
         <p style={{ color: '#666', textAlign: 'center', margin: '1rem 0' }}>لا توجد بطاقات للعرض.</p>
       )}
     </Stack>
-        <HiddenCard  cardData={displayCard} />
+        <HiddenCard cardData={displayCard} />
           </div>
         </Modal.Body>
         <Modal.Footer>

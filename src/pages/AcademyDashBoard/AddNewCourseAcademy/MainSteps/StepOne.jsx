@@ -4,7 +4,7 @@ import * as Yup from "yup";
 import defualt from "../../../../assets/images/img.png";
 import chroma from "chroma-js";
 import Select from "react-select";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation } from "@tanstack/react-query";
 import {  getAllcategories, getTrainer } from "../../../../utils/apis/client/academy";
 import { useNavigate } from "react-router-dom";
 import { ButtonSpinner } from "../../../../component/UI/Buttons/ButtonSpinner";
@@ -68,11 +68,29 @@ export const AddNewCourseStepOneForm = ({
   const navigate = useNavigate();
   const fileInputRef = useRef(null);
   const videoInputRef = useRef(null);
-  const [isPending, setIsPending] = useState(false);
 
-  const navigateWithIds = (courseId, categoryId) => {
-    navigate(`/academy/addNewCourse/${courseId}/${categoryId}`, { replace: true });
-  };
+  const mutation = useMutation({
+    mutationFn: async (formData) => {
+      const response = await academy_client.post('/course', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' }
+      });
+      return response.data;
+    },
+    onSuccess: (data) => {
+      // Assuming the API returns the course ID and category ID
+      if (data?.data?.id && data?.data?.category_id) {
+        setCourseDataId(data.data.id);
+        setCourseDataCategoryId(data.data.category_id);
+        navigateWithIds(data.data.id, data.data.category_id);
+        setNextStep();
+        setStepper(2);
+      }
+    },
+    onError: (error) => {
+      console.error('Error creating course:', error);
+      // Handle error appropriately
+    }
+  });
 
   const formik = useFormik({
     initialValues: {
@@ -90,26 +108,16 @@ export const AddNewCourseStepOneForm = ({
       short_video: null,
     },
     validationSchema,
-    onSubmit: async (values, { resetForm }) => {
+    onSubmit: (values) => {
       const formData = new FormData();
-      populateFormData(formData, values)
-      try {
-        setIsPending(true)
-      const res = await academy_client.post(`/course`, formData, {
-        headers: {'Content-Type': 'multipart/form-data'},
-      });
-      console.log('Response:', res.data);
-      }catch(error) {
-        console.log(error)
-
-      }finally {
-        setIsPending(false)
-      }
+      populateFormData(formData, values);
+      mutation.mutate(formData);
     },
   });
 
-
-
+  const navigateWithIds = (courseId, categoryId) => {
+    navigate(`/academy/addNewCourse/${courseId}/${categoryId}`, { replace: true });
+  };
 
   const handleFileChange = (e) => {
     formik.setFieldValue("image", e.currentTarget.files[0]);
@@ -410,7 +418,7 @@ export const AddNewCourseStepOneForm = ({
       </div>
       {isFormFilled() && (
         <div className="col-12">
-          <ButtonSpinner isPending={isPending} />
+          <ButtonSpinner isPending={mutation.isLoading} />
         </div>
       )}
     </form>

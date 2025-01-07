@@ -3,8 +3,9 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import style from "../../../AddNewCourse.module.css";
 import Swal from "sweetalert2";
-import axios from "axios";
 import { Button } from "rsuite";
+import { useMutation } from "@tanstack/react-query";
+import { academy_client } from "../../../../../../utils/apis/client.config";
 
 const validationSchema = Yup.object().shape({
   title: Yup.string().required("العنوان مطلوب"),
@@ -13,12 +14,41 @@ const validationSchema = Yup.object().shape({
 const AddNewChapter = () => {
   const [isFormFilled, setIsFormFilled] = useState(false);
 
+  const mutation = useMutation({
+    mutationFn: async (data) => {
+      const response = await academy_client.post('/academy/chapter', {
+        ...data,
+        is_published: true
+      });
+      return response.data;
+    },
+    onSuccess: () => {
+      Swal.fire({
+        title: "نجاح!",
+        text: "تمت إضافة الفصل بنجاح",
+        icon: "success",
+        confirmButtonText: "موافق",
+      });
+      formik.resetForm();
+      setIsFormFilled(false);
+    },
+    onError: () => {
+      Swal.fire({
+        title: "فشل",
+        text: "حدث خطأ أثناء محاولة إضافة الفصل. يرجى المحاولة مرة أخرى.",
+        icon: "error",
+        confirmButtonText: "موافق",
+      });
+      setIsFormFilled(false);
+    }
+  });
+
   const formik = useFormik({
     initialValues: {
       title: "",
     },
     validationSchema,
-    onSubmit: (values, { resetForm }) => {
+    onSubmit: (values) => {
       setIsFormFilled(true);
       Swal.fire({
         title: "اضافة الفصل الي الدورة",
@@ -31,28 +61,7 @@ const AddNewChapter = () => {
         cancelButtonText: "لا",
       }).then((result) => {
         if (result.isConfirmed) {
-          axios.post("/academy/create/lesson", {
-            title: values.title,
-          })
-            .then(() => {
-              Swal.fire({
-                title: "نجاح!",
-                text: "تمت إضافة الفصل بنجاح",
-                icon: "success",
-                confirmButtonText: "موافق",
-              });
-              resetForm();
-              setIsFormFilled(false);
-            })
-            .catch(() => {
-              Swal.fire({
-                title: "فشل",
-                text: "حدث خطأ أثناء محاولة إضافة الفصل. يرجى المحاولة مرة أخرى.",
-                icon: "error",
-                confirmButtonText: "موافق",
-              });
-              setIsFormFilled(false);
-            });
+          mutation.mutate({ title: values.title });
         } else {
           setIsFormFilled(false);
         }
@@ -60,19 +69,15 @@ const AddNewChapter = () => {
     },
   });
 
-  return (
-    <div className={style.boardLap}>
-      <h4>عنوان الفصل الجديد</h4>
+  return (<>
+    <div className={`${style.content} container text-center `} style={{padding:"60px 40px"}}>
+      <h4 style={{ color:"#2B3674",fontWeight:"600"}}>اضافة فصل جديد</h4>
 
       <form onSubmit={formik.handleSubmit} className="row g-3 w-80 justify-content-center m-auto">
         <div className="justify-content-center">
-
           <div className="col-lg-11 col-md-12">
             <div className={style.formControl}>
-              <label
-                htmlFor="title"
-                className={style.label}
-              >
+              <label htmlFor="title" className={style.label}>
                 العنوان
               </label>
               <input
@@ -90,25 +95,26 @@ const AddNewChapter = () => {
               )}
             </div>
           </div>
-
         </div>
 
-        <div className="col-lg-6 col-md-12" >
+        <div className="col-lg-6 col-md-12">
           <Button
             type="submit"
-            style={{
-              padding: '15px 30px',
-              fontSize: '18px',
-              width: '100%'
-            }}
             appearance="primary"
+            size="lg"
+            style={{ width: "100%",padding: '15px 0px' }}
+            disabled={mutation.isLoading || !formik.values.title}
           >
-            اضافة
+            {mutation.isLoading ? 'جاري الإضافة...' : 'اضافة فصل جديد'}
           </Button>
-          {isFormFilled && <ButtonSpinner bgColor="#6ada31" isPending={true} />}
         </div>
       </form>
     </div>
+    <div className={`${style.sidebar} ${style.right}`}>
+
+    </div>
+  </>
+
   );
 };
 

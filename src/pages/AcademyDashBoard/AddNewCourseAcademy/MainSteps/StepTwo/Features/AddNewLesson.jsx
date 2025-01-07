@@ -90,8 +90,10 @@ function AddNewLesson({ CategoryID, CourseID }) {
 
 
   return (
-    <div className={style.boardLap}>
-      <h4>إضافة درس جديد</h4>
+    <>
+    <div className={`${style.content} container text-center `} style={{padding:"60px 40px"}}>
+      <h4 style={{ color:"#2B3674",fontWeight:"600"}}>اضافة درس جديد</h4>
+
       <form onSubmit={formik.handleSubmit} className="row g-3 w-80 justify-content-center m-auto">
         <div className="justify-content-center">
 
@@ -102,7 +104,7 @@ function AddNewLesson({ CategoryID, CourseID }) {
               <label
                 htmlFor="title"
                 className={style.label}
-              >
+                >
                 العنوان
               </label>
               <input
@@ -114,7 +116,7 @@ function AddNewLesson({ CategoryID, CourseID }) {
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 className={style.input}
-              />
+                />
               {formik.touched.title && formik.errors.title && (
                 <div className={style.error}>{formik.errors.title}</div>
               )}
@@ -123,18 +125,22 @@ function AddNewLesson({ CategoryID, CourseID }) {
          
         
         </div>
+       
         <div className="col-lg-6 col-md-12" >
-          <Button type="submit" style={{
-            padding: '15px 30px',
-            fontSize: '18px',
-            width: '100%'
-          }} appearance="primary">اضافة</Button>
+          <Button type="submit"
+            appearance="primary"
+            size="lg"
+            style={{ width: "100%",padding: '15px 0px' }}
+            >اضافة</Button>
         </div>
         <div className="col-12 text-center">
           {isFormFilled() && <ButtonSpinner bgColor="#6ada31" isPending={mutation.isPending} />}
         </div>
       </form>
     </div>
+    <div className={`${style.sidebar} ${style.right}`}>
+    </div>
+            </>
   );
 }
 //mutation
