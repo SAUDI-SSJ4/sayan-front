@@ -42,8 +42,8 @@ const FlippingCardSideBar = ({ flippingCards, setFlippingCards, cardData, setCar
 
   return (
     <div
-      style={{ padding: '2rem', minWidth: '350px', margin: 'auto', color:'#2b3674' }}
-      className="container col-12 p-5 mt-4"
+      style={{ width: '100%', margin: 'auto', color:'#2b3674' }}
+      className="container col-12 p-2 mt-4"
     >
 
 

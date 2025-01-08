@@ -42,10 +42,9 @@ const AddNewVideo = ({ courseData, setCourseData }) => {
   };
 
   return (
-    <div className="container">
-      <div className="row">
-        <div className="d-flex w-100">
-          <div className={`${style.boardLap} w-100 bg-body rounded`}>
+    <>
+      <div className={`${style.content}`}>
+          <div className={style.addNewVideoContainer} >
             <h4>إضافة فيديو جديد</h4>
             {uploadSuccess && (
               <div className="alert alert-success">تم رفع الفيديو بنجاح!</div>
@@ -118,15 +117,17 @@ const AddNewVideo = ({ courseData, setCourseData }) => {
               </div>
             </form>
           </div>
-        </div>
+        
       </div>
 
-      {/* <div className={`${style.sidexld} d-flex`}>
+       <div className={`${style.sidebar} ${style.right} `}>
+      {/*
         <div className={style.sideSettings}>
           <VideoEditorSideBar />
         </div>
-      </div> */}
-    </div>
+        */}
+      </div>
+    </>
   );
 };
 

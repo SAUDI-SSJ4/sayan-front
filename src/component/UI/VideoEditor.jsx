@@ -42,7 +42,7 @@ const VideoUploader = ({ setFieldValue }) => {
 
   return (
     <div style={styles.container}>
-      <label style={styles.label}>رفع ملف الفيديو</label>
+      <label >رفع ملف الفيديو</label>
       <input
         type="file"
         accept="video/*"

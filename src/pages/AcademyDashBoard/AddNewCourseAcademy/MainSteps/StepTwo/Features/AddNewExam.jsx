@@ -129,7 +129,8 @@ const MultiStepExamCreation = () => {
 
   const renderExamInfoStep = () => (
     <div className={style.boardLap}>
-  <h4>عنوان الاختبار</h4>
+      <h4 style={{ color:"#2B3674",fontWeight:"600"}}>اضافة اختبار جديد</h4>
+
   <form onSubmit={examInfoFormik.handleSubmit} className="row g-3 w-80 justify-content-center m-auto">
     <div className="justify-content-center">
       <div className="col-lg-11 col-md-12">
@@ -169,11 +170,12 @@ const MultiStepExamCreation = () => {
   );
 
   const renderExamPreview = () => (
-    <div className="container mt-4">
+    <div className="container  mt-4">
       <div className="d-flex flex-column gap-4">
         <div className="text-end">
-          <h3 style={{ color: '#2b3674', marginBottom: '2rem' }}>معاينة الاختبار</h3>
-          <h5 style={{ color: '#2b3674' }}>{examData.title}</h5>
+      <h4 style={{ color:"#2B3674",fontWeight:"600",marginBottom:"2rem"}}>معاينة الاختبار</h4>
+        <h5 style={{ color: '#2b3674' }}>{examData.title}</h5>
+          
         </div>
 
         {examData.questions.map((question, questionIndex) => (
@@ -311,7 +313,7 @@ const MultiStepExamCreation = () => {
     };
 
     return (
-      <form onSubmit={questionFormik.handleSubmit}>
+      <form className="w-100" onSubmit={questionFormik.handleSubmit}>
         <div className="mb-3">
           <label>نص السؤال</label>
           <input
@@ -415,24 +417,15 @@ const MultiStepExamCreation = () => {
   };
 
   return (
-    <div className="container d-flex">
-      
+    <>
+     <div className={style.content}>
   {currentStep === 1 && renderExamInfoStep()}
   {currentStep === 2 && renderExamPreview()}
-       
+          </div>
+          <div className={`${style.sidebar} ${style.right}`}>
+      
       {currentStep === 2 && (
-        <div className={`${style.sidexld} d-flex col-4`}>
-          <div className={style.sideSettings}>
-            <div style={{
-              minWidth: 400,
-              margin: "0 auto",
-              padding: "20px",
-              display: "flex",
-              flexDirection: "column",
-              gap: "15px",
-            }}>
-              <div className="row">
-                <div className="col-12">
+                <div className="col-12 m-auto p-4">
                   <div className="CustomFormControl col-12">
                     <label className="h5">
                       {editingQuestionIndex !== -1 ? 'تعديل السؤال' : 'إضافة سؤال جديد'}
@@ -440,12 +433,9 @@ const MultiStepExamCreation = () => {
                     {renderQuestionForm()}
                   </div>
                 </div>
-              </div>
-            </div>
-          </div>
-        </div>
       )}
-    </div>
+      </div>
+    </>
   );
 };
 

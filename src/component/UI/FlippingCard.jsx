@@ -19,8 +19,8 @@ const FlippingCard = ({ cardData }) => {
       <div
         onClick={handleFlip}
         style={{
-          width: "400px",
-          height: "300px",
+          width: "320px",
+          height: "380px",
           transformStyle: "preserve-3d",
           transform: isFlipped ? "rotateY(180deg)" : "rotateY(0)",
           transition: "transform 0.6s",
