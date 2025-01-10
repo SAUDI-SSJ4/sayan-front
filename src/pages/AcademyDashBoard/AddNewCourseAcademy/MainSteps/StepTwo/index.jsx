@@ -75,6 +75,7 @@ function AddNewCourseSteperTwo() {
     imageUrl: "https://via.placeholder.com/400x200",
     title: "عنوان البطاقة",
     content: "محتوى البطاقة يظهر هنا.",
+    order: 0,
   });
 
   const handleLessonClick = (lesson) => {
