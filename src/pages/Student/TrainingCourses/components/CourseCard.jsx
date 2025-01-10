@@ -14,7 +14,7 @@ const CourseCard = ({ course }) => {
   }
 
   return (
-    <a className={styles.courseCard} href={`course/${course.id}`}>
+    <a className={styles.courseCard} href={`courseDetails/${course.id}`}>
       <h3 className={styles.courseTitle}>{course.title}</h3>
       <p className={styles.courseDescription}>{course.instructor}</p>
       <div className={styles.courseInfo}>
