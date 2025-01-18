@@ -16,8 +16,8 @@ import { MainSpinner } from "../../../component/UI/MainSpinner";
 import { Button } from "rsuite";
 import { getChangedValues, populateFormData } from "../../../utils/helpers";
 import { useToast } from "../../../utils/hooks/useToast";
-import { useSlider } from "../../../utils/hooks/get/useSetting";
 import { useSetSilider } from "../../../utils/hooks/set/useSetting";
+import { useSlider } from "../../../framework/accademy/academysetting-slider";
 
 const validationSchema = Yup.object().shape({
   title: Yup.string().required("العنوان مطلوب"),

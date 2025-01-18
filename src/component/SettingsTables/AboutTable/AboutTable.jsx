@@ -5,7 +5,7 @@ import BorderColorOutlinedIcon from "@mui/icons-material/BorderColorOutlined";
 import { useNavigate } from "react-router-dom";
 import { Error } from "@mui/icons-material";
 import { MainSpinner } from "../../UI/MainSpinner";
-import { useAbout } from "../../../utils/hooks/get/useSetting";
+import { useAbout } from "../../../services/queries";
 
 const { Column, HeaderCell, Cell } = Table;
 const data = mockUsers(1);

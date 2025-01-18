@@ -29,7 +29,7 @@ const SubjectSlider = ({ layoutType }) => {
     isError,
   } = useQuery({
     queryKey: ["getHome"],
-    queryFn:() => getHome(),
+    queryFn: () => getHome(),
     refetchOnMount: false,
     refetchOnWindowFocus: false,
     cacheTime: 1000,
@@ -47,7 +47,7 @@ const SubjectSlider = ({ layoutType }) => {
   const handleNavigation = () => navigate(`${basePath}/AllCoursesPage`);
 
   const getTitleSection = () => {
-    console.log(layoutType)
+
     if (layoutType === 2) {
       return <div className="Layout2Title">المواد التعليمية</div>;
     }

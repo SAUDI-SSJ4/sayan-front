@@ -11,7 +11,7 @@ import { JustifyContentWrapper } from "../../../utils/styles";
 import { ButtonSpinner } from "../../../component/UI/Buttons/ButtonSpinner";
 import { getChangedValues, isValidURL, populateFormData } from "../../../utils/helpers";
 import { useSetAbout } from "../../../utils/hooks/set/useSetting";
-import { useAbout } from "../../../utils/hooks/get/useSetting";
+import { useAbout } from "../../../services/queries";
 
 const validationSchema = Yup.object({
   title: Yup.string().required("Title is required"),

@@ -32,24 +32,25 @@ const CustomAccordion = ({
 
          }}
          sx={{
-            boxShadow: "none", // Removes the shadow
+            boxShadow: "none",
             "&:before": {
-              display: "none", // Removes the border-like line before the accordion
+              display: "none",
             },
           }}
        >
          <AccordionSummary
            expandIcon={
-             <ExpandMoreIcon
-               style={{
-                 transform: expanded === `panel${index}` ? "rotate(-180deg)" : "rotate(90deg)",
-                 transition: "transform 0.3s",
-                 backgroundColor: "#0e85ff",
-                 color:"white",
-                 padding:"2px",
-                 borderRadius: "50%",
-               }}
-             />
+            <ExpandMoreIcon
+            style={{
+              transform: expanded === `panel${index}` ? "rotate(-180deg)" : "rotate(90deg)",
+              transition: "transform 0.3s",
+              backgroundColor: "#0e85ff",
+              color:"white",
+              padding:"2px",
+              borderRadius: "50%",
+              marginRight: "10px",
+            }}
+          />
            }
            aria-controls={`panel${index}-content`}
            id={`panel${index}-header`}

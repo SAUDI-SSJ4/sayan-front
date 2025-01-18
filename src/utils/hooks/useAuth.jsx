@@ -1,6 +1,6 @@
 import { useDispatch } from "react-redux";
 import { updateUser } from "../../../redux/AuthSlice";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect, useMemo } from "react";
 import { getAuthProfile, getAuthAcademyProfile } from "../apis/client";
 import Cookies from "js-cookie";

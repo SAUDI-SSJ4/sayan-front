@@ -39,7 +39,6 @@ const HomeAcademy = () => {
     refetchOnMount: false,
     retry: 2,
   });
-  
 
   const coursePrices = useMemo(
     () => courses?.data?.map((course) => course.price) || [],

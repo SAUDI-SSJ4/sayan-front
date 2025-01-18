@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { createCourse} from "../../apis/client/academy";
+import { createCourseAPI} from "../../apis/client/academy";
 import { useToast } from "../useToast";
 import Swal from "sweetalert2";
 const { success, error } = useToast()
@@ -11,7 +11,7 @@ export const useSetCourseMutation = () => {
     const queryClient = useQueryClient();
   
     return useMutation({
-      mutationFn: (data) => createCourse(data),
+      mutationFn: (data) => createCourseAPI(data),
       onSuccess: ({data}) => {
         console.log(data);
         queryClient.refetchQueries({ queryKey: ["studentCourses"] });

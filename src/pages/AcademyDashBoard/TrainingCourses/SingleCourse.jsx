@@ -21,7 +21,7 @@ const AcademySingleCourse = () => {
             </div>
             <div style={{ color: "#7E8799" }}> الدورات التدريبية</div>
           </div>
-          <Link to="/academy/TrainingCourses" className="updateBtn">
+          <Link to="/academy/training-courses" className="updateBtn">
             الرجوع <KeyboardBackspaceIcon />
           </Link>
         </div>

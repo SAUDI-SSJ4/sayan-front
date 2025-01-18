@@ -67,7 +67,7 @@ const AcademeyNavigation = ({ setShow, mobile }) => {
         mainIcon={
           <OpenBookIcon
             active={[
-              "/academy/TrainingCourses",
+              "/academy/training-courses",
               "/academy/Sessions",
               "/academy/DigitalProducts",
               "/academy/ProductPackages",
@@ -82,7 +82,7 @@ const AcademeyNavigation = ({ setShow, mobile }) => {
         }
         mainTitle={"ادارة المحتوى "}
         acitve={[
-          "/academy/TrainingCourses",
+          "/academy/training-courses",
           "/academy/Sessions",
           "/academy/DigitalProducts",
           "/academy/ProductPackages",
@@ -107,7 +107,7 @@ const AcademeyNavigation = ({ setShow, mobile }) => {
           nested
         >
           <NavLink
-            to="academy/TrainingCourses"
+            to="academy/training-courses"
             className={({ isActive, isPending }) => {
               return isPending ? "pending" : isActive ? `${classes.Link} LinkActive` : classes.Link;
             }}

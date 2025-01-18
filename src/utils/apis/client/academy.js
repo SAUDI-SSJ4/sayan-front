@@ -1,4 +1,4 @@
-import {user_token, academy_client} from "../client.config";
+import { user_token, academy_client } from "../client.config";
 
 
 academy_client.interceptors.request.use(
@@ -25,17 +25,56 @@ export const postRegister = async (data) => {
 
 
 export const getCourse = async () => {
-  const { data } = await academy_client.get("/course");
+  const { data } = await academy_client.get("/courses/all");
   return data;
 };
 
 export const getCourseById = async (id) => {
-  const { data } = await academy_client.get(`/course/${id}`);
+  const { data } = await academy_client.get(`/courses/${id}`);
   return data;
 };
 
-export const createCourse = async (data) => {
-  await academy_client.post("/course", data, {
+export const getCourseSummary = async (id) => {
+  const { data } = await academy_client.get(`/courses/summary/${id}`);
+  return data;
+};
+
+export const postLessonTools = async (lessonId, formData) => {
+  const { data: res } = await academy_client.post(`/lessons/tools/store/${lessonId}`, formData, {
+    headers: { "Content-Type": "multipart/form-data" },
+    onUploadProgress: (progressEvent) => {
+      console.log(`${Math.round((progressEvent.loaded / progressEvent.total) * 100)}%`);
+    },
+    maxContentLength: Infinity,
+    maxBodyLength: Infinity,
+    timeout: Infinity,
+  });
+  return res;
+}
+
+
+
+export const postUploadLessonVideo = async (lessonId, formData) => {
+  const { data: res } = await academy_client.post(`/lessons/video/${lessonId}`, formData, {
+    headers: { "Content-Type": "multipart/form-data" },
+    onUploadProgress: (progressEvent) => {
+      console.log(`${Math.round((progressEvent.loaded / progressEvent.total) * 100)}%`);
+    },
+    maxContentLength: Infinity,
+    maxBodyLength: Infinity,
+    timeout: Infinity,
+  });
+  return res;
+}
+
+
+export const postLessonExam = async (lessonId, params) => {
+  const { data: res } = await academy_client.post(`/lessons/exam/${lessonId}`, params);
+  return res;
+}
+
+export const createCourseAPI = async (data) => {
+  const { data: res } = await academy_client.post("/courses/store", data, {
     headers: { "Content-Type": "multipart/form-data" },
     onUploadProgress: (progressEvent) => {
       console.log(`${Math.round((progressEvent.loaded / progressEvent.total) * 100)}%`);
@@ -44,6 +83,26 @@ export const createCourse = async (data) => {
     maxBodyLength: Infinity,
     timeout: 120000,
   });
+  return res;
+};
+
+
+export const postChapter = async (params) => {
+  const { data } = await academy_client.post("/chapters", params);
+  return data;
+};
+
+
+
+export const getChapterById = async (id) => {
+  const { data } = await academy_client.get(`/chapters/${id}`);
+  return data;
+};
+
+
+export const postLesson = async (params) => {
+  const { data } = await academy_client.post("/lessons", params);
+  return data;
 };
 
 

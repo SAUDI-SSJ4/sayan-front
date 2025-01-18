@@ -1,15 +1,18 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import defualt from "../../../../assets/images/img.png";
 import chroma from "chroma-js";
 import Select from "react-select";
 import { useQuery, useMutation } from "@tanstack/react-query";
-import {  getAllcategories, getTrainer } from "../../../../utils/apis/client/academy";
+import { createCourseAPI, getAllcategories, getTrainer } from "../../../../utils/apis/client/academy";
 import { useNavigate } from "react-router-dom";
 import { ButtonSpinner } from "../../../../component/UI/Buttons/ButtonSpinner";
 import { populateFormData } from "../../../../utils/helpers";
-import { academy_client } from "../../../../utils/apis/client.config";
+import { useToast } from "../../../../utils/hooks/useToast";
+import { storage } from "../../../../utils/storage";
+import { fetchCurrentCourseSummaryThunk } from "../../../../../redux/CourseSlice";
+import { useDispatch } from "react-redux";
 
 const typeOptions = [
   { value: "recorded", label: "تفاعلية", color: "#673ab7" },
@@ -59,38 +62,45 @@ const validationSchema = Yup.object().shape({
   short_video: Yup.mixed().required("فيديو الدورة مطلوب"),
 });
 
-export const AddNewCourseStepOneForm = ({
-  setNextStep,
-  setStepper,
-  setCourseDataId,
-  setCourseDataCategoryId,
-}) => {
+
+export const CourseForm = ({ setStepper, categories, trainers }) => {
+
   const navigate = useNavigate();
   const fileInputRef = useRef(null);
-  const videoInputRef = useRef(null);
+  const videoInputRef = useRef();
+  const dispatch = useDispatch()
+  const { success } = useToast()
 
   const mutation = useMutation({
-    mutationFn: async (formData) => {
-      const response = await academy_client.post('/course', formData, {
-        headers: { 'Content-Type': 'multipart/form-data' }
-      });
-      return response.data;
-    },
-    onSuccess: (data) => {
-      // Assuming the API returns the course ID and category ID
-      if (data?.data?.id && data?.data?.category_id) {
-        setCourseDataId(data.data.id);
-        setCourseDataCategoryId(data.data.category_id);
-        navigateWithIds(data.data.id, data.data.category_id);
-        setNextStep();
-        setStepper(2);
-      }
-    },
-    onError: (error) => {
-      console.error('Error creating course:', error);
-      // Handle error appropriately
-    }
+    mutationFn: async (formData) => await createCourseAPI(formData)
   });
+
+  const handleFileChange = (e) => {
+    formik.setFieldValue("image", e.currentTarget.files[0]);
+  };
+
+
+  const handleVideoChange = (e) => {
+    const selectedVideo = e.target.files[0];
+    selectedVideo && formik.setFieldValue("short_video", e.currentTarget.files[0]);
+  };
+
+  const isFormFilled = () => {
+    return [
+      "title",
+      "content",
+      "short_content",
+      "trainer_id",
+      "price",
+      "level",
+      "learn",
+      "type",
+      "requirments",
+      "category_id",
+      "image",
+      // "short_video",
+    ].every((field) => Boolean(formik.values[field]));
+  };
 
   const formik = useFormik({
     initialValues: {
@@ -105,62 +115,35 @@ export const AddNewCourseStepOneForm = ({
       requirments: "",
       category_id: "",
       image: null,
-      short_video: null,
+      // short_video: null,
     },
     validationSchema,
     onSubmit: (values) => {
       const formData = new FormData();
       populateFormData(formData, values);
-      mutation.mutate(formData);
+      formData.delete("short_video");
+      mutation.mutateAsync(formData).then(({ data }) => {
+        const { id: courseId, category_id: categoryId } = data
+        success("تم إضافة الكورس بنجاح");
+        storage.save("cousjvqpkbr3m", courseId);
+        storage.save("cahrst1x7teq", categoryId);
+         dispatch(fetchCurrentCourseSummaryThunk(courseId));
+        localStorage.setItem("__courseStepper", 1);
+        setStepper(1);
+      }).catch((error) => {
+        console.error("Error creating course:", error);
+        setStepper(0);
+        localStorage.setItem("__courseStepper", 0);
+      })
     },
   });
 
-  const navigateWithIds = (courseId, categoryId) => {
-    navigate(`/academy/addNewCourse/${courseId}/${categoryId}`, { replace: true });
-  };
-
-  const handleFileChange = (e) => {
-    formik.setFieldValue("image", e.currentTarget.files[0]);
-  };
-
-  const handleVideoChange = (e) => {
-    formik.setFieldValue("short_video", e.currentTarget.files[0]);
-  };
-
-  const { data: courseCatigories = [], isError: isCategoryError } = useQuery({
-    queryKey: ["getAllcategories"],
-    queryFn: getAllcategories,
-    refetchOnWindowFocus: false,
-    refetchOnMount: false,
-    retry: 2,
-  });
-
-  const { data: courseTrainer = [], isError: isTrainerError } = useQuery({
-    queryKey: ["getTrainer"],
-    queryFn: getTrainer,
-    refetchOnWindowFocus: false,
-    refetchOnMount: false,
-    retry: 2,
-  });
-
-  const isFormFilled = () => {
-    if (
-      formik.values.title &&
-      formik.values.content &&
-      formik.values.short_video &&
-      formik.values.requirments &&
-      formik.values.category_id &&
-      formik.values.trainer_id &&
-      formik.values.image &&
-      formik.values.type &&
-      formik.values.price &&
-      formik.values.level &&
-      formik.values.learn
-    ) {
-      return true;
+  useEffect(() => {
+    const stepper = localStorage.getItem("__courseStepper");
+    if (stepper) {
+      setStepper(Number(stepper));
     }
-    return false;
-  };
+  }, [setStepper]);
 
   return (
     <form onSubmit={formik.handleSubmit} className="row g-3 w-80 justify-content-center m-auto">
@@ -195,33 +178,20 @@ export const AddNewCourseStepOneForm = ({
       </div>
       <div className="col-lg-6 col-md-12 justify-content-center">
         <div className="row g-3 button-content--1 m-auto justify-content-center">
-          {formik.values.short_video ? (
-            <video
-              width="366px"
-              height="212px"
-              controls
-              style={{
-                objectFit: "contain",
-                marginTop: "10px",
-              }}
-            >
-              <source src={URL.createObjectURL(formik.values.short_video)} type="video/mp4" />
-              Your browser does not support the video tag.
-            </video>
-          ): (
-            <video
-              width="366px"
-              height="212px"
-              controls
-              style={{
-                objectFit: "contain",
-                marginTop: "10px",
-              }}
-            >
-              <source src={defualt} type="video/mp4" />
-              Your browser does not support the video tag.
-            </video>
-          )}
+          <video
+            width="366px"
+            height="212px"
+            controls
+            style={{ objectFit: "contain", marginTop: "10px" }}
+          >
+            <source
+              src={
+                formik.values.short_video && URL.createObjectURL(formik.values.short_video)
+              }
+              type="video/*"
+            />
+            Your browser does not support the video tag.
+          </video>
 
           <div className="d-flex justify-content-center">
             <input
@@ -229,17 +199,18 @@ export const AddNewCourseStepOneForm = ({
               accept="video/*"
               ref={videoInputRef}
               style={{ display: "none" }}
-              onChange={(e) => {
-                const selectedVideo = e.target.files[0];
-                formik.setFieldValue("short_video", selectedVideo);
-                handleVideoChange(e);
-              }}
+              onChange={handleVideoChange}
             />
             <div
               style={{
                 background: "white",
                 marginTop: "25px",
                 marginBottom: "30px",
+                cursor: "pointer",
+                padding: "10px 20px",
+                borderRadius: "5px",
+                boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+                textAlign: "center",
               }}
               className="updateBtn"
               onClick={() => videoInputRef.current.click()}
@@ -249,6 +220,7 @@ export const AddNewCourseStepOneForm = ({
           </div>
         </div>
       </div>
+
 
       <div className="col-lg-6 col-md-12">
         <div className="CustomFormControl">
@@ -274,6 +246,78 @@ export const AddNewCourseStepOneForm = ({
             styles={colourStyles}
             onChange={(option) => formik.setFieldValue("type", option.value)}
           />
+        </div>
+      </div>
+
+      <div className="col-lg-3 col-md-6">
+        <div className="CustomFormControl">
+          <label htmlFor="trainer_id">المدرب</label>
+          <Select
+            options={trainers.map((trainer) => ({
+              value: trainer.id,
+              label: trainer.name,
+            }))}
+            styles={colourStyles}
+            onChange={(option) => formik.setFieldValue("trainer_id", option ? option.value : "")}
+            value={trainers
+              .map((trainer) => ({
+                value: trainer.id,
+                label: trainer.name,
+              }))
+              .find((trainer) => trainer.value === formik.values.trainer_id)}
+            placeholder="اختر مدرباً"
+          />
+          {formik.touched.trainer_id && formik.errors.trainer_id && <div>{formik.errors.trainer_id}</div>}
+        </div>
+      </div>
+
+      <div className="col-lg-3 col-md-6">
+        <div className="CustomFormControl">
+          <label htmlFor="category_id">الفئة</label>
+          <Select
+            options={categories.map((category) => ({
+              value: category.id,
+              label: category.title,
+            }))}
+            styles={colourStyles}
+            onChange={(option) => formik.setFieldValue("category_id", option ? option.value : "")}
+            value={categories
+              .map((category) => ({
+                value: category.id,
+                label: category.title,
+              }))
+              .find((category) => category.value === formik.values.category_id)}
+            placeholder="اختر فئة"
+          />
+          {formik.touched.category_id && formik.errors.category_id && <div>{formik.errors.category_id}</div>}
+        </div>
+      </div>
+
+      <div className="col-lg-3 col-md-6">
+        <div className="CustomFormControl">
+          <label htmlFor="price">السعر</label>
+          <input
+            type="number"
+            placeholder="ادخل السعر هنا"
+            id="price"
+            name="price"
+            value={formik.values.price}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+          />
+          {formik.touched.price && formik.errors.price && <div>{formik.errors.price}</div>}
+        </div>
+      </div>
+
+      <div className="col-lg-3 col-md-6">
+        <div className="CustomFormControl">
+          <label htmlFor="level">مستوى الطالب</label>
+          <Select
+            options={studentLevelOptions}
+            styles={colourStyles}
+            onChange={(option) => formik.setFieldValue("level", option.value)}
+          />
+          {formik.touched.level && formik.errors.level && <div>{formik.errors.level}</div>}
         </div>
       </div>
 
@@ -308,80 +352,6 @@ export const AddNewCourseStepOneForm = ({
           {formik.touched.short_content && formik.errors.short_content && (
             <div>{formik.errors.short_content}</div>
           )}
-        </div>
-      </div>
-
-      <div className="col-lg-3 col-md-6">
-        <div className="CustomFormControl">
-          <label htmlFor="trainer_id">المدرب</label>
-          <Select
-            options={courseTrainer.map((trainer) => ({
-              value: trainer.id,
-              label: trainer.name,
-            }))}
-            styles={colourStyles}
-            onChange={(option) => formik.setFieldValue("trainer_id", option ? option.value : "")}
-            value={courseTrainer
-              .map((trainer) => ({
-                value: trainer.id,
-                label: trainer.name,
-              }))
-              .find((trainer) => trainer.value === formik.values.trainer_id)}
-            placeholder="اختر مدرباً"
-          />
-          {formik.touched.trainer_id && formik.errors.trainer_id && <div>{formik.errors.trainer_id}</div>}
-          {isTrainerError && <div>Failed to load trainers</div>}
-        </div>
-      </div>
-
-      <div className="col-lg-3 col-md-6">
-        <div className="CustomFormControl">
-          <label htmlFor="category_id">الفئة</label>
-          <Select
-            options={courseCatigories.map((category) => ({
-              value: category.id,
-              label: category.title,
-            }))}
-            styles={colourStyles}
-            onChange={(option) => formik.setFieldValue("category_id", option ? option.value : "")}
-            value={courseCatigories
-              .map((category) => ({
-                value: category.id,
-                label: category.title,
-              }))
-              .find((category) => category.value === formik.values.category_id)}
-            placeholder="اختر فئة"
-          />
-          {formik.touched.category_id && formik.errors.category_id && <div>{formik.errors.category_id}</div>}
-          {isCategoryError && <div>Failed to load categories</div>}
-        </div>
-      </div>
-
-      <div className="col-lg-3 col-md-6">
-        <div className="CustomFormControl">
-          <label htmlFor="price">السعر</label>
-          <input
-            type="number"
-            placeholder="ادخل السعر هنا"
-            id="price"
-            name="price"
-            value={formik.values.price}
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-          />
-          {formik.touched.price && formik.errors.price && <div>{formik.errors.price}</div>}
-        </div>
-      </div>
-
-      <div className="col-lg-3 col-md-6">
-        <div className="CustomFormControl">
-          <label htmlFor="level">مستوى الطالب</label>
-          <Select
-            options={studentLevelOptions}
-            styles={colourStyles}
-            onChange={(option) => formik.setFieldValue("level", option.value)}
-          />
-          {formik.touched.level && formik.errors.level && <div>{formik.errors.level}</div>}
         </div>
       </div>
 
@@ -421,6 +391,7 @@ export const AddNewCourseStepOneForm = ({
           <ButtonSpinner isPending={mutation.isLoading} />
         </div>
       )}
+
     </form>
   );
 };

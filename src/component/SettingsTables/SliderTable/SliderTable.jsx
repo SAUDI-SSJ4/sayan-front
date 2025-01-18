@@ -4,7 +4,7 @@ import BorderColorOutlinedIcon from "@mui/icons-material/BorderColorOutlined";
 import { useNavigate } from "react-router-dom";
 import { Error } from "@mui/icons-material";
 import { Spinner } from "react-bootstrap";
-import { useSlider } from "../../../utils/hooks/get/useSetting";
+import { useSlider } from "../../../services/queries";
 
 const { Column, HeaderCell, Cell } = Table;
 

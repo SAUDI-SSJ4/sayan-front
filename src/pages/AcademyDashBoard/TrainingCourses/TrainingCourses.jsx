@@ -12,23 +12,17 @@ import { Button, Col, FlexboxGrid, Panel, Tag } from "rsuite";
 import styled from "styled-components";
 import TrainingCoursesCardAcademy from "../../../component/TrainingCourses/TrainingCoursesCardAcademy/TrainingCoursesCard";
 import AcademyDeleteModal from "../../../component/UI/DeleteModal/AcademyDeleteModal";
-const CoursesContainer= styled.div`
-`
-const Course= styled.div`
-`
+import { useCourses } from "../../../services/queries";
+
+
 const AcadmeyTrainingCourses = () => {
-  const { data: CoursesData, isLoading, errors } = useQuery({
-    queryKey: ["ACourses"],
-    queryFn: () => getCourse(),
-    refetchOnWindowFocus: false,
-    refetchOnMount: false,
-    retry: 2,
-  });
+
 
   const [TableOrNot, setTableOrNot] = useState(false);
   const [checkedKeys, setCheckedKeys] = useState([]);
   const [activeTab, setActiveTab] = useState("all");
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+
   const handleCheck = (key) => {
     setCheckedKeys((prev) => {
       if (prev.includes(key)) {
@@ -40,13 +34,16 @@ const AcadmeyTrainingCourses = () => {
       }
     });
   };
+
   const isChecked = (key) => checkedKeys.includes(key);
   const [searchQuery, setSearchQuery] = useState("");
 const [sortOrder, setSortOrder] = useState("asc"); // "asc" or "desc"
 
 
-  // Filter courses based on the active tab
+const { data: CoursesData, isLoading, errors } = useCourses();
+
   const filteredCourses = CoursesData?.data
+
   .filter((course) => {
     if (activeTab === "all") return true;
     return course.type === activeTab;
@@ -117,7 +114,7 @@ const [sortOrder, setSortOrder] = useState("asc"); // "asc" or "desc"
                 </ul>
               </div>
 
-              <Link to={"/academy/addNewCourse"} className="addBtn">
+              <Link to={"/academy/new-course"} className="addBtn">
                 <AddCircleIcon />
                 إضافة دورة جديدة
               </Link>

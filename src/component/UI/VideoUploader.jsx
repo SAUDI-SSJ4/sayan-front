@@ -28,7 +28,7 @@ const VideoUploader = ({ setFieldValue }) => {
       setVideoURL(fileURL);
 
       // Update Formik state
-      setFieldValue("videoFile", file);
+      setFieldValue("video", file);
     }
   };
 

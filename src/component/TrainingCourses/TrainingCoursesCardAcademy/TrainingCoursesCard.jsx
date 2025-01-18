@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 
-const TrainerTag= styled.div`
+const TrainerTag = styled.div`
   background-color: #f5f5f5;
   border-radius: 10px;
   padding: 5px 10px;
@@ -24,10 +24,10 @@ const TrainingCoursesCardAcademy = ({
   notAdmin,
   acadmey
 }) => {
-  const router = useNavigate();
-  useEffect(() => {
-    console.log("course",course);
-  });
+
+  const navigate = useNavigate();
+
+
   return (
     <div className={classes.Card}>
       <div className={classes.CardImage}>
@@ -35,8 +35,8 @@ const TrainingCoursesCardAcademy = ({
         {notAdmin ? null : (
           <div
             className={`${classes.CardCheck} ${checked && classes.Checked}`}
-              onClick={onCheck}
-            >
+            onClick={onCheck}
+          >
             <AnimatePresence>
               {checked && (
                 <motion.div
@@ -62,14 +62,14 @@ const TrainingCoursesCardAcademy = ({
       <div
         className={classes.CardBody}
         onClick={() =>
-          acadmey ? router("/academy/SingleCourse") : router("/SingleCourse")
+          acadmey ? navigate("/academy/SingleCourse") : navigate("/SingleCourse")
         }
       >
         <h2>{course.title}</h2>
         <div className={`d-flex gap-1 flex-wrap ${classes.Tags}`}>
-         {!course.status?<div className="ispending fs-6 fw-medium text-content--1">مسودة</div>:null}
-          {course.price==0? (<div className="Ended fs-6 fw-medium text-content--1">مجانية</div>):null}
-          {course.type=="recorded" ? (
+          {!course.status ? <div className="ispending fs-6 fw-medium text-content--1">مسودة</div> : null}
+          {course.price == 0 ? (<div className="Ended fs-6 fw-medium text-content--1">مجانية</div>) : null}
+          {course.type == "recorded" ? (
             <div className="notActive fs-6 fw-medium text-content--1">
               غير تفاعلية
             </div>

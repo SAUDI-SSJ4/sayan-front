@@ -31,13 +31,6 @@ export const CourseCard = ({
     )
   }
 
-<<<<<<< HEAD
-  return (
-    <React.Fragment>
-      <div className={`${Style.CourseTitle}`}>
-        <h2 className="p-0 m-0">{isObject(courseData?.course) && courseData.course.title}</h2>
-        <h4>{isObject(courseData?.course) && handleRateStare(courseData.course.rated)}</h4>
-=======
   const handleAddToCart = () => {
     const course = {
       id: courseData.course.id,
@@ -54,7 +47,6 @@ export const CourseCard = ({
       <div className={Style.CourseTitle}>
         <h2 className="p-0 m-0">{ isObject(courseData?.course) && courseData.course.title}</h2>
         <h4>{ isObject(courseData?.course) && handleRateStare(courseData.course.rated)}</h4>
->>>>>>> 783c3f05a39a8796a1566e57d604cd74da0bc908
       </div>
       {showBuyCourses && (
         <BuyACourse
@@ -109,13 +101,8 @@ export const CourseCard = ({
             </div>
             <div className="mt-4">
               <div className={Style.Line}>
-<<<<<<< HEAD
-                <img src={fi_4626794} />
-                {isObject(courseData?.course) && handleLevels(courseData.course.level)}
-=======
                 <img src={fi_4626794} alt="Level" />
                 {isObject(courseData?.course) &&  handleLevels(courseData.course.level)}
->>>>>>> 783c3f05a39a8796a1566e57d604cd74da0bc908
               </div>
               <div className={Style.Line}>
                 <img src={fi_860780} alt="Lessons" />

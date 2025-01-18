@@ -3,6 +3,12 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import style from "../../../AddNewCourse.module.css";
 import { Panel, Button } from "rsuite";
+import { useSelector } from "react-redux";
+import { latestLesson } from "../../../../../../../redux/CourseSlice";
+import { storage } from "../../../../../../utils/storage";
+import { useExamMutation } from "../../../../../../services/mutation";
+import { useToast } from "../../../../../../utils/hooks/useToast";
+import { hasLessonContent } from "../../../../../../utils/helpers";
 
 const examInfoSchema = Yup.object().shape({
   title: Yup.string().required("عنوان الاختبار مطلوب"),
@@ -10,8 +16,8 @@ const examInfoSchema = Yup.object().shape({
 
 const questionSchema = Yup.object().shape({
   question: Yup.string().required("نص السؤال مطلوب"),
-  type: Yup.string()
-    .oneOf(["multi", "single", "boolean"])
+  question_type: Yup.string()
+    .oneOf(["choose", "single", "boolean"])
     .required("نوع السؤال مطلوب"),
   answers: Yup.array().of(
     Yup.object().shape({
@@ -21,10 +27,19 @@ const questionSchema = Yup.object().shape({
   )
 });
 
-const MultiStepExamCreation = () => {
+export const AddNewExam = () => {
   const [examData, setExamData] = useState({ title: "", questions: [] });
   const [currentStep, setCurrentStep] = useState(1);
   const [editingQuestionIndex, setEditingQuestionIndex] = useState(-1);
+
+  const { error } = useToast();
+
+  const chapterId = storage.get('chapky89wsgnae')
+  const lessonId = storage.get('leuhqzrsyh5e')
+  const currentCourseId = storage.get("cousjvqpkbr3m")
+  const getlatestLesson = useSelector((state) => latestLesson(state, chapterId, lessonId));
+
+  const mutation = useExamMutation(currentCourseId, lessonId)
 
   const examInfoFormik = useFormik({
     initialValues: { title: "" },
@@ -38,34 +53,51 @@ const MultiStepExamCreation = () => {
   const questionFormik = useFormik({
     initialValues: {
       question: "",
-      type: "single",
+      question_type: "",
+      correct_answer: null,
       answers: [
         { text: "", isCorrect: false },
         { text: "", isCorrect: false },
         { text: "", isCorrect: false },
         { text: "", isCorrect: false }
       ],
-      correctAnswer: null,
     },
     validationSchema: questionSchema,
-    onSubmit: (values) => {
-      console.log(values)
+    onSubmit: async (values) => {
       const finalValues = { ...values };
-      if (values.type === 'boolean') {
+
+
+      console.log(finalValues)
+
+      if (values.question_type === 'boolean') {
         finalValues.answers = [
           { text: "صح", isCorrect: false },
           { text: "خطأ", isCorrect: false }
         ];
-        // Set correct answer for boolean
-        finalValues.answers[values.correctAnswer].isCorrect = true;
-      } else if (values.type === 'single') {
-        // For single choice, set the correct answer based on correctAnswer index
+
+        finalValues.answers[values.correct_answer].isCorrect = true;
+
+      } else if (values.question_type === 'single') {
         finalValues.answers = finalValues.answers.map((answer, index) => ({
           ...answer,
-          isCorrect: index === values.correctAnswer
+          isCorrect: index === values.correct_answer
         }));
+      } else if (values.question_type === 'choose') {
+        if (Array.isArray(values.answers) && Array.isArray(finalValues.answers)) {
+          // Update finalValues.answers by mapping isCorrect
+          finalValues.answers = finalValues.answers.map((answer, index) => ({
+            ...answer,
+            isCorrect: values.answers[index]?.isCorrect ?? false, // Default to false if undefined
+          }));
+
+          // Get indices of correct answers and assign to values.correct_answer
+          values.correct_answer = finalValues.answers
+            .reduce((correctIndices, answer, index) => {
+              if (answer.isCorrect) correctIndices.push(index); // Collect indices of correct answers
+              return correctIndices;
+            }, []);
+        }
       }
-      // For multi choice, the isCorrect flags are already set correctly
 
       if (editingQuestionIndex !== -1) {
         const updatedQuestions = [...examData.questions];
@@ -81,9 +113,30 @@ const MultiStepExamCreation = () => {
           questions: [...examData.questions, finalValues],
         });
       }
+
+      values.title = examData.title;
+      values.type = "exam";
+
+
+      if (!chapterId || !lessonId) {
+        error("يرجى تحديد الدرس والفصل");
+        return;
+      }
+
+      // await mutation.mutateAsync(values);
+
+      if (hasLessonContent(getlatestLesson, ['exam'])) {
+        await mutation.mutateAsync(values);
+      } else {
+        error("قم بأنشاء درس جديد")
+      }
+
+
+
       questionFormik.resetForm();
     },
   });
+
 
   const handleEditQuestion = (questionIndex) => {
     setEditingQuestionIndex(questionIndex);
@@ -99,11 +152,11 @@ const MultiStepExamCreation = () => {
   };
 
   const handleTypeChange = (e) => {
-    const type = e.target.value;
-    questionFormik.setFieldValue('type', type);
-    
+    const questionType = e.target.value;
+    questionFormik.setFieldValue('question_type', questionType);
+
     let initialAnswers;
-    if (type === 'boolean') {
+    if (questionType === 'boolean') {
       initialAnswers = [
         { text: "صح", isCorrect: false },
         { text: "خطأ", isCorrect: false }
@@ -116,12 +169,12 @@ const MultiStepExamCreation = () => {
         { text: "", isCorrect: false }
       ];
     }
-    
+
     questionFormik.setValues({
       ...questionFormik.values,
-      type,
+      question_type: questionType,
       answers: initialAnswers,
-      correctAnswer: null
+      correct_answer: null
     });
   };
 
@@ -129,53 +182,55 @@ const MultiStepExamCreation = () => {
 
   const renderExamInfoStep = () => (
     <div className={style.boardLap}>
-      <h4 style={{ color:"#2B3674",fontWeight:"600"}}>اضافة اختبار جديد</h4>
 
-  <form onSubmit={examInfoFormik.handleSubmit} className="row g-3 w-80 justify-content-center m-auto">
-    <div className="justify-content-center">
-      <div className="col-lg-11 col-md-12">
-        <div className={style.formControl}>
-          <label
-            htmlFor="title"
-            className={style.label}
-          >
-            عنوان الاختبار
-          </label>
-          <input
-            type="text"
-            placeholder="ادخل عنوان الاختبار هنا"
-            id="title"
-            name="title"
-            value={examInfoFormik.values.title}
-            onChange={examInfoFormik.handleChange}
-            onBlur={examInfoFormik.handleBlur}
-            className={style.input}
-          />
-          {examInfoFormik.touched.title && examInfoFormik.errors.title && (
-            <div className={style.error}>{examInfoFormik.errors.title}</div>
-          )}
+      <h4>الدرس : {getlatestLesson && getlatestLesson.title} </h4>
+      <h5 style={{ color: "#2B3674", fontWeight: "600" }}>اضافة اختبار جديد</h5>
+
+      <form onSubmit={examInfoFormik.handleSubmit} className="row g-3 w-80 justify-content-center m-auto">
+        <div className="justify-content-center">
+          <div className="col-lg-11 col-md-12">
+            <div className={style.formControl}>
+              <label
+                htmlFor="title"
+                className={style.label}
+              >
+                عنوان الاختبار
+              </label>
+              <input
+                type="text"
+                placeholder="ادخل عنوان الاختبار هنا"
+                id="title"
+                name="title"
+                value={examInfoFormik.values.title}
+                onChange={examInfoFormik.handleChange}
+                onBlur={examInfoFormik.handleBlur}
+                className={style.input}
+              />
+              {examInfoFormik.touched.title && examInfoFormik.errors.title && (
+                <div className={style.error}>{examInfoFormik.errors.title}</div>
+              )}
+            </div>
+          </div>
         </div>
-      </div>
+        <div className="col-lg-6 col-md-12">
+          <Button type="submit" style={{
+            padding: '15px 30px',
+            fontSize: '18px',
+            width: '100%'
+          }} appearance="primary">التالي</Button>
+        </div>
+
+      </form>
     </div>
-    <div className="col-lg-6 col-md-12">
-      <Button type="submit" style={{
-        padding: '15px 30px',
-        fontSize: '18px',
-        width: '100%'
-      }} appearance="primary">التالي</Button>
-    </div>
- 
-  </form>
-</div>
   );
 
   const renderExamPreview = () => (
     <div className="container  mt-4">
       <div className="d-flex flex-column gap-4">
         <div className="text-end">
-      <h4 style={{ color:"#2B3674",fontWeight:"600",marginBottom:"2rem"}}>معاينة الاختبار</h4>
-        <h5 style={{ color: '#2b3674' }}>{examData.title}</h5>
-          
+          <h4 style={{ color: "#2B3674", fontWeight: "600", marginBottom: "2rem" }}>معاينة الاختبار</h4>
+          <h5 style={{ color: '#2b3674' }}>{examData.title}</h5>
+
         </div>
 
         {examData.questions.map((question, questionIndex) => (
@@ -188,9 +243,9 @@ const MultiStepExamCreation = () => {
             }}
           >
             <div className="d-flex justify-content-between align-items-center mb-2">
-              <p style={{ color: '#2b3674', fontSize: '16px',fontWeight: '600', margin: 0 }}>السؤال {questionIndex + 1} :</p>
+              <p style={{ color: '#2b3674', fontSize: '16px', fontWeight: '600', margin: 0 }}>السؤال {questionIndex + 1} :</p>
               <div className="d-flex gap-2">
-                <Button 
+                <Button
                   appearance="ghost"
                   color="blue"
                   size="sm"
@@ -198,7 +253,7 @@ const MultiStepExamCreation = () => {
                 >
                   تعديل
                 </Button>
-                <Button 
+                <Button
                   appearance="ghost"
                   color="red"
                   size="sm"
@@ -210,9 +265,9 @@ const MultiStepExamCreation = () => {
             </div>
 
             <div className="mb-3">
-              <p style={{ 
+              <p style={{
                 fontSize: '16px',
-                fontWeight: '400' ,
+                fontWeight: '400',
                 textAlign: 'right'
               }}>
                 {question.question}
@@ -232,8 +287,8 @@ const MultiStepExamCreation = () => {
                 alignItems: 'center',
                 gap: '5px'
               }}>
-                {question.type === 'single' ? 'اختيار واحد' : 
-                 question.type === 'multi' ? 'اختيارات متعددة' : 'صواب أو خطأ'}
+                {question.question_type === 'single' ? 'اختيار واحد' :
+                  question.question_type === "choose" ? 'اختيارات متعددة' : 'صواب أو خطأ'}
               </span>
             </div>
 
@@ -266,14 +321,14 @@ const MultiStepExamCreation = () => {
                     }}>
                       {index + 1}
                     </div>
-                    <span style={{ 
+                    <span style={{
                       color: answer.isCorrect ? '#2e7d32' : '#2b3674',
-                      flex: 1 
+                      flex: 1
                     }}>
                       {answer.text}
                     </span>
                     {answer.isCorrect && (
-                      <span style={{ 
+                      <span style={{
                         fontSize: '12px',
                         color: '#4caf50',
                         backgroundColor: '#e8f5e9',
@@ -296,24 +351,22 @@ const MultiStepExamCreation = () => {
 
   const renderQuestionForm = () => {
     const isValid = () => {
-      const { question, answers, type } = questionFormik.values;
+      const { question, answers, question_type } = questionFormik.values;
       if (!question) return false;
-      
-      if (type === 'multi') {
-        // For multiple choice, at least one answer must be selected and all answers must have text
+
+      if (question_type === 'choose') {
         const hasSelectedAnswer = answers.some(answer => answer.isCorrect);
         const allAnswersHaveText = answers.every(answer => answer.text.trim());
         return hasSelectedAnswer && allAnswersHaveText;
       } else {
-        // For single choice and boolean, must have a correctAnswer selected and all answers must have text
-        const hasCorrectAnswer = questionFormik.values.correctAnswer !== null;
-        const allAnswersHaveText = type === 'boolean' ? true : answers.every(answer => answer.text.trim());
+        const hasCorrectAnswer = questionFormik.values.correct_answer !== null;
+        const allAnswersHaveText = question_type === 'boolean' ? true : answers.every(answer => answer.text.trim());
         return hasCorrectAnswer && allAnswersHaveText;
       }
     };
 
     return (
-      <form className="w-100" onSubmit={questionFormik.handleSubmit}>
+      <form className="w-100 " onSubmit={questionFormik.handleSubmit}>
         <div className="mb-3">
           <label>نص السؤال</label>
           <input
@@ -328,13 +381,13 @@ const MultiStepExamCreation = () => {
         <div className="mb-3">
           <label>نوع السؤال</label>
           <select
-            name="type"
-            value={questionFormik.values.type}
+            name="question_type"
+            value={questionFormik.values.question_type}
             onChange={handleTypeChange}
             className="form-select"
           >
             <option value="single">اختيار واحد</option>
-            <option value="multi">اختيارات متعددة</option>
+            <option value="choose">اختيارات متعددة</option>
             <option value="boolean">صواب أو خطأ</option>
           </select>
         </div>
@@ -342,7 +395,7 @@ const MultiStepExamCreation = () => {
           <label>الإجابات</label>
           {questionFormik.values.answers.map((answer, index) => (
             <div key={index} className="input-group mb-2"  >
-              {questionFormik.values.type !== 'boolean' && (
+              {questionFormik.values.question_type !== 'boolean' && (
                 <input
                   type="text"
                   value={answer.text}
@@ -357,7 +410,7 @@ const MultiStepExamCreation = () => {
                 />
               )}
               <div className="input-group-text">
-                {questionFormik.values.type === 'multi' ? (
+                {questionFormik.values.question_type === "choose" ? (
                   <input
                     type="checkbox"
                     name={`answer-${index}`}
@@ -371,28 +424,28 @@ const MultiStepExamCreation = () => {
                 ) : (
                   <input
                     type="radio"
-                    name="correctAnswer"
+                    name="correct_answer"
                     value={index}
                     onChange={() => {
-                      questionFormik.setFieldValue("correctAnswer", index);
+                      questionFormik.setFieldValue("correct_answer", index);
                       const newAnswers = questionFormik.values.answers.map((ans, idx) => ({
                         ...ans,
                         isCorrect: idx === index
                       }));
                       questionFormik.setFieldValue("answers", newAnswers);
                     }}
-                    checked={questionFormik.values.correctAnswer === index}
+                    checked={questionFormik.values.correct_answer === index}
                   />
                 )}
-                {questionFormik.values.type === 'boolean' && (
+                {questionFormik.values.question_type === 'boolean' && (
                   <span style={{ marginLeft: '8px' }}>{answer.text}</span>
                 )}
               </div>
             </div>
           ))}
         </div>
-        <Button 
-          type="submit" 
+        <Button
+          type="submit"
           appearance="primary"
           block
           disabled={!isValid()}
@@ -400,7 +453,7 @@ const MultiStepExamCreation = () => {
           {editingQuestionIndex !== -1 ? 'تعديل السؤال' : 'إضافة السؤال'}
         </Button>
         {editingQuestionIndex !== -1 && (
-          <Button 
+          <Button
             appearance="subtle"
             block
             onClick={() => {
@@ -417,26 +470,25 @@ const MultiStepExamCreation = () => {
   };
 
   return (
-    <>
-     <div className={style.content}>
-  {currentStep === 1 && renderExamInfoStep()}
-  {currentStep === 2 && renderExamPreview()}
-          </div>
-          <div className={`${style.sidebar} ${style.right}`}>
-      
-      {currentStep === 2 && (
-                <div className="col-12 m-auto p-4">
-                  <div className="CustomFormControl col-12">
-                    <label className="h5">
-                      {editingQuestionIndex !== -1 ? 'تعديل السؤال' : 'إضافة سؤال جديد'}
-                    </label>
-                    {renderQuestionForm()}
-                  </div>
-                </div>
-      )}
+    <div className="flex">
+      <div className={`${style.content}`}>
+        {currentStep === 1 && renderExamInfoStep()}
+        {currentStep === 2 && renderExamPreview()}
       </div>
-    </>
+      <div className={`${style.sidebar} ${style.right}`}>
+        {currentStep === 2 && (
+          <div className="col-12 m-auto p-4">
+            <div className="CustomFormControl col-12">
+              <label className="h5">
+                {editingQuestionIndex !== -1 ? 'تعديل السؤال' : 'إضافة سؤال جديد'}
+              </label>
+              {renderQuestionForm()}
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
   );
 };
 
-export default MultiStepExamCreation;
+

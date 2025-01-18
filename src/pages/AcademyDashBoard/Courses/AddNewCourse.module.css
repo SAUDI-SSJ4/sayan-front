@@ -1,6 +1,6 @@
-.backBtn{
-  border: 1px solid #0FE8E8;
-  color: #0FE8E8 !important;
+.backBtn {
+  border: 1px solid #0fe8e8;
+  color: #0fe8e8 !important;
   padding: 10px 15px;
   font-size: 18px;
   border-radius: 8px;
@@ -16,21 +16,21 @@
   align-items: flex-start;
   padding: 35px 70px 5px;
   .steperProgImg {
-    color: #A3AED0;
+    color: #a3aed0;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     margin-bottom: 30px;
-  .steperProgtext {
-    margin-top: 15px;
-    padding: 10px 0px;
-    display: flex;
+    .steperProgtext {
+      margin-top: 15px;
+      padding: 10px 0px;
+      display: flex;
 
-    justify-content: space-between;
+      justify-content: space-between;
+    }
   }
-}
   .steperProgcount {
-    background-color: #0062FF;
+    background-color: #0062ff;
     padding: 15px 20px;
     width: 200px;
     color: #fff;
@@ -41,24 +41,22 @@
     background-color: transparent;
     padding: 15px 20px;
     width: 200px;
-    color: #0FE8E8;
-    border: 1px solid #0FE8E8;
+    color: #0fe8e8;
+    border: 1px solid #0fe8e8;
     font-size: 18px;
     border-radius: 10px;
   }
 }
-
 
 .container {
   display: flex;
   /* justify-content: space-between; */
   width: 100%;
   min-height: 80vh;
-  
 }
 .saveBtnTwo {
   margin-top: 40px;
-  background-color: #29E088;
+  background-color: #29e088;
   color: #fff;
   padding: 15px 30px;
   width: 200px;
@@ -71,11 +69,11 @@
 }
 
 .sideSettings {
-  border: 1px solid #EDEFF2;
+  border: 1px solid #edeff2;
   width: fit-content;
   padding: 10px;
   & > div {
-    .MuiAccordionSummary-expandIconWrapper{
+    .MuiAccordionSummary-expandIconWrapper {
       background-color: gold;
     }
     padding: 10px !important;
@@ -83,10 +81,10 @@
   }
   .sideSettingsDiv {
     display: flex;
-  background-color: #fff;
-  padding: 20px 15px;
-  margin: 20px;
-  border-radius: 8px;
+    background-color: #fff;
+    padding: 20px 15px;
+    margin: 20px;
+    border-radius: 8px;
     & > * {
       margin: 0 5px;
     }
@@ -94,11 +92,11 @@
 }
 
 .sideSecLap {
-  background-color: #FBFBFB;
+  background-color: #fbfbfb;
   width: fit-content;
   padding: 10px;
   & > div {
-    .MuiAccordionSummary-expandIconWrapper{
+    .MuiAccordionSummary-expandIconWrapper {
       background-color: gold;
     }
     padding: 10px !important;
@@ -106,17 +104,17 @@
   }
   .sideSecLapDiv {
     display: flex;
-  background-color: #fff;
-  padding: 20px 15px;
-  margin: 20px;
-  border-radius: 8px;
+    background-color: #fff;
+    padding: 20px 15px;
+    margin: 20px;
+    border-radius: 8px;
     & > * {
       margin: 0 5px;
     }
   }
 }
 .sideBarNav {
-  display: flex; 
+  display: flex;
   flex-direction: column;
   justify-content: space-between;
   height: 100%;
@@ -130,8 +128,7 @@
     justify-content: center;
     align-items: center;
     text-align: center;
-    cursor: pointer;
-    padding:2.5px 10px;
+    padding: 2.5px 10px;
     margin: 5px 0px;
     width: 135px;
     border-radius: 6px;
@@ -148,6 +145,17 @@
       font-weight: 500;
     }
   }
+
+  .notAllwo {
+    cursor: not-allowed;
+    color: #979797;
+  }
+  
+  .allwo {
+    cursor: pointer;
+  }
+
+  
 }
 
 .boardLap {
@@ -162,12 +170,12 @@
 
 .savebtn {
   background-color: #0e85ff;
-    color: #fff;
-    font-size: 18px;
-    padding: 10px 30px;
-    width: 150px;
-    border-radius: 8px;
-    margin: 30px auto;
+  color: #fff;
+  font-size: 18px;
+  padding: 10px 30px;
+  width: 150px;
+  border-radius: 8px;
+  margin: 30px auto;
 }
 
 .categoryShow {
@@ -191,90 +199,80 @@
 
 .saveSecondbtn {
   background-color: #6ada31;
-    color: #fff;
-    font-size: 18px;
-    padding: 10px 30px;
-    width: 150px;
-    border-radius: 8px;
-    margin: 30px auto;
+  color: #fff;
+  font-size: 18px;
+  padding: 10px 30px;
+  width: 150px;
+  border-radius: 8px;
+  margin: 30px auto;
 }
 
 .deletebtn {
   background-color: #ffffff;
-    color: #f35858;
-    border: #f35858 solid 1px;
-    font-size: 18px;
-    padding: 10px 30px;
-    width: 150px;
-    border-radius: 8px;
-    text-wrap: nowrap;
-    margin: 30px auto;
+  color: #f35858;
+  border: #f35858 solid 1px;
+  font-size: 18px;
+  padding: 10px 30px;
+  width: 150px;
+  border-radius: 8px;
+  text-wrap: nowrap;
+  margin: 30px auto;
 }
 
-.soonBtn{
+.soonBtn {
   background-color: #f35858;
-  color: #EDEFF2;
-  font-weight:700;
+  color: #edeff2;
+  font-weight: 700;
   font-size: 10px;
   padding: 4px 10px;
-   border-radius: 8px;
+  border-radius: 8px;
   text-wrap: nowrap;
-  }
+}
 
-
-  .activeButton {
-  background-color: #0062FF; /* Primary background color */
+.activeButton {
+  background-color: #0062ff; /* Primary background color */
   color: #fff; /* White color for text and SVG */
   svg > path {
     fill: #fff;
-    
   }
+}
+
+.lessonType {
+  min-width: 34px;
+  height: 34px;
+  background-color: rgba(30, 2, 170, 0.2);
+  border-radius: 50%;
+  padding: 7px;
+  path {
+    fill: rgb(30, 2, 170);
   }
+}
 
+.lessonTypeActive {
+  background-color: rgba(30, 30, 30, 0.1);
+  path {
+    fill: white;
+  }
+}
 
-  
-        .lessonType {
-          min-width: 34px;
-          height: 34px;
-          background-color: rgba(30,2,170, 0.2);
-          border-radius: 50%;
-          padding: 7px;
-          path {
-            fill: rgb(30,2,170);
-          }
-        }
-
-        .lessonTypeActive {
-          background-color: rgba(30, 30, 30, 0.1);
-            path {
-            fill: white;
-          }
-        }
-
-
-       .deleteBtn {
-
-         padding: 3px; /* Some padding for a comfortable click area */
-         border-radius: 5px; /* Rounded corners for a modern look */
-         text-wrap: nowrap; /* Ensure the text doesn't wrap */
-         transition: background-color 0.2s ease-in-out; /* Smooth transition for hover effect */
-         background-color: rgba(240, 0, 0, 0.2) ; /* A slightly darker red for hover */
-         svg {
-          width: 22.5px;
-         }
-         svg > path {
-           fill :#ff0602;
-         }
-       }
-       .deleteBtn:hover {
-        background-color: rgba(240, 0, 0, 0.4); /* A slightly darker red for hover */
-        /* A slightly darker red for hover */
-         cursor: pointer; /* Change cursor to pointer on hover */
-       }
-
-
-
-
+.deleteBtn {
+  padding: 3px; /* Some padding for a comfortable click area */
+  border-radius: 5px; /* Rounded corners for a modern look */
+  text-wrap: nowrap; /* Ensure the text doesn't wrap */
+  transition: background-color 0.2s ease-in-out; /* Smooth transition for hover effect */
+  background-color: rgba(240, 0, 0, 0.2); /* A slightly darker red for hover */
+  svg {
+    width: 22.5px;
+  }
+  svg > path {
+    fill: #ff0602;
+  }
+}
+.deleteBtn:hover {
+  background-color: rgba(240, 0, 0, 0.4); /* A slightly darker red for hover */
+  /* A slightly darker red for hover */
+  cursor: pointer; /* Change cursor to pointer on hover */
+}
 
 .modal {
   position: fixed;
@@ -286,7 +284,6 @@
   padding: 20px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   z-index: 1000;
-  
 }
 .modalTitle {
   font-size: larger;
@@ -301,11 +298,11 @@
   padding: 0px;
   margin: 0px;
 }
-.toolCard{
+.toolCard {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap:5px;
+  gap: 5px;
   border: 1px solid #f0f0f0;
   border-radius: 4px;
   padding: 1.5rem;
@@ -316,23 +313,20 @@
   color: #505080;
   transition: all 0.3s ease;
   width: 100%;
-
 }
 .toolCard > p {
   margin: 0px;
   min-width: fit-content;
-} 
+}
 .toolCard > svg {
   margin: 0px;
   min-width: fit-content;
-} 
+}
 
 .selectedTool {
   background-color: #f0f0f0;
   color: #505080;
 }
-
-
 
 .formControl {
   margin-bottom: 1.5rem;
@@ -373,24 +367,19 @@
   padding-right: 0.5rem;
 }
 
-
-
 .dashboard {
   display: grid;
-  grid-template-areas: 
-    "left1 left2 content right";
+  grid-template-areas: "left1 left2 content right";
   grid-template-columns: 150px 320px 1fr 340px;
 
   min-height: 80vh;
   /* Create space between grid items */
-  outline: 1px solid #EDEFF2;
-
+  outline: 1px solid #edeff2;
 }
 
 .sidebar {
   padding: 4px;
-  outline: 1px solid #EDEFF2;
-
+  outline: 1px solid #edeff2;
 }
 
 .sidebar.left.first {
@@ -399,9 +388,7 @@
 
 .sidebar.left.second {
   grid-area: left2;
-  background-color:  #FBFBFB;
-  
- 
+  background-color: #fbfbfb;
 }
 
 .sidebar.right {
@@ -411,14 +398,13 @@
 .content {
   grid-area: content;
   padding: 16px;
-  background-color:  #ffffff;
-
+  background-color: #ffffff;
 }
 
 /* Responsive Design */
 @media (max-width: 768px) {
   .dashboard {
-    grid-template-areas: 
+    grid-template-areas:
       "left1"
       "left2"
       "content"
@@ -426,7 +412,6 @@
     grid-template-columns: 1fr;
   }
 }
-
 
 .addNewVideoContainer {
   display: flex;
@@ -437,7 +422,8 @@
   padding: 60px 40px;
   h4 {
     font-size: 28px;
-    color:#2b3674 ;
+    color: #2b3674;
     font-weight: bold;
   }
 }
+

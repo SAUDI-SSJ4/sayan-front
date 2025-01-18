@@ -11,8 +11,8 @@ import { MainSpinner } from "../../../component/UI/MainSpinner";
 import UploadImage from "../../../component/UI/UploadFile/UploadImage";
 import Cookies from "js-cookie";
 import { getChangedValues, isValidURL, populateFormData } from "../../../utils/helpers";
-import { useAcademySettings } from "../../../utils/hooks/get/useSetting";
 import { useSetAcademySettings } from "../../../utils/hooks/set/useSetting";
+import { useSettings } from "../../../services/queries";
 const validationSchema = Yup.object().shape({
   name: Yup.string().required("اسم الأكاديمية مطلوب"),
   logo: Yup.string().required("شعار الأكاديمية مطلوب"),
@@ -66,7 +66,7 @@ const MainSettings = () => {
     return data.name !== initialValues.name || data.logo !== initialValues.logo || data.favicon !== initialValues.favicon || data.primary_color !== initialValues.primary_color || data.secondary_color !== initialValues.secondary_color;
   }
 
-  const { data:AcademySettingsData = []  } = useAcademySettings()
+  const { data:AcademySettingsData = []  } = useSettings()
 
   useEffect(() => {
     if (AcademySettingsData?.template) {

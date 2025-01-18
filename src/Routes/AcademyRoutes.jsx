@@ -49,7 +49,7 @@ import AddEditBlog from "../pages/AcademyDashBoard/blogs/AddEditBlog";
 import Cookies from "js-cookie";
 import AddCoupon from "../pages/AcademyDashBoard/Copons/AddCoupon";
 import Coupons from "../pages/AcademyDashBoard/Copons/Coupons";
-import AddNewCourseAcademy from "../pages/AcademyDashBoard/AddNewCourseAcademy/AddNewCourseAcademy";
+import AddCourse from "../pages/AcademyDashBoard/Courses/AddCourse";
 import EditAcademyProfile from "../pages/AcademyDashBoard/Profile/EditAcademyProfile";
 import toast from "react-hot-toast";
 import HomeAcademy from "../pages/MainPages/AcademyHome/HomeAcademy";
@@ -79,20 +79,18 @@ const AcademyRoutes = () => {
             <Route path="/academy/Profile/edit" element={<EditAcademyProfile />} />
             <Route path="/academy/DigitalProducts" element={<DigitalProducts />} />
             <Route path="/academy/DigitalProducts/AddNewProduct/*" element={<AddNewProduct />} />
-            <Route path="/academy/DigitalProducts/AddNewProduct/:slug" element={<AddNewProduct />}/>
+            <Route path="/academy/DigitalProducts/AddNewProduct/:slug" element={<AddNewProduct />} />
             <Route path="/academy/settings/*" element={<AcademySettings />} />
             <Route path="/academy/settings/slider/edit" element={<EditSlider />} />
-            <Route path="/academy/addNewCourse" element={<AddNewCourseAcademy />} />
-            <Route path="/academy/addNewCourse/:courseId/:categoryId" element={<AddNewCourseAcademy />} />
+            <Route path="/academy/new-course" element={<AddCourse />} />
+            <Route path="/academy/new-course/:courseId/:categoryId" element={<AddCourse />} />
             <Route path="/academy/settings/main" element={<MainSettings />} />
-
             <Route path="/academy/settings/ratesOfStudents/add" element={<EditStudentRates />} />
             <Route path="/academy/settings/ratesOfStudents/edit/:slug" element={<EditStudentRates />} />
-            
             <Route path="/academy/settings/about/edit" element={<EditAbout />} />
             <Route path="/academy/settings/faq/edit/:slug" element={<EditFaq />} />
             <Route path="/academy/settings/faq/add" element={<EditFaq />} />
-            <Route path="/academy/settings/call-to-action/edit/:slug" element={<EditCallToAction />}/>
+            <Route path="/academy/settings/call-to-action/edit/:slug" element={<EditCallToAction />} />
             <Route path="/academy/settings/call-to-action/add" element={<EditCallToAction />} />
             <Route path="/academy/settings/footer/edit/:slug" element={<EditFooter />} />
             <Route path="/academy/settings/footer/add" element={<EditFooter />} />
@@ -114,7 +112,7 @@ const AcademyRoutes = () => {
             <Route path="/academy/ReportsAndStatistics" element={<ReportsAndStatistics />} />
             <Route path="/academy/Wallet" element={<AcademeyWallet />} />
             <Route path="/academy/sales" element={<AcademySales />} />
-            <Route path="/academy/TrainingCourses" element={<AcadmeyTrainingCourses />} />
+            <Route path="/academy/training-courses" element={<AcadmeyTrainingCourses />} />
             <Route path="/academy/SingleCourse" element={<AcademySingleCourse />} />
             <Route path="/academy/Certficates" element={<AcademyCertficates />} />
             <Route path="/academy/AddNewCertficates" element={<AcademyAddNewCertficates />} />

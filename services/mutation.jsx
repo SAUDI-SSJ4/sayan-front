@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import Swal from "sweetalert2";
 import { postToggle } from "../src/utils/apis/client";
-import { createCourse , createLesson } from "../src/utils/apis/client/academy";
+import { createCourseAPI , createLesson } from "../src/utils/apis/client/academy";
 import { useCallback } from 'react';
 
 export function handleValidationErrors(errors) {
@@ -46,7 +46,7 @@ export const useCreateCourseMutation = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (data) => createCourse(data),
+    mutationFn: (data) => createCourseAPI(data),
     onSuccess: ({data}) => {
       console.log(data);
       queryClient.invalidateQueries({ queryKey: ["studentCourses"] });

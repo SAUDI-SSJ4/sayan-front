@@ -44,7 +44,8 @@ export const handleRateStare = (rate) => {
 };
 
 export const formatLongText = (text, maxLength = 100) => {
-  return text ?  text.slice(0, maxLength) + " ..." : "لا يوجد محتوى";
+  return text ?
+    text.slice(0, maxLength) + " ..." : "لا يوجد محتوى";
 };
 
 
@@ -56,7 +57,7 @@ export const generateUUID = () => {
   });
 }
 
-export const isValidURL=(data)=> {
+export const isValidURL = (data) => {
   const urlRegex = /^(https?:\/\/)?([\w-]+(\.[\w-]+)+)([\w.,@?^=%&:/~+#-]*[\w@?^=%&/~+#-])?$/;
   return urlRegex.test(data);
 }
@@ -126,3 +127,40 @@ export function populateFormData(formData, data) {
     formData.append(key, value ?? "");
   });
 }
+
+
+export const isStoreDataSynced = (storeKey, latestData) => {
+  const storedData = localStorage.getItem(storeKey);
+  if (!storedData || !latestData) return false;
+
+  try {
+    if (storedData === latestData) {
+      return storedData
+    }
+
+  } catch {
+    return false;
+  }
+};
+
+
+
+
+export const hasLessonContent = (lesson, allowedTypes = ['tool', 'video', 'exam']) => {
+  if (!lesson || !lesson.type) return false;
+
+  const type = lesson.type;
+
+  console.log(type)
+
+  if (type === "video" && lesson?.video?.length === 0) {
+    return true;
+  }
+
+  if (allowedTypes.includes(type) && Array.isArray(lesson[type]) && lesson[type].length > 0) {
+    return true;
+  }
+
+  return false;
+
+};

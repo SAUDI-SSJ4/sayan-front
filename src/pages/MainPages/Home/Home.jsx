@@ -35,6 +35,7 @@ const Home = () => {
     cacheTime: 10000,
   });
 
+
   const coursePrices = useMemo(() => courses.map((course) => course.price) || [], [courses]);
   const minPrice = Math.min(...coursePrices, 0);
   const maxPrice = Math.max(...coursePrices, 10000);
@@ -99,6 +100,7 @@ const Home = () => {
         <div className="CustomContainer">
         <SubjectHeader filterByCourseTitle={filterByCourseTitle} />
 
+
           <div className="row g-3">
             <div className="col-12 col-md-12 col-lg-3">
               <SideBarFilter
@@ -107,6 +109,9 @@ const Home = () => {
                 filterByCategories={filterByCategories}
               />
             </div>
+
+
+
 
             <div className="col-12 col-md-12 col-lg-9">
               <div className="row g-2">
