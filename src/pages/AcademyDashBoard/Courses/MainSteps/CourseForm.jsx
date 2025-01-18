@@ -388,7 +388,7 @@ export const CourseForm = ({ setStepper, categories, trainers }) => {
       </div>
       {isFormFilled() && (
         <div className="col-12">
-          <ButtonSpinner isPending={mutation.isLoading} />
+          <ButtonSpinner isPending={mutation.isPending} />
         </div>
       )}
 
