@@ -1,0 +1,195 @@
+.backBtn{
+  border: 1px solid #0FE8E8;
+  color: #0FE8E8 !important;
+  padding: 10px 15px;
+  font-size: 18px;
+  border-radius: 8px;
+  & > * {
+    margin: 0 5px;
+  }
+}
+
+.steperProg {
+  border-bottom: 1px solid #eee;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  .steperProgImg {
+    color: #A3AED0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-bottom: 30px;
+  .steperProgtext {
+    margin-top: 15px;
+    padding: 10px 0px;
+    display: flex;
+
+    justify-content: space-between;
+  }
+}
+  .steperProgcount {
+    background-color: #0062FF;
+    padding: 15px 20px;
+    width: 200px;
+    color: #fff;
+    font-size: 18px;
+    border-radius: 10px;
+  }
+  .steperProgsave {
+    background-color: transparent;
+    padding: 15px 20px;
+    width: 200px;
+    color: #0FE8E8;
+    border: 1px solid #0FE8E8;
+    font-size: 18px;
+    border-radius: 10px;
+  }
+}
+
+
+.container {
+  display: flex;
+  justify-content: space-between;
+  min-height: 80vh;
+  .saveBtnTwo {
+    margin-top: 40px;
+    background-color: #29E088;
+    color: #fff;
+    padding: 15px 30px;
+    width: 200px;
+    border-radius: 8px;
+    font-size: 18px;
+  }
+  .sideSecLap {
+    background-color: #EDEFF2;
+    & > div {
+      .MuiAccordionSummary-expandIconWrapper{
+        background-color: gold;
+      }
+      padding: 10px !important;
+      margin: 10px !important;
+    }
+    .sideSecLapDiv {
+      display: flex;
+    background-color: #fff;
+    padding: 20px 15px;
+    margin: 20px;
+    border-radius: 8px;
+      & > * {
+        margin: 0 5px;
+      }
+    }
+  }
+  .sideBarNav {
+    display: flex; 
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+    .sideup {
+
+    }
+    .iconText {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      padding: 10px;
+      margin: 15px 0;
+      width: 150px;
+      img{
+        width: 30px;
+        margin-bottom: 5px;
+
+      }
+     
+    }
+
+    .iconTextNotCursor {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 10px;
+      margin: 15px 0;
+      width: 150px;
+      img{
+        width: 30px;
+        margin-bottom: 5px;
+
+      }
+     
+    }
+  }
+
+  .boardLap {
+    flex: 1;
+    text-align: center;
+    margin-top: 30px;
+    h4 {
+      margin-bottom: 30px;
+    }
+  }
+}
+
+.savebtn {
+  background-color: #0e85ff;
+    color: #fff;
+    font-size: 18px;
+    padding: 10px 30px;
+    width: 150px;
+    border-radius: 8px;
+    margin: 30px auto;
+}
+
+.categoryShow {
+  text-align: center;
+  flex: 1;
+  margin-top: 30px;
+  span {
+    border-top: 1px solid #eee;
+    display: block;
+    width: 100%;
+    margin: 10px auto;
+  }
+  .catImage {
+    width: 350px;
+    margin: 20px auto;
+    img {
+      max-width: 100%;
+    }
+  }
+}
+
+.saveSecondbtn {
+  background-color: #6ada31;
+    color: #fff;
+    font-size: 18px;
+    padding: 10px 30px;
+    width: 150px;
+    border-radius: 8px;
+    margin: 30px auto;
+}
+
+.deletebtn {
+  background-color: #ffffff;
+    color: #f35858;
+    border: #f35858 solid 1px;
+    font-size: 18px;
+    padding: 10px 30px;
+    width: 150px;
+    border-radius: 8px;
+    text-wrap: nowrap;
+    margin: 30px auto;
+}
+
+.soonBtn{
+  background-color: #f35858;
+  color: #EDEFF2;
+  font-weight:700;
+  font-size: 10px;
+  padding: 4px 10px;
+   border-radius: 8px;
+  text-wrap: nowrap;
+  }
