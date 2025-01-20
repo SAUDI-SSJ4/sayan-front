@@ -98,7 +98,7 @@ export const CourseForm = ({ setStepper, categories, trainers }) => {
       "requirments",
       "category_id",
       "image",
-      // "short_video",
+      "short_video",
     ].every((field) => Boolean(formik.values[field]));
   };
 
@@ -115,13 +115,12 @@ export const CourseForm = ({ setStepper, categories, trainers }) => {
       requirments: "",
       category_id: "",
       image: null,
-      // short_video: null,
+      short_video: null,
     },
     validationSchema,
     onSubmit: (values) => {
       const formData = new FormData();
       populateFormData(formData, values);
-      formData.delete("short_video");
       mutation.mutateAsync(formData).then(({ data }) => {
         const { id: courseId, category_id: categoryId } = data
         success("تم إضافة الكورس بنجاح");
