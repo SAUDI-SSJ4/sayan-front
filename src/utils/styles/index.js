@@ -67,7 +67,7 @@ export const ImageInput = styled.input`
  display: none;
   `;
 
- export const DisplayImage = styled.img`
+export const DisplayImage = styled.img`
   max-width: 366px;
   max-height: 212px;
   object-fit: contain;
@@ -98,6 +98,7 @@ export const ContinueButton = styled.button`
   color: ${(props) => props.color || "#fff"};
   font-size: 18px;
   border-radius: 7px;
+  gap: 5px;
 `;
 
 export const ProgsaveButton = styled.button`
@@ -110,3 +111,14 @@ font-size: 18px;
 border-radius: 7px;
 `
 
+export const ChapterTitle = styled.p`
+    text-align: end;
+    color: #00951b;
+    cursor: pointer;
+`
+
+export const Text = styled.p`
+  color: ${(props) => props.color || "#000"};
+  font-size: ${(props) => props.size || `16px`};
+  font-weight: ${(props) => props.weight || 500};
+`

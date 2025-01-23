@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import ArrowBack from "@mui/icons-material/ArrowBack";
 import addcourse from "../../../assets/icons/Button.svg";
@@ -13,15 +13,26 @@ import { isEmpty } from "../../../utils/helpers";
 import { fetchCategoriesThunk } from "../../../../redux/CategorySlice";
 import { fetchTrainerThunk } from "../../../../redux/TrainerSlice";
 import { storage } from "../../../utils/storage";
-import { getAllcategories } from "../../../utils/apis/client/academy";
+import Spinner from 'react-bootstrap/Spinner';
+import { getAcademyCoursesThunk } from "../../../../redux/courses/CourseThunk";
 
-function AddCourse() {
+const AddCourse = () => {
+  const formRef = useRef(null);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [stepper, setStepper] = useState(0);
-  const isDisabled = useSelector((state) => state.course.isDisabled);
+  const { isDisabled, isCreateCourseLoading } = useSelector((state) => state.course);
 
-  const handleFinishCreateCourse = () => {
+  const handleContinue = () => {
+    if (isDisabled) return;
+
+    if (formRef.current)
+      formRef.current.submitForm();
+
+  };
+
+  const handleFinishCreateCourse = async () => {
+    await dispatch(getAcademyCoursesThunk()).unwrap()
     localStorage.setItem("__courseStepper", 0);
     storage.delete("cahrst1x7teq")
     storage.delete("chapky89wsgnae")
@@ -33,7 +44,7 @@ function AddCourse() {
   const { trainers, isLoading: isTrainersLoading, error } = useSelector((state) => state.trainers);
 
   const { categories, isLoading: isCategoriesLoading } = useSelector((state) => state.categories);
-  
+
 
 
   useEffect(() => {
@@ -41,13 +52,13 @@ function AddCourse() {
       console.log("I call api thunk for categories");
       dispatch(fetchCategoriesThunk());
     }
-  
+
     if (!isTrainersLoading && (trainers === null || isEmpty(trainers))) {
       console.log("I call api thunk for trainers");
       dispatch(fetchTrainerThunk());
     }
   }, [dispatch]);
-  
+
 
 
 
@@ -82,14 +93,19 @@ function AddCourse() {
                   <span>اطلاق الدورة</span>
                 </div>
               </div>
-              <ContinueButton bgColor="#0062ff" disabled={isDisabled}>
-                استمرار
+              <ContinueButton
+                bgColor={isDisabled ? "#7E8799" : "#0062ff"}
+                disabled={isDisabled}
+                onClick={handleContinue}>
+                <span style={{ marginLeft: '15px' }}>استمرار</span>
+                <span>{isCreateCourseLoading && <Spinner animation="border" size="sm" />}</span>
               </ContinueButton>
             </div>
             <CourseForm
               setStepper={setStepper}
               categories={categories ?? []}
-              trainers={trainers|| []}
+              trainers={trainers || []}
+              ref={formRef}
             />
           </div>
         </div>

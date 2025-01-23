@@ -1,18 +1,20 @@
-import React, { useEffect, useRef, useState } from "react";
+/* eslint-disable react/display-name */
+import React, { useRef, useEffect, forwardRef, useImperativeHandle, useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import defualt from "../../../../assets/images/img.png";
 import chroma from "chroma-js";
 import Select from "react-select";
-import { useQuery, useMutation } from "@tanstack/react-query";
-import { createCourseAPI, getAllcategories, getTrainer } from "../../../../utils/apis/client/academy";
+import { useMutation } from "@tanstack/react-query";
+import { createCourseAPI } from "../../../../utils/apis/client/academy";
 import { useNavigate } from "react-router-dom";
 import { ButtonSpinner } from "../../../../component/UI/Buttons/ButtonSpinner";
-import { populateFormData } from "../../../../utils/helpers";
+import { isCourseFieldComplete, populateFormData } from "../../../../utils/helpers";
 import { useToast } from "../../../../utils/hooks/useToast";
 import { storage } from "../../../../utils/storage";
-import { fetchCurrentCourseSummaryThunk } from "../../../../../redux/CourseSlice";
+import { changeState, setLoadingForCreateCourse } from "../../../../../redux/courses/CourseSlice";
 import { useDispatch } from "react-redux";
+import { fetchCurrentCourseSummaryThunk } from "../../../../../redux/courses/CourseThunk";
 
 const typeOptions = [
   { value: "recorded", label: "تفاعلية", color: "#673ab7" },
@@ -63,44 +65,30 @@ const validationSchema = Yup.object().shape({
 });
 
 
-export const CourseForm = ({ setStepper, categories, trainers }) => {
-
-  const navigate = useNavigate();
+export const CourseForm = forwardRef(({ setStepper, categories, trainers }, ref) => {
   const fileInputRef = useRef(null);
-  const videoInputRef = useRef();
-  const dispatch = useDispatch()
-  const { success } = useToast()
+  const videoInputRef = useRef(null);
+  const dispatch = useDispatch();
+  const { success } = useToast();
 
   const mutation = useMutation({
-    mutationFn: async (formData) => await createCourseAPI(formData)
+    mutationFn: async (formData) => await createCourseAPI(formData),
   });
 
   const handleFileChange = (e) => {
-    formik.setFieldValue("image", e.currentTarget.files[0]);
+    const file = e.currentTarget.files[0];
+    if (file)
+      formik.setFieldValue("image", file);
   };
 
 
   const handleVideoChange = (e) => {
-    const selectedVideo = e.target.files[0];
-    selectedVideo && formik.setFieldValue("short_video", e.currentTarget.files[0]);
+    const video = e.currentTarget.files[0];
+    if (video)
+      formik.setFieldValue("short_video", video);
   };
 
-  const isFormFilled = () => {
-    return [
-      "title",
-      "content",
-      "short_content",
-      "trainer_id",
-      "price",
-      "level",
-      "learn",
-      "type",
-      "requirments",
-      "category_id",
-      "image",
-      "short_video",
-    ].every((field) => Boolean(formik.values[field]));
-  };
+
 
   const formik = useFormik({
     initialValues: {
@@ -118,31 +106,45 @@ export const CourseForm = ({ setStepper, categories, trainers }) => {
       short_video: null,
     },
     validationSchema,
-    onSubmit: (values) => {
+    onSubmit: async (values) => {
       const formData = new FormData();
       populateFormData(formData, values);
-      mutation.mutateAsync(formData).then(({ data }) => {
-        const { id: courseId, category_id: categoryId } = data
-        success("تم إضافة الكورس بنجاح");
-        storage.save("cousjvqpkbr3m", courseId);
-        storage.save("cahrst1x7teq", categoryId);
-         dispatch(fetchCurrentCourseSummaryThunk(courseId));
-        localStorage.setItem("__courseStepper", 1);
-        setStepper(1);
-      }).catch((error) => {
-        console.error("Error creating course:", error);
-        setStepper(0);
-        localStorage.setItem("__courseStepper", 0);
-      })
+      dispatch(setLoadingForCreateCourse(true))
+      mutation.mutateAsync(formData)
+        .then(({ data }) => {
+          const { id: courseId, category_id: categoryId } = data;
+          success("تم إضافة الكورس بنجاح");
+          storage.save("cousjvqpkbr3m", courseId);
+          storage.save("cahrst1x7teq", categoryId);
+          dispatch(fetchCurrentCourseSummaryThunk(courseId));
+          localStorage.setItem("__courseStepper", 1);
+          setStepper(1);
+        })
+        .catch((error) => {
+          console.error("Error creating course:", error);
+          localStorage.setItem("__courseStepper", 0);
+          setStepper(0);
+        }).finally(() => {
+          dispatch(setLoadingForCreateCourse(false))
+        })
     },
   });
 
+  useImperativeHandle(ref, () => ({
+    submitForm: formik.submitForm,
+  }));
+
   useEffect(() => {
-    const stepper = localStorage.getItem("__courseStepper");
-    if (stepper) {
-      setStepper(Number(stepper));
+    const savedStepper = localStorage.getItem("__courseStepper");
+    if (savedStepper) {
+      setStepper(Number(savedStepper));
     }
   }, [setStepper]);
+
+  useEffect(() => {
+    if (isCourseFieldComplete(formik))
+      dispatch(changeState(false))
+  }, [formik.values]);
 
   return (
     <form onSubmit={formik.handleSubmit} className="row g-3 w-80 justify-content-center m-auto">
@@ -152,8 +154,8 @@ export const CourseForm = ({ setStepper, categories, trainers }) => {
             src={formik.values.image ? URL.createObjectURL(formik.values.image) : defualt}
             alt="Course"
             style={{
-              maxWidth: "366px",
-              maxHeight: "212px",
+              width: "359px",
+              height: "199px",
               objectFit: "contain",
               marginTop: "10px",
             }}
@@ -161,12 +163,11 @@ export const CourseForm = ({ setStepper, categories, trainers }) => {
 
           <div className="d-flex justify-content-center">
             <input type="file" ref={fileInputRef} style={{ display: "none" }} onChange={handleFileChange} />
-            <div
-              style={{
-                background: "white",
-                marginTop: "25px",
-                marginBottom: "30px",
-              }}
+            <div style={{
+              background: "white",
+              marginTop: "20px",
+              marginBottom: "30px",
+            }}
               className="updateBtn"
               onClick={() => fileInputRef.current.click()}
             >
@@ -178,20 +179,15 @@ export const CourseForm = ({ setStepper, categories, trainers }) => {
       <div className="col-lg-6 col-md-12 justify-content-center">
         <div className="row g-3 button-content--1 m-auto justify-content-center">
           <video
-            width="366px"
-            height="212px"
+            src={formik.values.short_video && URL.createObjectURL(formik.values.short_video)}
+            width="300px"
+            height="199px"
             controls
             style={{ objectFit: "contain", marginTop: "10px" }}
+            controlsList="nodownload"
           >
-            <source
-              src={
-                formik.values.short_video && URL.createObjectURL(formik.values.short_video)
-              }
-              type="video/*"
-            />
             Your browser does not support the video tag.
           </video>
-
           <div className="d-flex justify-content-center">
             <input
               type="file"
@@ -200,17 +196,11 @@ export const CourseForm = ({ setStepper, categories, trainers }) => {
               style={{ display: "none" }}
               onChange={handleVideoChange}
             />
-            <div
-              style={{
-                background: "white",
-                marginTop: "25px",
-                marginBottom: "30px",
-                cursor: "pointer",
-                padding: "10px 20px",
-                borderRadius: "5px",
-                boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
-                textAlign: "center",
-              }}
+            <div style={{
+              background: "white",
+              marginTop: "20px",
+              marginBottom: "30px",
+            }}
               className="updateBtn"
               onClick={() => videoInputRef.current.click()}
             >
@@ -385,12 +375,10 @@ export const CourseForm = ({ setStepper, categories, trainers }) => {
           {formik.touched.requirments && formik.errors.requirments && <div>{formik.errors.requirments}</div>}
         </div>
       </div>
-      {isFormFilled() && (
-        <div className="col-12">
-          <ButtonSpinner isPending={mutation.isPending} />
-        </div>
-      )}
-
+      <button type="submit" style={{ display: 'none' }}>
+        Submit
+      </button>
     </form>
   );
-};
+});
+/* eslint-enable react/display-name */

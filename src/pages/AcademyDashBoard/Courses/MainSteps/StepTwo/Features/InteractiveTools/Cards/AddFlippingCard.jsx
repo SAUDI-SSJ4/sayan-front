@@ -4,7 +4,9 @@ import FlippingCardSideBar from "../../../../../SideBars/FlippingCardSideBar";
 import style from "../../../../../AddNewCourse.module.css";
 import { storage } from "../../../../../../../../utils/storage";
 import { useSelector } from "react-redux";
-import { latestLesson } from "../../../../../../../../../redux/CourseSlice";
+import { latestLesson } from "../../../../../../../../../redux/courses/CourseSlice";
+import { Text } from "../../../../../../../../utils/styles";
+import { formatLongText } from "../../../../../../../../utils/helpers";
 const AddFlippingCard = ({
   flippingCards,
   setFlippingCards,
@@ -20,15 +22,9 @@ const AddFlippingCard = ({
   return (
     <div className={style.container}>
       <div className={style.content}>
-        <div
-          style={{
-            position: "sticky",
-            top: "20px",
-            padding: "60px 40px",
-          }}
-          className="container"
-        >
-          <h3> الدرس :{getlatestLesson && getlatestLesson.title}</h3>
+        <div className="container">
+          <Text size="20px" color="#575757" weight="600">
+            <storage>Lesson : </storage>{getlatestLesson && formatLongText(getlatestLesson.title, 15)}</Text>
           <h4 style={{ textAlign: "center", marginBottom: "2rem", color: "#2b3674" }}>
             إنشاء بطاقة مخصصة
           </h4>

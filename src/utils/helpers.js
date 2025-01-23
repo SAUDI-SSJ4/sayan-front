@@ -44,8 +44,10 @@ export const handleRateStare = (rate) => {
 };
 
 export const formatLongText = (text, maxLength = 100) => {
-  return text ?
-    text.slice(0, maxLength) + " ..." : "لا يوجد محتوى";
+  if (text && text.length > maxLength)
+    return text.slice(0, maxLength) + " ...";
+
+  return text || "لا يوجد محتوى";
 };
 
 
@@ -144,6 +146,23 @@ export const isStoreDataSynced = (storeKey, latestData) => {
 };
 
 
+export const isCourseFieldComplete = (formik) => {
+  return [
+    "title",
+    "content",
+    "short_content",
+    "trainer_id",
+    "price",
+    "level",
+    "learn",
+    "type",
+    "requirments",
+    "category_id",
+    "image",
+    "short_video",
+  ].every((field) => Boolean(formik.values[field]));
+}
+
 
 
 export const hasLessonContent = (lesson, allowedTypes = ['tool', 'video', 'exam']) => {
@@ -151,13 +170,11 @@ export const hasLessonContent = (lesson, allowedTypes = ['tool', 'video', 'exam'
 
   const type = lesson.type;
 
-  console.log(type)
-
   if (type === "video" && lesson?.video?.length === 0) {
     return true;
   }
 
-  if (allowedTypes.includes(type) && Array.isArray(lesson[type]) && lesson[type].length > 0) {
+  if (allowedTypes.includes(type) && Array.isArray(lesson[type]) && lesson[type].length >= 0) {
     return true;
   }
 

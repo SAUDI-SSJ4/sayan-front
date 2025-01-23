@@ -34,6 +34,12 @@ export const getCourseById = async (id) => {
   return data;
 };
 
+
+export const deleteCourseById = async (id) => {
+  const { data } = await academy_client.delete(`/courses/delete/${id}`);
+  return data;
+};
+
 export const getCourseSummary = async (id) => {
   const { data } = await academy_client.get(`/courses/summary/${id}`);
   return data;
@@ -84,6 +90,15 @@ export const createCourseAPI = async (data) => {
     timeout: 120000,
   });
   return res;
+};
+
+
+export const deleteLessonItem = async (lessonId, params) => {
+  const { data } = await academy_client.delete(
+    `/lessons/delete/lesson-item/${lessonId}`,
+    { data: params } // Add `data` to send payload in the body for DELETE requests
+  );
+  return data;
 };
 
 

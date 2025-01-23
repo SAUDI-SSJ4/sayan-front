@@ -2,7 +2,7 @@ import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
 import { Link, NavLink } from "react-router-dom";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import SearchAndShowBar from "../../../component/UI/SearchAndShowBar/SearchAndShowBar";
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Error } from "@mui/icons-material";
 import { Spinner } from "react-bootstrap";
 import { useQuery } from "@tanstack/react-query";
@@ -13,70 +13,81 @@ import styled from "styled-components";
 import TrainingCoursesCardAcademy from "../../../component/TrainingCourses/TrainingCoursesCardAcademy/TrainingCoursesCard";
 import AcademyDeleteModal from "../../../component/UI/DeleteModal/AcademyDeleteModal";
 import { useCourses } from "../../../services/queries";
+import { useDispatch, useSelector } from "react-redux";
+import { getAcademyCoursesThunk } from "../../../../redux/courses/CourseThunk";
+import { useAuth } from "../../../utils/hooks/useAuth";
 
 
 const AcadmeyTrainingCourses = () => {
 
-
-  const [TableOrNot, setTableOrNot] = useState(false);
+  const dispatch = useDispatch()
+  const [tableOrNot, setTableOrNot] = useState(false);
+  const [isLoading, setisLoading] = useState(false)
   const [checkedKeys, setCheckedKeys] = useState([]);
   const [activeTab, setActiveTab] = useState("all");
   const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [sortOrder, setSortOrder] = useState("DESC");
+
+  const { user } = useAuth()
+  const { academyCourses } = useSelector((state) => state.course)
+
+
+  useEffect(() => {
+    setisLoading(true)
+    if (academyCourses.length == 0) {
+      dispatch(getAcademyCoursesThunk()).unwrap()
+    }
+    setisLoading(false)
+  }, [])
+
 
   const handleCheck = (key) => {
-    setCheckedKeys((prev) => {
-      if (prev.includes(key)) {
-        // Remove the key if it's already checked
-        return prev.filter((item) => item !== key);
-      } else {
-        // Add the key if it's not checked
-        return [...prev, key];
-      }
-    });
+    setCheckedKeys((prev) =>
+      prev.includes(key) ? prev.filter((item) => item !== key) : [...prev, key]
+    );
   };
 
+
   const isChecked = (key) => checkedKeys.includes(key);
-  const [searchQuery, setSearchQuery] = useState("");
-const [sortOrder, setSortOrder] = useState("asc"); // "asc" or "desc"
 
 
-const { data: CoursesData, isLoading, errors } = useCourses();
-
-  const filteredCourses = CoursesData?.data
-
-  .filter((course) => {
-    if (activeTab === "all") return true;
-    return course.type === activeTab;
-  })
-  .filter((course) => {
-    // Case-insensitive search on course title
-    return course.title.toLowerCase().includes(searchQuery.toLowerCase());
-  });
-  const sortedCourses = filteredCourses?.sort((a, b) => {
-    if (sortOrder === "asc") {
-      return a.title.localeCompare(b.title); // Sort alphabetically ascending
+  const checkAllHandler = () => {
+    if (isAllSelected) {
+      setCheckedKeys([]);
     } else {
-      return b.title.localeCompare(a.title); // Sort alphabetically descending
+      setCheckedKeys(filteredCourses.map((course) => course.id));
     }
-  });
-  
-  const checkAllHandler=()=>{
-    if(filteredCourses?.length===checkedKeys?.length){
-      setCheckedKeys([])
-      return
-    }
-    setCheckedKeys(filteredCourses.map((course) => course.id))
+  };
 
-  }
-  const isAllSelected = filteredCourses?.length === checkedKeys?.length && filteredCourses?.length > 0
 
-  if (errors) return <Error />;
+  const filteredCourses = useMemo(() => {
+    const courses = academyCourses || [];
+    return courses
+      .filter((course) => (activeTab === "all" ? true : course.type === activeTab))
+      .filter((course) =>
+        course.title.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+  }, [academyCourses, activeTab, searchQuery]);
+
+
+  const sortedCourses = useMemo(() => {
+    return filteredCourses?.sort((a, b) =>
+      sortOrder === "asc"
+        ? a.title.localeCompare(b.title)
+        : b.title.localeCompare(a.title)
+    );
+  }, [filteredCourses, sortOrder]);
+
+  const isAllSelected = filteredCourses?.length === checkedKeys?.length && filteredCourses?.length > 0;
+
   if (isLoading)
     return (
       <div className="w-full h-50 d-flex justify-content-center align-items-center">
         <Spinner className="" />
       </div>
     );
+
 
   return (
     <>
@@ -97,7 +108,7 @@ const { data: CoursesData, isLoading, errors } = useCourses();
                     className={`tablePage ${activeTab === "all" ? "active" : ""}`}
                     onClick={() => setActiveTab("all")}
                   >
-                    الدورات ({CoursesData?.data.length || 0})
+                    الدورات ({academyCourses?.length || 0})
                   </li>
                   <li
                     className={`tablePage ${activeTab === "live" ? "active" : ""}`}
@@ -123,50 +134,52 @@ const { data: CoursesData, isLoading, errors } = useCourses();
         </div>
 
         <SearchAndShowBar
-           checkedKeys={checkedKeys}
-           data={sortedCourses}
-           setCheckedKeys={setCheckedKeys}
-           setTableOrNot={setTableOrNot}
-           checkAllHandler={() => checkAllHandler()}
-           TableOrNot={TableOrNot}
-           isAllSelected={isAllSelected}
-           ShowEditAndDelete={ checkedKeys.length > 0} // Show only when TableOrNot is false and there are selected items
-           searchQuery={searchQuery}
-           setSearchQuery={setSearchQuery}
-           sortOrder={sortOrder}
-           showDeleteModal={showDeleteModal}
-           setDeleteModal={setShowDeleteModal}
-           setSortOrder={setSortOrder}
+          checkedKeys={checkedKeys}
+          data={sortedCourses}
+          setCheckedKeys={setCheckedKeys}
+          setTableOrNot={setTableOrNot}
+          checkAllHandler={() => checkAllHandler()}
+          TableOrNot={tableOrNot}
+          isAllSelected={isAllSelected}
+          ShowEditAndDelete={checkedKeys.length > 0}
+          searchQuery={searchQuery}
+          setSearchQuery={setSearchQuery}
+          sortOrder={sortOrder}
+          showDeleteModal={showDeleteModal}
+          setDeleteModal={setShowDeleteModal}
+          setSortOrder={setSortOrder}
         />
         <AcademyDeleteModal show={showDeleteModal} onClose={() => setShowDeleteModal(false)} onConfirm={() => console.log("confirm", checkedKeys)} />
       </div>
 
-      {!TableOrNot ? (
-       <FlexboxGrid justify="start" align="top" className="mt-4">
-       {sortedCourses?.map((course) => (
-        <FlexboxGrid.Item
-          key={course.id}
-          as={Col}
-          colspan={24} // 100% on small screens
-          sm={12}      // 2 per row on small devices
-          md={8}       // 4 per row on large devices
-          className="mb-3"
-        >
-          <TrainingCoursesCardAcademy 
-          image={course.image}
-  name={course.title}
-  course={course}
-  onCheck={()=>handleCheck(course.id)}
-  checked={isChecked(course.id)}
-  notAdmin={false}
-  />
-        </FlexboxGrid.Item>
-       )
-      )}
-    </FlexboxGrid>
+      {!tableOrNot ? (
+        <FlexboxGrid justify="start" align="top" className="mt-4">
+          {sortedCourses?.map((course) => (
+            <FlexboxGrid.Item
+              key={course.id}
+              as={Col}
+              colspan={24}
+              sm={12}
+              md={8}
+              className="mb-3"
+            >
+              <TrainingCoursesCardAcademy
+                name={course.title}
+                course={course}
+                onCheck={() => handleCheck(course.id)}
+                checked={isChecked(course.id)}
+                notAdmin={false}
+                acadmey={user.academy || false}
+              />
+            </FlexboxGrid.Item>
+          )
+          )}
+        </FlexboxGrid>
       ) : (
         <CoursesDataTaple CoursesData={sortedCourses} />
       )}
+
+
     </>
   );
 };

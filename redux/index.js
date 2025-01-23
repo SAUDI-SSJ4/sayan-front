@@ -1,7 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import authReducer from "./AuthSlice.js";
 import AcademyAuthReducer from "./AcademyAuthSlics.js";
-import CourseReducer from "./CourseSlice.js";
+import CourseReducer from "./courses/CourseSlice.js";
 import CategoryReducer from "./CategorySlice.js";
 import TrainerReducer from "./TrainerSlice.js";
 import CourseSidebarReducer from "./CourseSidebarSlice.js";

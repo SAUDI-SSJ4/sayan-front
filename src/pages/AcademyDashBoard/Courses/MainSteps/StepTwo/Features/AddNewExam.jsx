@@ -4,11 +4,12 @@ import * as Yup from "yup";
 import style from "../../../AddNewCourse.module.css";
 import { Panel, Button } from "rsuite";
 import { useSelector } from "react-redux";
-import { latestLesson } from "../../../../../../../redux/CourseSlice";
+import { latestLesson } from "../../../../../../../redux/courses/CourseSlice";
 import { storage } from "../../../../../../utils/storage";
 import { useExamMutation } from "../../../../../../services/mutation";
 import { useToast } from "../../../../../../utils/hooks/useToast";
-import { hasLessonContent } from "../../../../../../utils/helpers";
+import { formatLongText, hasLessonContent } from "../../../../../../utils/helpers";
+import { Text } from "../../../../../../utils/styles";
 
 const examInfoSchema = Yup.object().shape({
   title: Yup.string().required("عنوان الاختبار مطلوب"),
@@ -84,16 +85,14 @@ export const AddNewExam = () => {
         }));
       } else if (values.question_type === 'choose') {
         if (Array.isArray(values.answers) && Array.isArray(finalValues.answers)) {
-          // Update finalValues.answers by mapping isCorrect
           finalValues.answers = finalValues.answers.map((answer, index) => ({
             ...answer,
-            isCorrect: values.answers[index]?.isCorrect ?? false, // Default to false if undefined
+            isCorrect: values.answers[index]?.isCorrect ?? false,
           }));
 
-          // Get indices of correct answers and assign to values.correct_answer
           values.correct_answer = finalValues.answers
             .reduce((correctIndices, answer, index) => {
-              if (answer.isCorrect) correctIndices.push(index); // Collect indices of correct answers
+              if (answer.isCorrect) correctIndices.push(index);
               return correctIndices;
             }, []);
         }
@@ -122,8 +121,6 @@ export const AddNewExam = () => {
         error("يرجى تحديد الدرس والفصل");
         return;
       }
-
-      // await mutation.mutateAsync(values);
 
       if (hasLessonContent(getlatestLesson, ['exam'])) {
         await mutation.mutateAsync(values);
@@ -182,8 +179,8 @@ export const AddNewExam = () => {
 
   const renderExamInfoStep = () => (
     <div className={style.boardLap}>
-
-      <h4>الدرس : {getlatestLesson && getlatestLesson.title} </h4>
+      <Text size="20px" color="#575757" weight="600">
+        <storage>Lesson : </storage>{getlatestLesson && formatLongText(getlatestLesson.title, 15)}</Text>
       <h5 style={{ color: "#2B3674", fontWeight: "600" }}>اضافة اختبار جديد</h5>
 
       <form onSubmit={examInfoFormik.handleSubmit} className="row g-3 w-80 justify-content-center m-auto">
@@ -366,7 +363,7 @@ export const AddNewExam = () => {
     };
 
     return (
-      <form className="w-100 " onSubmit={questionFormik.handleSubmit}>
+      <form className="w-100 " onSubmit={questionFormik.handleSubmit} style={{ margin: '0 10px' }}>
         <div className="mb-3">
           <label>نص السؤال</label>
           <input

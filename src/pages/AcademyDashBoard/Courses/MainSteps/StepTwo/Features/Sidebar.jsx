@@ -9,7 +9,9 @@ import Vact5 from "../../../../../../assets/icons/Widget 4.svg?react";
 import { changeNavigate, changeOpenInteractive } from "../../../../../../../redux/CourseSidebarSlice";
 import style from "../../../AddNewCourse.module.css";
 
-const Sidebar = ({ chapterId }) => {
+const Sidebar = ({ chapterId, lessonId }) => {
+
+
     const dispatch = useDispatch();
     const { navigate } = useSelector((state) => state.courseSidebarSlice);
 
@@ -30,21 +32,21 @@ const Sidebar = ({ chapterId }) => {
                     onClick={() => chapterId && handleNavigate("video")}
                     icon={Vact1}
                     text="اضافة فيديو"
-                    isAllwo={chapterId}
+                    isAllwo={chapterId && lessonId}
                 />
                 <IconTextButton
                     isActive={navigate === "interactive" || navigate === "flippingCard" || navigate === "hiddenCards"}
                     onClick={() => chapterId && handleNavigate("interactive")}
                     icon={Vact2}
                     text="اضافة اداة تفاعلية"
-                    isAllwo={chapterId}
+                    isAllwo={chapterId && lessonId}
                 />
                 <IconTextButton
                     isActive={navigate === "exam"}
                     onClick={() => chapterId && handleNavigate("exam")}
                     icon={Vact3}
                     text="اضافة اختبار"
-                    isAllwo={chapterId}
+                    isAllwo={chapterId && lessonId}
                 />
             </div>
             <div className={style.sidedown} style={{ padding: "12px" }}>

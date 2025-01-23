@@ -5,7 +5,9 @@ import Swal from "sweetalert2";
 import axiosInstance from "../../../../axios";
 import { Link } from "react-router-dom";
 import Cookies from "js-cookie";
+
 function CoursesDataTaple({ CoursesData: rowData }) {
+
 
   const imageData = (params) => {
     return (

@@ -7,7 +7,7 @@ import { Delete } from '@mui/icons-material';
 import { useCardMutation } from '../../../../services/mutation';
 import { storage } from '../../../../utils/storage';
 import { hasLessonContent } from '../../../../utils/helpers';
-import { latestLesson } from '../../../../../redux/CourseSlice';
+import { latestLesson } from '../../../../../redux/courses/CourseSlice';
 import { useSelector } from 'react-redux';
 import { useToast } from '../../../../utils/hooks/useToast';
 

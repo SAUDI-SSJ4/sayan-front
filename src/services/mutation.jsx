@@ -5,7 +5,7 @@ import Swal from "sweetalert2";
 import { changeNavigate } from "../../redux/CourseSidebarSlice";
 import { ConstructionOutlined } from "@mui/icons-material";
 import { storage } from "../utils/storage";
-import { fetchCurrentCourseSummaryThunk } from "../../redux/CourseSlice";
+import { fetchCurrentCourseSummaryThunk } from "../../redux/courses/CourseThunk";
 
 
 

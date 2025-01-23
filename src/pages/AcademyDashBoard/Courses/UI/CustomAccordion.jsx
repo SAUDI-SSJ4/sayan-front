@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { Accordion, AccordionSummary, AccordionDetails } from '@mui/material'; // Assuming Material-UI
+import { Accordion, AccordionSummary, AccordionDetails } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+
 
 const CustomAccordion = ({
   data = [],
@@ -19,61 +20,51 @@ const CustomAccordion = ({
   return (
     <div style={{ padding: '10px' }}>
       {data.map((item, index) => (
-         <Accordion
-         key={index}
-         expanded={expanded === `panel${index}`}
-         onChange={handleChange(`panel${index}`)}
-         style={{
-           border: "none",
-           backgroundColor: "transparent",
-           boxShadow: "none",
-           marginBottom: "10px",
-           borderRadius: "17px", // Matches AccordionSummary border radius
+        <Accordion
+          key={index}
+          expanded={expanded === `panel${index}`}
+          onChange={handleChange(`panel${index}`)}
+          style={{
+            border: "none",
+            backgroundColor: "transparent",
+            boxShadow: "none",
+            marginBottom: "10px",
+            borderRadius: "17px",
 
-         }}
-         sx={{
+          }}
+          sx={{
             boxShadow: "none",
             "&:before": {
               display: "none",
             },
           }}
-       >
-         <AccordionSummary
-           expandIcon={
-            <ExpandMoreIcon
+        >
+          <AccordionSummary
+            expandIcon={
+              <ExpandMoreIcon/>
+            }
+            aria-controls={`panel${index}-content`}
+            id={`panel${index}-header`}
             style={{
-              transform: expanded === `panel${index}` ? "rotate(-180deg)" : "rotate(90deg)",
-              transition: "transform 0.3s",
-              backgroundColor: "#0e85ff",
-              color:"white",
-              padding:"2px",
-              borderRadius: "50%",
-              marginRight: "10px",
+              backgroundColor: "white",
+              border: "1px solid #eee",
+              borderRadius: "17px",
+              padding: "15px",
+              boxShadow: "none",
             }}
-          />
-           }
-           aria-controls={`panel${index}-content`}
-           id={`panel${index}-header`}
-           style={{
-             backgroundColor: "white",
-             border: "1px solid #eee",
-             borderRadius: "17px",
-             padding: "15px",
-             boxShadow: "none",
-           }}
-         >
-           {renderSummary(item, index)}
-         </AccordionSummary>
-         <AccordionDetails
-           style={{
-             padding: "5px",
-             paddingRight:"10px",
-             borderRight: "2px solid #eee",
-           }}
-         >
-           {renderDetails(item, index)}
-         </AccordionDetails>
-       </Accordion>
+          >
+            {renderSummary(item, index)}
+          </AccordionSummary>
+          <AccordionDetails
+            style={{
+              padding: "5px",
+              paddingRight: "10px",
+              borderRight: "2px solid #eee",
+            }}
+          >
+            {renderDetails(item, index)}
+          </AccordionDetails>
+        </Accordion>
       ))}
     </div>
   );

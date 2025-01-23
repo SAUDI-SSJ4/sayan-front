@@ -67,21 +67,21 @@ const [AllCoursesPage, setAllCoursesPage] = useState([
 ]);
 
 
-  const {
-    data: courses,
-    isLoadingCourses,
-    errorsCourses,
-  } = useQuery({
-    queryKey: ["ACourses"],
-    queryFn: () => getCourse(),
-    refetchOnWindowFocus: false,
-    refetchOnMount: false,
-    retry: 2,
-    onSuccess: (data) => {
-      console.log("dataa",data)
-      setAllCoursesPage(data);
-    },
-  });
+  // const {
+  //   data: courses,
+  //   isLoadingCourses,
+  //   errorsCourses,
+  // } = useQuery({
+  //   queryKey: ["ACourses"],
+  //   queryFn: () => getCourse(),
+  //   refetchOnWindowFocus: false,
+  //   refetchOnMount: false,
+  //   retry: 2,
+  //   onSuccess: (data) => {
+  //     console.log("dataa",data)
+  //     setAllCoursesPage(data);
+  //   },
+  // });
 
 
   return (

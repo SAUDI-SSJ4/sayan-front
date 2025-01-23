@@ -150,12 +150,10 @@
     cursor: not-allowed;
     color: #979797;
   }
-  
+
   .allwo {
     cursor: pointer;
   }
-
-  
 }
 
 .boardLap {
@@ -388,7 +386,10 @@
 
 .sidebar.left.second {
   grid-area: left2;
-  background-color: #fbfbfb;
+  background-color: #f4f4f4;
+  overflow-y: auto;
+  overflow-x: hidden;
+  max-height: 105vh;
 }
 
 .sidebar.right {
@@ -427,3 +428,23 @@
   }
 }
 
+.LessonCard {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: #2b3674;
+  gap: 5px;
+  .title {
+    font-size: 20px;
+    margin: 0 0 0 10px;
+  }
+  .count {
+    color: #6b7280;
+    font-size: 14px;
+    gap: 5px;
+  }
+}

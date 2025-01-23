@@ -4,12 +4,13 @@ import * as Yup from "yup";
 import style from "../../../AddNewCourse.module.css";
 import VideoUploader from "../../../../../../component/UI/VideoUploader";
 import { useSelector } from "react-redux";
-import { latestLesson } from "../../../../../../../redux/CourseSlice";
+import { latestLesson } from "../../../../../../../redux/courses/CourseSlice";
 import { storage } from "../../../../../../utils/storage"
 import { useVideoMutation } from "../../../../../../services/mutation";
-import { hasLessonContent } from "../../../../../../utils/helpers";
+import { formatLongText, hasLessonContent } from "../../../../../../utils/helpers";
 import { ButtonSpinner } from "../../../../../../component/UI/Buttons/ButtonSpinner";
 import { useToast } from "../../../../../../utils/hooks/useToast";
+import { Text } from "../../../../../../utils/styles";
 
 // Validation Schema
 const videoUploadSchema = Yup.object().shape({
@@ -46,7 +47,6 @@ const AddNewVideo = () => {
       formData.append("type", "video");
 
       try {
-
         if (hasLessonContent(getlatestLesson, ['video'])) {
           await mutation.mutateAsync(formData);
           setUploadSuccess(true);
@@ -65,9 +65,8 @@ const AddNewVideo = () => {
     <>
       <div className={`${style.content}`}>
         <div className={style.addNewVideoContainer}>
-          <h4>
-            الدرس : {getlatestLesson && getlatestLesson.title}
-          </h4>
+          <Text size="20px" color="#575757" weight="600">
+            <storage>Lesson : </storage>{getlatestLesson && formatLongText(getlatestLesson.title, 15)}</Text>
           <h5>إضافة فيديو جديد</h5>
           {uploadSuccess && (
             <div className="alert alert-success">تم رفع الفيديو بنجاح!</div>

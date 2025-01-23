@@ -8,7 +8,7 @@ import { storage } from '../../../../utils/storage';
 import { hasLessonContent } from '../../../../utils/helpers';
 import { useToast } from '../../../../utils/hooks/useToast';
 import { useSelector } from 'react-redux';
-import { latestLesson } from '../../../../../redux/CourseSlice';
+import { latestLesson } from '../../../../../redux/courses/CourseSlice';
 
 const HiddenCardsSideBar = ({ hiddenCards, setHiddenCards, cardData, setCardData }) => {
   const [showPreview, setShowPreview] = useState(false);

@@ -38,7 +38,7 @@ export const useSettings = () => {
 export const useCourses = () => {
     return useQuery({
         queryKey: ["Courses"],
-        queryFn: async () => await getCourse(),
+        queryFn:  getCourse(),
         refetchOnWindowFocus: false,
         refetchOnMount: false,
         retry: 2,

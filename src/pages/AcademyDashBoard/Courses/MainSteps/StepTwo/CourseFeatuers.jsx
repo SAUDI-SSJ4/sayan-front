@@ -14,8 +14,9 @@ import AddNewInteractiveTool from "./Features/InteractiveTools/AddNewInteractive
 import { changeNavigate, changeOpenInteractive } from "../../../../../../redux/CourseSidebarSlice";
 import Sidebar from "./Features/Sidebar";
 import { storage } from "../../../../../utils/storage";
-import { fetchCurrentCourseSummaryThunk } from "../../../../../../redux/CourseSlice";
-import {AddNewExam} from "./Features/AddNewExam"
+import { AddNewExam } from "./Features/AddNewExam"
+import Alert from 'react-bootstrap/Alert';
+import { fetchCurrentCourseSummaryThunk } from "../../../../../../redux/courses/CourseThunk";
 
 const CourseFeatures = () => {
   const { courseId, categoryId } = useParams();
@@ -27,6 +28,7 @@ const CourseFeatures = () => {
 
   // Local state
   const [chapterId, setChapterId] = useState(null);
+  const [lessonId, setLessonId] = useState(null);
   const [flippingCards, setFlippingCards] = useState([]);
   const [hiddenCards, setHiddenCards] = useState([]);
   const [cardData, setCardData] = useState({
@@ -45,6 +47,11 @@ const CourseFeatures = () => {
     [courseSummary]
   );
 
+  const storageLessonId = useMemo(
+    () => storage.get("leuhqzrsyh5e") || null,
+    []
+  );
+
   useEffect(() => {
     if (!isLoading && !courseSummary) {
       dispatch(fetchCurrentCourseSummaryThunk(currentCourseId));
@@ -55,7 +62,11 @@ const CourseFeatures = () => {
     if (storageChapterId) {
       setChapterId(storageChapterId);
     }
-  }, [storageChapterId]);
+
+    if (storageLessonId) {
+      setLessonId(storageLessonId);
+    }
+  }, [storageChapterId, storageLessonId]);
 
 
 
@@ -66,7 +77,7 @@ const CourseFeatures = () => {
       case "chapter":
         return <AddNewChapter {...commonProps} />;
       case "lesson":
-        return <AddNewLesson {...commonProps} />;
+        return <AddNewLesson {...commonProps}  />;
       case "exam":
         return <AddNewExam {...commonProps} />;
       case "video":
@@ -94,18 +105,24 @@ const CourseFeatures = () => {
     }
   }, [navigate, currentCategoryId, currentCourseId, chapterId, cardData, flippingCards, hiddenCards]);
 
+
+  const handleDisableCourse = () => {
+    if (isError) return;
+    return isLoading ? "Loading..." : (
+      <Alert variant="info" className="d-none d-lg-block text-center">
+        <strong>Course:</strong> {courseSummary && formatLongText(courseSummary?.title || "No Title", 50)}
+      </Alert>
+    )
+  }
+
   return (
     <div className={style.dashboard}>
       <div className={`${style.sidebar} ${style.left} ${style.first}`}>
-        <Sidebar chapterId={chapterId} />
+        <Sidebar chapterId={chapterId} lessonId={lessonId} />
       </div>
 
       <div className={`${style.sidebar} ${style.left} ${style.second}`}>
-        <h4 className="text-center mt-3">
-          {isLoading
-            ? "Loading..."
-            : !isLoading && !isError && formatLongText(courseSummary?.title || "No Title", 50)}
-        </h4>
+        {handleDisableCourse()}
         <LessonsList courses={courseSummary || []} />
       </div>
 

@@ -78,49 +78,49 @@ const AddNewChapter = ({ categoryId, courseId }) => {
     },
   });
 
-  return (<>
-    <div className={`${style.content} container text-center `} style={{ padding: "60px 40px" }}>
-      <h4 style={{ color: "#2B3674", fontWeight: "600" }}>اضافة فصل جديد</h4>
+  return (
+    <>
+      <div className={`${style.content} container text-center `} style={{ padding: "60px 40px" }}>
+        <h4 style={{ color: "#2B3674", fontWeight: "600" }}>اضافة فصل جديد</h4>
 
-      <form onSubmit={formik.handleSubmit} className="row g-3 w-80 justify-content-center m-auto">
-        <div className="justify-content-center">
-          <div className="col-lg-11 col-md-12">
-            <div className={style.formControl}>
-              <label htmlFor="title" className={style.label}>
-                العنوان
-              </label>
-              <input
-                type="text"
-                placeholder="ادخل عنوان الفصل هنا"
-                id="title"
-                name="title"
-                value={formik.values.title}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                className={style.input}
-              />
-              {formik.touched.title && formik.errors.title && (
-                <div className={style.error}>{formik.errors.title}</div>
-              )}
+        <form onSubmit={formik.handleSubmit} className="row g-3 w-80 justify-content-center m-auto">
+          <div className="justify-content-center">
+            <div className="col-lg-11 col-md-12">
+              <div className={style.formControl}>
+                <label htmlFor="title" className={style.label}>
+                  العنوان
+                </label>
+                <input
+                  type="text"
+                  placeholder="ادخل عنوان الفصل هنا"
+                  id="title"
+                  name="title"
+                  value={formik.values.title}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  className={style.input}
+                />
+                {formik.touched.title && formik.errors.title && (
+                  <div className={style.error}>{formik.errors.title}</div>
+                )}
+              </div>
             </div>
           </div>
-        </div>
 
-        <div className="col-lg-6 col-md-12">
-          <Button
-            type="submit"
-            appearance="primary"
-            size="lg"
-            style={{ width: "100%", padding: '15px 0px' }}
-            disabled={mutation.isPending || !formik.values.title}
-          >
-            {mutation.isLoading ? 'جاري الإضافة...' : 'اضافة فصل جديد'}
-          </Button>
-        </div>
-      </form>
-    </div>
-  </>
-
+          <div className="col-lg-6 col-md-12">
+            <Button
+              type="submit"
+              appearance="primary"
+              size="lg"
+              style={{ width: "100%", padding: '15px 0px' }}
+              disabled={mutation.isPending || !formik.values.title}
+            >
+              {mutation.isLoading ? 'جاري الإضافة...' : 'اضافة'}
+            </Button>
+          </div>
+        </form>
+      </div>
+    </>
   );
 };
 
