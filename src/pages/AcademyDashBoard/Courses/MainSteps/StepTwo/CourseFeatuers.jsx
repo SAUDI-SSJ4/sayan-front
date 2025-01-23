@@ -28,7 +28,6 @@ const CourseFeatures = () => {
 
   // Local state
   const [chapterId, setChapterId] = useState(null);
-  const [lessonId, setLessonId] = useState(null);
   const [flippingCards, setFlippingCards] = useState([]);
   const [hiddenCards, setHiddenCards] = useState([]);
   const [cardData, setCardData] = useState({
@@ -42,15 +41,13 @@ const CourseFeatures = () => {
   const currentCourseId = useMemo(() => storage.get("cousjvqpkbr3m"), [courseId]);
   const currentCategoryId = useMemo(() => storage.get("cahrst1x7teq"), [categoryId]);
 
+
   const storageChapterId = useMemo(
     () => storage.get("chapky89wsgnae") || courseSummary?.chapters?.[0]?.id || null,
     [courseSummary]
   );
 
-  const storageLessonId = useMemo(
-    () => storage.get("leuhqzrsyh5e") || null,
-    []
-  );
+
 
   useEffect(() => {
     if (!isLoading && !courseSummary) {
@@ -63,10 +60,7 @@ const CourseFeatures = () => {
       setChapterId(storageChapterId);
     }
 
-    if (storageLessonId) {
-      setLessonId(storageLessonId);
-    }
-  }, [storageChapterId, storageLessonId]);
+  }, [storageChapterId]);
 
 
 
@@ -115,10 +109,11 @@ const CourseFeatures = () => {
     )
   }
 
+
   return (
     <div className={style.dashboard}>
       <div className={`${style.sidebar} ${style.left} ${style.first}`}>
-        <Sidebar chapterId={chapterId} lessonId={lessonId} />
+        <Sidebar chapterId={chapterId} />
       </div>
 
       <div className={`${style.sidebar} ${style.left} ${style.second}`}>
