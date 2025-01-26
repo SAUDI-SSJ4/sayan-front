@@ -16,7 +16,7 @@ import { useSettings } from "../../../services/queries";
 const validationSchema = Yup.object().shape({
   name: Yup.string().required("اسم الأكاديمية مطلوب"),
   logo: Yup.string().required("شعار الأكاديمية مطلوب"),
-  favicon: Yup.string().required("الأيقونة المفضلة للأكاديمية مطلوبة"),
+  favicon: Yup.string().required("الأيقونة الأكاديمية مطلوبة"),
   primary_color: Yup.string().required("اللون الأساسي مطلوب"),
   secondary_color: Yup.string().required("اللون الثانوي مطلوب"),
 });
@@ -178,7 +178,7 @@ const MainSettings = () => {
               <div className="col-lg-6 col-md-12">
                 <div className="CustomFormControl">
                   <StyledLabel htmlFor="favicon" className="form-label">
-                    الأيقونة المفضلة للأكاديمية :
+                  ايقونة الأكاديمية :
                   </StyledLabel>
                   {
                     formik.values.favicon && <UploadImage

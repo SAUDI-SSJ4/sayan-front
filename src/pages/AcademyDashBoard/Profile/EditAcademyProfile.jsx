@@ -1,7 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { useFormik, Field, ErrorMessage, FormikProvider, Form } from "formik";
 import * as Yup from "yup";
-import { useDropzone } from "react-dropzone";
 import { toast } from "react-toastify";
 import HeaderAcademy from "../../../component/HeaderAcademy/HeaderAcademy";
 import { useNavigate } from "react-router-dom";
@@ -9,9 +8,7 @@ import { useSelector } from "react-redux";
 import { academy_client } from "../../../utils/apis/client.config";
 
 const EditAcademyProfile = () => {
-  // const { data: profileData, isLoading, errors } = useProfile();
   const profileInfo = useSelector((state) => state.academyUser.academy);
-
   const academy = profileInfo.academy ?? {};
 
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -19,6 +16,10 @@ const EditAcademyProfile = () => {
   const [coverPreview, setCoverPreview] = useState(academy.cover || "");
   const [licencePreview, setLicencePreview] = useState(academy.licence || "");
   const navigate = useNavigate();
+
+  const imageInputRef = useRef(null);
+  const coverInputRef = useRef(null);
+  const licenceInputRef = useRef(null);
 
   const formik = useFormik({
     initialValues: {
@@ -117,37 +118,41 @@ const EditAcademyProfile = () => {
     enableReinitialize: true, // Ensure Formik reinitializes when initialValues change
   });
 
-  const onDropImage = (acceptedFiles) => {
-    const file = acceptedFiles[0];
+  const handleImageChange = (event) => {
+    const file = event.currentTarget.files[0];
     if (file) {
       setImagePreview(URL.createObjectURL(file));
       formik.setFieldValue("image", file);
     }
   };
 
-  const onDropCover = (acceptedFiles) => {
-    const file = acceptedFiles[0];
+  const handleCoverChange = (event) => {
+    const file = event.currentTarget.files[0];
     if (file) {
       setCoverPreview(URL.createObjectURL(file));
       formik.setFieldValue("cover", file);
     }
   };
-  const onDropLicence = (acceptedFiles) => {
-    const file = acceptedFiles[0];
+
+  const handleLicenceChange = (event) => {
+    const file = event.currentTarget.files[0];
     if (file) {
       setLicencePreview(URL.createObjectURL(file));
       formik.setFieldValue("licence", file);
     }
   };
 
-  const { getRootProps: getImageRootProps, getInputProps: getImageInputProps } =
-    useDropzone({ onDrop: onDropImage, accept: "image/*" });
-  const { getRootProps: getCoverRootProps, getInputProps: getCoverInputProps } =
-    useDropzone({ onDrop: onDropCover, accept: "image/*" });
-  const {
-    getRootProps: getLicenceRootProps,
-    getInputProps: getLicenceInputProps,
-  } = useDropzone({ onDrop: onDropLicence, accept: "files/*" });
+  const handleImageButtonClick = () => {
+    imageInputRef.current.click();
+  };
+
+  const handleCoverButtonClick = () => {
+    coverInputRef.current.click();
+  };
+
+  const handleLicenceButtonClick = () => {
+    licenceInputRef.current.click();
+  };
 
   return (
     <div>
@@ -255,22 +260,7 @@ const EditAcademyProfile = () => {
                   className="text-danger"
                 />
               </div>
-              <div className="col-6 mb-3">
-                <label htmlFor="support_phone" className="form-label">
-                  رقم هاتف الدعم
-                </label>
-                <Field
-                  id="support_phone"
-                  name="support_phone"
-                  type="text"
-                  className="form-control"
-                />
-                <ErrorMessage
-                  name="support_phone"
-                  component="div"
-                  className="text-danger"
-                />
-              </div>
+  
               <div className="col-6 mb-3">
                 <label htmlFor="address" className="form-label">
                   العنوان
@@ -351,36 +341,43 @@ const EditAcademyProfile = () => {
                   className="text-danger"
                 />
               </div>
-              <div className="col-12 mb-3">
-                <label htmlFor="about" className="form-label">
-                  عن الأكاديمية
-                </label>
-                <Field
-                  id="about"
-                  name="about"
-                  as="textarea"
-                  className="form-control"
-                />
-                <ErrorMessage
-                  name="about"
-                  component="div"
-                  className="text-danger"
-                />
-              </div>
-              <div className="d-flex justify-content-end align-items-center w-100 gap-2 p-4">
-                <div className="col-4 border border-black border-opacity-10 rounded p-2 mb-3">
+
+              <div className="d-flex justify-content-end align-items-center w-100 gap-2 p-4 flex-wrap">
+                <div className="col-12 col-md-4 border border-black border-opacity-10 rounded p-2 mb-3">
                   <label htmlFor="image" className="form-label">
                     صورة الأكاديمية
                   </label>
-                  <div {...getImageRootProps()} className="dropzone">
-                    <input {...getImageInputProps()} id="image" name="image" />
-                    <p>اسحب الصورة هنا أو انقر لاختيار ملف</p>
+                  <div className="d-flex justify-content-center">
+                    <input
+                      type="file"
+                      name="image"
+                      ref={imageInputRef}
+                      style={{ display: "none" }}
+                      onChange={handleImageChange}
+                    />
+                    <div
+                      style={{
+                        background: "white",
+                        marginTop: "25px",
+                        marginBottom: "30px"
+                      }}
+                      className="updateBtn"
+                      onClick={handleImageButtonClick}
+                    >
+                      رفع صورة الأكاديمية
+                    </div>
                   </div>
                   {imagePreview && (
                     <img
                       src={imagePreview}
                       alt="Preview"
-                      className="img-thumbnail w-25 mt-2"
+                      style={{
+                        maxWidth: "100%",
+                        height: "auto",
+                        objectFit: "contain",
+                        marginTop: "10px",
+                        borderRadius: "8px"
+                      }}
                     />
                   )}
                   <ErrorMessage
@@ -389,19 +386,41 @@ const EditAcademyProfile = () => {
                     className="text-danger"
                   />
                 </div>
-                <div className="col-4 border border-black border-opacity-10 rounded p-2 mb-3">
+                <div className="col-12 col-md-4 border border-black border-opacity-10 rounded p-2 mb-3">
                   <label htmlFor="cover" className="form-label">
                     الغلاف
                   </label>
-                  <div {...getCoverRootProps()} className="dropzone">
-                    <input {...getCoverInputProps()} id="cover" name="cover" />
-                    <p>اسحب الصورة هنا أو انقر لاختيار ملف</p>
+                  <div className="d-flex justify-content-center">
+                    <input
+                      type="file"
+                      name="cover"
+                      ref={coverInputRef}
+                      style={{ display: "none" }}
+                      onChange={handleCoverChange}
+                    />
+                    <div
+                      style={{
+                        background: "white",
+                        marginTop: "25px",
+                        marginBottom: "30px"
+                      }}
+                      className="updateBtn"
+                      onClick={handleCoverButtonClick}
+                    >
+                      رفع صورة الغلاف
+                    </div>
                   </div>
                   {coverPreview && (
                     <img
                       src={coverPreview}
                       alt="Preview"
-                      className="img-thumbnail w-25  mt-2"
+                      style={{
+                        maxWidth: "100%",
+                        height: "auto",
+                        objectFit: "contain",
+                        marginTop: "10px",
+                        borderRadius: "8px"
+                      }}
                     />
                   )}
                   <ErrorMessage
@@ -410,23 +429,41 @@ const EditAcademyProfile = () => {
                     className="text-danger"
                   />
                 </div>
-                <div className="col-4 border border-black border-opacity-10 rounded p-2 mb-3">
-                  <label htmlFor="cover" className="form-label">
+                <div className="col-12 col-md-4 border border-black border-opacity-10 rounded p-2 mb-3">
+                  <label htmlFor="licence" className="form-label">
                     الرخصة{" "}
                   </label>
-                  <div {...getLicenceRootProps()} className="dropzone">
+                  <div className="d-flex justify-content-center">
                     <input
-                      {...getLicenceInputProps()}
-                      id="licence"
+                      type="file"
                       name="licence"
+                      ref={licenceInputRef}
+                      style={{ display: "none" }}
+                      onChange={handleLicenceChange}
                     />
-                    <p>اسحب الملف هنا أو انقر لاختيار ملف</p>
+                    <div
+                      style={{
+                        background: "white",
+                        marginTop: "25px",
+                        marginBottom: "30px"
+                      }}
+                      className="updateBtn"
+                      onClick={handleLicenceButtonClick}
+                    >
+                      رفع الرخصة
+                    </div>
                   </div>
                   {licencePreview && (
                     <img
                       src={licencePreview}
                       alt="Preview"
-                      className="img-thumbnail w-25  mt-2"
+                      style={{
+                        maxWidth: "100%",
+                        height: "auto",
+                        objectFit: "contain",
+                        marginTop: "10px",
+                        borderRadius: "8px"
+                      }}
                     />
                   )}
                   <ErrorMessage

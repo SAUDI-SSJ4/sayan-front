@@ -2,7 +2,6 @@ import { Link } from "react-router-dom";
 import classes from "./login.module.scss";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import { Button } from "rsuite";
-import { WiMoonWaningCrescent3 } from "react-icons/wi";
 import logo from "../../../assets/images/logo.png";
 
 export const AcademyFormContener = ({ showForgotPassword, children }) => {
@@ -12,9 +11,7 @@ export const AcademyFormContener = ({ showForgotPassword, children }) => {
         <img src={logo} className={`${classes.logo}`} />
         <ul className={` ${classes.footerList}`}>
           <li>
-            <Button>
-              <WiMoonWaningCrescent3 />
-            </Button>
+
           </li>
           <li><Link to="/" style={{ textDecoration: 'none' }}>منصة سيان</Link></li>
           <li><Link to="/terms" style={{ textDecoration: 'none' }}>الشروط والأحكام</Link></li>

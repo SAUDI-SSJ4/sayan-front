@@ -16,6 +16,10 @@ import ProductIcon from "../../assets/icons/ProductIcon";
 import CouponIcon from "../../assets/icons/CouponIcon";
 import { ButtonSoon } from "../../utils/styles";
 import { Fragment, useMemo } from "react";
+import { Badge } from "flowbite-react";
+
+// icons
+import { PencilRuler } from 'lucide-react';
 
 const AcademeyNavigation = ({ setShow, mobile }) => {
   const location = useLocation();
@@ -122,22 +126,7 @@ const AcademeyNavigation = ({ setShow, mobile }) => {
               <span className="title-dash-link">الدورات التدريبية</span>
             </div>
           </NavLink>
-          <NavLink
-            className={({ isActive, isPending }) => {
-              return isPending ? "pending" : isActive ? `${classes.Link} LinkActive` : classes.Link;
-            }}
-            to="academy/Certficates"
-          >
-            <div
-              className={classes.subIcon}
-              onClick={(e) => {
-                mobile ? setShow(false) : null;
-              }}
-            >
-              <div>{ballIcon}</div>
-              <span>الشهادات</span>
-            </div>
-          </NavLink>
+         
           {/* chage Link to div for time being   */}
 
           <div
@@ -154,7 +143,8 @@ const AcademeyNavigation = ({ setShow, mobile }) => {
             >
               <div>{ballIcon}</div>
               <span className="title-dash-link"> الاختبارات </span>
-              <ButtonSoon className={classes.btnSoon}>قريبا</ButtonSoon>
+              <Badge color="failure">قريباً</Badge>
+
             </div>
           </div>
         </Collection>
@@ -174,10 +164,11 @@ const AcademeyNavigation = ({ setShow, mobile }) => {
           >
             <div>{ballIcon}</div>
             <span className="title-dash-link">الجلسات الحضورية </span>
-            <ButtonSoon className={classes.btnSoon}>قريبا</ButtonSoon>
+            <Badge color="failure">قريباً</Badge>
+
           </div>
         </div>
-        <NavLink
+        <div
           className={({ isActive, isPending }) => {
             return isPending ? "pending" : isActive ? `${classes.Link} LinkActive` : classes.Link;
           }}
@@ -191,9 +182,11 @@ const AcademeyNavigation = ({ setShow, mobile }) => {
           >
             <div>{ballIcon}</div>
             <span className="title-dash-link">المنتجات الرقمية</span>
+            <Badge color="failure">قريباً</Badge>
+
           </div>
-        </NavLink>
-        <NavLink
+        </div>
+        <div
           className={({ isActive, isPending }) => {
             return isPending ? "pending" : isActive ? `${classes.Link} LinkActive` : classes.Link;
           }}
@@ -207,9 +200,10 @@ const AcademeyNavigation = ({ setShow, mobile }) => {
           >
             <div>{ballIcon}</div>
             <span className="title-dash-link">حزم المنتجات</span>
+            <Badge color="failure">قريباً</Badge>
           </div>
-        </NavLink>
-        <NavLink
+        </div>
+        <div
           className={({ isActive, isPending }) => {
             return isPending ? "pending" : isActive ? `${classes.Link} LinkActive` : classes.Link;
           }}
@@ -223,8 +217,10 @@ const AcademeyNavigation = ({ setShow, mobile }) => {
           >
             <div>{ballIcon}</div>
             <span className="title-dash-link">المدونات </span>
+            <Badge color="failure">قريباً</Badge>
+
           </div>
-        </NavLink>
+        </div>
 
         {/* chage Link to div for time being   */}
         <div
@@ -241,10 +237,11 @@ const AcademeyNavigation = ({ setShow, mobile }) => {
           >
             <div>{ballIcon}</div>
             <span className="title-dash-link">مكتبة الفيديو </span>
-            <ButtonSoon className={classes.btnSoon}>قريبا</ButtonSoon>
+            <Badge color="failure">قريباً</Badge>
+
           </div>
         </div>
-        <NavLink
+        <div
           className={({ isActive, isPending }) => {
             return isPending ? "pending" : isActive ? `${classes.Link} LinkActive` : classes.Link;
           }}
@@ -258,8 +255,10 @@ const AcademeyNavigation = ({ setShow, mobile }) => {
           >
             <div>{ballIcon}</div>
             <span className="title-dash-link">التصنيفات </span>
+            <Badge color="failure">قريباً</Badge>
+
           </div>
-        </NavLink>
+        </div>
       </Collection>
       <Collection
         mainIcon={
@@ -286,7 +285,7 @@ const AcademeyNavigation = ({ setShow, mobile }) => {
           "/academy/StudentBagCertifcate",
         ].find((path) => location.pathname === path)}
       >
-        <NavLink
+        <div
           to="academy/StudentInfo"
           className={({ isActive, isPending }) => {
             return isPending ? "pending" : isActive ? `${classes.Link} LinkActive` : classes.Link;
@@ -300,8 +299,10 @@ const AcademeyNavigation = ({ setShow, mobile }) => {
           >
             <div>{ballIcon}</div>
             <span className="title-dash-link">بيانات الطلاب</span>
+            <Badge color="failure">قريباً</Badge>
+
           </div>
-        </NavLink>
+        </div>
         <NavLink
           className={({ isActive, isPending }) => {
             return isPending ? "pending" : isActive ? `${classes.Link} LinkActive` : classes.Link;
@@ -349,13 +350,14 @@ const AcademeyNavigation = ({ setShow, mobile }) => {
           >
             <div>{ballIcon}</div>
             <span className="title-dash-link">التعليقات </span>
-            <ButtonSoon className={classes.btnSoon}>قريبا</ButtonSoon>
+            <Badge color="failure">قريباً</Badge>
+
           </div>
         </div>
       </Collection>
       <Collection
         mainIcon={
-          <BagCustomIcon
+          <PencilRuler strokeWidth={3}
             active={[
               "/academy/settings/slider",
               "/academy/settings/about",
@@ -369,7 +371,7 @@ const AcademeyNavigation = ({ setShow, mobile }) => {
             ].find((path) => location.pathname === path)}
           />
         }
-        mainTitle={"التحكم فى الموقع"}
+        mainTitle={"تعديل واجهات الأكاديمية"}
         acitve={[
           "/academy/settings/main",
           "/academy/settings/slider",
@@ -495,7 +497,7 @@ const AcademeyNavigation = ({ setShow, mobile }) => {
             <span className="title-dash-link">الذيل</span>
           </div>
         </NavLink>
-        <NavLink
+        {/* <div
           className={({ isActive, isPending }) => {
             return isPending ? "pending" : isActive ? `${classes.Link} LinkActive` : classes.Link;
           }}
@@ -509,9 +511,10 @@ const AcademeyNavigation = ({ setShow, mobile }) => {
           >
             <div>{ballIcon}</div>
             <span className="title-dash-link">الشركاء</span>
-            <ButtonSoon className={classes.btnSoon}>قريبا</ButtonSoon>
+            <Badge color="failure">قريباً</Badge>
+
           </div>
-        </NavLink>
+        </div> */}
         {/* <NavLink
           className={({ isActive, isPending }) => {
             return isPending ? "pending" : isActive ? `${classes.Link} LinkActive` : classes.Link;
@@ -541,11 +544,12 @@ const AcademeyNavigation = ({ setShow, mobile }) => {
               active={["/academy/EmployeeMangment"].find((path) => location.pathname === path)}
             />
             <span className="title-dash-link">ادارة الموظفين </span>
-            <ButtonSoon className={classes.btnSoon}>قريبا</ButtonSoon>
+            <Badge color="failure">قريباً</Badge>
+          
           </div>
         </div>
       </div>
-      <NavLink
+      <div
         to="academy/Products"
         className={({ isActive, isPending }) => {
           return isPending ? "pending" : isActive ? classes.activeLink : "";
@@ -557,9 +561,11 @@ const AcademeyNavigation = ({ setShow, mobile }) => {
               active={["/academy/Products"].find((path) => location.pathname === path)}
             />
             <span className="title-dash-link">المنتجات</span>
+            <Badge color="failure">قريباً</Badge>
+
           </div>
         </div>
-      </NavLink>
+      </div>
       <div
         to="academy/Coupons"
         className={({ isActive, isPending }) => {
@@ -570,7 +576,8 @@ const AcademeyNavigation = ({ setShow, mobile }) => {
           <div>
             <CouponIcon active={["/academy/Coupons"].find((path) => location.pathname === path)} />
             <span className="title-dash-link">الكوبونات</span>
-            <ButtonSoon className={classes.btnSoon}>قريبا</ButtonSoon>
+            <Badge color="failure">قريباً</Badge>
+         
           </div>
         </div>
       </div>
@@ -674,7 +681,8 @@ const AcademeyNavigation = ({ setShow, mobile }) => {
           <div>
             <CouponIcon active={["/academy/Coupons"].find((path) => location.pathname === path)} />
             <span className="title-dash-link">التسويق</span>
-            <ButtonSoon className={classes.btnSoon}>قريبا</ButtonSoon>
+            <Badge color="failure">قريباً</Badge>
+
           </div>
         </div>
       </div>
@@ -695,7 +703,7 @@ const AcademeyNavigation = ({ setShow, mobile }) => {
         </div>
       </NavLink>
 
-      <NavLink
+      <div
         to="academy/ReportsAndStatistics"
         className={({ isActive, isPending }) => {
           return isPending ? "pending" : isActive ? classes.activeLink : "";
@@ -707,11 +715,12 @@ const AcademeyNavigation = ({ setShow, mobile }) => {
               active={["/academy/ReportsAndStatistics"].find((path) => location.pathname === path)}
             />
             <span className="title-dash-link">التقارير والاحصائيات </span>
-            <ButtonSoon className={classes.btnSoon}>قريبا</ButtonSoon>
+            <Badge color="failure">قريباً</Badge>
+
           </div>
         </div>
-      </NavLink>
-      <div className={`${classes.Bot} gap-3`}>
+      </div>
+      {/* <div className={`${classes.Bot} gap-3`}>
         <div className={classes.Icon}>
           <SmartToyIcon sx={{ fontSize: "35px", color: "white" }} />
         </div>
@@ -726,7 +735,7 @@ const AcademeyNavigation = ({ setShow, mobile }) => {
             <KeyboardBackspaceIcon />
           </span>
         </div>
-      </div>
+      </div> */}
     </Fragment>
   );
 };

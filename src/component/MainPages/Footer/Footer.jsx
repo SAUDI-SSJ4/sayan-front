@@ -94,13 +94,13 @@ const AcademyFooter = () => {
         <div>
           <h2 className="fs-4 fw-bold title-text--1"> الاكادمية</h2>
           <p style={{ maxWidth: "300px" }} className="fs-6 fw-medium text-content--1">
-            {footerData ? footerData?.academy?.name : "تعرف علينا"}
+            {footerData ? footerData?.academy?.name : "أطلق أكاديميتك"}
           </p>
           <p style={{ maxWidth: "300px" }} className="fs-6 fw-medium text-content--1">
-            {footerData ? footerData?.title : "تعرف علينا"}
+            {footerData ? footerData?.title : "إنضم كطالب"}
           </p>
           <p style={{ maxWidth: "300px" }} className="fs-6 fw-medium text-content--1">
-            {footerData ? formatLongText(footerData?.content, 70) : "تعرف علينا"}
+            {footerData ? formatLongText(footerData?.content, 70) : "مركز المساعدة"}
           </p>
         </div>
 
@@ -112,24 +112,22 @@ const AcademyFooter = () => {
           </p>
 
           <p style={{ maxWidth: "300px" }} className="fs-6 fw-medium text-content--1">
-            {footerData ? <Link to={`mailto:${footerData?.email}`}>{footerData?.email}</Link> : "تعرف علينا"}
+            {footerData ? <Link to={`mailto:${footerData?.email}`}>{footerData?.email}</Link> : "اتصل بنا"}
           </p>
 
-          <p style={{ maxWidth: "300px" }} className="fs-6 fw-medium text-content--1">
-            {footerData ? footerData?.address : "تعرف علينا"}
-          </p>
+       
         </div>
 
         <div>
-          <h2 className="fs-4 fw-bold title-text--1">اسم الاكادمية </h2>
+          <h2 className="fs-4 fw-bold title-text--1">سيان</h2>
           <p style={{ maxWidth: "300px" }} className="fs-6 fw-medium text-content--1">
-            تعرف علينا
+            المزايا
           </p>
           <p style={{ maxWidth: "300px" }} className="fs-6 fw-medium text-content--1">
-            تعرف علينا
+            باقات الاشتراك
           </p>
           <p style={{ maxWidth: "300px" }} className="fs-6 fw-medium text-content--1">
-            تعرف علينا
+             تقييم العملاء
           </p>
         </div>
       </div>

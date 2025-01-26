@@ -1,6 +1,7 @@
 import NavBar from "../../component/MainPages/Header/NavBar";
 import { Subtitle, Title, Container, SectionTitle, List, ListItem, Wrapper, IconWrapper } from "./PolicyPageStyle.jsx";
 import { FaCheckCircle } from "react-icons/fa";
+import AcademyFooter from "../../component/MainPages/Footer/Footer.jsx";
 
 const PrivacyPolicyPage = () => {
   return (
@@ -8,7 +9,7 @@ const PrivacyPolicyPage = () => {
       <div className="mt-5">
         <NavBar />
       </div>
-      <Container>
+      <Container className="noto-font">
         <Title>سياسة الخصوصية والنزاهة الأكاديمية</Title>
         <Subtitle>سياسة الخصوصية والنزاهة الأكاديمية</Subtitle>
         <SectionTitle>شروط وأحكام الاستخدام:</SectionTitle>
@@ -183,6 +184,7 @@ const PrivacyPolicyPage = () => {
           </ListItem>
         </List>
         </Container>
+        <AcademyFooter />
     </Wrapper>
   );
 };

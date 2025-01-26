@@ -23,7 +23,7 @@ import { useMutation } from "@tanstack/react-query";
 import { Button as RBtn } from "rsuite";
 
 import Cookies from "js-cookie";
-import { WiMoonWaningCrescent3 } from "react-icons/wi";
+
 
 import logo from "../../assets/images/logo.png"
 import { postLogin } from "../../utils/apis/client/student";
@@ -98,9 +98,7 @@ const Login = () => {
         <div>
           <ul className={` ${classes.footerList}`}>
             <li>
-              <RBtn>
-                <WiMoonWaningCrescent3 />
-              </RBtn>
+
             </li>
             <li><Link to="/" style={{ textDecoration: 'none' }}>منصة سيان</Link></li>
             <li><Link to="/terms" style={{ textDecoration: 'none' }}>الشروط والأحكام</Link></li>

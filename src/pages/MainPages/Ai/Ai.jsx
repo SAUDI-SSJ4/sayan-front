@@ -13,6 +13,11 @@ import AiIcon from "../../../assets/icons/AiIcon.svg";
 import CallCenter from "../../../assets/icons/CallCenter.svg";
 import Statics from "../../../assets/icons/Statics.svg";
 import Maps from "../../../assets/icons/maps.svg";
+import icon2 from "../../../assets/icons/AIPage/icon2.svg";
+import icon3 from "../../../assets/icons/AIPage/icon3.svg";
+import icon5 from "../../../assets/icons/AIPage/icon5.svg";
+import icon6 from "../../../assets/icons/AIPage/icon6.svg";
+import icon7 from "../../../assets/icons/AIPage/icon7.svg";
 
 // Reusable GoalCard Component
 
@@ -66,24 +71,29 @@ const Ai = () => {
         <div className="CustomContainer mt-5">
           <div className="row mt-2 justify-content-center">
             <GoalCard
-              icon={AiIcon}
-              title="زيادة الإنتاجية"
-              description="التدريب يجعل الموظفين أكثر كفاءة وإنتاجية، حيث يكونون مجهزين بشكل أفضل لمواجهة مهامهم ويكتسبون ثقة أكبر في قدراتهم، مما يؤدي إلى تحسين الأداء."
+              icon={icon3}
+              title="تصحيح الاختبارات"
+              description="الذكاء الاصطناعي يتولى تصحيح الاختبارات ويقدم تحليلات مفصلة لنتائج الطلاب."
             />
             <GoalCard
-              icon={CallCenter}
-              title="دعم فني بلا توقف"
-              description="تمتع بالطمأنينة مع دعمنا الفني المتاح على مدار الساعة، مهما كان استفسارك أو تحديك."
+              icon={icon7}
+              title="خاصية سؤال التركيز"
+              description="هذه الخاصية تعزز تركيز الطلاب عبر سؤال يتطلب تفاعلًا للتقدم في الدرس."
             />
             <GoalCard
-              icon={Statics}
-              title="نقلة نوعية في المبيعات"
-              description="استفد من أدواتنا الذكية لتعزيز مبيعاتك وتحسين تفاعل الطلاب. في سيان، نساعدك على تحقيق أهدافك التجارية بفعالية."
+              icon={icon2}
+              title="خاصية اختبرني"
+              description="توفر اختبارات مخصصة بعد كل درس لقياس مستوى استفادة الطالب."
             />
             <GoalCard
-              icon={Maps}
-              title="تحسين تجربة التعليم"
-              description="استكشف قوة الذكاء الاصطناعي في تعزيز فهم الطلاب وتلبية احتياجاتهم التعليمية بدقة."
+              icon={icon6}
+              title="الإجابة على أسئلة الطلاب"
+              description="الذكاء الاصطناعي يجيب على الاستفسارات، موفرًا فهمًا أعمق للمواد."
+            />
+            <GoalCard
+              icon={icon5}
+              title="المساعد الشخصي"
+              description="مساعد رقمي متاح دائمًا لمساعدة الطلاب والمعلمين في جميع احتياجاتهم التعليمية."
             />
           </div>
         </div>

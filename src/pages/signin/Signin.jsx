@@ -9,7 +9,7 @@ import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { Link } from "react-router-dom";
 import OtpVerification from "./OtpVerification";
-import { WiMoonWaningCrescent3 } from "react-icons/wi";
+
 import { useMutation } from "@tanstack/react-query";
 import { postRegister } from "../../utils/apis/client/academy";
 import { useToast } from "../../utils/hooks/useToast";
@@ -77,9 +77,7 @@ const Signin = () => {
         <div>
           <ul className={classes.footerList}>
             <li>
-              <Button>
-                <WiMoonWaningCrescent3 />
-              </Button>
+   
             </li>
             <li><Link to="/" className="text-white text-decoration-none">منصة سيان</Link></li>
             <li><Link to="/terms" className="text-white text-decoration-none">الشروط والأحكام</Link></li>

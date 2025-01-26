@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import useImage from "./../../../assets/icons/Acadmy.png";
+import header from "./../../../assets/images/academy/header.png"
 import { RiTwitterXFill } from "react-icons/ri";
 import { FaFacebook, FaSnapchatGhost } from "react-icons/fa";
 import Insta from "../../../assets/icons/Insta.svg";
@@ -38,7 +39,7 @@ const Profile = () => {
           <div className="">
             <img
               height={200}
-              src={cover || useImage}
+              src={cover || header}
               alt="Cover"
               className="w-100 object-fit-cover rounded"
             />

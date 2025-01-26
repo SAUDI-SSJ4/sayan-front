@@ -1,8 +1,21 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
 /* NEW CLASSESS STYLE CSS */
 /* START SUBJECT CLASSESS */
 :root {
   --primary-color: #3498db;
   --text-color: #2ecc71;
+}
+
+.noto-font {
+  font-family: 'Noto Kufi Arabic', sans-serif !important;
+}
+
+* {
+    font-family: 'Noto Kufi Arabic', sans-serif !important;
 }
 
 .navbar--1 {

@@ -13,7 +13,7 @@ export const CourseTabs = () => {
       >
         الدورات (2214)
       </NavLink>
-      <NavLink
+      {/* <NavLink
         to={"/student/TrainingCourses/DirectCourse"}
         className={({ isActive }) => {
           return isActive ? " tablePage active" : "tablePage";
@@ -28,7 +28,7 @@ export const CourseTabs = () => {
         }}
       >
         الدورات الخحضورية
-      </NavLink>
+      </NavLink> */}
     </ul>
   </div>
   )

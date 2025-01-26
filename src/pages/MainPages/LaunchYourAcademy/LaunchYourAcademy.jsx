@@ -90,7 +90,7 @@ const LaunchYourAcademy = () => {
             <div className={Style.BtnContainer}>
               <div
                 onClick={() => {
-                  navigate("/Register");
+                  navigate("/signin");
                 }}
                 className={`${Style.Primary}`}
               >
@@ -354,7 +354,7 @@ const LaunchYourAcademy = () => {
             </div>
           </div>
         </div>
-        <PartnerSection />
+       
       </div>
       <div className="CustomContainer">
         <div

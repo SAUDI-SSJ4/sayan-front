@@ -10,6 +10,7 @@ import defaultAvatar from "../../../assets/images/default-user.jpg";
 import { getMenuTitle, NAVBAR_LINK } from "../../../utils/constant";
 import Cookies from 'js-cookie';
 import CartButton from './CartButton';
+import NewOffCanvas from "./NewOffCanvas";
 
 const NavBar = ({ user }) => {
   const navigate = useNavigate();
@@ -28,22 +29,27 @@ const NavBar = ({ user }) => {
   }, [location.pathname]);
 
   useEffect(() => {
-    const handleScroll = () => setMenuFixed(window.scrollY > 100);
-    
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    const handleScroll = () => {
+      const shouldBeFixed = window.scrollY > 100 || window.innerWidth < 1320;
+      setMenuFixed(shouldBeFixed);
+    };
 
+    window.addEventListener("scroll", handleScroll);
+    handleScroll();
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
   }, []);
 
   const handleClick = (e, path) => {
     e.preventDefault();
     navigate(path);
+    handleClose(); // Close the offcanvas after navigation
   };
 
   useEffect(() => {
-    // Retrieve the cookie by its name
     const cookie = Cookies.get('login_type');
-    
     setCookieValue(cookie);
   }, []);
 
@@ -64,10 +70,10 @@ const NavBar = ({ user }) => {
         </Fragment>
       ) : (
         <Fragment>
-          <div onClick={() => navigate("/login")} className={classes.Secondry}>
+          <div onClick={() => navigate("/student/login")} className={classes.Secondry}>
             دخول
           </div>
-          <div onClick={() => navigate("/signin")} className={classes.Primary}>
+          <div onClick={() => navigate("/student/signin")} className={classes.Primary}>
             انضم الان
           </div>
         </Fragment>
@@ -75,12 +81,19 @@ const NavBar = ({ user }) => {
     </div>
   );
 
+  // Prepare links for NewOffCanvas
+  const links = NAVBAR_LINK.map((path) => ({
+    path,
+    title: getMenuTitle(path),
+    onClick: handleClick,
+  }));
+
   return (
     <div data-aos="fade-down">
       <div className={`navbar--1 ${classes.NavBarContainer} ${isMenuFixed ? "menu-fixed" : ""}`}>
         <div className={classes.NavBarRoutes}>
-          <div className={classes.logo}>
-            <img src={image} alt="sayn academy logo" />
+          <div className={`${classes.logo} cursor-pointer`}>
+            <img src={image} onClick={() => navigate("/")} alt="sayn academy logo" />
           </div>
           <div className={classes.Routes}>
             <ul>
@@ -102,32 +115,14 @@ const NavBar = ({ user }) => {
         </div>
       </div>
 
-      {/* Offcanvas menu for mobile view */}
-      <Offcanvas show={show} onHide={handleClose}>
-        <Offcanvas.Header closeButton>
-          <Offcanvas.Title style={{ direction: "rtl" }}>
-            <div className={classes.logo}>
-              <img src={image} alt="sayn academy logo" />
-            </div>
-          </Offcanvas.Title>
-        </Offcanvas.Header>
-        <Offcanvas.Body style={{ direction: "rtl" }}>
-          <ul className={classes.Offcanvas}>
-            {NAVBAR_LINK.map((path, index) => (
-              <li key={index}>
-                <NavLink
-                  to={path}
-                  onClick={(e) => handleClick(e, path)}
-                  className={({ isActive }) => (isActive ? classes.NavActive : "")}
-                >
-                  {getMenuTitle(path)}
-                </NavLink>
-              </li>
-            ))}
-          </ul>
-          {renderUserButtons()}
-        </Offcanvas.Body>
-      </Offcanvas>
+      {/* New OffCanvas Component */}
+      <NewOffCanvas
+        show={show}
+        onClose={handleClose}
+        logo={image}
+        links={links}
+        renderUserButtons={renderUserButtons}
+      />
     </div>
   );
 };

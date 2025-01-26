@@ -110,7 +110,7 @@ const AcadmeyTrainingCourses = () => {
                   >
                     الدورات ({academyCourses?.length || 0})
                   </li>
-                  <li
+                  {/* <li
                     className={`tablePage ${activeTab === "live" ? "active" : ""}`}
                     onClick={() => setActiveTab("live")}
                   >
@@ -121,7 +121,7 @@ const AcadmeyTrainingCourses = () => {
                     onClick={() => setActiveTab("recorded")}
                   >
                     الدورات غير المباشرة
-                  </li>
+                  </li> */}
                 </ul>
               </div>
 

@@ -14,6 +14,7 @@ const Profile = () => {
   const [showUpdate, setShowUpdate] = useState(false);
   const user = useSelector((state) => state.auth.user);
 
+
   return (
     <div className="all-porfile mt-3">
       <div className="ProfileHeader">
@@ -25,7 +26,7 @@ const Profile = () => {
             </div>
             <div>
               <h2>{user?.name}</h2>
-              <p>@Administration</p>
+              <span>تاريخ الإنشاء : {user?.created_at?.split('T')[0]}</span>
             </div>
           </div>
           <div className="updateBtn" onClick={() => setShowUpdate(true)}>
@@ -44,10 +45,10 @@ const Profile = () => {
                 <h3>الاسم</h3>
                 <span>{user?.name}</span>
               </div>
-              <div className=" col-12 col-sm-6 ">
+              {/* <div className=" col-12 col-sm-6 ">
                 <h3>الدور</h3>
                 <span>مدير النظام </span>
-              </div>
+              </div> */}
               <div className=" col-12 col-sm-6 ">
                 <h3>النوع</h3>
                 <span>ذكر </span>

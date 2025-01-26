@@ -63,10 +63,10 @@ function App() {
             <Route path="/LaunchYourAcademy" element={<LaunchYourAcademy />} />
             <Route path="/EmployeeTrainning" element={<EmployeeTrainning />} />
             <Route path="/Ai" element={<Ai />} />
-            <Route path="/Blogs" element={<MainBlog />} />
+            {/* <Route path="/Blogs" element={<MainBlog />} /> */}
             <Route path="/SingleCourse/:courseId" element={<SingleCourse />} />
             <Route path="/acdemy/:acdemyId" element={<Layout1 />} />
-            <Route path="/acdemy/:acdemyId/allBlogs" element={<AllBlogpage />} />
+            {/* <Route path="/acdemy/:acdemyId/allBlogs" element={<AllBlogpage />} /> */}
             <Route path="/acdemy/:acdemyId/AllProductsPage" element={<AllProductsPage />} />
             <Route path="/acdemy/:acdemyId/AllCoursesPage" element={<AllCoursesPage />} />
             <Route path="/acdemy/:acdemyId/ContactUs" element={<ContactUs3 />} />

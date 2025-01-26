@@ -1,4 +1,5 @@
 import StudentDashboardHeader from "../../../component/dashboard/Header/StudentHeader";
+import AcademyHeader from "../Header/AcademyHeader";
 import { Card, Button, Row, Col } from "react-bootstrap";
 import { Pagination } from "@mui/material";
 import { Fragment, useState } from "react";
@@ -40,7 +41,7 @@ const AcademyDashboard = () => {
         </div>
       ) : (
         <div>
-          <StudentDashboardHeader academy />
+          <AcademyHeader academy />
           <div className="row g-3 mt-3">
             <HeaderAcademy title={"الدورات التدريبية"} />
             {isNotEmpty(currentCourses) &&

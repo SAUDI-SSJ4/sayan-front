@@ -21,8 +21,8 @@ export const getMenuTitle = (path) => {
       return "الرئيسية";
     case "/LaunchYourAcademy":
       return "اطلق اكادميتك";
-    case "/Blogs":
-      return "المدونة";
+    // case "/Blogs":
+    //   return "المدونة";
     case "/Ai":
       return "الذكاء الاصطناعي";
     case "/EmployeeTrainning":

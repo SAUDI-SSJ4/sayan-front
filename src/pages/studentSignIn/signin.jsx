@@ -11,7 +11,7 @@ import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { Button as RBtn } from "rsuite";
-import { WiMoonWaningCrescent3 } from "react-icons/wi";
+
 import logo from "../../assets/images/logo.png";
 import { useMutation } from "@tanstack/react-query";
 import { postRegister } from "../../utils/apis/client/student";
@@ -94,9 +94,7 @@ const StudentSignIn = () => {
         <img src={logo} alt="Logo" className={classes.logo} />
         <ul className={classes.footerList}>
           <li>
-            <RBtn>
-              <WiMoonWaningCrescent3 />
-            </RBtn>
+            
           </li>
           <li>منصة سيان</li>
           <li>الشروط والأحكام</li>

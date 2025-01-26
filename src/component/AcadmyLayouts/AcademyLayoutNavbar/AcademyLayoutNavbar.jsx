@@ -59,15 +59,15 @@ const AcademyLayoutNavbar = ({ navSettings }) => {
           {true && !token ? (
             <div className={classes.Routes}>
               <ul>
-                <li>
-                  <Link to={`/acdemy/${acdemyId}`}>الرئيسية</Link>
+                <li >
+                  <Link  to={`/acdemy/${acdemyId}`}>الرئيسية</Link>
                 </li>
                 <li>
                   <Link to={`/acdemy/${acdemyId}/AllCoursesPage`}>الدورات</Link>
                 </li>
-                <li>
+                {/* <li>
                   <Link to={`/acdemy/${acdemyId}/AllBlogs`}>المدونة</Link>
-                </li>
+                </li> */}
                 <li>
                   <Link to={`/acdemy/${acdemyId}/AllProductsPage`}>المنتجات الرقمية</Link>
                 </li>

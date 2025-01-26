@@ -23,7 +23,7 @@ import { postLoginAPI } from "../../utils/api";
 import { useMutation } from "@tanstack/react-query";
 import logo from "../../assets/images/logo.png"
 import Cookies from "js-cookie";
-import { WiMoonWaningCrescent3 } from "react-icons/wi";
+
 
 const LoginAdmin = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -95,9 +95,7 @@ const LoginAdmin = () => {
       <img src={logo} className={`${classes.logo}`} />
           <ul className={` ${classes.footerList}`}>
             <li> 
-              <RBtn>
-                <WiMoonWaningCrescent3 />
-              </RBtn>
+   
             </li>
             <li><Link to="/" style={{textDecoration: 'none'}}>منصة سيان</Link></li>
             <li><Link to="/terms" style={{textDecoration: 'none'}}>الشروط والأحكام</Link></li>

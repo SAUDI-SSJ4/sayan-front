@@ -67,8 +67,13 @@
       border: 1px solid #0062ff;
       transition: 0.4s;
       &:hover {
-        background-color: white;
+        background-color: #0146b4;
+        border: 1px solid #0146b4;
         color: #0062ff;
+      }
+      &:focus {
+        background-color: #5a98fc;
+        border: 1px solid #478eff;
       }
     }
   }
