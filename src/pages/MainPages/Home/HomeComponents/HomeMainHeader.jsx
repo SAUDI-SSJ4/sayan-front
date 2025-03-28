@@ -13,10 +13,9 @@ export const HomeMainHeader = () => {
              <div data-aos="fade-left" className={`${Style.BannerText} banner-text-header`}>
               <h1>تعليم يفتح افاق المستقبل </h1>
               <p>
-                نعمل لبناء تقديم افضل تعليمية, سيان هي مستقبل التعليم تعليمية, سيان هي مستقبل
-                التعليم.
+                سيان تقدم لكم تجربة تعليمية متطورة معززة بالذكاء الاصطناعي أنشئ منصتك التعليمية لبيع محتواك التعليمي بسهولة.
               </p>
-              <div className={Style.BtnContainer} onClick={() => navgate("/signin")}>
+              <div className={Style.BtnContainer} onClick={() => navgate("/student/signin")}>
                 <div className={`${Style.Primary} button-header`}>انضم الان </div>
               </div>
             </div>

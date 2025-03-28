@@ -100,9 +100,9 @@ const Signin = () => {
               <h3>انشاء حساب</h3>
               <p>ادخل المعلومات الخاصة بحسابك لاستقبال رمز OTP</p>
 
-              <form onSubmit={formik.handleSubmit}>
+              <form onSubmit={formik.handleSubmit} className="flex flex-col gap-1">
                 <div className={`${classes.formGroup} mb-2`}>
-                  <label htmlFor="title">إسم الاكاديمية <span style={{ color: "red" }}>*</span></label>
+                  <label className="mb-2 font-use font-bold" htmlFor="title">إسم الاكاديمية <span style={{ color: "red" }}>*</span></label>
                   <TextField
                     fullWidth
                     id="title"
@@ -117,8 +117,8 @@ const Signin = () => {
                   />
                 </div>
 
-                <div className={`${classes.formGroup} mb-2`}>
-                  <label htmlFor="name">الاسم <span style={{ color: "red" }}>*</span></label>
+                {/* <div className={`${classes.formGroup} mb-2`}>
+                  <label className="mb-2 font-use font-bold" htmlFor="name">الاسم <span style={{ color: "red" }}>*</span></label>
                   <TextField
                     fullWidth
                     id="name"
@@ -131,10 +131,10 @@ const Signin = () => {
                     helperText={formik.touched.name && formik.errors.name}
                     InputProps={{ style: { borderRadius: "10px", height: "48px" } }}
                   />
-                </div>
+                </div> */}
 
                 <div className={`${classes.formGroup} mb-2`}>
-                  <label htmlFor="email">البريد الإلكتروني <span style={{ color: "red" }}>*</span></label>
+                  <label className="mb-2 font-use font-bold" htmlFor="email">البريد الإلكتروني <span style={{ color: "red" }}>*</span></label>
                   <TextField
                     fullWidth
                     id="email"
@@ -150,7 +150,7 @@ const Signin = () => {
                 </div>
 
                 <div className={`${classes.formGroup} mb-2`}>
-                  <label htmlFor="phone">رقم الهاتف <span style={{ color: "red" }}>*</span></label>
+                  <label className="mb-2 font-use font-bold" htmlFor="phone">رقم الهاتف <span style={{ color: "red" }}>*</span></label>
                   <TextField
                     fullWidth
                     id="phone"
@@ -166,7 +166,7 @@ const Signin = () => {
                 </div>
 
                 <div className={`${classes.formGroup} mb-2`}>
-                  <label htmlFor="password">كلمة المرور <span style={{ color: "red" }}>*</span></label>
+                  <label className="mb-2 font-use font-bold" htmlFor="password">كلمة المرور <span style={{ color: "red" }}>*</span></label>
                   <TextField
                     fullWidth
                     id="password"
@@ -191,7 +191,32 @@ const Signin = () => {
                 </div>
 
                 <div className={`${classes.formGroup} mb-2`}>
-                  <label htmlFor="image">شعار الاكادمية <span style={{ color: "red" }}>*</span></label>
+                  <label className="mb-2 font-use font-bold" htmlFor="password_confirm">تأكيد كلمة المرور <span style={{ color: "red" }}>*</span></label>
+                  <TextField
+                    fullWidth
+                    id="password_confirm"
+                    name="password_confirm"
+                    type={showPassword ? "text" : "password"}
+                    // value={formik.values.password}
+                    // onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    error={formik.touched.password && Boolean(formik.errors.password)}
+                    helperText={formik.touched.password && formik.errors.password}
+                    // InputProps={{
+                    //   endAdornment: (
+                    //     <InputAdornment position="end">
+                    //       <IconButton onClick={togglePasswordVisibility}>
+                    //         {showPassword ? <Visibility /> : <VisibilityOff />}
+                    //       </IconButton>
+                    //     </InputAdornment>
+                    //   ),
+                    //   style: { borderRadius: "10px", height: "48px" },
+                    // }}
+                  />
+                </div>
+
+                <div className={`${classes.formGroup} mb-2`}>
+                  <label className="mb-2 font-use font-bold" htmlFor="image">شعار الاكادمية <span style={{ color: "red" }}>*</span></label>
                   <TextField
                     fullWidth
                     id="image"

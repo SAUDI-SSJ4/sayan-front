@@ -3,6 +3,47 @@
 @tailwind utilities;
 
 
+
+/* my style */
+
+.hidden-sm {
+  display: none;
+}
+
+.font-use {
+  font-family: 'Noto Kufi Arabic', sans-serif !important;
+}
+
+.mbb-0 {
+  margin-bottom: 0px !important;
+}
+
+@media (min-width: 768px) { /* md breakpoint */
+  .hidden-sm {
+    display: flex;
+  }
+}
+/* 
+.top-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 50;
+} */
+
+.banner {
+  position: relative;
+  z-index: 40; /* Lower than top bar */
+  margin-top: 0rem; /* Adjust to avoid overlap */
+}
+
+/* end my style */
+
+
+
+
+
 /* NEW CLASSESS STYLE CSS */
 /* START SUBJECT CLASSESS */
 :root {

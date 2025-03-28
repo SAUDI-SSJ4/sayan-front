@@ -21,7 +21,7 @@ import { useAuth } from "../../../utils/hooks/useAuth";
 const AcadmeyTrainingCourses = () => {
 
   const dispatch = useDispatch()
-  const [tableOrNot, setTableOrNot] = useState(false);
+  const [tableOrNot, setTableOrNot] = useState(true);
   const [isLoading, setisLoading] = useState(false)
   const [checkedKeys, setCheckedKeys] = useState([]);
   const [activeTab, setActiveTab] = useState("all");

@@ -1,30 +1,68 @@
 .CardContainer {
-  border-radius: 15px;
-  padding: 10px;
+  border-radius: 20px;
+  padding-top: 10px;
+  padding-bottom: 5px;
+  padding-left: 10px;
+  padding-right: 10px;
   background: transparent;
   max-width: 313.15px;
   min-height: 394.73px;
+  max-height: 550px;
   transition: 0.4s;
+  box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.15);
   cursor: pointer;
   cursor: pointer;
+
   &:hover {
     box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.15);
   }
+
   img {
     width: 100%;
-    height: 250px;
+    height: 200px;
     border-radius: 23px;
     object-fit: cover;
   }
+
   h2 {
     color: #272727;
     text-align: right;
     font-family: "Tajawal", sans-serif !important;
-    font-size: 20px;
+    font-size: 18px;
     font-style: normal;
     font-weight: 800;
     line-height: 24px;
   }
+  .priceHolder {
+    display: grid;
+    gap: 0px;
+    align-items: center;
+    place-content: center;
+    align-self: center;
+    
+  }
+  .price {
+
+    color: #272727;
+    text-align: right;
+    font-family: "Tajawal", sans-serif !important;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 800;
+    // line-height: 24px;
+
+  }
+
+  .priceAfter {
+    color: #4d4d4d;
+    text-align: right;
+    font-family: "Tajawal", sans-serif !important;
+    font-size: 11px;
+    font-style: normal;
+    font-weight: 800;
+    // line-height: 24px;
+  }
+
   .Badge {
     border-radius: 18px;
     background: #009aff;
@@ -35,14 +73,18 @@
     font-style: normal;
     padding: 10px 20px;
     font-weight: 700;
-    line-height: 100%; /* 15px */
+    line-height: 100%;
+    /* 15px */
   }
+
   .Rate {
     display: flex;
+    gap: 20px;
     justify-content: start;
     align-items: center;
     position: relative;
-    margin: 0 1rem !important;
+    margin: 0 0rem !important;
+
     p {
       color: #636363;
       text-align: right;
@@ -52,6 +94,7 @@
       font-weight: 500;
       line-height: 15.6px;
     }
+
     span {
       font-size: 13px;
       position: absolute;
@@ -59,52 +102,62 @@
       right: 47%;
     }
   }
+
   .Text {
     color: #636363;
     text-align: right;
     font-family: "Tajawal", sans-serif !important;
-    font-size: 14px;
+    font-size: 12px;
     font-style: normal;
     font-weight: 500;
     line-height: 21px;
-    margin: 8px 1rem;
+    margin: 8px 0rem;
   }
+
   .Footer {
     display: flex;
     justify-content: space-between;
     margin: 15px 1rem;
+
     .Profile {
       display: flex;
       align-items: center;
+
       img {
-        width: 65px;
-        height: 65px;
+        width: 45px;
+        height: 45px;
         border-radius: 100%;
       }
+
       div {
         position: relative;
+
         // margin: 0px 10px;
         h3 {
           color: #636363;
           text-align: right;
           font-family: "Tajawal";
-          font-size: 14px;
+          font-size: 11px;
           font-style: normal;
           font-weight: 500;
           line-height: 21px;
           margin-bottom: 0%;
+          margin: 0 0.2rem;
         }
+
         h4 {
           color: #272727;
           text-align: right;
           font-family: "Tajawal";
-          font-size: 14px;
+          font-size: 12px;
           font-style: normal;
           font-weight: 700;
           line-height: 21px;
+          margin: 0 0.2rem;
         }
       }
     }
+
     .h5 {
       text-align: center;
       color: #333;
@@ -114,6 +167,7 @@
       font-weight: 900;
       line-height: 36px;
     }
+
     h6 {
       text-align: center;
       color: rgba(51, 51, 51, 0.58);
@@ -133,9 +187,11 @@
   height: 45px;
   margin-left: 5px;
 }
+
 .routeLink:hover {
   text-decoration: none;
 }
+
 .title {
   color: #272727;
   font-family: "Noto Kufi Arabic";

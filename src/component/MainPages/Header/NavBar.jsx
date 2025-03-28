@@ -81,6 +81,39 @@ const NavBar = ({ user }) => {
     </div>
   );
 
+
+  const renderUserButtonsMobile = () => (
+    <>
+      <div className="px-4">
+        <div className={classes.NavBarBtns}>
+          <CartButton />
+
+          {user ? (
+            <Fragment>
+              <div onClick={() => navigate(`${cookieValue === 'academy' ? '/academy' : '/student/dashbord'}`)} className={classes.Secondry}>
+                لوحة التحكم
+              </div>
+              <Avatar circle src={user.image || defaultAvatar} alt={user.name} />
+            </Fragment>
+
+          ) : (
+            <Fragment>
+              <div className="flex flex-col gap-2 mt-4">
+                <div onClick={() => navigate("/student/login")} className="bg-blue-200 w-full px-4 py-2 rounded-md text-center hover:bg-blue-400 border-2 border-blue-400 cursor-pointer">
+                  دخول
+                </div>
+                <div onClick={() => navigate("/student/signin")} className="bg-blue-600  px-4 py-2 rounded-md hover:bg-blue-400  border-2 hover:border-blue-300  cursor-pointer hover:text-gray-900 text-white">
+                  انضم الان
+                </div>
+              </div>
+            </Fragment>
+          )}
+        </div>
+      </div>
+
+    </>
+  );
+
   // Prepare links for NewOffCanvas
   const links = NAVBAR_LINK.map((path) => ({
     path,
@@ -122,6 +155,7 @@ const NavBar = ({ user }) => {
         logo={image}
         links={links}
         renderUserButtons={renderUserButtons}
+        renderUserButtonsMobile={renderUserButtonsMobile}
       />
     </div>
   );

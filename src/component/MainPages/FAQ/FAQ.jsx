@@ -99,7 +99,7 @@ const FAQ = () => {
                   <p className="faq-question">{faq.title}</p>
                 </AccordionSummary>
                 <AccordionDetails>
-                  <p className="faq-answer">{faq.content}</p>
+                  <p className="faq-answer mbb-0">{faq.content}</p>
                 </AccordionDetails>
               </Accordion>
             ))

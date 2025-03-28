@@ -223,7 +223,7 @@ const StudentSignIn = () => {
                     {mutation.isPending ? (
                       <div className="loader"></div>
                     ) : (
-                      "تسجيل الدخول"
+                      "التسجيل"
                     )}
                   </button>
 

@@ -2,6 +2,10 @@
   margin-inline: 100px;
   margin-top: 30px;
   padding-bottom: 30px;
+  max-width: 1320px;
+  display: grid;
+  place-self: center;
+  justify-self: center;
   @media (max-width: 600px) {
     margin-inline: 10px !important;
   }

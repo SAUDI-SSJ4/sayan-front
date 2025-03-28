@@ -44,17 +44,7 @@ const Numbers = () => {
               },
             }}
           >
-            <SwiperSlide>
-              <div className={`${classes.SliderCard} card-style-1`}>
-                <div className={classes.Icon}>
-                  <img src={icon1} />
-                </div>
-                <h2>خاصية سؤال التركيز</h2>
-                <p>
-                  التدريب يجعل الموظفين أكثر كفاءة وإنتاجية، حيث يكونون مجهزين بشكل أفضل
-                </p>
-              </div>
-            </SwiperSlide>
+
             <SwiperSlide>
               <div className={`${classes.SliderCard} card-style-1`}>
                 <div className={classes.Icon}>

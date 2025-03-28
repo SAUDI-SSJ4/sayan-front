@@ -13,7 +13,7 @@ export const STUDENT_BAG_NAVIGATOR_TWO = [
   "student/Sales",
 ];
 
-export const NAVBAR_LINK = ["/", "/LaunchYourAcademy", "/Blogs", "/Ai", "/EmployeeTrainning"];
+export const NAVBAR_LINK = ["/", "/LaunchYourAcademy", "/Ai", "/EmployeeTrainning"];
 
 export const getMenuTitle = (path) => {
   switch (path) {
@@ -21,8 +21,6 @@ export const getMenuTitle = (path) => {
       return "الرئيسية";
     case "/LaunchYourAcademy":
       return "اطلق اكادميتك";
-    // case "/Blogs":
-    //   return "المدونة";
     case "/Ai":
       return "الذكاء الاصطناعي";
     case "/EmployeeTrainning":

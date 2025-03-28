@@ -30,7 +30,7 @@ const EmployeeTrainning = () => {
       <Header2>
         <div className={Style.Container}>
           <div className={Style.BannerText} data-aos="fade-up">
-            <div style={{ position: "relative" }}>
+            <div style={{ position: "relative", display: "flex" }}>
               <img className={Style.FloaitngImage1} src={affiliatesmarketing} />
               <img className={Style.FloaitngImage} src={TrainingSession} />
               <img className={Style.FloaitngImage2} src={sessions} />

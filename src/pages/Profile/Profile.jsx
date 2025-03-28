@@ -14,6 +14,10 @@ const Profile = () => {
   const [showUpdate, setShowUpdate] = useState(false);
   const user = useSelector((state) => state.auth.user);
 
+  const { name, email, phone, image } = user ?? {};
+  
+  console.log("User Info: " + user);
+
 
   return (
     <div className="all-porfile mt-3">

@@ -78,64 +78,66 @@ const AcademyFooter = () => {
   };
 
   return (
-    <div>
-      <div className={classes.FooterContainer}>
-        <div className={classes.Socials}>
-          <img src={footerData?.image ? footerData.image : Logo} />
-          <div className="d-flex" style={{ gap: "16px", marginTop: "35px" }}>
-            <img src={YouTube} onClick={() => handleRedirect(footerData?.youtube)} />
-            <img src={LinkedIn} onClick={() => handleRedirect(footerData?.linkedin)} />
-            <img src={Instagram} onClick={() => handleRedirect(footerData?.instagram)} />
-            <img src={Twitter} onClick={() => handleRedirect(footerData?.twitter)} />
-            <img src={Facebook} onClick={() => handleRedirect(footerData?.facebook)} />
+    <footer className="bg-gray-100 py-8 mt-10">
+      <div className="container mx-auto px-4 flex flex-col md:flex-row justify-between items-center">
+
+        {/* Mobile Apps */}
+        <div className="flex gap-2 items-center mt-6 md:mt-0">
+
+          <a href="#">
+            <div className="flex items-center bg-black px-4 py-2 gap-2 rounded-md text-white text-center">
+              <div>
+                <img src="https://labayh.net/wp-content/uploads/2022/06/google-app.svg" alt="App Store" className="h-8" />
+              </div>
+              <div className="flex flex-col leading-none space-y-0">
+                <p className="text-xs m-0 p-0 text-gray-300">متوفر على</p>
+                <p className="text-sm font-bold m-0 p-0">Google Play</p>
+              </div>
+            </div>
+          </a>
+
+          <a href="#">
+            <div className="flex items-center bg-black px-4 py-2 gap-2 rounded-md text-white text-center">
+              <div>
+                <img src="https://labayh.net/wp-content/uploads/2022/06/apple-app.svg" alt="App Store" className="h-8" />
+              </div>
+              <div className="flex flex-col leading-none space-y-0">
+                <p className="text-xs m-0 p-0 text-gray-300">متوفر على</p>
+                <p className="text-sm font-bold m-0 p-0">App Store</p>
+              </div>
+            </div>
+          </a>
+        </div>
+
+        {/* Security & Certification */}
+        <div className="flex flex-col items-center mt-6 md:mt-0">
+          <img src="https://labayh.net/wp-content/uploads/2023/10/ministry-of-health.svg" alt="Secure SSL" className="h-8" />
+        </div>
+
+
+        {/* Social Icons */}
+        <div className="flex flex-col items-center">
+          {/* <img src={footerData?.image ? footerData.image : Logo} className="h-12" alt="Logo" /> */}
+          <div className="flex gap-4 mt-4">
+            <img src={YouTube} className="h-8 cursor-pointer" onClick={() => handleRedirect(footerData?.youtube)} alt="YouTube" />
+            <img src={LinkedIn} className="h-8 cursor-pointer" onClick={() => handleRedirect(footerData?.linkedin)} alt="LinkedIn" />
+            <img src={Instagram} className="h-8 cursor-pointer" onClick={() => handleRedirect(footerData?.instagram)} alt="Instagram" />
+            <img src={Twitter} className="h-8 cursor-pointer" onClick={() => handleRedirect(footerData?.twitter)} alt="Twitter" />
+            <img src={Facebook} className="h-8 cursor-pointer" onClick={() => handleRedirect(footerData?.facebook)} alt="Facebook" />
           </div>
         </div>
-
-        <div>
-          <h2 className="fs-4 fw-bold title-text--1"> الاكادمية</h2>
-          <p style={{ maxWidth: "300px" }} className="fs-6 fw-medium text-content--1">
-            {footerData ? footerData?.academy?.name : "أطلق أكاديميتك"}
-          </p>
-          <p style={{ maxWidth: "300px" }} className="fs-6 fw-medium text-content--1">
-            {footerData ? footerData?.title : "إنضم كطالب"}
-          </p>
-          <p style={{ maxWidth: "300px" }} className="fs-6 fw-medium text-content--1">
-            {footerData ? formatLongText(footerData?.content, 70) : "مركز المساعدة"}
-          </p>
-        </div>
-
-        <div>
-          <h2 className="fs-4 fw-bold title-text--1">تواصل معنا</h2>
-
-          <p style={{ maxWidth: "300px" }} className="fs-6 fw-medium text-content--1">
-            {footerData ? <Link to={`tel:${footerData?.phone}`}>{footerData?.phone}</Link> : "تعرف علينا"}
-          </p>
-
-          <p style={{ maxWidth: "300px" }} className="fs-6 fw-medium text-content--1">
-            {footerData ? <Link to={`mailto:${footerData?.email}`}>{footerData?.email}</Link> : "اتصل بنا"}
-          </p>
-
-       
-        </div>
-
-        <div>
-          <h2 className="fs-4 fw-bold title-text--1">سيان</h2>
-          <p style={{ maxWidth: "300px" }} className="fs-6 fw-medium text-content--1">
-            المزايا
-          </p>
-          <p style={{ maxWidth: "300px" }} className="fs-6 fw-medium text-content--1">
-            باقات الاشتراك
-          </p>
-          <p style={{ maxWidth: "300px" }} className="fs-6 fw-medium text-content--1">
-             تقييم العملاء
-          </p>
-        </div>
       </div>
 
-      <div onClick={() => navigate("/privacy-policy")} className={`${classes.CopyRight} copy-text--1`}>
-        جميع الحقوق محفوظة لمنصة سيان © 2023 | الشروط والأحكام | سياسة الخصوصية
+      {/* Copyright & Legal */}
+      <div className="text-center mt-6 text-gray-500 text-sm">
+        <p>
+          جميع الحقوق محفوظة لمنصة سيان © 2023 |
+          <span className="cursor-pointer text-blue-500" onClick={() => navigate("/privacy-policy")}>
+            الشروط والأحكام | سياسة الخصوصية
+          </span>
+        </p>
       </div>
-    </div>
+    </footer>
   );
 };
 

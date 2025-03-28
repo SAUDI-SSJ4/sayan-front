@@ -73,16 +73,6 @@ const NavBar = () => {
                   اطلق اكادميتك
                 </NavLink>
               </li>
-              {/* <li>
-                <NavLink
-                  className={({ isActive, isPending }) => {
-                    return isPending ? "pending" : isActive ? classes.NavActive : "";
-                  }}
-                  to={`/Blogs`}
-                >
-                  المدونة
-                </NavLink>
-              </li> */}
               <li>
                 <NavLink
                   className={({ isActive, isPending }) => {

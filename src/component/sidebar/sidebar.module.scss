@@ -1,6 +1,7 @@
 .sidebarHeader {
   display: flex;
-  justify-content: center;
+  justify-content: start;
+  margin-right: 20px;
   padding: 10px 13px;
 
   font-family: "Cairo", sans-serif;
@@ -10,8 +11,11 @@
   .Profile {
     display: flex;
     gap: 10px;
+    justify-items: start;
     align-items: center;
-    justify-content: center;
+    justify-content: start;
+    place-self: start;
+    justify-self: start;
 
     img {
       width: 50px;
@@ -21,7 +25,7 @@
 
     p {
       color: "#2B3674";
-      font-size: 20px;
+      font-size: 15px;
     }
   }
 

@@ -39,7 +39,9 @@ const Profile = () => {
           <div className="">
             <img
               height={200}
-              src={cover || header}
+
+              src={cover ? cover : header}  
+
               alt="Cover"
               className="w-100 object-fit-cover rounded"
             />
@@ -94,14 +96,14 @@ const Profile = () => {
                     {email ?? "Email not available"}
                   </span>
                 </div>
-                {academyPhone && (
+                {/* {academyPhone && (
                   <div className="col-6 col-sm-6">
                     <h3 className="fs-6 fw-medium title-text--1">هاتف الأكاديمية</h3>
                     <span className="fs-6 fw-medium title-text--1">
                       {academyPhone ?? "Academy phone not available"}
                     </span>
                   </div>
-                )}
+                )} */}
                 {address && (
                   <div className="col-6">
                     <h3 className="fs-6 fw-medium title-text--1">العنوان</h3>

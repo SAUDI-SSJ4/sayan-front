@@ -122,7 +122,7 @@ const AcademyLogin = () => {
       ) : (
         <form onSubmit={formik.handleSubmit}>
           <div className={`${classes.formGroup} `}>
-            <label htmlFor="email" className="mb-2" >
+            <label htmlFor="email" className="mb-2 font-bold font-use" style={{fontWeight: "bold"}} >
               البريد الإلكتروني
             </label>
             <TextField
@@ -148,7 +148,7 @@ const AcademyLogin = () => {
           </div>
           <Toaster />
           <div className={`${classes.formGroup}`}>
-            <label htmlFor="password" className="mb-2">
+            <label htmlFor="password" className="mb-2" style={{fontWeight: "bold"}}>
               كلمة المرور
             </label>
             <TextField

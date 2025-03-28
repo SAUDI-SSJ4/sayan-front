@@ -260,7 +260,7 @@ const EditAcademyProfile = () => {
                   className="text-danger"
                 />
               </div>
-  
+
               <div className="col-6 mb-3">
                 <label htmlFor="address" className="form-label">
                   العنوان
@@ -342,11 +342,30 @@ const EditAcademyProfile = () => {
                 />
               </div>
 
-              <div className="d-flex justify-content-end align-items-center w-100 gap-2 p-4 flex-wrap">
+              <div className="flex flex-wrap gap-4 ">
                 <div className="col-12 col-md-4 border border-black border-opacity-10 rounded p-2 mb-3">
-                  <label htmlFor="image" className="form-label">
+                  {/* <label htmlFor="image" className="form-label">
                     صورة الأكاديمية
-                  </label>
+                  </label> */}
+
+                  {imagePreview && (
+                    <img
+                      src={imagePreview}
+                      alt="Preview"
+                      style={{
+                        maxWidth: "100%",
+                        height: "auto",
+                        objectFit: "contain",
+                        marginTop: "10px",
+                        borderRadius: "8px"
+                      }}
+                    />
+                  )}
+                  <ErrorMessage
+                    name="image"
+                    component="div"
+                    className="text-danger"
+                  />
                   <div className="d-flex justify-content-center">
                     <input
                       type="file"
@@ -367,9 +386,15 @@ const EditAcademyProfile = () => {
                       رفع صورة الأكاديمية
                     </div>
                   </div>
-                  {imagePreview && (
+
+                </div>
+                <div className="col-12 col-md-4 border border-black border-opacity-10 rounded p-2 mb-3">
+                  {/* <label htmlFor="cover" className="form-label">
+                    الغلاف
+                  </label> */}
+                  {coverPreview && (
                     <img
-                      src={imagePreview}
+                      src={coverPreview}
                       alt="Preview"
                       style={{
                         maxWidth: "100%",
@@ -381,15 +406,10 @@ const EditAcademyProfile = () => {
                     />
                   )}
                   <ErrorMessage
-                    name="image"
+                    name="cover"
                     component="div"
                     className="text-danger"
                   />
-                </div>
-                <div className="col-12 col-md-4 border border-black border-opacity-10 rounded p-2 mb-3">
-                  <label htmlFor="cover" className="form-label">
-                    الغلاف
-                  </label>
                   <div className="d-flex justify-content-center">
                     <input
                       type="file"
@@ -410,9 +430,15 @@ const EditAcademyProfile = () => {
                       رفع صورة الغلاف
                     </div>
                   </div>
-                  {coverPreview && (
+                  
+                </div>
+                <div className="col-12 col-md-4 border border-black border-opacity-10 rounded p-2 mb-3">
+                  {/* <label htmlFor="licence" className="form-label">
+                    الرخصة{" "}
+                  </label> */}
+                  {licencePreview && (
                     <img
-                      src={coverPreview}
+                      src={licencePreview}
                       alt="Preview"
                       style={{
                         maxWidth: "100%",
@@ -424,15 +450,12 @@ const EditAcademyProfile = () => {
                     />
                   )}
                   <ErrorMessage
-                    name="cover"
+                    name="licence"
                     component="div"
                     className="text-danger"
                   />
-                </div>
-                <div className="col-12 col-md-4 border border-black border-opacity-10 rounded p-2 mb-3">
-                  <label htmlFor="licence" className="form-label">
-                    الرخصة{" "}
-                  </label>
+
+
                   <div className="d-flex justify-content-center">
                     <input
                       type="file"
@@ -453,24 +476,7 @@ const EditAcademyProfile = () => {
                       رفع الرخصة
                     </div>
                   </div>
-                  {licencePreview && (
-                    <img
-                      src={licencePreview}
-                      alt="Preview"
-                      style={{
-                        maxWidth: "100%",
-                        height: "auto",
-                        objectFit: "contain",
-                        marginTop: "10px",
-                        borderRadius: "8px"
-                      }}
-                    />
-                  )}
-                  <ErrorMessage
-                    name="licence"
-                    component="div"
-                    className="text-danger"
-                  />
+                  
                 </div>
               </div>
               <div className="col-12 mb-3">

@@ -36,7 +36,7 @@ const SideBar = ({ flag, mobile, setShow, profileData }) => {
         <div className={`${classes.Profile} ${classes.profileVisible}`} 
         onClick={() => handleNavigation()}>
           <img src={profileImage} alt={profileData?.id || "Academy"} />
-          <p className={classes.profileName}>{formatLongText(profileName, 10)}</p>
+          <p className={classes.profileName}>{formatLongText(profileName, 15)}</p>
         </div>
       );
     }

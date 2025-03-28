@@ -92,11 +92,7 @@ export const CourseCard = ({
             <div className={Style.Price}>
               {isObject(courseData?.course) && courseData.course.price} ر.س.
             </div>
-            <div className={Style.JoinBtn} onClick={() => setshowBuyCourses(true)}>
-              انضم الان
-              <ArrowBackIcon />
-            </div>
-            <div className={Style.AddToCartBtn} onClick={handleAddToCart}>
+            <div className={Style.JoinBtn} onClick={handleAddToCart}>
               اضافة الى العربة <ShoppingCart />
             </div>
             <div className="mt-4">
