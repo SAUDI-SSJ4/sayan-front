@@ -162,13 +162,13 @@ const MainSettings = () => {
                   <StyledLabel htmlFor="logo" className="form-label">
                     شعار الأكاديمية :
                   </StyledLabel>
-                  {
-                    formik.values.logo &&
+                  
+                
                     <UploadImage
                       currentImage={formik.values.logo}
                       onChange={(value) => formik.setFieldValue("logo", value)}
                     />
-                  }
+                  
                   {formik.touched.logo && formik.errors.logo && (
                     <StyledError>{formik.errors.logo}</StyledError>
                   )}
@@ -180,12 +180,12 @@ const MainSettings = () => {
                   <StyledLabel htmlFor="favicon" className="form-label">
                   ايقونة الأكاديمية :
                   </StyledLabel>
-                  {
-                    formik.values.favicon && <UploadImage
+           
+            <UploadImage
                       currentImage={formik.values.favicon}
                       onChange={(value) => formik.setFieldValue("favicon", value)}
                     />
-                  }
+              
                   {formik.touched.favicon && formik.errors.favicon && (
                     <StyledError>{formik.errors.favicon}</StyledError>
                   )}
