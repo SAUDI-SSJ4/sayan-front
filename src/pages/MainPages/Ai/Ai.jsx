@@ -5,7 +5,7 @@ import "swiper/css/scrollbar";
 import Style from "./Ai.module.scss";
 import Footer from "../../../component/MainPages/Footer/Footer";
 import Header2 from "../../../component/MainPages/Header2/Header2";
-import FAQ from "../../../component/MainPages/FAQ/FAQ";
+import FaqAI from "../../../component/MainPages/FAQ/FaqAI";
 import TrainingSession from "../../../assets/images/Ai.png";
 import affiliatesMarketing from "../../../assets/images/Ai1.png";
 import sessions from "../../../assets/images/Ai2.png";
@@ -98,7 +98,7 @@ const Ai = () => {
           </div>
         </div>
       </div>
-      <FAQ />
+      <FaqAI />
       <Footer />
     </>
   );

@@ -70,7 +70,7 @@ const NavBar = ({ user }) => {
         </Fragment>
       ) : (
         <Fragment>
-          <div onClick={() => navigate("/student/login")} className={classes.Secondry}>
+          <div onClick={() => navigate("/login")} className={classes.Secondry}>
             دخول
           </div>
           <div onClick={() => navigate("/student/signin")} className={classes.Primary}>

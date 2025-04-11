@@ -6,6 +6,11 @@
 
 /* my style */
 
+.blue-text{
+  color: rgb(39, 152, 228) !important;
+}
+
+
 .hidden-sm {
   display: none;
 }

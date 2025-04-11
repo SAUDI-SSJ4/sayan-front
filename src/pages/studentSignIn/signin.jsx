@@ -230,7 +230,7 @@ const StudentSignIn = () => {
 
                   <div className={`${classes.ddd} mt-3 text-center`}>
                     <span className={classes.nothaveaccount}>لديك حساب بالفعل؟</span>{" "}
-                    <Link to="/student/login" className={classes.forgotPassword}>
+                    <Link to="/login" className={classes.forgotPassword}>
                       تسجيل الدخول
                     </Link>
                   </div>

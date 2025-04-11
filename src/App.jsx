@@ -33,6 +33,7 @@ import TestPage from "./TestPage";
 import CartPage from "./pages/Cart/CartPage";
 import { CartProvider } from './context/CartContext';
 import { NotificationProvider } from './context/NotificationContext';
+import NewLayout from "./pages/AcadmyLayout/NewLayout/NewLayout";
 
 import { Banner, BannerCollapseButton } from "flowbite-react";
 
@@ -77,7 +78,9 @@ function App() {
           ) : null}
           <Routes>
             {/* <Route path="/myacademy/:name/:id/:slug" element={<HomeAcademy />} /> */}
-            <Route path="/acdemy/:id" element={<Layout1 />} />
+            
+            {/* <Route path="/acdemy/:id" element={<Layout1 />} /> */}
+            <Route path="/acdemy/:id" element={<NewLayout />} />
 
             <Route index path="/" element={<Home />} />
             <Route path="/cart" element={<CartPage />} />
@@ -88,7 +91,10 @@ function App() {
             <Route path="/Ai" element={<Ai />} />
             {/* <Route path="/Blogs" element={<MainBlog />} /> */}
             <Route path="/SingleCourse/:courseId" element={<SingleCourse />} />
-            <Route path="/acdemy/:acdemyId" element={<Layout1 />} />
+
+            {/* <Route path="/acdemy/:acdemyId" element={<Layout1 />} /> */}
+            <Route path="/acdemy/:acdemyId" element={<NewLayout />} />
+
             {/* <Route path="/acdemy/:acdemyId/allBlogs" element={<AllBlogpage />} /> */}
             <Route path="/acdemy/:acdemyId/AllProductsPage" element={<AllProductsPage />} />
             <Route path="/acdemy/:acdemyId/AllCoursesPage" element={<AllCoursesPage />} />

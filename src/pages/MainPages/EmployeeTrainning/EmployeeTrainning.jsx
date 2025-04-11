@@ -23,6 +23,7 @@ import icon1 from "../../../assets/icons/EmployeeTrainingPage/icon1.svg";
 import icon2 from "../../../assets/icons/EmployeeTrainingPage/icon2.svg";
 import icon3 from "../../../assets/icons/EmployeeTrainingPage/icon3.svg";
 import icon4 from "../../../assets/icons/EmployeeTrainingPage/icon4.svg";
+import FaqTraining from "../../../component/MainPages/FAQ/FaqTraining";
 
 const EmployeeTrainning = () => {
   return (
@@ -319,7 +320,7 @@ const EmployeeTrainning = () => {
         </div>
       </div>
 
-      <FAQ />
+      <FaqTraining />
       <Footer />
     </Fragment>
   );

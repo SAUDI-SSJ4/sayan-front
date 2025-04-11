@@ -465,7 +465,7 @@ const AcademeyNavigation = ({ setShow, mobile }) => {
           </div>
         </NavLink>
 
-        <NavLink
+        {/* <NavLink
           className={({ isActive, isPending }) => {
             return isPending ? "pending" : isActive ? `${classes.Link} LinkActive` : classes.Link;
           }}
@@ -480,8 +480,8 @@ const AcademeyNavigation = ({ setShow, mobile }) => {
             <div>{ballIcon}</div>
             <span className="title-dash-link">ادارة الاعدادات</span>
           </div>
-        </NavLink>
-        <NavLink
+        </NavLink> */}
+        {/* <NavLink
           className={({ isActive, isPending }) => {
             return isPending ? "pending" : isActive ? `${classes.Link} LinkActive` : classes.Link;
           }}
@@ -496,7 +496,7 @@ const AcademeyNavigation = ({ setShow, mobile }) => {
             <div>{ballIcon}</div>
             <span className="title-dash-link">الذيل</span>
           </div>
-        </NavLink>
+        </NavLink> */}
         {/* <div
           className={({ isActive, isPending }) => {
             return isPending ? "pending" : isActive ? `${classes.Link} LinkActive` : classes.Link;

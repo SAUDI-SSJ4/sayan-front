@@ -6,17 +6,15 @@ import logo from "../../../assets/images/logo.png";
 
 export const AcademyFormContener = ({ showForgotPassword, children }) => {
   return (
-    <div className={`row gx-3 ${classes.LoginContainer}`}>
+    <div className={`row gx-3 px-3 md:px-0 ${classes.LoginContainer}`}>
       <div className={`col-lg-6 col-md-12 ${classes.LoginBanner} bg-login-banner`}>
         <img src={logo} className={`${classes.logo}`} />
-        <ul className={` ${classes.footerList}`}>
-          <li>
-
-          </li>
+        <ul className={` ${classes.footerList} flex flex-wrap`}>
           <li><Link to="/" style={{ textDecoration: 'none' }}>منصة سيان</Link></li>
           <li><Link to="/terms" style={{ textDecoration: 'none' }}>الشروط والأحكام</Link></li>
           <li><Link to="/privacy" style={{ textDecoration: 'none' }}>سياسة الخصوصية</Link></li>
           <li><Link to="/student/signin" style={{ textDecoration: 'none' }}>الانضمام كطالب</Link></li>
+          <li><Link to="/signin" style={{ textDecoration: 'none' }}>الانضمام للأكاديمية</Link></li>
         </ul>
       </div>
 

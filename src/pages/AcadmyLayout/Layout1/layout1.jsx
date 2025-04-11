@@ -35,6 +35,7 @@ const Layout1 = () => {
         // setAcademyId(data.template.id)
         console.log("data",data)
         setWebsiteData(data);
+        console.log("Data", websiteData);
         data.template?.name?document.title = data.template?.name:null;
         // setColors({ primary: data.template.primary_color, text: data.template.text_color });
         

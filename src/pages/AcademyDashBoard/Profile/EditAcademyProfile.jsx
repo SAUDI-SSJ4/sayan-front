@@ -102,7 +102,7 @@ const EditAcademyProfile = () => {
       }
 
       try {
-        await academy_client.post("/updateacademyprofile", formData, {
+        await academy_client.post("/settings", formData, {
           headers: {
             "Content-Type": "multipart/form-data",
           },
@@ -228,7 +228,7 @@ const EditAcademyProfile = () => {
                   className="text-danger"
                 />
               </div>
-              <div className="col-6 mb-3">
+              {/* <div className="col-6 mb-3">
                 <label htmlFor="user_name" className="form-label">
                   اسم المستخدم
                 </label>
@@ -243,7 +243,7 @@ const EditAcademyProfile = () => {
                   component="div"
                   className="text-danger"
                 />
-              </div>
+              </div> */}
               <div className="col-6 mb-3">
                 <label htmlFor="phone" className="form-label">
                   رقم الهاتف

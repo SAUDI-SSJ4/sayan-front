@@ -7,13 +7,14 @@ import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import axiosInstance from "../../../../axios";
 import userss from "../../../assets/images/userAvatar.jpg";
 import Cookies from "js-cookie";
+import axios from "axios";
 
 const AcademyLayoutNavbar = ({ navSettings }) => {
   const navigate = useNavigate();
   const [show, setShow] = useState(false);
   const [path, setPath] = useState("");
 
-  const token =  Cookies.get("student_token");
+  const token =  Cookies.get("academy_token");
 
   
   const { acdemyId } = useParams();
@@ -29,8 +30,8 @@ const AcademyLayoutNavbar = ({ navSettings }) => {
   
   useEffect(() => {
     if (token) {
-      axiosInstance
-        .get("/profile", {
+      axios
+        .get("https://www.sayan-server.com/academy/auth/profile", {
           headers: {
             Authorization: `Bearer ${token}`,
           },

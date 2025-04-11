@@ -218,10 +218,14 @@ const AcademyLogin = () => {
             )}
           </button>
 
-          <div className={`${classes.ddd} mt-4`}>
+          <div className={`${classes.ddd} mt-4 flex gap-2`}>
             <span className={`${classes.nothaveaccount}`}>ليس لديك حساب؟</span>{" "}
             <Link to="/signin" className={`${classes.forgotPassword}`} style={{ cursor: "pointer" }}>
-              انشاء حساب جديد
+              إنشاء حساب أكاديمية
+            </Link>
+            <p>أو</p>
+            <Link to="/student/signin" className={`${classes.forgotPassword}`} style={{ cursor: "pointer" }}>
+              إنشاء حساب طالب
             </Link>
           </div>
         </form>

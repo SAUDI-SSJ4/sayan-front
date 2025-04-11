@@ -80,7 +80,7 @@ export const postLessonExam = async (lessonId, params) => {
 }
 
 export const createCourseAPI = async (data) => {
-  const { data: res } = await academy_client.post("/courses/store", data, {
+  const { data: res } = await academy_client.post("/api/v1/academies/courses", data, {
     headers: { "Content-Type": "multipart/form-data" },
     onUploadProgress: (progressEvent) => {
       console.log(`${Math.round((progressEvent.loaded / progressEvent.total) * 100)}%`);

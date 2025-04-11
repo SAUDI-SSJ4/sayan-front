@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import useImage from "./../../../assets/icons/Acadmy.png";
-import header from "./../../../assets/images/academy/header.png"
+import header from "./../../../assets/images/replacement/academyBanner.jpg"
 import { RiTwitterXFill } from "react-icons/ri";
 import { FaFacebook, FaSnapchatGhost } from "react-icons/fa";
 import Insta from "../../../assets/icons/Insta.svg";

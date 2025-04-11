@@ -6,15 +6,27 @@ import { toast } from "react-toastify";
 import TableAg from "../../../component/table/TableAg";
 import { Loader } from "rsuite";
 import { academy_client } from "../../../utils/apis/client.config";
+import axios from "axios";
 
 const AcademeyWallet = () => {
   const [loading, setLoading] = useState(true);
   const [walletData, setWalletData] = useState(null);
   const [rowData, setRowData] = useState(null);
+  // const token = localStorage.getItem("academy_token");
+  // const token = Cookies.get("academy_token");
+
+  // console.log("token " + token);
 
   const getWalletData = async () => {
     try {
-      const response = await academy_client.get("/wallet");
+
+      // const academy_client = axios.create({
+      //   baseURL: "https://sayan.pro/academy",
+      //   withCredentials: true, // this enables cookies to be sent with the request
+      // });
+
+      const response = await academy_client.get("/finance/wallet");
+      console.log("token data : " + response);
       setWalletData(response?.data);
       const formatedData = response?.data?.activity?.map((item) => ({
         id: item?.id,
@@ -94,7 +106,7 @@ const AcademeyWallet = () => {
                       رصيد المحفظة
                     </span>
                     <h2 className="fs-3 fw-bold text-content--1">
-                      {walletData?.total} ر.س.
+                      {walletData?.balance} ر.س.
                     </h2>
                     {/* <p className="fs-5 fw-medium text-content--1">
                       54.81% مبيعات الشهر

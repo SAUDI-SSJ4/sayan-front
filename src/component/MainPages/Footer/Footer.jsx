@@ -5,10 +5,12 @@ import Instagram from "../../../assets/images/Social/Instagram.svg";
 import LinkedIn from "../../../assets/images/Social/LinkedIn.svg";
 import Twitter from "../../../assets/images/Social/Twitter.svg";
 import YouTube from "../../../assets/images/Social/YouTube.svg";
+import TikTok from "../../../assets/images/Social/TikTok.svg";
 import { Link, useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { getFooter } from "../../../utils/apis/client/academy";
 import { formatLongText } from "../../../utils/helpers";
+import ssl from "./ssl.svg"
 
 const AcademyFooter = () => {
   const navigate = useNavigate();
@@ -111,7 +113,7 @@ const AcademyFooter = () => {
 
         {/* Security & Certification */}
         <div className="flex flex-col items-center mt-6 md:mt-0">
-          <img src="https://labayh.net/wp-content/uploads/2023/10/ministry-of-health.svg" alt="Secure SSL" className="h-8" />
+          <img src={ssl} alt="Secure SSL" className="h-8" />
         </div>
 
 
@@ -119,11 +121,11 @@ const AcademyFooter = () => {
         <div className="flex flex-col items-center">
           {/* <img src={footerData?.image ? footerData.image : Logo} className="h-12" alt="Logo" /> */}
           <div className="flex gap-4 mt-4">
-            <img src={YouTube} className="h-8 cursor-pointer" onClick={() => handleRedirect(footerData?.youtube)} alt="YouTube" />
-            <img src={LinkedIn} className="h-8 cursor-pointer" onClick={() => handleRedirect(footerData?.linkedin)} alt="LinkedIn" />
-            <img src={Instagram} className="h-8 cursor-pointer" onClick={() => handleRedirect(footerData?.instagram)} alt="Instagram" />
-            <img src={Twitter} className="h-8 cursor-pointer" onClick={() => handleRedirect(footerData?.twitter)} alt="Twitter" />
-            <img src={Facebook} className="h-8 cursor-pointer" onClick={() => handleRedirect(footerData?.facebook)} alt="Facebook" />
+            {/* <img src={YouTube} className="h-8 cursor-pointer" onClick={() => handleRedirect(footerData?.youtube)} alt="YouTube" /> */}
+            <img src={LinkedIn} className="h-8 cursor-pointer" onClick={() => handleRedirect("https://www.linkedin.com/in/sayan-edtech/")} alt="LinkedIn" />
+            <img src={Instagram} className="h-8 cursor-pointer" onClick={() => handleRedirect("https://www.instagram.com/sayan_edtech")} alt="Instagram" />
+            <img src={Twitter} className="h-8 cursor-pointer" onClick={() => handleRedirect("https://x.com/sayan_edtech")} alt="Twitter" />
+            <img src={TikTok} className="h-8 cursor-pointer" onClick={() => handleRedirect("https://www.tiktok.com/@sayan_edtech")} alt="Facebook" />
           </div>
         </div>
       </div>

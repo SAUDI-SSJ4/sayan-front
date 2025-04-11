@@ -29,6 +29,12 @@ import logo from "../../assets/images/logo.png"
 import { postLogin } from "../../utils/apis/client/student";
 
 const Login = () => {
+  // Force redirect to /login on component mount
+  React.useEffect(() => {
+    window.location.href = '/login';
+  }, []);
+
+  
   const [showPassword, setShowPassword] = useState(false);
   const [showForgotPassword, setShowForgotPassword] = useState(false);
   const router = useNavigate();
