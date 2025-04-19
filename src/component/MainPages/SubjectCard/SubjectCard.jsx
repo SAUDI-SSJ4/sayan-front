@@ -1,3 +1,4 @@
+import { useState } from "react";
 import classes from "./SubjectCard.module.scss";
 import TeacherMask from "../../../assets/images/TeacherMask.png";
 import Image from "../../../assets/images/CourseImage.png";
@@ -7,25 +8,86 @@ import { Tooltip } from "@mui/material";
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import { formatLongText, handleRateStare } from "../../../utils/helpers";
+import Cookies from 'js-cookie';
 
 const SubjectCard = ({ mainData }) => {
-  const { id, image, title, type, rated, short_content, academy_image, trainer, academy, price, stars } = mainData || {};
-  console.log(mainData);
+  const { id, image, title, type, rated, short_content, academy_image, trainer, academy, price, stars, is_favorite } = mainData || {};
+  const [isFavorite, setIsFavorite] = useState(is_favorite || false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const courseTypeLabel = type === "attend" ? "حضورية" : type === "recorded" ? "تفاعلية" : "مباشرة";
 
   const courseImage = image || Image;
   const academyImage = academy_image || TeacherMask;
 
+  const toggleFavorite = async (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    const academyToken = Cookies.get('academy_token');
+    const studentToken = Cookies.get('student_token');
+    const token = Cookies.get('student_token');
+
+    if (!token) {
+      alert('يجب تسجيل الدخول أولاً');
+      return;
+    }
+
+    if (isLoading) return;
+    
+    setIsLoading(true);
+    try {
+      const response = await fetch('https://www.sayan-server.com/website/toggle', {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ course_id: id })
+      });
+
+      const data = await response.json(); // Parse the response
+
+      if (!response.ok) {
+        throw new Error(data.message || 'Failed to update favorite');
+      }
+
+      setIsFavorite(!isFavorite);
+      // alert(isFavorite ? 'تمت إزالة الدورة من المفضلة' : 'تمت إضافة الدورة إلى المفضلة');
+    } catch (error) {
+      console.error('Favorite toggle error:', error);
+      alert('حدث خطأ أثناء تحديث المفضلة: ' + error.message);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <div className={`${classes.CardContainer}`}>
       <Link className={classes.routeLink} to={`/SingleCourse/${id}`}>
-      
-      {/* Fav Heart on top of the Course Card */}
-      <div style={{position:"absolute", top: "20px", paddingRight: "10px"}}>
-      <FavoriteBorderIcon/>
-      </div>
-
+        {/* Fav Heart on top of the Course Card */}
+        <div className="relative">
+        <div 
+          style={{
+            position: "absolute", 
+            top: "10px", 
+            right: "15px", 
+            cursor: isLoading ? 'not-allowed' : 'pointer',
+            zIndex: 1
+          }}
+          onClick={toggleFavorite}
+        >
+          {isFavorite ? (
+            <FavoriteIcon color="error" />
+          ) : (
+            <FavoriteBorderIcon 
+              color="action" 
+              style={{ color: isLoading ? '#ccc' : '' }} 
+            />
+          )}
+        </div>
+        </div>
 
         <img className={classes.Image} src={courseImage} alt={title || "Course Image"} />
         <div className="d-flex justify-content-between align-items-center mt-3 mb-1">
@@ -62,58 +124,11 @@ const SubjectCard = ({ mainData }) => {
           <div className={classes.priceHolder}>
             <h2 className={classes.price}>{price ? `${price} ريال` : "مجاني"}</h2>
             <h5 className={classes.priceAfter}>{price ? `${price} ريال` : "مجاني"}</h5>
-
           </div>
         </div>
       </Link>
     </div>
   );
-
-
-
-
-
-
-
-
-
-
-
-
-
-  // return (
-  //   <>
-  //     <div className="h-[32rem] rounded-3xl hover:border transition-all">
-  //       <Link to={`/SingleCourse/${id}`}>
-  //         <img className="w-full object-cover h-64 rounded-3xl" src={courseImage} alt="" />
-  //         <div className="flex justify-between mt-2">
-  //           <p className="font-bold text-gray-900 text-2xl ps-2">{title?.length > 20 ? `${title.slice(0, 10)}...` : title}</p>
-  //           <p className="bg-blue-500 text-white px-3 py-2 rounded-3xl text-sm mx-2">{courseTypeLabel}</p>
-  //         </div>
-  //         <div className="flex gap-1 place-items-top">
-  //           <p className="text-sm ps-2">تقييمات المادة العلمية</p>
-  //           <svg class="w-4 h-4 text-yellow-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
-  //             <path d="M13.849 4.22c-.684-1.626-3.014-1.626-3.698 0L8.397 8.387l-4.552.361c-1.775.14-2.495 2.331-1.142 3.477l3.468 2.937-1.06 4.392c-.413 1.713 1.472 3.067 2.992 2.149L12 19.35l3.897 2.354c1.52.918 3.405-.436 2.992-2.15l-1.06-4.39 3.468-2.938c1.353-1.146.633-3.336-1.142-3.477l-4.552-.36-1.754-4.17Z" />
-  //           </svg>
-  //           <p className="text-sm">{stars}</p>
-  //         </div>
-  //         <div >
-  //           {short_content && <span className="text-sm ps-2">{formatLongText(short_content, 30)}</span>}
-  //         </div>
-  //         <div className="flex gap-2 place-content-center place-items-center mt-4 ps-1">
-  //           <img className="h-14 rounded-full" src={academyImage} alt="Academy logo" />
-  //           <div className="flex-1 gap-0">
-  //             <p className="text-sm font-bold text-zinc-500 m-0">{academy}</p>
-  //             <p className="text-sm font-bold text-zinc-700 m-0">{trainer}</p>
-  //           </div>
-  //           <div>
-  //             <p className="text-base font-bold text-zinc-900 ps-4">{price} ريال</p>
-  //           </div>
-  //         </div>
-  //       </Link>
-  //     </div>
-  //   </>
-  // );
 };
 
 export default SubjectCard;

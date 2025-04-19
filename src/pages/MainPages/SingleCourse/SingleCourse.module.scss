@@ -684,3 +684,11 @@
     background-color: darken(#0062ff, 10%);
   }
 }
+
+
+.cardInfo 
+{
+  @media (min-width: 1300px) {
+    min-width: 1320px;
+  }
+}

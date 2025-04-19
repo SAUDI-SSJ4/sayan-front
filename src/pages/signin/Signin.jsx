@@ -14,13 +14,17 @@ import { useMutation } from "@tanstack/react-query";
 import { postRegister } from "../../utils/apis/client/academy";
 import { useToast } from "../../utils/hooks/useToast";
 import logo from "../../assets/images/logo.png";
-import {  Button, InputAdornment } from '@mui/material';
+import { Button, InputAdornment } from '@mui/material';
 
 
 const Signin = () => {
   const [showPassword, setShowPassword] = useState(false);
-    const [userEmail, setUserEmail] = useState('');
-    const [isRegisterDone, setIsRegisterDone] = useState(false);
+  const [userEmail, setUserEmail] = useState('');
+  const [isRegisterDone, setIsRegisterDone] = useState(false);
+
+
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+const toggleConfirmPasswordVisibility = () => setShowConfirmPassword(!showConfirmPassword);
 
   const { success, error } = useToast();
 
@@ -43,6 +47,7 @@ const Signin = () => {
       email: "",
       phone: "",
       password: "",
+      confirmPassword: '',
       image: null,
     },
     validationSchema: Yup.object({
@@ -52,6 +57,9 @@ const Signin = () => {
       phone: Yup.string().required("رقم الهاتف مطلوب"),
       password: Yup.string().required("كلمة السر مطلوبة"),
       image: Yup.mixed().required("شعار الاكادمية مطلوب"),
+  confirmPassword: Yup.string()
+    .oneOf([Yup.ref('password'), null], 'كلمات المرور غير متطابقة')
+    .required('يجب تأكيد كلمة المرور')
     }),
     onSubmit: (values) => {
       const formData = new FormData();
@@ -77,7 +85,7 @@ const Signin = () => {
         <div>
           <ul className={classes.footerList}>
             <li>
-   
+
             </li>
             <li><Link to="/" className="text-white text-decoration-none">منصة سيان</Link></li>
             <li><Link to="/terms" className="text-white text-decoration-none">الشروط والأحكام</Link></li>
@@ -191,29 +199,38 @@ const Signin = () => {
                 </div>
 
                 <div className={`${classes.formGroup} mb-2`}>
-                  <label className="mb-2 font-use font-bold" htmlFor="password_confirm">تأكيد كلمة المرور <span style={{ color: "red" }}>*</span></label>
-                  <TextField
-                    fullWidth
-                    id="password_confirm"
-                    name="password_confirm"
-                    type={showPassword ? "text" : "password"}
-                    // value={formik.values.password}
-                    // onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    error={formik.touched.password && Boolean(formik.errors.password)}
-                    helperText={formik.touched.password && formik.errors.password}
-                    // InputProps={{
-                    //   endAdornment: (
-                    //     <InputAdornment position="end">
-                    //       <IconButton onClick={togglePasswordVisibility}>
-                    //         {showPassword ? <Visibility /> : <VisibilityOff />}
-                    //       </IconButton>
-                    //     </InputAdornment>
-                    //   ),
-                    //   style: { borderRadius: "10px", height: "48px" },
-                    // }}
-                  />
-                </div>
+  <label className="mb-2 font-use font-bold" htmlFor="confirmPassword">
+    تأكيد كلمة المرور <span style={{ color: "red" }}>*</span>
+  </label>
+  <TextField
+    fullWidth
+    id="confirmPassword"
+    name="confirmPassword"
+    type={showConfirmPassword ? "text" : "password"} // Separate state for confirm password visibility
+    value={formik.values.confirmPassword}
+    onChange={formik.handleChange}
+    onBlur={formik.handleBlur}
+    error={formik.touched.confirmPassword && Boolean(formik.errors.confirmPassword)}
+    helperText={formik.touched.confirmPassword && formik.errors.confirmPassword}
+    InputProps={{
+      endAdornment: (
+        <InputAdornment position="end">
+          <IconButton onClick={toggleConfirmPasswordVisibility}>
+            {showConfirmPassword ? <Visibility /> : <VisibilityOff />}
+          </IconButton>
+        </InputAdornment>
+      ),
+      style: { borderRadius: "10px", height: "48px" },
+    }}
+  />
+</div>
+
+
+
+
+
+
+
 
                 <div className={`${classes.formGroup} mb-2`}>
                   <label className="mb-2 font-use font-bold" htmlFor="image">شعار الاكادمية <span style={{ color: "red" }}>*</span></label>
@@ -237,7 +254,7 @@ const Signin = () => {
                               type="file"
                               hidden
                               accept="image/*"
-                              onChange={(event) => {formik.setFieldValue("image", event.target.files[0])}}
+                              onChange={(event) => { formik.setFieldValue("image", event.target.files[0]) }}
                             />
                           </Button>
                         </InputAdornment>

@@ -13,6 +13,11 @@ import { postVerify } from "../../utils/apis/client/student";
 const OtpVerification = ({ email }) => {
   const navigate = useNavigate();
   const [otpValues, setOtpValues] = useState(new Array(6).fill(""));
+  const [emaill, setEmail] = useState("");
+  console.log("email: " ,localStorage.getItem("otpEmail"));
+  email = localStorage.getItem("otpEmail");
+    // setEmail(localStorage.getItem("otpEmail"));
+
 
   const formik = useFormik({
     initialValues: {
@@ -29,6 +34,8 @@ const OtpVerification = ({ email }) => {
         .then((res) => {
           navigate("/student/login");
           toast.success("تم انشاء الحساب بنجاح");
+          localStorage.clear("otpEmail");
+
         })
         .catch((error) => {
           toast.error(error?.response?.data?.message);
@@ -54,7 +61,7 @@ const OtpVerification = ({ email }) => {
       }
     }
   };
-
+ 
   return (
     <div className="w-50 d-flex flex-column justify-content-center align-items-start gap-3">
       <div className={`${classes.line}`}></div>

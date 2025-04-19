@@ -29,6 +29,6 @@ export const postLogin = async (data) => {
 };
 
 export const getStudentProfile = async () => {
-  const { data: response } = await website_client.get("/student-profile");
+  const { data: response } = await website_client.get("/profile");
   return response.data;
 };

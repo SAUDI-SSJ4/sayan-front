@@ -1,13 +1,31 @@
 import classes from "../../../component/dashboard/Header/Header.module.scss";
-
+import { useEffect, useState } from "react";
 import user from "../../../assets/icons/users.svg";
 import documentt from "../../../assets/icons/Document.png";
 import widgedbg from "../../../assets/images/widgetbg.svg";
 import checkk from "../../../assets/icons/BillCheck.svg";
+import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const AcademyHeader = ({ academy, StudentData }) => {
   const router = useNavigate();
+
+
+  const [sales, setSales] = useState(0);
+
+useEffect(() => {
+  const fetchSales = async () => {
+    try {
+      const response = await axios.get('https://www.sayan-server.com/academy/finance/wallet');
+      setSales(response.data);
+    } catch (error) {
+      console.error('Error fetching sales data:', error);
+    }
+  };
+  fetchSales();
+}, []); 
+  
 
   return (
     <div className="row" style={{ marginTop: "25px" }}>
@@ -55,18 +73,19 @@ const AcademyHeader = ({ academy, StudentData }) => {
           </div>
         </div>
       </div>
-      <div className="col-lg-3 mt-2">
+      <Link className="col-lg-3 mt-2" to="/academy/wallet">
         <div
           className={`d-flex ${classes.Widget} ${academy ? classes.lastAcademy : classes.last} `}
         >
-          <div>
+
+          <div >
             <p>المبيعات </p>
-            <h2>70,600 ر.س.</h2>
+            <h2>{sales} ر.س</h2>
             <span> 10% منذ اخر شهر</span>
-          </div>
+</div>          
           <img src={widgedbg} className={classes.widgedbg} />
         </div>
-      </div>
+      </Link>
     </div>
   );
 };

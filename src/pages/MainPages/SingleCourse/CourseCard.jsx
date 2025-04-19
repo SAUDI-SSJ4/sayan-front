@@ -54,7 +54,7 @@ export const CourseCard = ({
           setshowBuyCourses={setshowBuyCourses}
         />
       )}
-      <div className="row">
+      <div className="row flex">
         <div className="col-lg-9 col-md-12 col-12 mt-3">
           <div className={Style.Course}>
             {isObject(courseData?.course) && courseData.course.short_video ? (
@@ -87,7 +87,7 @@ export const CourseCard = ({
             </div>
           </div>
         </div>
-        <div className="col-lg-3 col-md-12 col-12 mt-3">
+        <div className="col-lg-3 col-md-12 col-12 mt-3 ">
           <div className={Style.detials}>
             <div className={Style.Price}>
               {isObject(courseData?.course) && courseData.course.price} ر.س.
