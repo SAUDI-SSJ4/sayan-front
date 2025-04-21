@@ -92,22 +92,49 @@ const Checkout = () => {
   */
   const handlePaymentMethodClick = async () => {
 
+    const username = "sk_test_Bewx3QMQDuhpsRdnMGPbWKozQRMiFCaDGQ1ZojtK";
     const token = Cookies.get('student_token');
+    const encoded = btoa(`${username}:`);
 
     try {
-  const response = await axios.post(`https://www.sayan-server.com/api/v1/checkout/process`, {
-    coupon: couponCode // Optional coupon parameter
+  const response = await axios.post(`https://api.moyasar.com/v1/invoices`, {
+    "amount": totalPrice,
+    "currency": "SAR",
+    "description": cartItemsTitles,
+    "callback_url": "https://www.sayan-server.com/api/v1/veify/",
+    "success_url": null,
+    "back_url": null,
+    "expired_at": "2038-01-19T03:14:07Z"
   }, {
     headers: {
       'Accept': 'application/json',
-      'Authorization': `Bearer ${token}`,
-      'Cookie': 'cart_id=5f1d10b9-a41d-4894-b8ea-3d4937d243d5',
+      'Authorization': `Basic ${encoded}`,
       'X-Auth-Role': 'student'
     }
-  });
+  });      
       
   if (response) {
     console.log("response:", response);
+    setIsProcessing(true);
+
+    console.log("Invoice created ✅", response.data);
+
+    const invoiceUrl = response.data.url;
+    if (invoiceUrl) {
+      // Redirect to payment page
+      window.location.href = invoiceUrl;
+          // Show processing notification
+    showNotification({
+      type: 'success',
+      title: 'جاري معالجة الدفع',
+      message: 'يرجى الانتظار لحظة...',
+      duration: 2000
+    });
+
+    }
+
+
+    
   }
 
 } catch (error) {
@@ -134,18 +161,7 @@ const Checkout = () => {
       duration: 2000
     });
 
-    // Create and open iframe for payment
-    const iframe = document.createElement('iframe');
-    iframe.src = '/api/v1/checkout/process';
-    iframe.style.width = '100%';
-    iframe.style.height = '600px';
-    iframe.style.border = 'none';
-    iframe.style.position = 'fixed';
-    iframe.style.top = '50%';
-    iframe.style.left = '50%';
-    iframe.style.transform = 'translate(-50%, -50%)';
-    iframe.style.zIndex = '9999';
-    document.body.appendChild(iframe);
+
 
     // Handle iframe close/completion
     iframe.onload = () => {
