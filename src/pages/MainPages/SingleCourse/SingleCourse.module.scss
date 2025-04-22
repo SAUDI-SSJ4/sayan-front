@@ -1,9 +1,10 @@
 .Container {
-  margin-inline: 100px;
+  width: 100%;
+  padding: 0 80px 30px 80px;
   margin-top: 30px;
-  padding-bottom: 30px;
   @media (max-width: 600px) {
     margin-inline: 10px !important;
+    padding: 0 16px 30px 16px;
   }
   h2 {
     font-size: 36px;
@@ -501,7 +502,7 @@
     line-height: 39px;
     text-align: right;
     margin-bottom: 24px;
-    
+
     span {
       color: rgba($color: #a3aed0, $alpha: 0.5);
       text-decoration: line-through;
@@ -652,6 +653,7 @@
 .CourseTitle {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   h2 {
     font-family: "Noto Kufi Arabic";
     font-size: 36px;

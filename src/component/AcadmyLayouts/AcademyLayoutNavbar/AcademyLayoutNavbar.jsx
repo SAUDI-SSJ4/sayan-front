@@ -13,20 +13,17 @@ const AcademyLayoutNavbar = ({ navSettings }) => {
   const [show, setShow] = useState(false);
   const [path, setPath] = useState("");
 
-  const token =  Cookies.get("student_token");
+  const token = Cookies.get("student_token");
 
-  
   const { acdemyId } = useParams();
 
   useEffect(() => {
     setPath(acdemyId);
-  },[]);
+  }, []);
 
   const [profileData, setprofileData] = useState([]);
   const [Loader, setLoader] = useState(false);
 
-
-  
   useEffect(() => {
     if (token) {
       axiosInstance
@@ -53,9 +50,9 @@ const AcademyLayoutNavbar = ({ navSettings }) => {
     <div data-aos="fade-down" className={`container`}>
       <div className={`${classes.NavBarContainer} all-navbar-layout-1`}>
         <div className={classes.NavBarRoutes}>
-          <div className={classes.logo}>
+          <Link to="/" className={classes.logo}>
             <img src={navSettings.template?.logo} alt="sayn academy logo" />
-          </div>
+          </Link>
           {true && !token ? (
             <div className={classes.Routes}>
               <ul>
@@ -69,11 +66,15 @@ const AcademyLayoutNavbar = ({ navSettings }) => {
                   <Link to={`/acdemy/${acdemyId}/AllBlogs`}>المدونة</Link>
                 </li>
                 <li>
-                  <Link to={`/acdemy/${acdemyId}/AllProductsPage`}>المنتجات الرقمية</Link>
+                  <Link to={`/acdemy/${acdemyId}/AllProductsPage`}>
+                    المنتجات الرقمية
+                  </Link>
                 </li>
                 <li>
                   {" "}
-                  <Link to={`/acdemy/${acdemyId}/ContactUs`}>تواصل معنا</Link>{" "}
+                  <Link to={`/acdemy/${acdemyId}/ContactUs`}>
+                    تواصل معنا
+                  </Link>{" "}
                 </li>
               </ul>
             </div>
@@ -82,7 +83,7 @@ const AcademyLayoutNavbar = ({ navSettings }) => {
         {token && Loader ? (
           <div className={classes.NavBarBtns}>
             <Link className={classes.Secondry} to={"/student/dashboard"}>
-            لوحة التحكم
+              لوحة التحكم
             </Link>
             <img
               style={{ width: "50px", borderRadius: "50%" }}
@@ -96,7 +97,10 @@ const AcademyLayoutNavbar = ({ navSettings }) => {
             <Link className={classes.Secondry} to={"/student/login"}>
               دخول
             </Link>
-            <Link className={`${classes.Primary} button-new-account`} to={"/signin"}>
+            <Link
+              className={`${classes.Primary} button-new-account`}
+              to={"/signin"}
+            >
               حساب جديد
             </Link>
           </div>
@@ -110,8 +114,8 @@ const AcademyLayoutNavbar = ({ navSettings }) => {
           <Offcanvas.Title>Offcanvas</Offcanvas.Title>
         </Offcanvas.Header>
         <Offcanvas.Body>
-          Some text as placeholder. In real life you can have the elements you have chosen. Like, text, images, lists,
-          etc.
+          Some text as placeholder. In real life you can have the elements you
+          have chosen. Like, text, images, lists, etc.
         </Offcanvas.Body>
       </Offcanvas>
     </div>

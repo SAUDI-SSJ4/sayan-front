@@ -8,8 +8,8 @@ import classes from "./NavBar.module.scss";
 import image from "../../../assets/images/SayanLogo.png";
 import defaultAvatar from "../../../assets/images/default-user.jpg";
 import { getMenuTitle, NAVBAR_LINK } from "../../../utils/constant";
-import Cookies from 'js-cookie';
-import CartButton from './CartButton';
+import Cookies from "js-cookie";
+import CartButton from "./CartButton";
 
 const NavBar = ({ user }) => {
   const navigate = useNavigate();
@@ -17,7 +17,7 @@ const NavBar = ({ user }) => {
   const [isMenuFixed, setMenuFixed] = useState(false);
   const [show, setShow] = useState(false);
   const [path, setPath] = useState("");
-  const [cookieValue, setCookieValue] = useState('');
+  const [cookieValue, setCookieValue] = useState("");
 
   useEffect(() => {
     let tempPath =
@@ -29,10 +29,9 @@ const NavBar = ({ user }) => {
 
   useEffect(() => {
     const handleScroll = () => setMenuFixed(window.scrollY > 100);
-    
+
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-
   }, []);
 
   const handleClick = (e, path) => {
@@ -42,8 +41,8 @@ const NavBar = ({ user }) => {
 
   useEffect(() => {
     // Retrieve the cookie by its name
-    const cookie = Cookies.get('login_type');
-    
+    const cookie = Cookies.get("login_type");
+
     setCookieValue(cookie);
   }, []);
 
@@ -57,7 +56,16 @@ const NavBar = ({ user }) => {
       <CartButton />
       {user ? (
         <Fragment>
-          <div onClick={() => navigate(`${cookieValue === 'academy' ? '/academy' : '/student/dashbord'}`)} className={classes.Secondry}>
+          <div
+            onClick={() =>
+              navigate(
+                `${
+                  cookieValue === "academy" ? "/academy" : "/student/dashbord"
+                }`
+              )
+            }
+            className={classes.Secondry}
+          >
             لوحة التحكم
           </div>
           <Avatar circle src={user.image || defaultAvatar} alt={user.name} />
@@ -77,11 +85,15 @@ const NavBar = ({ user }) => {
 
   return (
     <div data-aos="fade-down">
-      <div className={`navbar--1 ${classes.NavBarContainer} ${isMenuFixed ? "menu-fixed" : ""}`}>
+      <div
+        className={`navbar--1 ${classes.NavBarContainer} ${
+          isMenuFixed ? "menu-fixed" : ""
+        }`}
+      >
         <div className={classes.NavBarRoutes}>
-          <div className={classes.logo}>
+          <Link to="/" className={classes.logo}>
             <img src={image} alt="sayn academy logo" />
-          </div>
+          </Link>
           <div className={classes.Routes}>
             <ul>
               {NAVBAR_LINK.map((path, index) => (
@@ -118,7 +130,9 @@ const NavBar = ({ user }) => {
                 <NavLink
                   to={path}
                   onClick={(e) => handleClick(e, path)}
-                  className={({ isActive }) => (isActive ? classes.NavActive : "")}
+                  className={({ isActive }) =>
+                    isActive ? classes.NavActive : ""
+                  }
                 >
                   {getMenuTitle(path)}
                 </NavLink>

@@ -43,7 +43,8 @@ const SingleCourse = () => {
     };
   }, []);
 
-  const handleChange = (panel) => (_, isExpanded) => setExpanded(isExpanded ? panel : false);
+  const handleChange = (panel) => (_, isExpanded) =>
+    setExpanded(isExpanded ? panel : false);
 
   if (isError) {
     console.log(error);
