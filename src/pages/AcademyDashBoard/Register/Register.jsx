@@ -42,9 +42,8 @@ const AcademyRegister = () => {
       const { data } = await academy_client.post("/register", formData);
       localStorage.clear("otpEmail");
       localStorage.setItem("otpEmail", formData.email);
-      setSearchParams({ step: "otp" }); 
+      setSearchParams({ step: "otp" });
       toast.success("تم ارسال الرمز الي بريدك الالكتروني الذي أدخلته");
-
     } catch (error) {
       toast.error(error?.response?.data?.message || "حدث خطأ ما");
     } finally {
@@ -137,8 +136,6 @@ const AcademyRegister = () => {
                     onChange={(e) => {
                       formik.handleChange(e);
                       setEmail(e.target.value);
-                      
-                      
                     }}
                     onBlur={formik.handleBlur}
                     error={formik.touched.email && Boolean(formik.errors.email)}

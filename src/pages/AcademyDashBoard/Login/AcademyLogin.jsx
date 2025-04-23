@@ -35,7 +35,9 @@ const AcademyLogin = () => {
       rememberMe: false,
     },
     validationSchema: Yup.object({
-      email: Yup.string().email("بريد الكترونى خطأ").required("البريد الالكترونى مطلوب"),
+      email: Yup.string()
+        .email("بريد الكترونى خطأ")
+        .required("البريد الالكترونى مطلوب"),
       password: Yup.string().required("كلمة السر مطلوبة"),
     }),
   });
@@ -64,13 +66,13 @@ const AcademyLogin = () => {
     if (type === "academy") {
       Cookies.set("academy_token", access_token, { expires: 4 });
       Cookies.set("is_login", true, { expires: 4 });
-      Cookies.set("login_type", 'academy', { expires: 4 });
+      Cookies.set("login_type", "academy", { expires: 4 });
       toast.success("تم تسجيل الدخول بنجاح 🎉");
       location.replace("/academy");
     } else {
       Cookies.set("student_token", access_token, { expires: 4 });
       Cookies.set("is_login", true, { expires: 4 });
-      Cookies.set("login_type", 'student', { expires: 4 });
+      Cookies.set("login_type", "student", { expires: 4 });
       toast.success("تم تسجيل الدخول بنجاح 🎉");
       location.replace("/student/dashboard");
     }
@@ -79,7 +81,9 @@ const AcademyLogin = () => {
   const handleForgotPassword = async (email) => {
     try {
       // Add your forgot password API call here
-      toast.success("تم إرسال رابط إعادة تعيين كلمة المرور إلى بريدك الإلكتروني");
+      toast.success(
+        "تم إرسال رابط إعادة تعيين كلمة المرور إلى بريدك الإلكتروني"
+      );
       setShowForgotPassword(false);
     } catch (error) {
       toast.error("حدث خطأ أثناء إرسال رابط إعادة تعيين كلمة المرور");
@@ -122,7 +126,11 @@ const AcademyLogin = () => {
       ) : (
         <form onSubmit={formik.handleSubmit}>
           <div className={`${classes.formGroup} `}>
-            <label htmlFor="email" className="mb-2 font-bold font-use" style={{fontWeight: "bold"}} >
+            <label
+              htmlFor="email"
+              className="mb-2 font-bold font-use"
+              style={{ fontWeight: "bold" }}
+            >
               البريد الإلكتروني
             </label>
             <TextField
@@ -148,7 +156,11 @@ const AcademyLogin = () => {
           </div>
           <Toaster />
           <div className={`${classes.formGroup}`}>
-            <label htmlFor="password" className="mb-2" style={{fontWeight: "bold"}}>
+            <label
+              htmlFor="password"
+              className="mb-2"
+              style={{ fontWeight: "bold" }}
+            >
               كلمة المرور
             </label>
             <TextField
@@ -196,10 +208,10 @@ const AcademyLogin = () => {
               label="تذكرني"
             />
 
-            <div 
+            <div
               className={`${classes.forgotPassword}`}
               onClick={() => setShowForgotPassword(true)}
-              style={{cursor: "pointer"}}
+              style={{ cursor: "pointer" }}
             >
               نسيت كلمة المرور؟
             </div>
@@ -220,11 +232,19 @@ const AcademyLogin = () => {
 
           <div className={`${classes.ddd} mt-4 flex gap-2`}>
             <span className={`${classes.nothaveaccount}`}>ليس لديك حساب؟</span>{" "}
-            <Link to="/signin" className={`${classes.forgotPassword}`} style={{ cursor: "pointer" }}>
+            <Link
+              to="/signin"
+              className={`${classes.forgotPassword}`}
+              style={{ cursor: "pointer" }}
+            >
               إنشاء حساب أكاديمية
             </Link>
             <p>أو</p>
-            <Link to="/student/signin" className={`${classes.forgotPassword}`} style={{ cursor: "pointer" }}>
+            <Link
+              to="/student/signin"
+              className={`${classes.forgotPassword}`}
+              style={{ cursor: "pointer" }}
+            >
               إنشاء حساب طالب
             </Link>
           </div>

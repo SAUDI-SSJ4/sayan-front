@@ -24,17 +24,15 @@ import { Button as RBtn } from "rsuite";
 
 import Cookies from "js-cookie";
 
-
-import logo from "../../assets/images/logo.png"
+import logo from "../../assets/images/logo.png";
 import { postLogin } from "../../utils/apis/client/student";
 
 const Login = () => {
   // Force redirect to /login on component mount
   React.useEffect(() => {
-    window.location.href = '/login';
+    window.location.href = "/login";
   }, []);
 
-  
   const [showPassword, setShowPassword] = useState(false);
   const [showForgotPassword, setShowForgotPassword] = useState(false);
   const router = useNavigate();
@@ -43,7 +41,6 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -51,7 +48,9 @@ const Login = () => {
       rememberMe: false,
     },
     validationSchema: Yup.object({
-      email: Yup.string().email("بريد الكترونى خطأ").required("البريد الالكترونى مطلوب"),
+      email: Yup.string()
+        .email("بريد الكترونى خطأ")
+        .required("البريد الالكترونى مطلوب"),
       password: Yup.string().required("كلمة السر مطلوبة"),
     }),
   });
@@ -99,17 +98,33 @@ const Login = () => {
 
   return (
     <div className={`row gx-3 ${classes.LoginContainer}`}>
-      <div className={`${classes.LoginBanner} col-lg-6 col-md-12  bg-login-banner`}>
+      <div
+        className={`${classes.LoginBanner} col-lg-6 col-md-12  bg-login-banner`}
+      >
         <img src={logo} className={`${classes.logo}`} />
         <div>
           <ul className={` ${classes.footerList}`}>
+            <li></li>
             <li>
-
+              <Link to="/" style={{ textDecoration: "none" }}>
+                منصة سيان
+              </Link>
             </li>
-            <li><Link to="/" style={{ textDecoration: 'none' }}>منصة سيان</Link></li>
-            <li><Link to="/terms" style={{ textDecoration: 'none' }}>الشروط والأحكام</Link></li>
-            <li><Link to="/privacy" style={{ textDecoration: 'none' }}>سياسة الخصوصية</Link></li>
-            <li><Link to="/signin" style={{ textDecoration: 'none' }}>اطلق اكاديميتك</Link></li>
+            <li>
+              <Link to="/terms" style={{ textDecoration: "none" }}>
+                الشروط والأحكام
+              </Link>
+            </li>
+            <li>
+              <Link to="/privacy" style={{ textDecoration: "none" }}>
+                سياسة الخصوصية
+              </Link>
+            </li>
+            <li>
+              <Link to="/signin" style={{ textDecoration: "none" }}>
+                اطلق اكاديميتك
+              </Link>
+            </li>
           </ul>
         </div>
       </div>
@@ -165,7 +180,6 @@ const Login = () => {
               <h2>تسجيل الدخول</h2>
               <p> ادخل المعلومات الخاصة بحسابك</p>
 
-
               <form onSubmit={formik.handleSubmit}>
                 <div>
                   <button
@@ -179,7 +193,7 @@ const Login = () => {
                 </div>
                 <div className={`${classes.formGroup} `}>
                   <label htmlFor="email" className="mb-2">
-                    البريد الإلكتروني <span style={{ color: "red" }} >*</span>
+                    البريد الإلكتروني <span style={{ color: "red" }}>*</span>
                   </label>
                   <TextField
                     fullWidth
@@ -194,7 +208,8 @@ const Login = () => {
                     onBlur={formik.handleBlur}
                     error={formik.touched.email && Boolean(formik.errors.email)}
                     helperText={formik.touched.email && formik.errors.email}
-                    InputProps={{ style: { borderRadius: "10px" } }} />
+                    InputProps={{ style: { borderRadius: "10px" } }}
+                  />
                 </div>
                 <Toaster />
                 <div className={`${classes.formGroup} `}>
@@ -212,8 +227,12 @@ const Login = () => {
                       setPassword(e.target.value);
                     }}
                     onBlur={formik.handleBlur}
-                    error={formik.touched.password && Boolean(formik.errors.password)}
-                    helperText={formik.touched.password && formik.errors.password}
+                    error={
+                      formik.touched.password && Boolean(formik.errors.password)
+                    }
+                    helperText={
+                      formik.touched.password && formik.errors.password
+                    }
                     InputProps={{
                       endAdornment: (
                         <InputAdornment position="end">
@@ -262,10 +281,16 @@ const Login = () => {
                     logInFunction();
                   }}
                 >
-                  {loading ? <div className="loader"></div> : <> تسجيل الدخول</>}
+                  {loading ? (
+                    <div className="loader"></div>
+                  ) : (
+                    <> تسجيل الدخول</>
+                  )}
                 </button>
                 <div className={`${classes.ddd} mt-2 text-center`}>
-                  <span className={`${classes.nothaveaccount}`}>ليس لديك حساب؟</span>{" "}
+                  <span className={`${classes.nothaveaccount}`}>
+                    ليس لديك حساب؟
+                  </span>{" "}
                   <Link
                     to="/student/signin"
                     className={`${classes.forgotPassword}`}
@@ -277,10 +302,6 @@ const Login = () => {
               </form>
             </div>
           )}
-
-          {/* <div className={`${classes.copyright} mt-3`}>
-            © 2023 جميع الحقوق محفوظة لمنصة سيان
-          </div> */}
         </div>
       </div>
     </div>

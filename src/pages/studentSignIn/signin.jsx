@@ -16,7 +16,7 @@ import OtpVerification from "../signin/OtpVerification";
 
 const StudentSignIn = () => {
   const [showPassword, setShowPassword] = useState(false);
-  const [userEmail, setUserEmail] = useState('');
+  const [userEmail, setUserEmail] = useState("");
   const [isRegisterDone, setIsRegisterDone] = useState(false);
   console.log("email: ", userEmail);
   const [formData, setFormData] = useState({
@@ -25,7 +25,7 @@ const StudentSignIn = () => {
     phone: "",
     password: "",
     confirmPassword: "",
-    image: null
+    image: null,
   });
   const [errors, setErrors] = useState({});
   const navigate = useNavigate();
@@ -33,15 +33,19 @@ const StudentSignIn = () => {
 
   const validateForm = () => {
     const newErrors = {};
-    
+
     if (!formData.name) newErrors.name = "اسم الطالب مطلوب";
     if (!formData.phone) newErrors.phone = "رقم الهاتف مطلوب";
-    else if (formData.phone.length < 10) newErrors.phone = "رقم الهاتف يجب ان يكون 10 ارقام";
+    else if (formData.phone.length < 10)
+      newErrors.phone = "رقم الهاتف يجب ان يكون 10 ارقام";
     if (!formData.email) newErrors.email = "البريد الالكتروني مطلوب";
-    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) newErrors.email = "بريد الكتروني خطأ";
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email))
+      newErrors.email = "بريد الكتروني خطأ";
     if (!formData.password) newErrors.password = "كلمة المرور مطلوبة";
-    if (!formData.confirmPassword) newErrors.confirmPassword = "تأكيد كلمة المرور مطلوب";
-    else if (formData.password !== formData.confirmPassword) newErrors.confirmPassword = "كلمة المرور يجب ان تكون متطابقة";
+    if (!formData.confirmPassword)
+      newErrors.confirmPassword = "تأكيد كلمة المرور مطلوب";
+    else if (formData.password !== formData.confirmPassword)
+      newErrors.confirmPassword = "كلمة المرور يجب ان تكون متطابقة";
     if (!formData.image) newErrors.image = "الصورة الشخصية مطلوبة";
 
     setErrors(newErrors);
@@ -50,21 +54,21 @@ const StudentSignIn = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: value
+      [name]: value,
     }));
   };
 
   const handleFileChange = (e) => {
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      image: e.target.files[0]
+      image: e.target.files[0],
     }));
   };
 
   const togglePasswordVisibility = () => {
-    setShowPassword(prev => !prev);
+    setShowPassword((prev) => !prev);
   };
 
   const textFieldProps = {
@@ -107,7 +111,9 @@ const StudentSignIn = () => {
 
   return (
     <div className={`row gx-3 ${classes.LoginContainer}`}>
-      <div className={`${classes.LoginBanner} col-lg-6 col-md-12 bg-login-banner`}>
+      <div
+        className={`${classes.LoginBanner} col-lg-6 col-md-12 bg-login-banner`}
+      >
         <img src={logo} alt="Logo" className={classes.logo} />
         <ul className={classes.footerList}>
           <li>منصة سيان</li>
@@ -118,22 +124,39 @@ const StudentSignIn = () => {
       </div>
 
       <div className="col-lg-6 col-md-12 d-flex justify-content-center">
-        <div className="login-form--1" style={{ maxWidth: "100%", padding: "20px", paddingBottom: "100px" }}>
+        <div
+          className="login-form--1"
+          style={{ maxWidth: "100%", padding: "20px", paddingBottom: "100px" }}
+        >
           <div className={classes.goBack}>
             <Link to="/" className="text-decoration-none">
               العودة للصفحة الرئيسية <ArrowBackIosIcon />
             </Link>
           </div>
-          
+
           {!isRegisterDone ? (
             <div className={classes.LoginForm}>
               <h2>إنشاء حساب جديد</h2>
               <p>ادخل المعلومات الخاصة بحسابك</p>
               <form onSubmit={handleSubmit}>
                 {[
-                  { id: "name", label: "اسم الطالب", placeholder: "ادخل اسم الطالب" },
-                  { id: "phone", label: "رقم الهاتف", placeholder: "ادخل رقم الهاتف", type: "tel" },
-                  { id: "email", label: "البريد الإلكتروني", placeholder: "ادخل البريد الإلكتروني", type: "email"},
+                  {
+                    id: "name",
+                    label: "اسم الطالب",
+                    placeholder: "ادخل اسم الطالب",
+                  },
+                  {
+                    id: "phone",
+                    label: "رقم الهاتف",
+                    placeholder: "ادخل رقم الهاتف",
+                    type: "tel",
+                  },
+                  {
+                    id: "email",
+                    label: "البريد الإلكتروني",
+                    placeholder: "ادخل البريد الإلكتروني",
+                    type: "email",
+                  },
                 ].map(({ id, label, placeholder, type = "text" }) => (
                   <div key={id} className={classes.formGroup}>
                     <label htmlFor={id} className="mb-2">
@@ -249,12 +272,8 @@ const StudentSignIn = () => {
                   />
                 </div>
 
-                <div className={`${classes.copyright} p-1`}>
-                  © 2023 جميع الحقوق محفوظة لمنصة سيان
-                </div>
-
-                <button 
-                  type="submit" 
+                <button
+                  type="submit"
                   className={`${classes.SubmitBtn} mt-2`}
                   style={{ display: "flex", justifyContent: "center" }}
                   disabled={mutation.isPending}
@@ -267,12 +286,17 @@ const StudentSignIn = () => {
                 </button>
 
                 <div className={`${classes.ddd} mt-3 text-center`}>
-                  <span className={classes.nothaveaccount}>لديك حساب بالفعل؟</span>{" "}
+                  <span className={classes.nothaveaccount}>
+                    لديك حساب بالفعل؟
+                  </span>{" "}
                   <Link to="/login" className={classes.forgotPassword}>
                     تسجيل الدخول
                   </Link>
                 </div>
               </form>
+              <p className={`${classes.copyright}`}>
+                © 2023 جميع الحقوق محفوظة لمنصة سيان
+              </p>
             </div>
           ) : (
             <div className="d-flex justify-content-center align-items-center">

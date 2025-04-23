@@ -21,7 +21,6 @@
   line-height: 56px; /* 155.556% */
   letter-spacing: -0.72px;
   margin-right: 5px;
-
 }
 .LoginForm p {
   color: #5a6a85;
@@ -40,15 +39,14 @@
   background-size: cover;
   background-repeat: no-repeat;
   border-end-end-radius: 150px;
-  background-position:  top;
+  background-position: top;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   padding: 25px;
   padding-left: 5vw;
   padding-right: 5vw;
-  align-items:flex-end;
-  
+  align-items: flex-end;
 }
 
 .forgotPasswordForm {
@@ -59,7 +57,7 @@
   }
 
   p {
-    color: #64748B;
+    color: #64748b;
     font-size: 14px;
     margin-bottom: 24px;
   }
@@ -68,7 +66,7 @@
     width: 100px;
     padding: 10px;
     border-radius: 10px;
-    background: #0062FF;
+    background: #0062ff;
     color: #fff;
     border: none;
     font-weight: 600;
@@ -79,15 +77,15 @@
     padding: 10px;
     border-radius: 10px;
     background: #fff;
-    color: #64748B;
-    border: 1px solid #E2E8F0;
+    color: #64748b;
+    border: 1px solid #e2e8f0;
     font-weight: 600;
   }
 }
 
-.logo{
-    align-self: flex-end;
-    // justify-self: flex-end;
+.logo {
+  align-self: flex-end;
+  // justify-self: flex-end;
 }
 
 .googleBtn {
@@ -167,7 +165,6 @@
   margin: 0%;
 }
 
-
 .footerList {
   display: flex;
   align-self: flex-start;
@@ -179,12 +176,10 @@
   margin-top: 20px;
   list-style: none;
   li > a {
-    
-    color:white !important;
+    color: white !important;
   }
   Button {
-   
-    background: linear-gradient(to right, #868CFF, #4318FF);
+    background: linear-gradient(to right, #868cff, #4318ff);
     border-radius: 50%;
     padding: 14px;
     svg {
@@ -205,11 +200,11 @@
   }
 }
 
-.copyright {
-  justify-self: end;
-  align-self: flex-end;
-  position: absolute;
-    bottom: 50px;
-    left: 140px;
-    color : #a3aed0;
+.LoginContainer .copyright {
+  margin-top: 40px;
+  text-align: left;
+  color: #a3aed0;
+  @media (max-width: 768px) {
+    text-align: center;
+  }
 }
