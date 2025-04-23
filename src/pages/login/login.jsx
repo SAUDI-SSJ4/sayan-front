@@ -17,7 +17,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import axiosInstance from "../../../axios";
 import { login } from "../../../redux/AuthSlice";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import { postLoginAPI } from "../../utils/api";
 import { useMutation } from "@tanstack/react-query";
 import { Button as RBtn } from "rsuite";
@@ -211,7 +211,6 @@ const Login = () => {
                     InputProps={{ style: { borderRadius: "10px" } }}
                   />
                 </div>
-                <Toaster />
                 <div className={`${classes.formGroup} `}>
                   <label htmlFor="password" className="mb-2">
                     كلمة المرور <span style={{ color: "red" }}>*</span>

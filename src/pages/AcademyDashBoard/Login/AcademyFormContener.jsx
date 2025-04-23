@@ -55,17 +55,7 @@ export const AcademyFormContener = ({ showForgotPassword, children }) => {
               <ArrowBackIosIcon sx={{ fontSize: "14px" }} />
             </Link>
           </div>
-          <div className={`${classes.LoginForm}`}>
-            <h3>
-              {showForgotPassword ? "إعادة تعيين كلمة المرور" : "تسجيل الدخول"}
-            </h3>
-            <p>ادخل المعلومات الخاصة بحسابك</p>
-            <div className={`${classes.divider}`}></div>
-            {children}
-          </div>
-          <p className={classes.copyright}>
-            © 2023 جميع الحقوق محفوظة لمنصة سيان
-          </p>
+          {children}
         </div>
       </div>
     </div>
