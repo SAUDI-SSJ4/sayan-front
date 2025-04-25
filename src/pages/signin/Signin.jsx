@@ -35,13 +35,16 @@ const Signin = () => {
       success("تم ارسال الرمز الي بريدك الالكتروني الذي أدخلته");
     },
     onError: (err) => {
-      error(err.response?.data?.message + "❌" || "حدث خطأ ما");
+      console.log(err);
+      error(
+        JSON.stringify(String(err.response?.data?.errors?.server)) + "❌" ||
+          "حدث خطأ ما"
+      );
     },
   });
 
   const formik = useFormik({
     initialValues: {
-      title: "",
       name: "",
       email: "",
       phone: "",
@@ -50,27 +53,25 @@ const Signin = () => {
       image: null,
     },
     validationSchema: Yup.object({
-      title: Yup.string().required("العنوان مطلوب"),
       name: Yup.string().required("الإسم مطلوب"),
       email: Yup.string()
         .email("بريد الكتروني خطأ")
         .required("البريد الالكتروني مطلوب"),
       phone: Yup.string().required("رقم الهاتف مطلوب"),
       password: Yup.string().required("كلمة السر مطلوبة"),
-      image: Yup.mixed().required("شعار الاكادمية مطلوب"),
       confirmPassword: Yup.string()
         .oneOf([Yup.ref("password"), null], "كلمات المرور غير متطابقة")
         .required("يجب تأكيد كلمة المرور"),
+      image: Yup.mixed().required("شعار الاكادمية مطلوب"),
     }),
     onSubmit: (values) => {
       const formData = new FormData();
-      formData.append("title", values.title);
       formData.append("name", values.name);
       formData.append("email", values.email);
       formData.append("phone", values.phone);
       formData.append("password", values.password);
       formData.append("image", values.image);
-      // console.log(values)
+      console.log(values);
       mutation.mutate(formData);
     },
   });
@@ -140,27 +141,9 @@ const Signin = () => {
                 className="flex flex-col gap-1"
               >
                 <div className={`${classes.formGroup} mb-2`}>
-                  <label className="mb-2 font-use font-bold" htmlFor="title">
+                  <label className="mb-2 font-use font-bold" htmlFor="name">
                     إسم الاكاديمية <span style={{ color: "red" }}>*</span>
                   </label>
-                  <TextField
-                    fullWidth
-                    id="title"
-                    name="title"
-                    type="text"
-                    value={formik.values.title}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    error={formik.touched.title && Boolean(formik.errors.title)}
-                    helperText={formik.touched.title && formik.errors.title}
-                    InputProps={{
-                      style: { borderRadius: "10px", height: "48px" },
-                    }}
-                  />
-                </div>
-
-                {/* <div className={`${classes.formGroup} mb-2`}>
-                  <label className="mb-2 font-use font-bold" htmlFor="name">الاسم <span style={{ color: "red" }}>*</span></label>
                   <TextField
                     fullWidth
                     id="name"
@@ -171,9 +154,11 @@ const Signin = () => {
                     onBlur={formik.handleBlur}
                     error={formik.touched.name && Boolean(formik.errors.name)}
                     helperText={formik.touched.name && formik.errors.name}
-                    InputProps={{ style: { borderRadius: "10px", height: "48px" } }}
+                    InputProps={{
+                      style: { borderRadius: "10px", height: "48px" },
+                    }}
                   />
-                </div> */}
+                </div>
 
                 <div className={`${classes.formGroup} mb-2`}>
                   <label className="mb-2 font-use font-bold" htmlFor="email">

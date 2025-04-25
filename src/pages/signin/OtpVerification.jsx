@@ -33,9 +33,12 @@ const OtpVerification = ({
         .then((res) => {
           if (res.status === 200) {
             !disableRedirect && navigate("/student/login");
-            setResetToken(res.data?.data.reset_token);
-            setShowResetPassword(true);
-            setShowSendOtp(false);
+            if (res.data?.data.reset_token) {
+              setResetToken(res.data?.data.reset_token);
+              setShowResetPassword(true);
+              setShowSendOtp(false);
+            }
+
             toast.success("تم التأكيد بنجاح");
             localStorage.clear("otpEmail");
           }
