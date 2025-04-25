@@ -16,9 +16,7 @@ import OtpVerification from "../signin/OtpVerification";
 
 const StudentSignIn = () => {
   const [showPassword, setShowPassword] = useState(false);
-  const [userEmail, setUserEmail] = useState("");
   const [isRegisterDone, setIsRegisterDone] = useState(false);
-  console.log("email: ", userEmail);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -27,6 +25,7 @@ const StudentSignIn = () => {
     confirmPassword: "",
     image: null,
   });
+  console.log(formData);
   const [errors, setErrors] = useState({});
   const navigate = useNavigate();
   const { success, error } = useToast();
@@ -92,8 +91,6 @@ const StudentSignIn = () => {
       return postRegister(formData);
     },
     onSuccess: ({ data }) => {
-      localStorage.setItem("otpEmail", data.email);
-      setUserEmail(data.email);
       setIsRegisterDone(true);
       success(data.message);
     },
@@ -300,7 +297,7 @@ const StudentSignIn = () => {
             </div>
           ) : (
             <div className="d-flex justify-content-center align-items-center">
-              <OtpVerification email={userEmail} />
+              <OtpVerification email={formData.email} />
             </div>
           )}
         </div>
