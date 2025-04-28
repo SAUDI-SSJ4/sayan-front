@@ -12,7 +12,9 @@ export function useAuth() {
   const loginType = Cookies.get("login_type");
 
   const token = useMemo(() => {
-    return loginType === "academy" ? Cookies.get("academy_token") : Cookies.get("student_token");
+    return loginType === "academy"
+      ? Cookies.get("academy_token")
+      : Cookies.get("student_token");
   }, [loginType]);
 
   const {
@@ -21,7 +23,8 @@ export function useAuth() {
     isFetched,
   } = useQuery({
     queryKey: ["userProfile"],
-    queryFn: () => (loginType === "academy" ? getAuthAcademyProfile() : getStudentProfile()),
+    queryFn: () =>
+      loginType === "academy" ? getAuthAcademyProfile() : getStudentProfile(),
     retry: 2,
     enabled: !!token,
     staleTime: 600000,
