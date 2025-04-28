@@ -10,15 +10,15 @@ export function getData(param) {
   const fetchData = useCallback(async () => {
     setIsLoading(true);
     setErrors(null);
-
-    try {
-      const response = await academy_client.get(param);
-      setData(response?.data || []);
-    } catch (err) {
-      console.log("get data", err);
-      setErrors(err.response?.data?.message || err.message || "حدث خطأ ما");
-    } finally {
-      setIsLoading(false);
+    if (!param.split("/").includes("undefined")) {
+      try {
+        const response = await academy_client.get(param);
+        setData(response.data);
+      } catch (err) {
+        setErrors(err.response ? err.response.data : err.message);
+      } finally {
+        setIsLoading(false);
+      }
     }
   }, [param]);
 

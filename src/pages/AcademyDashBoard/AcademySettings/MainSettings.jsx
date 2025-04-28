@@ -89,10 +89,7 @@ const MainSettings = () => {
         {isLoading && <MainSpinner css="vh-100" />}
         {!isLoading && academySettingsData && (
           <div className="CustomCard formCard all-add-notific pb-4 pt-4">
-            <Form
-              academySettingsData={academySettingsData}
-              academyId={academyId}
-            />
+            <Form academySettingsData={academySettingsData} />
           </div>
         )}
       </div>
@@ -102,8 +99,8 @@ const MainSettings = () => {
 
 export default MainSettings;
 
-const Form = ({ academySettingsData, academyId }) => {
-  const mutation = useSetAcademySettings(academyId);
+const Form = ({ academySettingsData }) => {
+  const mutation = useSetAcademySettings();
 
   const initialValues = {
     name: academySettingsData.template.name,
@@ -118,18 +115,21 @@ const Form = ({ academySettingsData, academyId }) => {
     validationSchema,
     onSubmit: (data) => {
       const formData = new FormData();
-      const changedValues = getChangedValues(
-        data,
-        academySettingsData.template
-      );
-      populateFormData(formData, changedValues);
+
+      populateFormData(formData, {
+        name: data.name,
+        primary_color: data.primary_color,
+        secondary_color: data.secondary_color,
+      });
 
       mutation.mutate(formData, {
         onSuccess: (response) => {
-          toast.success("تم حفظ التغييرات بنجاح");
+          console.log(response);
+          toast.success("respons");
         },
         onError: (error) => {
-          toast.error("حدث خطأ أثناء حفظ التغييرات");
+          console.log(error);
+          toast.error(error.response.data.message);
         },
       });
     },

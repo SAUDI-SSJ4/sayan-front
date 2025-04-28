@@ -27,10 +27,14 @@ export const useSlider = (id) => {
   });
 };
 
-export const useAbout = () => {
+export const useAbout = (id) => {
   return useQuery({
-    queryKey: ["About"],
-    queryFn: () => getAbout(),
+    queryKey: ["About", id],
+    queryFn: ({ queryKey }) => {
+      const [_key, academyId] = queryKey;
+      if (!academyId) return null;
+      return getAbout(academyId);
+    },
     refetchOnWindowFocus: false,
     refetchOnMount: false,
     retry: 2,
@@ -42,6 +46,8 @@ export const useSettings = (id) => {
     queryKey: ["AcademySettings", id],
     queryFn: ({ queryKey }) => {
       const [_key, academyId] = queryKey;
+      if (!academyId) return null;
+
       return getAcademySettings(academyId);
     },
     refetchOnWindowFocus: false,

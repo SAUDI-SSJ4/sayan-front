@@ -36,7 +36,6 @@ const EditSlider = () => {
   const profileInfo = useSelector((state) => state.academyUser.academy);
   const academyId = profileInfo?.academy?.id;
   const { data: sliderData, isLoading, errors } = useSlider(academyId);
-  console.log(sliderData);
 
   return (
     <div className="mb-5 all-info-top-header main-info-top">

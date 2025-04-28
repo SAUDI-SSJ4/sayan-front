@@ -12,7 +12,10 @@ import UploadFileInput from "../../../component/UI/UploadFile/UploadFileInput";
 import { Button, Rate, Toggle } from "rsuite";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
-import { useSlider, useUpdateSlider } from "../../../framework/accademy/academysetting-slider";
+import {
+  useSlider,
+  useUpdateSlider,
+} from "../../../framework/accademy/academysetting-slider";
 import { Spinner } from "react-bootstrap";
 import { Error } from "@mui/icons-material";
 import {
@@ -22,8 +25,15 @@ import {
 } from "../../../framework/accademy/academysetting-faq";
 import { ImageInput } from "../../../utils/styles";
 import UploadImage from "../../../component/UI/UploadFile/UploadImage";
-import { useCreateOpinion, useSpasificOpinions, useUpdateOpinion } from "../../../framework/accademy/academysetting-opinions";
-import { editAcademyOpinions, postAcademyOpinions } from "../../../utils/apis/client/academy";
+import {
+  useCreateOpinion,
+  useSpasificOpinions,
+  useUpdateOpinion,
+} from "../../../framework/accademy/academysetting-opinions";
+import {
+  editAcademyOpinions,
+  postAcademyOpinions,
+} from "../../../utils/apis/client/academy";
 
 const getChangedValues = (currentValues, initialValues) => {
   return Object.keys(currentValues).reduce((changed, key) => {
@@ -47,10 +57,10 @@ const EditStudentRates = () => {
   let nav = useParams();
 
   let { data: opinionsData, isLoading, errors } = useSpasificOpinions(nav.slug);
-
+  console.log(opinionsData);
   const handleSubmit = (values) => {
     const changedValues = getChangedValues(values, opinionsData?.data || {});
-    if (opinionsData) {
+    if (opinionsData.length > 0) {
       editAcademyOpinions(nav.slug, changedValues)
         .then((res) => {
           console.log(res);
@@ -107,11 +117,16 @@ const EditStudentRates = () => {
               <div className="icon">
                 <PeopleAltIcon sx={{ color: "#A3AED0" }} />
               </div>
-              <div style={{ color: "#7E8799" }}> {location.pathname.includes("/edit") ? "تعديل" : "اضافة"} </div>
+              <div style={{ color: "#7E8799" }}>
+                {" "}
+                {location.pathname.includes("/edit") ? "تعديل" : "اضافة"}{" "}
+              </div>
             </div>
             <div
               className="updateBtn"
-              onClick={() => navigate(location.pathname.replace(/\/(edit\/.*|add)/, ""))}
+              onClick={() =>
+                navigate(location.pathname.replace(/\/(edit\/.*|add)/, ""))
+              }
             >
               الرجوع <KeyboardBackspaceIcon />
             </div>
@@ -132,7 +147,9 @@ const EditStudentRates = () => {
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
               />
-              {formik.touched.student_name && formik.errors.student_name && <div>{formik.errors.student_name}</div>}
+              {formik.touched.student_name && formik.errors.student_name && (
+                <div>{formik.errors.student_name}</div>
+              )}
             </div>
           </div>
 
@@ -144,10 +161,15 @@ const EditStudentRates = () => {
                 id="student_avatar"
                 name="student_avatar"
                 currentImage={formik.values.student_avatar}
-                onChange={(value) => formik.setFieldValue("student_avatar", value)}
+                onChange={(value) =>
+                  formik.setFieldValue("student_avatar", value)
+                }
                 onBlur={formik.handleBlur}
               />
-              {formik.touched.student_avatar && formik.errors.student_avatar && <div>{formik.errors.student_avatar}</div>}
+              {formik.touched.student_avatar &&
+                formik.errors.student_avatar && (
+                  <div>{formik.errors.student_avatar}</div>
+                )}
             </div>
           </div>
 
@@ -162,7 +184,9 @@ const EditStudentRates = () => {
                 }}
               />
               {formik.touched.rate && formik.errors.rate && (
-                <div style={{ color: "red", fontSize: "14px" }}>{formik.errors.rate}</div>
+                <div style={{ color: "red", fontSize: "14px" }}>
+                  {formik.errors.rate}
+                </div>
               )}
             </div>
           </div>

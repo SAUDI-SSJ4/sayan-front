@@ -176,8 +176,8 @@ export const deleteProduct = async (id) => {
   return data;
 };
 
-export const postAcademySettings = async (id, formData) => {
-  const { data } = await academy_client.post(`/template/${id}`, formData, {
+export const postAcademySettings = async (formData) => {
+  const { data } = await academy_client.post("/template", formData, {
     headers: { "Content-Type": "multipart/form-data" },
     timeout: 60000,
   });
@@ -207,16 +207,16 @@ export const getSlider = async (id) => {
   return data;
 };
 
-export const postAbout = async (id, formData) => {
-  const { data } = await academy_client.post(`/about/${id}`, formData, {
-    headers: { "Content-Type": "multipart/form-data" },
+export const updateAbout = async (aboutData) => {
+  const { data } = await academy_client.post("/about", aboutData, {
+    headers: { "Content-Type": "application/json" },
     timeout: 60000,
   });
   return data;
 };
 
-export const getAbout = async () => {
-  const { data } = await academy_client.get("/about");
+export const getAbout = async (id) => {
+  const { data } = await academy_client.get(`/about/${id}`);
   return data;
 };
 
@@ -237,7 +237,7 @@ export const postUpdateAction = async (id, formData) => {
 };
 
 export const postAcademyOpinions = async (formData) => {
-  const { data } = await academy_client.post("/opinions", formData, {
+  const { data } = await academy_client.post("/opinion/create", formData, {
     headers: { "Content-Type": "multipart/form-data" },
     timeout: 60000,
   });

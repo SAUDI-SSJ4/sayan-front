@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { Error } from "@mui/icons-material";
 import { MainSpinner } from "../../UI/MainSpinner";
 import { useAbout } from "../../../services/queries";
+import { useSelector } from "react-redux";
 
 const { Column, HeaderCell, Cell } = Table;
 const data = mockUsers(1);
@@ -58,14 +59,18 @@ const ActionCell = ({ rowData, dataKey, setShow, ...props }) => {
   );
 };
 
-const AboutTable = ({ checkAllHandler, checkedKeys, setData, setCheckedKeys, setDeleteModal }) => {
+const AboutTable = ({
+  checkAllHandler,
+  checkedKeys,
+  setData,
+  setCheckedKeys,
+  setDeleteModal,
+}) => {
   const router = useNavigate();
+  const profileInfo = useSelector((state) => state.academyUser.academy);
+  const academyId = profileInfo?.academy?.id;
 
-  let { data: sliderData = [], isLoading, errors } = useAbout();
-
-  useEffect(() => {
-    console.log(sliderData);
-  }, [sliderData]);
+  let { data: sliderData, isLoading, errors } = useAbout(academyId);
 
   if (errors) return <Error />;
 
@@ -178,7 +183,7 @@ const AboutTable = ({ checkAllHandler, checkedKeys, setData, setCheckedKeys, set
                 fontWeight: "700",
               }}
             >
-             السمة الاولى
+              السمة الاولى
             </HeaderCell>
             <Cell
               style={{
