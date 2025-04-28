@@ -1,7 +1,7 @@
 import { getData, sendData } from "./production";
 
-export function useSlider() {
-  let { data, isLoading, errors } = getData("/slider");
+export function useSlider(academyId) {
+  let { data, isLoading, errors } = getData(`/slider/${academyId}`);
   return { data, isLoading, errors };
 }
 

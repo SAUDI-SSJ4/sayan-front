@@ -2,7 +2,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { academy_client } from "../../utils/apis/client.config";
 
-
 export function getData(param) {
   const [data, setData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -16,7 +15,7 @@ export function getData(param) {
       const response = await academy_client.get(param);
       setData(response?.data || []);
     } catch (err) {
-      console.log("get data",err)
+      console.log("get data", err);
       setErrors(err.response?.data?.message || err.message || "حدث خطأ ما");
     } finally {
       setIsLoading(false);

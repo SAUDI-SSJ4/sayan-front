@@ -5,13 +5,16 @@ import { useNavigate } from "react-router-dom";
 import { Error } from "@mui/icons-material";
 import { Spinner } from "react-bootstrap";
 import { useSlider } from "../../../services/queries";
+import { useSelector } from "react-redux";
 
 const { Column, HeaderCell, Cell } = Table;
 
 const NameCell = ({ rowData, dataKey, ...props }) => {
   return (
     <Cell {...props}>
-      <div style={{ textWrap: "balance", textAlign: "start" }}>{rowData[dataKey]}</div>
+      <div style={{ textWrap: "balance", textAlign: "start" }}>
+        {rowData[dataKey]}
+      </div>
     </Cell>
   );
 };
@@ -40,9 +43,6 @@ const ImageCell = ({ rowData, dataKey, router, link, ...props }) => (
   </Cell>
 );
 
-
-
-
 const ActionCell = ({ rowData, dataKey, setShow, ...props }) => {
   let navigate = useNavigate();
   return (
@@ -57,11 +57,17 @@ const ActionCell = ({ rowData, dataKey, setShow, ...props }) => {
   );
 };
 
-const SliderTable = ({ checkAllHandler, checkedKeys, setData, setCheckedKeys, setDeleteModal }) => {
-
+const SliderTable = ({
+  checkAllHandler,
+  checkedKeys,
+  setData,
+  setCheckedKeys,
+  setDeleteModal,
+}) => {
+  const profileInfo = useSelector((state) => state.academyUser.academy);
+  const academyId = profileInfo?.academy?.id;
   const router = useNavigate();
-
-  const { data: sliderData, isLoading, errors } = useSlider();
+  const { data: sliderData, isLoading, errors } = useSlider(academyId);
 
   if (errors) return <Error />;
 

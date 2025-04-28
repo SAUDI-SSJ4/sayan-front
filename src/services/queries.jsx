@@ -13,10 +13,14 @@ import { setTrainer } from "../../redux/TrainerSlice.js";
 import { useMemo } from "react";
 import { setCategories } from "../../redux/CategorySlice.js";
 
-export const useSlider = () => {
+export const useSlider = (id) => {
   return useQuery({
-    queryKey: ["Slider"],
-    queryFn: () => getSlider(),
+    queryKey: ["Slider", id],
+    queryFn: ({ queryKey }) => {
+      const [_key, academyId] = queryKey;
+      if (!academyId) return null;
+      return getSlider(academyId);
+    },
     refetchOnWindowFocus: false,
     refetchOnMount: false,
     retry: 2,

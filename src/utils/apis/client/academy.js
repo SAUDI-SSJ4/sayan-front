@@ -202,8 +202,8 @@ export const postSlider = async (id, formData) => {
   return data;
 };
 
-export const getSlider = async () => {
-  const { data } = await academy_client.get("/slider");
+export const getSlider = async (id) => {
+  const { data } = await academy_client.get(`/slider/${id}`);
   return data;
 };
 
