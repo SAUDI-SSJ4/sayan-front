@@ -245,7 +245,7 @@ export const postAcademyOpinions = async (formData) => {
 };
 
 export const editAcademyOpinions = async (id, formData) => {
-  const { data } = await academy_client.put(`/opinions/${id}`, formData, {
+  const { data } = await academy_client.post(`/opinion/${id}`, formData, {
     headers: { "Content-Type": "multipart/form-data" },
     timeout: 60000,
   });

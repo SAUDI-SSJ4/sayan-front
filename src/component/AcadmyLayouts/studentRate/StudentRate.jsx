@@ -13,7 +13,12 @@ import { useEffect, useState } from "react";
 import { useAllOpinions } from "../../../framework/accademy/academysetting-opinions";
 import { Spinner } from "react-bootstrap";
 import { Rate } from "rsuite";
-import { StarBorderOutlined, StarSharp, StarsOutlined, StarsTwoTone } from "@mui/icons-material";
+import {
+  StarBorderOutlined,
+  StarSharp,
+  StarsOutlined,
+  StarsTwoTone,
+} from "@mui/icons-material";
 const StudentRateSection = ({ Laytout3 }) => {
   const navigate = useNavigate();
   const [show, setShow] = useState(false);
@@ -23,37 +28,37 @@ const StudentRateSection = ({ Laytout3 }) => {
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  const [opinions, setOpinions]= useState([
+  const [opinions, setOpinions] = useState([
     {
       student_name: "أحمد محمد",
       student_avatar: null,
       rate: 4,
-      opinion: "هذا المحتوى فيه شرح بسيط وسهل فهمه وشرح لكل حاجة بالتفصيل والصور والفيديوهات وايضا يوجد تمارين تطبيقية واختبارات شاملة ومتكررة مما يساعد على فهم المادة بشكل افضل.",
- },
-    {
-      student_name: "أحمد محمد",
-      student_avatar: null,
-      rate: 4,
-      opinion: "هذا المحتوى فيه شرح بسيط وسهل فهمه وشرح لكل حاجة بالتفصيل والصور والفيديوهات وايضا يوجد تمارين تطبيقية واختبارات شاملة ومتكررة مما يساعد على فهم المادة بشكل افضل.",
+      opinion:
+        "هذا المحتوى فيه شرح بسيط وسهل فهمه وشرح لكل حاجة بالتفصيل والصور والفيديوهات وايضا يوجد تمارين تطبيقية واختبارات شاملة ومتكررة مما يساعد على فهم المادة بشكل افضل.",
     },
     {
       student_name: "أحمد محمد",
       student_avatar: null,
       rate: 4,
-      opinion: "هذا المحتوى فيه شرح بسيط وسهل فهمه وشرح لكل حاجة بالتفصيل والصور والفيديوهات وايضا يوجد تمارين تطبيقية واختبارات شاملة ومتكررة مما يساعد على فهم المادة بشكل افضل.",
-    }
-
-  ])
-
+      opinion:
+        "هذا المحتوى فيه شرح بسيط وسهل فهمه وشرح لكل حاجة بالتفصيل والصور والفيديوهات وايضا يوجد تمارين تطبيقية واختبارات شاملة ومتكررة مما يساعد على فهم المادة بشكل افضل.",
+    },
+    {
+      student_name: "أحمد محمد",
+      student_avatar: null,
+      rate: 4,
+      opinion:
+        "هذا المحتوى فيه شرح بسيط وسهل فهمه وشرح لكل حاجة بالتفصيل والصور والفيديوهات وايضا يوجد تمارين تطبيقية واختبارات شاملة ومتكررة مما يساعد على فهم المادة بشكل افضل.",
+    },
+  ]);
 
   let { data: opinionsData, isLoading, errors } = useAllOpinions();
-  useEffect(() =>{
-   if(opinionsData){
-
-     setOpinions(opinionsData)
+  useEffect(() => {
+    if (opinionsData) {
+      setOpinions(opinionsData);
     }
-    console.log(opinions)
-  },[isLoading])
+    console.log(opinions);
+  }, [isLoading]);
 
   // if (errors) return <Error />;
 
@@ -64,7 +69,6 @@ const StudentRateSection = ({ Laytout3 }) => {
       </div>
     );
 
-  
   return (
     <div
       className={classes.StudentRateContainer}
@@ -88,29 +92,37 @@ const StudentRateSection = ({ Laytout3 }) => {
         >
           {opinions?.map((e, i) => {
             return (
-              <SwiperSlide>
+              <SwiperSlide key={i}>
                 <div className={classes.RateCard}>
-              <div className="d-flex align-items-center gap-2">
-                <img src={e.student_avatar} width={57} height={57} />
-                <div >
-                  <p className={classes.RateName}>{e.student_name}</p>
-                  
-                  <Rate className={classes.RateStarsCss}  value={e.rate} color="orange" size="sm"  readOnly renderCharacter={()=><StarBorderOutlined />} />
+                  <div className="d-flex align-items-center gap-2">
+                    <img src={e.student_avatar} width={57} height={57} />
+                    <div>
+                      <p className={classes.RateName}>{e.student_name}</p>
 
+                      <Rate
+                        className={classes.RateStarsCss}
+                        value={e.rate}
+                        color="orange"
+                        size="sm"
+                        readOnly
+                        renderCharacter={() => <StarBorderOutlined />}
+                      />
+                    </div>
+                  </div>
+                  <div className={classes.RateParagraph}>{e.opinion}</div>
+                  <div className="d-flex justify-content-between">
+                    <h3
+                      style={{
+                        fontSize: "14px",
+                        margin: "0px",
+                        color: "#12141D",
+                      }}
+                    >
+                      {e.student_name}
+                    </h3>
+                    <img width={57} src={quma} />
+                  </div>
                 </div>
-              </div>
-              <div className={classes.RateParagraph}>
-             {e.opinion}
-              </div>
-              <div className="d-flex justify-content-between">
-                <h3
-                  style={{ fontSize: "14px", margin: "0px", color: "#12141D" }}
-                >
-                  {e.student_name}
-                </h3>
-                <img width={57} src={quma} />
-              </div>
-            </div>
               </SwiperSlide>
             );
           })}

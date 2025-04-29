@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { Alert } from "react-bootstrap";
 import { Button } from "rsuite";
 
-const UploadImage = ({ currentImage, onChange }) => {
+const UploadImage = ({ currentImage, onChange, ...rest }) => {
   const [error, setError] = useState("");
   const [preview, setPreview] = useState(currentImage);
 
@@ -50,6 +50,7 @@ const UploadImage = ({ currentImage, onChange }) => {
           className="d-none"
           onChange={handleImageChange}
           accept="image/*"
+          {...rest}
         />
       </label>
       {error && (

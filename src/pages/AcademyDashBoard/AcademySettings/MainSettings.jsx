@@ -115,11 +115,15 @@ const Form = ({ academySettingsData }) => {
     validationSchema,
     onSubmit: (data) => {
       const formData = new FormData();
-
+      const images =
+        typeof data.logo === "object" || typeof data.favicon === "object"
+          ? [data.logo, data.favicon]
+          : [];
       populateFormData(formData, {
         name: data.name,
-        primary_color: data.primary_color,
+        logo: data.logo,
         secondary_color: data.secondary_color,
+        ...images,
       });
 
       mutation.mutate(formData, {

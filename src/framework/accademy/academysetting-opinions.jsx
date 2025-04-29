@@ -5,8 +5,9 @@ export function useAllOpinions(id) {
 
   return { data, isLoading, errors, refresh };
 }
-export function useSpasificOpinions(id) {
-  let { data, isLoading, errors } = getData(`/opinions/${id}`);
+
+export function useOpinion(id) {
+  let { data, isLoading, errors } = getData(`/opinion/show/${id}`);
   return { data, isLoading, errors };
 }
 
