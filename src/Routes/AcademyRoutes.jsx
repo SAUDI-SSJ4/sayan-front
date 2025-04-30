@@ -35,7 +35,7 @@ import AcademyDashboard from "../pages/AcademyDashBoard/HomePage/dashbaord";
 import AcademySettings from "../pages/AcademyDashBoard/AcademySettings/AcademySettings";
 import EditSlider from "../pages/AcademyDashBoard/AcademySettings/EditSlider";
 import EditAbout from "../pages/AcademyDashBoard/AcademySettings/EditAbout";
-import EditFaq from "../pages/AcademyDashBoard/AcademySettings/EditFaq";
+import EditFaqs from "../pages/AcademyDashBoard/AcademySettings/EditFaqs";
 import EditCallToAction from "../pages/AcademyDashBoard/AcademySettings/EditCallToAction";
 import EditFooter from "../pages/AcademyDashBoard/AcademySettings/EditFooter";
 import EditPartner from "../pages/AcademyDashBoard/AcademySettings/EditPartner";
@@ -56,6 +56,7 @@ import HomeAcademy from "../pages/MainPages/AcademyHome/HomeAcademy";
 import MainSettings from "../pages/AcademyDashBoard/AcademySettings/MainSettings";
 import EditStudentOpinion from "../pages/AcademyDashBoard/AcademySettings/EditStudentOpinion";
 import AddStudentOpinion from "../pages/AcademyDashBoard/AcademySettings/AddStudentOpinion";
+import AddFaqs from "../pages/AcademyDashBoard/AcademySettings/AddFaqs";
 const AcademyRoutes = () => {
   const loginType = Cookies.get("login_type");
 
@@ -116,10 +117,10 @@ const AcademyRoutes = () => {
               element={<EditAbout />}
             />
             <Route
-              path="/academy/settings/faq/edit/:slug"
-              element={<EditFaq />}
+              path="/academy/settings/faq/edit/:id"
+              element={<EditFaqs />}
             />
-            <Route path="/academy/settings/faq/add" element={<EditFaq />} />
+            <Route path="/academy/settings/faq/add" element={<AddFaqs />} />
             <Route
               path="/academy/settings/call-to-action/edit/:slug"
               element={<EditCallToAction />}

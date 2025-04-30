@@ -1,4 +1,11 @@
-import { Table, Popover, Whisper, Dropdown, IconButton, Progress } from "rsuite";
+import {
+  Table,
+  Popover,
+  Whisper,
+  Dropdown,
+  IconButton,
+  Progress,
+} from "rsuite";
 import { mockUsers } from "../DigitalProductsCard/mock";
 import { Checkbox } from "@mui/material";
 import React, { useEffect } from "react";
@@ -7,6 +14,7 @@ import { useNavigate } from "react-router-dom";
 import { useAllFAQ } from "../../../framework/accademy/academysetting-faq";
 import { Spinner } from "react-bootstrap";
 import { Error } from "@mui/icons-material";
+import { useSelector } from "react-redux";
 
 const { Column, HeaderCell, Cell } = Table;
 const data = mockUsers(1);
@@ -18,7 +26,14 @@ const StatusCell = ({ rowData, dataKey, ...props }) => {
   return <Cell {...props}>{rowData[dataKey] == 1 ? "مفعل" : "غير مفعل"}</Cell>;
 };
 
-const CheckCell = ({ rowData, onClick, checkedKeys, dataKey, style, ...props }) => (
+const CheckCell = ({
+  rowData,
+  onClick,
+  checkedKeys,
+  dataKey,
+  style,
+  ...props
+}) => (
   <Cell {...props} style={{ padding: 0 }}>
     <div style={style}>
       <Checkbox
@@ -38,15 +53,27 @@ const ActionCell = ({ rowData, dataKey, setShow, ...props }) => {
       <div style={{ color: "#A3AED0" }}>
         <BorderColorOutlinedIcon
           sx={{ cursor: "pointer" }}
-          onClick={() => navigate(`/academy/settings/faq/edit/${rowData[dataKey]}`)}
+          onClick={() =>
+            navigate(`/academy/settings/faq/edit/${rowData[dataKey]}`)
+          }
         />
       </div>
     </Cell>
   );
 };
 
-const FaqTable = ({ checkAllHandler, checkedKeys, setData,isRefresh,setIsRefresh, setCheckedKeys, setDeleteModal }) => {
+const FaqTable = ({
+  checkAllHandler,
+  checkedKeys,
+  setData,
+  isRefresh,
+  setIsRefresh,
+  setCheckedKeys,
+  setDeleteModal,
+}) => {
   let indeterminate = false;
+  const profileInfo = useSelector((state) => state.academyUser.academy);
+  const academyId = profileInfo?.academy?.id;
 
   const handleCheck = (value, checkedKeys) => {
     if (!checkedKeys.some((item) => item === value)) {
@@ -56,12 +83,11 @@ const FaqTable = ({ checkAllHandler, checkedKeys, setData,isRefresh,setIsRefresh
     }
   };
 
-  let { data: faqData, isLoading, errors,refresh } = useAllFAQ();
-  useEffect(()=>{
-   refresh()
-   setIsRefresh(false)
- },[isRefresh])
-console.log(faqData)
+  let { data: faqData, isLoading, errors, refresh } = useAllFAQ(academyId);
+  useEffect(() => {
+    refresh();
+    setIsRefresh(false);
+  }, [isRefresh]);
 
   if (errors) return <Error />;
 
@@ -81,7 +107,7 @@ console.log(faqData)
           style={{ direction: "rtl" }}
           headerHeight={60}
           rowHeight={60}
-          data={faqData}
+          data={faqData.data}
           id="table"
         >
           <Column width={100} align="center">
@@ -150,7 +176,7 @@ console.log(faqData)
                 alignItems: "center",
               }}
             >
-              {rowData => rowData.academy ? rowData.academy.name : "N/A"}
+              {(rowData) => (rowData.academy ? rowData.academy.name : "N/A")}
             </Cell>
           </Column>
 

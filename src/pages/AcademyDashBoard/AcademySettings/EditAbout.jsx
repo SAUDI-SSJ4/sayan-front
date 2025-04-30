@@ -186,7 +186,7 @@ const EditAbout = () => {
                   />
                 )}
                 {formik.touched[id] && formik.errors[id] && (
-                  <div>{formik.errors[id]}</div>
+                  <p className="text-red-500">{formik.errors[id]}</p>
                 )}
               </div>
             </div>

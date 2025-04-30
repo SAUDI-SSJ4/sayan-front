@@ -24,11 +24,11 @@ function StudentOpinionForm({ studentOpinion }) {
       ? studentOpinionSchema.partial()
       : studentOpinionSchema,
     onSubmit: (values) => {
+      const { student_avatar, ...reset } = values;
+      const editedValues = typeof student_avatar === "object" ? values : reset;
+
       studentOpinion
-        ? editAcademyOpinions(studentOpinion.id, {
-            ...values,
-            student_avatar: values.student_avatar,
-        })
+        ? editAcademyOpinions(studentOpinion.id, editedValues)
             .then((res) => {
               if (res.success) {
                 toast.success("تم تحديث تعليق بنجاح", {
