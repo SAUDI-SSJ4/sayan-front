@@ -115,24 +115,22 @@ const Form = ({ academySettingsData }) => {
     validationSchema,
     onSubmit: (data) => {
       const formData = new FormData();
-      const images =
-        typeof data.logo === "object" || typeof data.favicon === "object"
-          ? [data.logo, data.favicon]
-          : [];
+
+      const logo = typeof data.logo === "object" ? { logo: data.logo } : {};
+      const favicon =
+        typeof data.favicon === "object" ? { favicon: data.favicon } : {};
+
       populateFormData(formData, {
         name: data.name,
-        logo: data.logo,
         secondary_color: data.secondary_color,
-        ...images,
+        primary_color: data.primary_color,
+        ...logo,
+        ...favicon,
       });
 
       mutation.mutate(formData, {
-        onSuccess: (response) => {
-          console.log(response);
-          toast.success("respons");
-        },
+        onSuccess: () => {},
         onError: (error) => {
-          console.log(error);
           toast.error(error.response.data.message);
         },
       });
@@ -231,7 +229,12 @@ const Form = ({ academySettingsData }) => {
       <div className="d-flex align-items-center gap-4 mt-4">
         {isThereAChange(formik.values) ? (
           <>
-            <Button size="lg" type="submit" appearance="primary">
+            <Button
+              size="lg"
+              disabled={formik.isSubmitting}
+              type="submit"
+              appearance="primary"
+            >
               حفظ التغييرات
             </Button>
             <Button size="lg" onClick={() => formik.setValues(initialValues)}>
