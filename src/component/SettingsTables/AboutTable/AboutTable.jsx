@@ -39,6 +39,7 @@ const ImageCell = ({ rowData, dataKey, router, link, ...props }) => (
           height: "100px",
           right: "0",
           borderRadius: "50%",
+          objectFit: "cover",
         }}
       />
     </div>

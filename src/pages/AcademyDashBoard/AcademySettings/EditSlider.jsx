@@ -19,6 +19,7 @@ import { useToast } from "../../../utils/hooks/useToast";
 import { useSetSilider } from "../../../utils/hooks/set/useSetting";
 import { useSlider } from "../../../framework/accademy/academysetting-slider";
 import { useSelector } from "react-redux";
+import { Spinner } from "react-bootstrap";
 
 const validationSchema = Yup.object().shape({
   title: Yup.string().required("العنوان مطلوب"),
@@ -35,7 +36,7 @@ const EditSlider = () => {
   const navigate = useNavigate();
   const profileInfo = useSelector((state) => state.academyUser.academy);
   const academyId = profileInfo?.academy?.id;
-  const { data: sliderData, isLoading, errors } = useSlider(academyId);
+  const { data: sliderData, isLoading } = useSlider(academyId);
 
   return (
     <div className="mb-5 all-info-top-header main-info-top">
@@ -58,7 +59,7 @@ const EditSlider = () => {
       {isLoading && <MainSpinner css="vh-100" />}
       {!isLoading && sliderData && (
         <div className="CustomCard formCard all-add-notific pb-4 pt-4">
-          <Form sliderData={sliderData} />
+          <Form sliderData={sliderData} academyId={academyId} />
         </div>
       )}
     </div>
@@ -67,27 +68,30 @@ const EditSlider = () => {
 
 export default EditSlider;
 
-const Form = ({ sliderData }) => {
+const Form = ({ sliderData, academyId }) => {
   const fileInputRef = useRef(null);
-  // const mutation = useSetSilider(ids.sliderId, ids.academyId);
-
+  const mutation = useSetSilider(academyId);
   const formik = useFormik({
     initialValues: {
-      title: "",
-      sub_title: "",
-      content: "",
-      image: null,
-      first_button_title: "",
-      first_button_link: "",
-      second_button_title: "",
-      second_button_link: "",
+      title: sliderData.slider.title,
+      sub_title: sliderData.slider.sub_title,
+      content: sliderData.slider.content,
+      image: sliderData.slider.image,
+      first_button_title: sliderData.slider.first_button_title,
+      first_button_link: sliderData.slider.first_button_link,
+      second_button_title: sliderData.slider.second_button_title,
+      second_button_link: sliderData.slider.second_button_link,
     },
     validationSchema,
     onSubmit: async (data) => {
       const formData = new FormData();
-      // const values = getChangedValues(data, slider);
-      // populateFormData(formData, values);
-      // mutation.mutateAsync(formData);
+      const imageFile =
+        typeof data.image === "object" ? { image: data.image } : {};
+      if (!imageFile) {
+        formData.delete("image");
+      }
+      populateFormData(formData, data);
+      mutation.mutateAsync(formData);
     },
   });
 
@@ -119,10 +123,87 @@ const Form = ({ sliderData }) => {
         </div>
       </JustifyContentWrapper>
 
+      {[
+        {
+          id: "title",
+          label: "العنوان",
+          placeholder: "ادخل عنوان المقال هنا",
+        },
+        {
+          id: "sub_title",
+          label: "العنوان الفرعى",
+          placeholder: "ادخل عنوان المقال هنا",
+        },
+        {
+          id: "content",
+          label: "الوصف",
+          placeholder: "ادخل النص هنا",
+          type: "textarea",
+        },
+        {
+          id: "first_button_title",
+          label: "عنوان الزر الأول",
+          placeholder: "أدخل عنوان الزر الأول",
+        },
+        {
+          id: "first_button_link",
+          label: "رابط الزر الأول",
+          placeholder: "أدخل رابط الزر الأول",
+        },
+        {
+          id: "second_button_title",
+          label: "عنوان الزر الثاني",
+          placeholder: "أدخل عنوان الزر الثاني",
+        },
+        {
+          id: "second_button_link",
+          label: "رابط الزر الثاني",
+          placeholder: "أدخل رابط الزر الثاني",
+        },
+      ].map(({ id, label, placeholder, type = "text" }) => (
+        <div
+          className={`col-lg-${id === "content" ? "12" : "6"} col-md-12`}
+          key={id}
+        >
+          <div className="CustomFormControl">
+            <label htmlFor={id}>{label}</label>
+            {type === "textarea" ? (
+              <textarea
+                id={id}
+                name={id}
+                placeholder={placeholder}
+                value={formik.values[id]}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+              />
+            ) : (
+              <input
+                type={type}
+                id={id}
+                name={id}
+                placeholder={placeholder}
+                value={formik.values[id]}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+              />
+            )}
+            {formik.touched[id] && formik.errors[id] && (
+              <p className="text-red-500">{formik.errors[id]}</p>
+            )}
+          </div>
+        </div>
+      ))}
+
       <div className="col-lg-12 col-md-12 mt-4">
-        {/* <Button appearance="primary" size="lg" type="submit">
-          {mutation.isLoading ? <ButtonSpinner /> : "حفظ التغييرات"}
-        </Button> */}
+        <Button
+          appearance="primary"
+          disabled={mutation.isSubmitting}
+          size="lg"
+          type="submit"
+        >
+          {mutation.isLoading && <Spinner />}
+          <span>حفظ التغييرات</span>
+        </Button>
       </div>
     </form>
   );

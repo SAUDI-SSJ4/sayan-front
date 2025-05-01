@@ -194,8 +194,8 @@ export const getAllAcademySettings = async (id) => {
   return data;
 };
 
-export const postSlider = async (id, formData) => {
-  const { data } = await academy_client.post(`/slider/${id}`, formData, {
+export const postSlider = async (formData) => {
+  const { data } = await academy_client.post(`/slider`, formData, {
     headers: { "Content-Type": "multipart/form-data" },
     timeout: 60000,
   });
@@ -209,7 +209,7 @@ export const getSlider = async (id) => {
 
 export const updateAbout = async (aboutData) => {
   const { data } = await academy_client.post("/about", aboutData, {
-    headers: { "Content-Type": "application/json" },
+    headers: { "Content-Type": "multipart/form-data" },
     timeout: 60000,
   });
   return data;

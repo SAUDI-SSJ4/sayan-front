@@ -9,17 +9,17 @@ import { useNavigate } from "react-router-dom";
 
 const { success, error } = useToast();
 
-export const useSetSilider = (sliderId, academyId) => {
+export const useSetSilider = (academyId) => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (data) => {
-      postSlider(sliderId, data);
+      postSlider(data);
     },
     onSuccess: () => {
       queryClient.refetchQueries(["Slider"]);
-      // queryClient.invalidateQueries(["academySettings", academyId]);
-      // queryClient.refetchQueries(["academySettings", academyId]);
+      queryClient.invalidateQueries(["academySettings", academyId]);
+      queryClient.refetchQueries(["academySettings", academyId]);
       success("تم تحديث البيانات");
       navigate("/academy/settings/slider");
     },

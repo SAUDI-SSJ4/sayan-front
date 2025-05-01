@@ -231,7 +231,7 @@ const Form = ({ academySettingsData }) => {
           <>
             <Button
               size="lg"
-              disabled={formik.isSubmitting}
+              disabled={mutation.isPending}
               type="submit"
               appearance="primary"
             >
