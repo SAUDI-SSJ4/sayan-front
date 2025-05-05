@@ -1,3 +1,4 @@
+import axios from "axios";
 import { user_token, academy_client } from "../client.config";
 
 academy_client.interceptors.request.use(
@@ -104,6 +105,12 @@ export const createCourseAPI = async (data) => {
   );
   return res;
 };
+export const getAcademyCourses = async (id) => {
+  const baseUrl = new URL(import.meta.env.VITE_SERVER_DEV).origin;
+
+  const { data: res } = await axios.get(`${baseUrl}/api/v1/courses/${id}`);
+  return res;
+};
 
 export const deleteLessonItem = async (lessonId, params) => {
   const { data } = await academy_client.delete(
@@ -194,6 +201,11 @@ export const getAllAcademySettings = async (id) => {
   return data;
 };
 
+export const getAcademyProfile = async (id) => {
+  const { data } = await academy_client.get(`/all-settings/${id}`);
+  return data;
+};
+
 export const postSlider = async (formData) => {
   const { data } = await academy_client.post(`/slider`, formData, {
     headers: { "Content-Type": "multipart/form-data" },
@@ -252,8 +264,8 @@ export const editAcademyOpinions = async (id, formData) => {
   return data;
 };
 
-export const getAcademyOpinions = async () => {
-  const { data } = await academy_client.get("/opinions");
+export const getAcademyOpinions = async (id) => {
+  const { data } = await academy_client.get(`/opinions/${id}`);
   return data;
 };
 
@@ -264,6 +276,10 @@ export const DeleteAcademyOpinion = async (id) => {
 
 export const DeleteAcademyFaq = async (id) => {
   const { data } = await academy_client.delete(`/faq/${id}`);
+  return data;
+};
+export const getAcademyFaqs = async (id) => {
+  const { data } = await academy_client.get(`/faq/${id}`);
   return data;
 };
 

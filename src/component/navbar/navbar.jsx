@@ -33,6 +33,7 @@ const NavBar = ({ setShow, profileData }) => {
               src={profileData?.image || profileData.academy?.image || ""}
               alt="user-avatar"
               onClick={() => setShowDropDown(!showDropDown)}
+              className="object-cover"
             />
             <div className={classes.greenBall}></div>
             <AnimatePresence>

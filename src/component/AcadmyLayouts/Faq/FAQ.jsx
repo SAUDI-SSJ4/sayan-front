@@ -65,7 +65,7 @@ const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
   padding: theme.spacing(2),
   borderTop: "1px solid rgba(0, 0, 0, .125)",
 }));
-const FAQ = ({ profileData }) => {
+const FAQ = ({ faqs }) => {
   const [expanded, setExpanded] = React.useState(false);
 
   const handleChange = (panel) => (event, isExpanded) => {
@@ -93,7 +93,7 @@ const FAQ = ({ profileData }) => {
           data-aos-delay="100"
           className="col-lg-8 col-md-12"
         >
-          {profileData?.faq?.map((e, i) => {
+          {faqs?.map((e, i) => {
             return (
               <Accordion
                 key={i}
