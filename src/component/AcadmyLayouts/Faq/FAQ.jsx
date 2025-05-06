@@ -73,7 +73,7 @@ const FAQ = ({ faqs }) => {
   };
 
   return (
-    <div className="container mt-5">
+    <div id="faqs" className="container mt-5">
       <div className="row g-3">
         <div className="col-lg-4 col-md-12">
           <h3

@@ -10,7 +10,7 @@ import { Rate } from "rsuite";
 import { StarBorderOutlined } from "@mui/icons-material";
 const StudentRateSection = ({ opinions }) => {
   return (
-    <div className={classes.StudentRateContainer}>
+    <div id="student-opinions" className={classes.StudentRateContainer}>
       <div className={classes.SectionTitle}>أراء الطلاب .</div>
 
       <div className="container mt-5">

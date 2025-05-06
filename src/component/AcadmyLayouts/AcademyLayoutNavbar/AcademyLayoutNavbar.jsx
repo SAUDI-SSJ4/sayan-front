@@ -5,7 +5,12 @@ import { useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useAuth } from "../../../utils/hooks/useAuth";
 
-const AcademyLayoutNavbar = ({ profile }) => {
+const AcademyLayoutNavbar = ({
+  profile,
+  academySettings,
+  studentOpinions,
+  faqs,
+}) => {
   const { id } = useParams();
   const [show, setShow] = useState(false);
   const { user, isLoading: isLoadingUser } = useAuth();
@@ -17,7 +22,7 @@ const AcademyLayoutNavbar = ({ profile }) => {
         <div className={classes.NavBarRoutes}>
           <Link to={`/acdemy/${id}`} className={classes.logo}>
             <img
-              src={profile.image}
+              src={academySettings.logo}
               alt="sayn academy logo"
               className="object-cover"
             />
@@ -25,22 +30,23 @@ const AcademyLayoutNavbar = ({ profile }) => {
           <div className={classes.Routes}>
             <ul>
               <li>
-                <Link to={`/acdemy/${id}`}>الرئيسية</Link>
+                <Link to="#">الرئيسية</Link>
               </li>
               <li>
-                <Link to={`/acdemy/${id}/AllCoursesPage`}>الدورات</Link>
+                <Link to="#courses">الدورات</Link>
               </li>
-              {/* <li>
-                  <Link to={`/acdemy/${id}/AllBlogs`}>المدونة</Link>
-                </li> */}
+              {faqs.length > 0 && (
+                <li>
+                  <Link to="#faqs">الاسئلة الشائعة</Link>
+                </li>
+              )}
+              {studentOpinions.length > 0 && (
+                <li>
+                  <Link to="#student-opinions">أراء الطلاب</Link>
+                </li>
+              )}
               <li>
-                <Link to={`/acdemy/${id}/AllProductsPage`}>
-                  المنتجات الرقمية
-                </Link>
-              </li>
-              <li>
-                {" "}
-                <Link to={`/acdemy/${id}/ContactUs`}>تواصل معنا</Link>{" "}
+                <Link to="#contact">تواصل معنا</Link>{" "}
               </li>
             </ul>
           </div>
@@ -50,16 +56,32 @@ const AcademyLayoutNavbar = ({ profile }) => {
             <div className="w-20 h-6 bg-gray-300 animate-pulse"></div>
             <div className="w-12 h-12 rounded-full bg-gray-300 animate-pulse"></div>
           </div>
-        ) : user?.academy?.id === profile.id ? (
+        ) : user ? (
           <div className={classes.NavBarBtns}>
-            <Link className={classes.Secondry} to={"/student/dashboard"}>
+            <Link
+              className={classes.Secondry}
+              to={
+                user.academy?.id === profile.id
+                  ? "/academy"
+                  : `/student/dashboard`
+              }
+            >
               لوحة التحكم
             </Link>
-            <img
-              src={profile.image}
-              alt=""
-              className="rounded-full w-10 h-10 object-cover"
-            />
+            {user.academy?.id === profile.id && user.academy.image && (
+              <img
+                src={user.academy.image}
+                alt=""
+                className="rounded-full w-10 h-10 object-cover"
+              />
+            )}
+            {user.academy?.id !== profile.id && user.image && (
+              <img
+                src={user.image}
+                alt=""
+                className="rounded-full w-10 h-10 object-cover"
+              />
+            )}
           </div>
         ) : (
           <div className={classes.NavBarBtns}>
