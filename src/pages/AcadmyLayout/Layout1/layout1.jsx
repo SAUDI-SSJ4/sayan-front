@@ -28,6 +28,7 @@ import { Navigation, Pagination, Autoplay } from "swiper/modules";
 import SubjectCard from "../../../component/MainPages/SubjectCard/SubjectCard";
 import { motion } from "framer-motion";
 import { Swiper, SwiperSlide } from "swiper/react";
+import { Helmet } from "react-helmet-async";
 
 import "swiper/css";
 import "swiper/css/navigation";
@@ -88,10 +89,19 @@ const Layout1 = () => {
         <Spinner />
       </div>
     );
+
   return (
     !isLoading &&
     academyData && (
       <>
+        <Helmet>
+          <title>{academyData.settings.name}</title>
+          <link
+            rel="icon"
+            type="image/png"
+            href={academyData.settings.favicon}
+          />
+        </Helmet>
         <AcademyLayoutNavbar
           profile={academyData.profile}
           academySettings={academyData.settings}
