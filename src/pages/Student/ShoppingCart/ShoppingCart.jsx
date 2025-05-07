@@ -61,7 +61,7 @@ const ShoppingCart = () => {
         </div>
       </div>
 
-      <div className="info-details--1 pt-0">
+      <div className="pt-0 info-details--1">
         <div className="row gx-3 gy-4">
           <div className="col-lg-8">
             <div className={classes.Card}>

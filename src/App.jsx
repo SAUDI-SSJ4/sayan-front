@@ -9,7 +9,7 @@ import "aos/dist/aos.css";
 import AOS from "aos";
 import AdminRoute from "./Routes/adminRoutes";
 import StudentRoute from "./Routes/StudentRoutes";
-import { Route, Routes, useLocation } from "react-router-dom";
+import { Route, Routes, useLocation, Navigate, useNavigate } from "react-router-dom";
 import Layout1 from "./pages/AcadmyLayout/Layout1/layout1";
 import AllBlogpage from "./component/AcadmyLayouts/Blog/AllBlogpage/AllBlogpage";
 import AllProductsPage from "./component/AcadmyLayouts/AllProductsPage/AllProductsPage";
@@ -31,11 +31,47 @@ import HomeAcademy from "./pages/MainPages/AcademyHome/HomeAcademy";
 import PrivacyPolicyPage from "./pages/Policy/PrivacyPolicyPage";
 import TestPage from "./TestPage";
 import CartPage from "./pages/Cart/CartPage";
+
 import { CartProvider } from "./context/CartContext";
 import { NotificationProvider } from "./context/NotificationContext";
 import NewLayout from "./pages/AcadmyLayout/NewLayout/NewLayout";
 
 import { Banner, BannerCollapseButton } from "flowbite-react";
+
+// مكون يقوم بنقل المستخدم مع الاحتفاظ بمعلمات URL
+const PaymentRedirect = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+  
+  useEffect(() => {
+    // الحصول على معلمات URL الحالية
+    const searchParams = new URLSearchParams(location.search);
+    console.log('تمرير معلمات الدفع:', Object.fromEntries(searchParams.entries()));
+    
+    // حفظ المعلومات الهامة أولاً في localStorage
+    if (searchParams.get('id')) {
+      localStorage.setItem('moyasar_id', searchParams.get('id'));
+    }
+    if (searchParams.get('invoice_id')) {
+      localStorage.setItem('invoice_id', searchParams.get('invoice_id'));
+    }
+    if (searchParams.get('transaction_id')) {
+      localStorage.setItem('transaction_id', searchParams.get('transaction_id'));
+    }
+    if (searchParams.get('status')) {
+      localStorage.setItem('payment_status', searchParams.get('status'));
+    }
+    
+    // توجيه المستخدم إلى صفحة نجاح الدفع مع جميع المعلمات
+    navigate('/student/payment-success' + location.search, { replace: true });
+  }, [location, navigate]);
+  
+  return (
+    <div className="py-5 my-5 text-center">
+      <p>جاري التوجيه لصفحة تأكيد الدفع...</p>
+    </div>
+  );
+};
 
 function App() {
   const { pathname } = useLocation();
@@ -50,11 +86,11 @@ function App() {
         <div
           id="sticky-banner"
           tabIndex="-1"
-          className="hidden-sm banner w-full px-4 py-3 text-center border-b border-gray-200 bg-gray-50"
+          className="px-4 py-3 w-full text-center bg-gray-50 border-b border-gray-200 hidden-sm banner"
         >
           <div className="flex items-center mx-auto mt-2">
             <p className="flex items-center text-sm font-normal text-gray-500">
-              <span className="inline-flex p-1 me-3 bg-gray-200 rounded-full w-6 h-6 items-center justify-center shrink-0">
+              <span className="inline-flex justify-center items-center p-1 w-6 h-6 bg-gray-200 rounded-full me-3 shrink-0">
                 <svg
                   className="w-3 h-3 text-gray-500"
                   aria-hidden="true"
@@ -89,7 +125,10 @@ function App() {
             <Route path="/acdemy/:id" element={<Layout1 />} />
 
             <Route index path="/" element={<Home />} />
-            <Route path="/cart" element={<CartPage />} />
+            <Route path="/cart" element={<Navigate to="/student/ShoppingCart" replace />} />
+            <Route path="/checkout" element={<Navigate to="/student/checkout" replace />} />
+            <Route path="/payment/success" element={<PaymentRedirect />} />
+            <Route path="/payment/callback" element={<PaymentRedirect />} />
             <Route index path="/test" element={<TestPage />} />
 
             <Route path="/LaunchYourAcademy" element={<LaunchYourAcademy />} />

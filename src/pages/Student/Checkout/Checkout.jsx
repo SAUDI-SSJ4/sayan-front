@@ -3,192 +3,166 @@ import { useCart } from '../../../context/CartContext';
 import { useNotification } from '../../../context/NotificationContext';
 import { useNavigate } from 'react-router-dom';
 import classes from './Checkout.module.scss';
-import { TextField, Radio, RadioGroup, FormControlLabel, Alert, Divider } from '@mui/material';
+import { RadioGroup, FormControlLabel, Radio } from '@mui/material';
 import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
 import Visa from "../../../assets/icons/payment/visa.svg?react";
 import Paypal from "../../../assets/icons/payment/paypal.svg?react";
 import Mada from "../../../assets/icons/payment/mada.svg?react";
 import ApplePay from "../../../assets/icons/payment/apple-pay.svg?react";
-import PaymentSuccess from '../../../components/PaymentSuccess/PaymentSuccess';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 
-/*
-To include external CSS and JavaScript files in React:
-
-1. For the CSS file, add this in your index.html <head> section:
-   <link rel="stylesheet" href="https://cdn.moyasar.com/mpf/1.15.0/moyasar.css" />
-
-2. For the JavaScript file, you have two options:
-
-   Option 1: Add to index.html before closing </body> tag:
-   <script src="https://cdn.moyasar.com/mpf/1.15.0/moyasar.js"></script>
-
-   Option 2: Load dynamically in your component using 1:
-   useEffect(() => {
-     const script = document.createElement('script');
-     script.src = 'https://cdn.moyasar.com/mpf/1.15.0/moyasar.js';
-     script.async = true;
-     document.body.appendChild(script);
-     return () => {
-       document.body.removeChild(script);
-     };
-   }, []);
-*/
-
 const Checkout = () => {
   const { cartItems, clearCart } = useCart();
-
-  // Extract titles from cartItems and join them with spaces
-  const cartItemsTitles = cartItems.map(item => item.title).join(' ');
-  console.log("cart details: ", cartItemsTitles);
-
   const { showNotification } = useNotification();
   const navigate = useNavigate();
+  
   const [paymentMethod, setPaymentMethod] = useState('credit');
   const [couponCode, setCouponCode] = useState('');
-  const [formData, setFormData] = useState({ cardNumber: '', expiryDate: '', cvv: '' });
-  const [errors, setErrors] = useState({});
   const [isProcessing, setIsProcessing] = useState(false);
-  const [showSuccess, setShowSuccess] = useState(false);
+  const [couponApplied, setCouponApplied] = useState(false);
+  const [discountAmount, setDiscountAmount] = useState(0);
+  const [error, setError] = useState('');
+  const [termsAccepted, setTermsAccepted] = useState(false);
 
+  // حساب إجماليات الطلب
   const calculateSubtotal = () => cartItems.reduce((total, item) => total + item.price, 0);
-  const calculateDiscount = () => 0; // Update based on your discount logic
+  const calculateTax = () => calculateSubtotal() * 0.15;
+  const calculateTotal = () => calculateSubtotal() + calculateTax() - discountAmount;
 
-  // Store total price in a variable
-  const totalPrice = (calculateSubtotal() - calculateDiscount()) * 100;
-  const calculateTotal = () => totalPrice;
-
-  const ShowedTotal = () => totalPrice / 100;
-
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
-    if (errors[name]) setErrors(prev => ({ ...prev, [name]: '' }));
-  };
-
-  const validateForm = () => {
-    const newErrors = {};
-    if (paymentMethod === 'credit') {
-      if (!formData.cardNumber.trim()) newErrors.cardNumber = 'رقم البطاقة مطلوب';
-      if (!formData.expiryDate.trim()) newErrors.expiryDate = 'تاريخ الانتهاء مطلوب';
-      if (!formData.cvv.trim()) newErrors.cvv = 'رمز CVV مطلوب';
+  useEffect(() => {
+    // التأكد من وجود عناصر في السلة
+    if (cartItems.length === 0) {
+      navigate('/student/ShoppingCart');
     }
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
+  }, [cartItems, navigate]);
 
-  /*
-  https://www.sayan-server.com/api/v1/checkout/process
-  */
-
-  /*
-  https://api.moyasar.com/v1/invoices
-      amount: totalPrice,
-      currency: 'SAR',
-      description: cartItemsTitles,
-      success_url:
-      back_url:
-  */
-  const handlePaymentMethodClick = async () => {
-
-    const username = "sk_test_Bewx3QMQDuhpsRdnMGPbWKozQRMiFCaDGQ1ZojtK";
-    const token = Cookies.get('student_token');
-    const encoded = btoa(`${username}:`);
+  const handleApplyCoupon = async () => {
+    if (!couponCode.trim()) return;
 
     try {
-  const response = await axios.post(`https://api.moyasar.com/v1/invoices`, {
-    "amount": totalPrice,
-    "currency": "SAR",
-    "description": cartItemsTitles,
-    "callback_url": "https://www.sayan-server.com/api/v1/veify/",
-    "success_url": null,
-    "back_url": null,
-    "expired_at": "2038-01-19T03:14:07Z"
-  }, {
-    headers: {
-      'Accept': 'application/json',
-      'Authorization': `Basic ${encoded}`,
-      'X-Auth-Role': 'student'
-    }
-  });      
+      setIsProcessing(true);
+      setError('');
       
-  if (response) {
-    console.log("response:", response);
-    setIsProcessing(true);
+      // استدعاء API للتحقق من الكوبون
+      const response = await axios.post(
+        'https://www.sayan-server.com/api/v1/coupons/validate',
+        { code: couponCode },
+        {
+          headers: {
+            'Accept': 'application/json',
+            'Authorization': `Bearer ${Cookies.get('student_token')}`,
+          }
+        }
+      );
 
-    console.log("Invoice created ✅", response.data);
-
-    const invoiceUrl = response.data.url;
-    if (invoiceUrl) {
-      // Redirect to payment page
-      window.location.href = invoiceUrl;
-          // Show processing notification
-    showNotification({
-      type: 'success',
-      title: 'جاري معالجة الدفع',
-      message: 'يرجى الانتظار لحظة...',
-      duration: 2000
-    });
-
-    }
-
-
-    
-  }
-
-} catch (error) {
-  console.error('Error processing checkout:', error);
-  return;
-}
-
-
-
-    setPaymentMethod();
-    if (validateForm()) {
-      processPayment();
-    }
-  };
-
-  const processPayment = () => {
-    setIsProcessing(true);
-
-    // Show processing notification
-    showNotification({
-      type: 'success',
-      title: 'جاري معالجة الدفع',
-      message: 'يرجى الانتظار لحظة...',
-      duration: 2000
-    });
-
-
-
-    // Handle iframe close/completion
-    iframe.onload = () => {
+      if (response.data.data) {
+        const coupon = response.data.data;
+        setCouponApplied(true);
+        
+        // حساب قيمة الخصم
+        if (coupon.discount_type === 'percentage') {
+          const discount = (calculateSubtotal() * (coupon.discount / 100));
+          setDiscountAmount(discount);
+        } else {
+          setDiscountAmount(coupon.discount);
+        }
+        
+        showNotification({
+          type: 'success',
+          title: 'تم تطبيق الكوبون',
+          message: 'تم تطبيق كوبون الخصم بنجاح',
+          duration: 3000
+        });
+      }
+    } catch (error) {
+      setError('الكوبون غير صالح');
+      setCouponApplied(false);
+      setDiscountAmount(0);
+      
       showNotification({
-        type: 'success',
-        title: 'تم الدفع بنجاح!',
-        message: `تم إضافة ${cartItems.length} دورة إلى حقيبتك التعليمية`,
+        type: 'error',
+        title: 'خطأ في الكوبون',
+        message: 'هذا الكوبون غير صالح أو منتهي الصلاحية',
         duration: 3000
       });
-
-      setShowSuccess(true);
+    } finally {
       setIsProcessing(false);
-      document.body.removeChild(iframe);
-    };
+    }
   };
 
-  const handleSuccessClose = () => {
-    setShowSuccess(false);
-    clearCart();
+  const handleCheckout = async () => {
+    if (!termsAccepted) {
+      setError('يجب الموافقة على الشروط والأحكام للمتابعة');
+      showNotification({
+        type: 'warning',
+        title: 'الشروط والأحكام',
+        message: 'يجب الموافقة على الشروط والأحكام للمتابعة',
+        duration: 3000
+      });
+      return;
+    }
 
-    // Show final success notification in cart page
-    navigate('/student/ShoppingCart', {
-      state: {
-        paymentSuccess: true,
-        message: 'تم إضافة الدورات إلى حقيبتك التعليمية بنجاح!'
+    try {
+      setIsProcessing(true);
+      setError('');
+      
+      showNotification({
+        type: 'info',
+        title: 'جاري معالجة الطلب',
+        message: 'يرجى الانتظار...',
+        duration: 2000
+      });
+
+      // إرسال طلب الدفع إلى الباك إند
+      const response = await axios.post(
+        'https://www.sayan-server.com/api/v1/checkout/process',
+        { 
+          coupon: couponApplied ? couponCode : null,
+          payment_method: paymentMethod
+        },
+        {
+          headers: {
+            'Accept': 'application/json',
+            'Authorization': `Bearer ${Cookies.get('student_token')}`,
+          }
+        }
+      );
+
+      if (response.data.data && response.data.data.redirect_url) {
+        // تخزين بيانات المعاملة للرجوع إليها لاحقًا
+        localStorage.setItem('transaction_id', response.data.data.transaction_id);
+        localStorage.setItem('invoice_id', response.data.data.invoice_id);
+        
+        // توجيه المستخدم إلى صفحة الدفع
+        window.location.href = response.data.data.redirect_url;
+      
+      } else {
+        setError('حدث خطأ أثناء معالجة طلب الدفع');
+        showNotification({
+          type: 'error',
+          title: 'فشل الدفع',
+          message: 'حدث خطأ أثناء معالجة طلب الدفع',
+          duration: 3000
+        });
       }
-    });
+    } catch (error) {
+      console.error('خطأ في معالجة الدفع:', error);
+      if (error.response && error.response.data.message) {
+        setError(error.response.data.message);
+      } else {
+        setError('حدث خطأ أثناء الاتصال بالخادم');
+      }
+      
+      showNotification({
+        type: 'error',
+        title: 'فشل في معالجة الدفع',
+        message: error.response?.data?.message || 'حدث خطأ أثناء معالجة طلبك. يرجى المحاولة مرة أخرى.',
+        duration: 3000
+      });
+    } finally {
+      setIsProcessing(false);
+    }
   };
 
   if (cartItems.length === 0) {
@@ -196,40 +170,8 @@ const Checkout = () => {
     return null;
   }
 
-
-
-  // useEffect(() => {
-  //   if (window.Moyasar) {
-  //     window.Moyasar.init({
-  //       element: '.mysr-form',
-  //       amount: totalPrice,
-  //       currency: 'SAR',
-  //       description: cartItemsTitles,
-  //       publishable_api_key: 'pk_test_vnkFtCmh3soMRKwHN45PrW5472GxvTd3GJdEnAhB',
-  //       callback_url: 'https://moyasar.com/thanks',
-  //       methods: ['creditcard']
-  //     });
-  //   }
-  // }, []);
-
-
-  // useEffect(() => {
-  //   const script = document.createElement('script');
-  //   script.src = 'https://cdn.moyasar.com/mpf/1.15.0/moyasar.js';
-  //   script.async = true;
-  //   document.body.appendChild(script);
-  //   return () => {
-  //     document.body.removeChild(script);
-  //   };
-  // }, []);
-
-
-
-
-
   return (
-    <div>
-      <link rel="stylesheet" href="https://cdn.moyasar.com/mpf/1.15.0/moyasar.css" />
+    <div className={classes.checkoutWrapper}>
       <div className="TablePageHeader">
         <div className="HeaderContainer">
           <div className="d-flex align-items-center name">
@@ -241,7 +183,7 @@ const Checkout = () => {
         </div>
       </div>
 
-      <div className="info-details--1 pt-0">
+      <div className="pt-0 info-details--1">
         <div className="row gx-3 gy-4">
           <div className="col-lg-8">
             <div className={classes.Card}>
@@ -261,8 +203,8 @@ const Checkout = () => {
             </div>
 
             <div className={classes.Card}>
-              <h2>الدفع</h2>
-              {/* <RadioGroup
+              <h2>طريقة الدفع</h2>
+              <RadioGroup
                 value={paymentMethod}
                 onChange={(e) => setPaymentMethod(e.target.value)}
                 className={classes.paymentMethodsGroup}
@@ -283,17 +225,27 @@ const Checkout = () => {
                         <span>{label}</span>
                       </div>
                     }
-                    className={`${classes.paymentMethodLabel} ${classes.largerOption}`}
+                    className={classes.paymentMethodLabel}
                     disabled={isProcessing}
                   />
                 ))}
-              </RadioGroup> */}
-
-
-
-              {/* <div class="mysr-form"></div> */}
-
-
+              </RadioGroup>
+              <p className={classes.paymentNote}>
+                سيتم تحويلك إلى بوابة الدفع الآمنة عند النقر على زر "متابعة وشراء"
+              </p>
+              
+              <div className={classes.termsSection}>
+                <label className={classes.termsLabel}>
+                  <input
+                    type="checkbox"
+                    checked={termsAccepted}
+                    onChange={(e) => setTermsAccepted(e.target.checked)}
+                  />
+                  <span>أوافق على <a href="/terms">الشروط والأحكام</a> و <a href="/policy">سياسة الخصوصية</a></span>
+                </label>
+              </div>
+              
+              {error && <div className={classes.errorMessage}>{error}</div>}
             </div>
           </div>
 
@@ -306,41 +258,57 @@ const Checkout = () => {
                   placeholder="ادخل كود الخصم"
                   value={couponCode}
                   onChange={(e) => setCouponCode(e.target.value)}
+                  disabled={couponApplied}
                 />
-                <div onClick={() => {/* Apply coupon logic */ }}>تطبيق</div>
+                <div 
+                  onClick={handleApplyCoupon}
+                  className={couponApplied ? classes.appliedButton : ''}
+                >
+                  {couponApplied ? 'تم التطبيق' : 'تطبيق'}
+                </div>
               </div>
             </div>
 
             <div className={`${classes.Card} ${classes.summary}`}>
-              {['المجموع', 'الخصم', 'المجموع'].map((label, index) => (
-                <div key={label} className={`${classes.summaryRow} ${index === 2 ? classes.total : ''}`}>
-                  <p>{label}</p>
-                  <p className={index === 1 ? classes.discount : ''}>
-                    {(index === 0 ? calculateSubtotal() :
-                      index === 1 ? calculateDiscount() :
-                        ShowedTotal()).toFixed(2)} ر.س.
-                  </p>
+              <div className={classes.summaryRow}>
+                <p>المجموع</p>
+                <p>{calculateSubtotal().toFixed(2)} ر.س.</p>
+              </div>
+              
+              <div className={classes.summaryRow}>
+                <p>الضريبة (15%)</p>
+                <p>{calculateTax().toFixed(2)} ر.س.</p>
+              </div>
+              
+              {discountAmount > 0 && (
+                <div className={`${classes.summaryRow} ${classes.discount}`}>
+                  <p>الخصم</p>
+                  <p>- {discountAmount.toFixed(2)} ر.س.</p>
                 </div>
-              ))}
+              )}
+              
+              <div className={`${classes.summaryRow} ${classes.total}`}>
+                <p>المجموع النهائي</p>
+                <p>{calculateTotal().toFixed(2)} ر.س.</p>
+              </div>
+              
               <button
                 className={classes.checkoutButton}
-                onClick={() => handlePaymentMethodClick()}
-                disabled={isProcessing}
+                onClick={handleCheckout}
+                disabled={isProcessing || !termsAccepted}
               >
-                {isProcessing ? 'جاري المعالجة...' : 'متابعة وشراء'}
+                {isProcessing ? 'جاري المعالجة...' : `متابعة وشراء ${calculateTotal().toFixed(2)} ر.س.`}
               </button>
+              
+              <div className={classes.securePayment}>
+                <small>الدفع آمن ومشفر عبر بوابة ميسر</small>
+              </div>
             </div>
           </div>
         </div>
       </div>
-
-      {showSuccess && <PaymentSuccess onClose={handleSuccessClose} />}
     </div>
   );
 };
-
-
-
-
 
 export default Checkout;
