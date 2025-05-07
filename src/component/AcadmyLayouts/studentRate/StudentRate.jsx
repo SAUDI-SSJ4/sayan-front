@@ -8,10 +8,16 @@ import quma from "../../../assets/images/quma.png";
 import { Navigation, Pagination, Scrollbar, A11y } from "swiper/modules";
 import { Rate } from "rsuite";
 import { StarBorderOutlined } from "@mui/icons-material";
-const StudentRateSection = ({ opinions }) => {
+const StudentRateSection = ({ opinions, academySettings }) => {
   return (
     <div id="student-opinions" className={classes.StudentRateContainer}>
-      <div className={classes.SectionTitle}>أراء الطلاب .</div>
+      <div className={classes.SectionTitle}>
+        <span>أراء الطلاب .</span>
+        <span
+          style={{ background: academySettings.primary_color }}
+          className="w-[100px] h-[18px] block mx-auto relative bottom-4 -z-10"
+        ></span>
+      </div>
 
       <div className="container mt-5">
         <Swiper
@@ -32,7 +38,10 @@ const StudentRateSection = ({ opinions }) => {
               <SwiperSlide key={i}>
                 <div className={classes.RateCard}>
                   <div className="d-flex align-items-center gap-2">
-                    <img src={opinion.student_image} width={57} height={57} />
+                    <img
+                      src={opinion.student_image}
+                      className="w-14 h-14 rounded-full object-cover"
+                    />
                     <div>
                       <p className={classes.RateName}>{opinion.student_name}</p>
 
@@ -46,7 +55,9 @@ const StudentRateSection = ({ opinions }) => {
                       />
                     </div>
                   </div>
-                  <div className={classes.RateParagraph}>{opinion.comment}</div>
+                  <p className={`${classes.RateParagraph} truncate`}>
+                    {opinion.comment}
+                  </p>
                   <div className="d-flex justify-content-end">
                     <img width={57} src={quma} />
                   </div>
@@ -54,75 +65,6 @@ const StudentRateSection = ({ opinions }) => {
               </SwiperSlide>
             );
           })}
-          {/* <SwiperSlide>
-            <div className={classes.RateCard}>
-              <div className="d-flex align-items-center gap-2">
-                <img src={RateProfile} />
-                <div>
-                  <div className={classes.RateName}>محمد احمد</div>
-                  <img src={RateStars} />
-                </div>
-              </div>
-              <div className={classes.RateParagraph}>
-                النظام ممتاز! عشان كذا احنا مازلنا متمسكين لحد وقتنا هذا بالعمل
-                مع مجموعة أحمد باشماخ من وقت بدأنا تأسيس شركتنا
-              </div>
-              <div className="d-flex justify-content-between">
-                <h3
-                  style={{ fontSize: "14px", margin: "0px", color: "#12141D" }}
-                >
-                  CEO, Ahmed
-                </h3>
-                <img width={57} src={quma} />
-              </div>
-            </div>
-          </SwiperSlide>
-          <SwiperSlide>
-            <div className={classes.RateCard}>
-              <div className="d-flex align-items-center gap-2">
-                <img src={RateProfile} />
-                <div>
-                  <div className={classes.RateName}>محمد احمد</div>
-                  <img src={RateStars} />
-                </div>
-              </div>
-              <div className={classes.RateParagraph}>
-                النظام ممتاز! عشان كذا احنا مازلنا متمسكين لحد وقتنا هذا بالعمل
-                مع مجموعة أحمد باشماخ من وقت بدأنا تأسيس شركتنا
-              </div>
-              <div className="d-flex justify-content-between">
-                <h3
-                  style={{ fontSize: "14px", margin: "0px", color: "#12141D" }}
-                >
-                  CEO, Ahmed
-                </h3>
-                <img width={57} src={quma} />
-              </div>
-            </div>
-          </SwiperSlide>
-          <SwiperSlide>
-            <div className={classes.RateCard}>
-              <div className="d-flex align-items-center gap-2">
-                <img src={RateProfile} />
-                <div>
-                  <div className={classes.RateName}>محمد احمد</div>
-                  <img src={RateStars} />
-                </div>
-              </div>
-              <div className={classes.RateParagraph}>
-                النظام ممتاز! عشان كذا احنا مازلنا متمسكين لحد وقتنا هذا بالعمل
-                مع مجموعة أحمد باشماخ من وقت بدأنا تأسيس شركتنا
-              </div>
-              <div className="d-flex justify-content-between">
-                <h3
-                  style={{ fontSize: "14px", margin: "0px", color: "#12141D" }}
-                >
-                  CEO, Ahmed
-                </h3>
-                <img width={57} src={quma} />
-              </div>
-            </div>
-          </SwiperSlide> */}
         </Swiper>
       </div>
     </div>

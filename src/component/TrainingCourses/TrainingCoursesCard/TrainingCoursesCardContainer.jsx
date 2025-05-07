@@ -1,17 +1,16 @@
 import { Link } from "react-router-dom";
 import { MainSpinner } from "../../UI/MainSpinner";
-import { data } from "./data";
 
-const TrainingCoursesCardContainer = ({ rowData, isLoading }) => {
+const TrainingCoursesCardContainer = ({ courses, isLoading }) => {
   return (
     <div
       className="ag-theme-quartz overflow-x-scroll m-0 !max-w-full"
       style={{ height: 600, maxWidth: "96%", margin: "auto" }}
     >
       {isLoading && <MainSpinner />}
-      {!isLoading && data && data.data.length > 0 ? (
+      {!isLoading && courses && courses.length > 0 ? (
         <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 p-0 m-0 mt-2">
-          {data.data.map((course) => (
+          {courses.map((course) => (
             <Card key={course.id} course={course} />
           ))}
         </ul>
@@ -33,13 +32,11 @@ const Card = ({ course }) => {
         to={`/student/Coursedetails/${course.id}`}
         className="flex flex-col h-full"
       >
-        <div className="flex-1">
-          <img
-            src={course.image}
-            alt="Course Thumbnail"
-            className="object-cover rounded-tr-[10px] rounded-tl-[10px]"
-          />
-        </div>
+        <img
+          src={course.image}
+          alt="Course Thumbnail"
+          className="object-cover rounded-tr-[10px] rounded-tl-[10px] h-[300px]"
+        />
         <div className="p-3 space-y-3">
           <h3 className="text-lg lg:text-xl text-[#2B3674] hover:text-[#0062ff] duration-200 transition-colors">
             {course.title}
@@ -49,10 +46,7 @@ const Card = ({ course }) => {
               تفاعلية
             </span>
           </div>
-          <Link
-            to={`/student/Coursedetails/${course.id}`}
-            className="flex items-center gap-3 group w-fit"
-          >
+          <div className="flex items-center gap-3 group w-fit">
             <img
               src={course.academy_image}
               alt="Academy Image"
@@ -61,7 +55,7 @@ const Card = ({ course }) => {
             <h4 className="text-sm text-[#7E8799] m-0 group-hover:text-[#0062ff] duration-200 transition-colors">
               {course.academy}
             </h4>
-          </Link>
+          </div>
         </div>
       </Link>
     </li>

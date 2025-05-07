@@ -16,6 +16,13 @@ const AcademyLayoutNavbar = ({
   const { user, isLoading: isLoadingUser } = useAuth();
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+  const links = [
+    { name: "الرئيسية", to: "#" },
+    { name: "الدورات", to: "#courses" },
+    { name: "أراء الطلاب", to: "#student-opinions" },
+    { name: "الأسئلة الشائعة", to: "#faqs" },
+    { name: "تواصل معنا", to: "#contact" },
+  ];
   return (
     <div data-aos="fade-down" className={`container`}>
       <div className={`${classes.NavBarContainer} all-navbar-layout-1`}>
@@ -29,25 +36,27 @@ const AcademyLayoutNavbar = ({
           </Link>
           <div className={classes.Routes}>
             <ul>
-              <li>
-                <Link to="#">الرئيسية</Link>
-              </li>
-              <li>
-                <Link to="#courses">الدورات</Link>
-              </li>
-              {faqs.length > 0 && (
-                <li>
-                  <Link to="#faqs">الاسئلة الشائعة</Link>
-                </li>
-              )}
-              {studentOpinions.length > 0 && (
-                <li>
-                  <Link to="#student-opinions">أراء الطلاب</Link>
-                </li>
-              )}
-              <li>
-                <Link to="#contact">تواصل معنا</Link>{" "}
-              </li>
+              {links.map((link, index) => {
+                if (
+                  link.to === "#student-opinions" &&
+                  studentOpinions.length === 0
+                ) {
+                  return null;
+                }
+                if (link.to === "#faqs" && faqs.length === 0) {
+                  return null;
+                }
+                return (
+                  <li key={index}>
+                    <Link
+                      to={link.to}
+                      className="hover:!text-[#009AFF] duration-200 transition-colors"
+                    >
+                      {link.name}
+                    </Link>
+                  </li>
+                );
+              })}
             </ul>
           </div>
         </div>

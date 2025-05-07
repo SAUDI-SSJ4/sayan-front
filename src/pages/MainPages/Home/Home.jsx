@@ -9,6 +9,7 @@ import { getCourses } from "../../../utils/apis/client";
 import { MainSpinner } from "../../../component/UI/MainSpinner";
 import { motion } from "framer-motion";
 import Skeleton from "@mui/material/Skeleton";
+import { Helmet } from "react-helmet-async";
 
 const Numbers = lazy(() =>
   import("../../../component/MainPages/Numbers/Numbers")
@@ -97,87 +98,97 @@ const Home = () => {
   );
 
   return (
-    <div className="header-bg" style={{ backgroundColor: "white" }}>
-      <HomeMainHeader />
+    <>
+      <Helmet>
+        <link
+          rel="icon"
+          type="image/svg+xml"
+          href="/favicon.svg"
+          key="favicon"
+        />
+      </Helmet>
+      <div className="header-bg" style={{ backgroundColor: "white" }}>
+        <HomeMainHeader />
 
-      <div className="container">
+        <div className="container">
+          <Suspense fallback={<MainSpinner />}>
+            <Numbers />
+          </Suspense>
+        </div>
+
         <Suspense fallback={<MainSpinner />}>
-          <Numbers />
+          <SubjectSlider />
         </Suspense>
-      </div>
 
-      <Suspense fallback={<MainSpinner />}>
-        <SubjectSlider />
-      </Suspense>
+        <div className={Style.AllSubject}>
+          <div className="CustomContainer">
+            <SubjectHeader filterByCourseTitle={filterByCourseTitle} />
 
-      <div className={Style.AllSubject}>
-        <div className="CustomContainer">
-          <SubjectHeader filterByCourseTitle={filterByCourseTitle} />
-
-          <div className="row g-3">
-            <div className="col-12 col-md-12 col-lg-3">
-              <SideBarFilter
-                minValue={minPrice}
-                maxValue={maxPrice}
-                filterByCategories={filterByCategories}
-              />
-            </div>
-
-            <div className="col-12 col-md-12 col-lg-9">
-              <div className="row g-2">
-                {isLoading ? (
-                  <div className="row g-2">
-                    {[...Array(POSTS_PER_PAGE)].map((_, index) => (
-                      <div
-                        key={index}
-                        className="col-12 col-md-6 col-lg-6 col-xl-4"
-                      >
-                        <Skeleton
-                          variant="rectangular"
-                          width={220}
-                          height={200}
-                        />
-                        <Skeleton width="40%" />
-                        <Skeleton width="70%" />
-                      </div>
-                    ))}
-                  </div>
-                ) : error ? (
-                  <div>Error loading courses</div>
-                ) : (
-                  currentCourses &&
-                  currentCourses.map((course, index) => (
-                    <motion.div
-                      key={index}
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.5 }}
-                      className="col-12 col-md-6 col-lg-6 col-xl-4"
-                    >
-                      <Suspense fallback={<MainSpinner />}>
-                        <SubjectCard mainData={course} />
-                      </Suspense>
-                    </motion.div>
-                  ))
-                )}
+            <div className="row g-3">
+              <div className="col-12 col-md-12 col-lg-3">
+                <SideBarFilter
+                  minValue={minPrice}
+                  maxValue={maxPrice}
+                  filterByCategories={filterByCategories}
+                />
               </div>
 
-              <div className="d-flex justify-content-center mt-4">
-                <Pagination
-                  count={Math.ceil(filteredData.length / POSTS_PER_PAGE)}
-                  color="primary"
-                  onChange={handlePageChange}
-                />
+              <div className="col-12 col-md-12 col-lg-9">
+                <div className="row g-2">
+                  {isLoading ? (
+                    <div className="row g-2">
+                      {[...Array(POSTS_PER_PAGE)].map((_, index) => (
+                        <div
+                          key={index}
+                          className="col-12 col-md-6 col-lg-6 col-xl-4"
+                        >
+                          <Skeleton
+                            variant="rectangular"
+                            width={220}
+                            height={200}
+                          />
+                          <Skeleton width="40%" />
+                          <Skeleton width="70%" />
+                        </div>
+                      ))}
+                    </div>
+                  ) : error ? (
+                    <div>Error loading courses</div>
+                  ) : (
+                    currentCourses &&
+                    currentCourses.map((course, index) => (
+                      <motion.div
+                        key={index}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.5 }}
+                        className="col-12 col-md-6 col-lg-6 col-xl-4"
+                      >
+                        <Suspense fallback={<MainSpinner />}>
+                          <SubjectCard mainData={course} />
+                        </Suspense>
+                      </motion.div>
+                    ))
+                  )}
+                </div>
+
+                <div className="d-flex justify-content-center mt-4">
+                  <Pagination
+                    count={Math.ceil(filteredData.length / POSTS_PER_PAGE)}
+                    color="primary"
+                    onChange={handlePageChange}
+                  />
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
 
-      <Suspense fallback={<MainSpinner />}>
-        <Footer />
-      </Suspense>
-    </div>
+        <Suspense fallback={<MainSpinner />}>
+          <Footer />
+        </Suspense>
+      </div>
+    </>
   );
 };
 
