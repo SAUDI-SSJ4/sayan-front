@@ -122,7 +122,7 @@ const SubjectCard = ({ mainData, academySettings }) => {
           <div
             className={classes.Badge}
             style={{
-              background: academySettings.primary_color,
+              background: academySettings?.primary_color,
             }}
           >
             {courseTypeLabel}

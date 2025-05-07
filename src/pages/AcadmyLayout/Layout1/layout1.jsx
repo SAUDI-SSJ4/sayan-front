@@ -221,7 +221,9 @@ const Hero = ({ academyData }) => {
                 style={{
                   background: academyData.settings.primary_color,
                 }}
+                target="_blank"
                 className="w-[160px] h-[56px] rounded-[49px] text-sm text-white flex justify-center items-center opacity-90 hover:opacity-100 duration-200 transition-opacity"
+                rel="noreferrer"
               >
                 {academyData.slider.first_button_title}
               </a>
@@ -433,7 +435,7 @@ const Footer = ({ academySettings }) => {
               }}
               className="rounded-md w-10 h-10 flex items-center justify-center cursor-pointer transition duration-300 ease-in-out hover:scale-105"
             >
-              <a href={link.url}>
+              <a href={link.url} target="_blank" rel="noreferrer">
                 <img src={link.icon} alt="Social Icon" className="h-6 w-6" />
               </a>
             </li>
