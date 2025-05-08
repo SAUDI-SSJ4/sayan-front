@@ -9,9 +9,14 @@ import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import { JustifyContentWrapper } from "../../../utils/styles";
 import { ButtonSpinner } from "../../../component/UI/Buttons/ButtonSpinner";
-import { getChangedValues, isValidURL, populateFormData } from "../../../utils/helpers";
+import {
+  getChangedValues,
+  isValidURL,
+  populateFormData,
+} from "../../../utils/helpers";
 import { useSetAbout } from "../../../utils/hooks/set/useSetting";
 import { useAbout } from "../../../services/queries";
+import { useSelector } from "react-redux";
 
 const validationSchema = Yup.object({
   title: Yup.string().required("Title is required"),
@@ -24,48 +29,10 @@ const validationSchema = Yup.object({
 const EditAbout = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const fileInputRef = useRef(null);
-  let [change, setChange] = useState(0);
-  const [file, setFile] = useState();
-  const [aboutId, setAboutId] = useState(null);
 
-  const handleButtonClick = () => {
-    fileInputRef.current.click();
-  };
-
-  const handleFileChange = (e) => {
-    const selectedFile = e.target.files[0];
-    setChange(1);
-    formik.setFieldValue("image", selectedFile);
-    setFile(selectedFile);
-  };
-
-  const { data: aboutData = [], isLoading } = useAbout()
-
-  useEffect(() => {
-
-    if (aboutData?.about) {
-      console.log(aboutData.about);
-      setAboutId(aboutData.about.id)
-      formik.setValues(aboutData.about);
-    }
-
-  }, [aboutData?.about]);
-
-
-  const mutation = useSetAbout(aboutId);
-
-  const formik = useFormik({
-    initialValues: {},
-    validationSchema,
-    onSubmit: (data) => {
-      const formData = new FormData();
-      const values = getChangedValues(data, aboutData.about);
-      populateFormData(formData, values)
-      mutation.mutateAsync(formData);
-    },
-  });
-
+  const profileInfo = useSelector((state) => state.academyUser.academy);
+  const academyId = profileInfo?.academy?.id;
+  const { data: aboutData, isLoading } = useAbout(academyId);
 
   return isLoading ? (
     <div className="w-full h-50 d-flex justify-content-center align-items-center">
@@ -80,89 +47,165 @@ const EditAbout = () => {
               <PeopleAltIcon sx={{ color: "#A3AED0" }} />
               <span style={{ color: "#7E8799" }}> تعديل </span>
             </div>
-            <div className="updateBtn" onClick={() => navigate(location.pathname.replace("/edit", ""))}>
+            <div
+              className="updateBtn"
+              onClick={() => navigate(location.pathname.replace("/edit", ""))}
+            >
               الرجوع <KeyboardBackspaceIcon />
             </div>
           </div>
         </div>
       </div>
       <div className="CustomCard formCard all-add-notific pb-4 pt-4">
-        <form onSubmit={formik.handleSubmit} className="row">
-          <div className="justify-content-center">
-            <div className="row m-auto justify-content-center">
-              <img
-                src={!change ? formik.values.image : URL.createObjectURL(formik.values.image)}
-                alt="Selected File"
-                style={{
-                  maxWidth: "366px",
-                  maxHeight: "212px",
-                  objectFit: "contain",
-                  marginTop: "10px",
-                }}
-              />
-              <div className="d-flex button-content--1 justify-content-center">
-                <input
-                  type="file"
-                  name="image"
-                  id="image"
-                  ref={fileInputRef}
-                  style={{ display: "none" }}
-                  onChange={handleFileChange}
-                />
-                <button
-                  type="button"
-                  className="updateBtn"
-                  style={{ background: "white", marginTop: "25px", marginBottom: "30px" }}
-                  onClick={handleButtonClick}
-                >
-                  رفع الصورة
-                </button>
-              </div>
-            </div>
-          </div>
-
-          {[
-            { id: "title", label: "العنوان", placeholder: "ادخل عنوان المقال هنا" },
-            { id: "sub_title", label: "العنوان الفرعى", placeholder: "ادخل عنوان المقال هنا" },
-            { id: "content", label: "الوصف", placeholder: "ادخل النص هنا", type: "textarea" },
-            { id: "feature_one", label: "السمة الاولى", placeholder: "ادخل النص هنا" },
-            { id: "feature_two", label: "السمة الثانية", placeholder: "ادخل النص هنا" },
-          ].map(({ id, label, placeholder, type = "text" }) => (
-            <div className={`col-lg-${id === "content" ? "12" : "6"} col-md-12`} key={id}>
-              <div className="CustomFormControl">
-                <label htmlFor={id}>{label}</label>
-                {type === "textarea" ? (
-                  <textarea
-                    id={id}
-                    name={id}
-                    placeholder={placeholder}
-                    value={formik.values[id]}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                  />
-                ) : (
-                  <input
-                    type={type}
-                    id={id}
-                    name={id}
-                    placeholder={placeholder}
-                    value={formik.values[id]}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                  />
-                )}
-                {formik.touched[id] && formik.errors[id] && <div>{formik.errors[id]}</div>}
-              </div>
-            </div>
-          ))}
-
-          <JustifyContentWrapper className="mt-4">
-            <ButtonSpinner titel="إضافة" isPending={mutation.isPending} />
-          </JustifyContentWrapper>
-        </form>
+        {isLoading && <Spinner />}
+        {!isLoading && aboutData && <Form aboutData={aboutData} />}
       </div>
     </div>
   );
 };
 
 export default EditAbout;
+
+const Form = ({ aboutData }) => {
+  let [selectedImage, setSelectedImage] = useState(aboutData.about.image);
+  const fileInputRef = useRef(null);
+
+  const handleButtonClick = () => {
+    fileInputRef.current.click();
+  };
+
+  const handleFileChange = (e) => {
+    const selectedFile = e.target.files[0];
+    setSelectedImage(URL.createObjectURL(selectedFile));
+    formik.setFieldValue("image", selectedFile);
+  };
+  const mutation = useSetAbout();
+  const formik = useFormik({
+    initialValues: {
+      title: aboutData.about.title || "",
+      sub_title: aboutData.about.sub_title || "",
+      content: aboutData.about.content || "",
+      feature_one: aboutData.about.feature_one || "",
+      feature_two: aboutData.about.feature_two || "",
+      image: aboutData.about.image || "",
+    },
+    validationSchema,
+    onSubmit: (data) => {
+      const { image, ...rest } = data;
+      const formData = new FormData();
+      const imageFile =
+        typeof data.image === "object" ? { image: data.image } : {};
+      populateFormData(formData, {
+        ...rest,
+        ...imageFile,
+      });
+      mutation.mutateAsync(formData);
+    },
+  });
+  return (
+    <form onSubmit={formik.handleSubmit} className="row">
+      <div className="justify-content-center">
+        <div className="row m-auto justify-content-center">
+          <img
+            src={selectedImage}
+            alt="Selected File"
+            style={{
+              maxWidth: "366px",
+              maxHeight: "212px",
+              objectFit: "contain",
+              marginTop: "10px",
+            }}
+          />
+          <div className="d-flex button-content--1 justify-content-center">
+            <input
+              type="file"
+              name="image"
+              id="image"
+              ref={fileInputRef}
+              style={{ display: "none" }}
+              onChange={handleFileChange}
+              accept="image/*"
+            />
+            <button
+              type="button"
+              className="updateBtn"
+              style={{
+                background: "white",
+                marginTop: "25px",
+                marginBottom: "30px",
+              }}
+              onClick={handleButtonClick}
+            >
+              رفع الصورة
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {[
+        {
+          id: "title",
+          label: "العنوان",
+          placeholder: "ادخل عنوان المقال هنا",
+        },
+        {
+          id: "sub_title",
+          label: "العنوان الفرعى",
+          placeholder: "ادخل عنوان المقال هنا",
+        },
+        {
+          id: "content",
+          label: "الوصف",
+          placeholder: "ادخل النص هنا",
+          type: "textarea",
+        },
+        {
+          id: "feature_one",
+          label: "السمة الاولى",
+          placeholder: "ادخل النص هنا",
+        },
+        {
+          id: "feature_two",
+          label: "السمة الثانية",
+          placeholder: "ادخل النص هنا",
+        },
+      ].map(({ id, label, placeholder, type = "text" }) => (
+        <div
+          className={`col-lg-${id === "content" ? "12" : "6"} col-md-12`}
+          key={id}
+        >
+          <div className="CustomFormControl">
+            <label htmlFor={id}>{label}</label>
+            {type === "textarea" ? (
+              <textarea
+                id={id}
+                name={id}
+                placeholder={placeholder}
+                value={formik.values[id]}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+              />
+            ) : (
+              <input
+                type={type}
+                id={id}
+                name={id}
+                placeholder={placeholder}
+                value={formik.values[id]}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+              />
+            )}
+            {formik.touched[id] && formik.errors[id] && (
+              <p className="text-red-500">{formik.errors[id]}</p>
+            )}
+          </div>
+        </div>
+      ))}
+
+      <JustifyContentWrapper className="mt-4">
+        <ButtonSpinner titel="إضافة" isPending={mutation.isPending} />
+      </JustifyContentWrapper>
+    </form>
+  );
+};

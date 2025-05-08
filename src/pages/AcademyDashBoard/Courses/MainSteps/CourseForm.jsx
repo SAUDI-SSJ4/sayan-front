@@ -18,8 +18,7 @@ import { fetchCurrentCourseSummaryThunk } from "../../../../../redux/courses/Cou
 
 const typeOptions = [
   { value: "recorded", label: "تفاعلية", color: "#673ab7" },
-  { value: "live", label: "مباشرة", color: "#f44336" },
-  { value: "attend", label: "حضورية", color: "#8bc34a" },
+
 ];
 
 const studentLevelOptions = [
@@ -234,6 +233,7 @@ export const CourseForm = forwardRef(({ setStepper, categories, trainers }, ref)
             options={typeOptions}
             styles={colourStyles}
             onChange={(option) => formik.setFieldValue("type", option.value)}
+            placeholder="اختر نوع الدورة"
           />
         </div>
       </div>
@@ -305,6 +305,7 @@ export const CourseForm = forwardRef(({ setStepper, categories, trainers }, ref)
             options={studentLevelOptions}
             styles={colourStyles}
             onChange={(option) => formik.setFieldValue("level", option.value)}
+            placeholder="اختر مستوى الطالب"
           />
           {formik.touched.level && formik.errors.level && <div>{formik.errors.level}</div>}
         </div>

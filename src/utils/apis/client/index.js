@@ -1,9 +1,16 @@
 import { user_token, website_client } from "../client.config";
 
-
 // Login API
 export const postLoginAPI = async (data) => {
   return await website_client.post(`/login`, data);
+};
+
+export const forgotPasswordAPI = async (data) => {
+  return await website_client.post(`/forgetpassword`, data);
+};
+
+export const resetPasswordAPI = async (data) => {
+  return await website_client.post(`/reset-password`, data);
 };
 
 // Client APIs

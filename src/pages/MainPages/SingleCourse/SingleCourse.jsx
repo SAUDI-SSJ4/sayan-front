@@ -65,12 +65,14 @@ const SingleCourse = () => {
             isLoading={isLoading}
           />
 
-          <CourseInfo
-            courseData={courseData}
-            active={active}
-            expanded={expanded}
-            handleChange={handleChange}
-          />
+          <div className={Style.cardInfo}>
+            <CourseInfo
+              courseData={courseData}
+              active={active}
+              expanded={expanded}
+              handleChange={handleChange}
+            />
+          </div>
         </div>
       </Header2>
       <CourseRelated courseData={courseData} />

@@ -53,6 +53,10 @@
         font-size: 14px;
         font-weight: 500;
         color: #7e8799;
+
+        &::placeholder {
+          color: #a3aed0;
+        }
       }
     }
   }

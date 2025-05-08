@@ -155,11 +155,11 @@ input[type="number"] {
   -moz-appearance: textfield; /* Firefox */
 }
 
-.copyright {
-  justify-self: end;
-  align-self: flex-end;
-  position: absolute;
-  bottom: 50px;
-  left: 140px;
+.LoginContainer .copyright {
+  margin-top: 40px;
+  text-align: left;
   color: #a3aed0;
+  @media (max-width: 768px) {
+    text-align: center;
+  }
 }

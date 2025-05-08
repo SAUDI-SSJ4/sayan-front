@@ -1,7 +1,7 @@
 import HomeIcon from "@mui/icons-material/Home";
 import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
 import Collection from "./Collection/collection";
-import {  useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { HiMiniBriefcase } from "react-icons/hi2";
 import PersonIcon from "@mui/icons-material/Person";
 import WalletIcon from "@mui/icons-material/Wallet";
@@ -13,6 +13,7 @@ import { STUDENT_BAG_NAVIGATOR_ONE, STUDENT_BAG_NAVIGATOR_TWO } from "../../util
 import { SingleLinkOnMenu } from "../UI/Links/SingleLinkOnMenu";
 import { SubLinkOnMenu } from "../UI/Links/SubLinkOnMenu";
 import { useCart } from "../../context/CartContext";
+import { Badge } from "flowbite-react";
 
 const StudentNavigation = ({ setShow, mobile }) => {
   const location = useLocation();
@@ -25,6 +26,15 @@ const StudentNavigation = ({ setShow, mobile }) => {
           <div>
             <HomeIcon sx={{ width: "35px", height: "35px" }} />
             <span className="title-dash-link">لوحة التحكم</span>
+          </div>
+        </div>
+      </SingleLinkOnMenu>
+
+      <SingleLinkOnMenu path="/student/profile">
+        <div className={classes.mainIcon}>
+          <div>
+            <PersonIcon sx={{ width: "35px", height: "35px" }} />
+            <span className="title-dash-link">الملف الشخصي </span>
           </div>
         </div>
       </SingleLinkOnMenu>
@@ -57,14 +67,15 @@ const StudentNavigation = ({ setShow, mobile }) => {
           </div>
         </SubLinkOnMenu>
 
-        <SubLinkOnMenu path="student/Certficates">
+        <div path="student/Certficates">
           <div className={classes.subIcon} onClick={(e) => (mobile ? setShow(false) : null)}>
             <div>
               <FiberManualRecordIcon sx={{ color: "#7E8799", width: "10px", height: "10px" }} />
             </div>
             <span className="title-dash-link">الشهادات</span>
+            <Badge color="failure">قريباً</Badge>
           </div>
-        </SubLinkOnMenu>
+        </div>
 
         <SubLinkOnMenu path="student/Favorate">
           <div className={classes.subIcon} onClick={(e) => (mobile ? setShow(false) : null)}>
@@ -102,15 +113,34 @@ const StudentNavigation = ({ setShow, mobile }) => {
         mainTitle={"التسويق"}
         acitve={STUDENT_BAG_NAVIGATOR_TWO.find((path) => location.pathname === path)}
       >
-        <SubLinkOnMenu path="/student/Marketing">
+        <div path="/student/Marketing">
           <div className={classes.subIcon} onClick={(e) => (mobile ? setShow(false) : null)}>
             <div>
               <FiberManualRecordIcon sx={{ color: "#7E8799", width: "10px", height: "10px" }} />
             </div>
             <span className="title-dash-link">التسويق بالعمولة </span>
+            <Badge color="failure">قريباً</Badge>
+          </div>
+        </div>
+
+
+      </Collection>
+
+
+      <Collection
+        mainIcon={<WalletIcon sx={{ width: "30px", height: "30px" }} />}
+        mainTitle={"المحفظة"}
+        acitve={STUDENT_BAG_NAVIGATOR_TWO.find((path) => location.pathname === path)}
+      >
+
+        <SubLinkOnMenu path="/student/Wallet">
+          <div className={classes.subIcon} onClick={(e) => (mobile ? setShow(false) : null)}>
+            <div>
+              <FiberManualRecordIcon sx={{ color: "#7E8799", width: "10px", height: "10px" }} />
+            </div>
+            <span className="title-dash-link"> عرض المحفظة </span>
           </div>
         </SubLinkOnMenu>
-
         <SubLinkOnMenu path="/student/Transactions">
           <div className={classes.subIcon} onClick={(e) => (mobile ? setShow(false) : null)}>
             <div>
@@ -121,23 +151,6 @@ const StudentNavigation = ({ setShow, mobile }) => {
         </SubLinkOnMenu>
       </Collection>
 
-      <SingleLinkOnMenu path="/student/Wallet">
-        <div className={classes.mainIcon}>
-          <div>
-            <WalletIcon sx={{ width: "35px", height: "35px" }} />
-            <span className="title-dash-link">المحفظة </span>
-          </div>
-        </div>
-      </SingleLinkOnMenu>
-
-      <SingleLinkOnMenu path="/student/profile">
-        <div className={classes.mainIcon}>
-          <div>
-            <PersonIcon sx={{ width: "35px", height: "35px" }} />
-            <span className="title-dash-link">الملف الشخصي </span>
-          </div>
-        </div>
-      </SingleLinkOnMenu>
     </>
   );
 };

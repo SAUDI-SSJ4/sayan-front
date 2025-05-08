@@ -3,8 +3,14 @@
   padding-bottom: 30px;
   max-width: 1300px;
   margin: 30px auto;
+  padding-top: 4.3rem;
+    padding-left: 1.3rem;
+      padding-right: 1.3rem;
   @media (max-width: 600px) {
     margin-inline: 10px !important;
+    padding-top: 4.3rem;
+    padding-left: 1.3rem;
+      padding-right: 8.3rem;
   }
 }
 .BannerText {

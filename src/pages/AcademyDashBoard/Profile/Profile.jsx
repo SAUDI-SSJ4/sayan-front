@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import useImage from "./../../../assets/icons/Acadmy.png";
+import header from "./../../../assets/images/replacement/academyBanner.jpg"
 import { RiTwitterXFill } from "react-icons/ri";
 import { FaFacebook, FaSnapchatGhost } from "react-icons/fa";
 import Insta from "../../../assets/icons/Insta.svg";
@@ -35,19 +36,19 @@ const Profile = () => {
     <div className="all-info-top-header main-info-top">
       <div className="mt-3">
         <div className="ProfileHeader">
-          <div className="">
+          <div style={{ height: '220px' }}>
             <img
-              height={200}
-              src={cover || useImage}
+              src={cover ? cover : header}  
               alt="Cover"
-              className="w-100 object-fit-cover rounded"
+              className="w-100 h-100 object-fit-cover rounded"
             />
           </div>
           <div className="ProfileInfo">
             <div className="info-content-header d-flex align-items-center justify-content-between gap-3 flex-wrap w-100">
               <div className="d-flex flex-wrap">
                 <div className="ProfileImage overflow-hidden">
-                  <img src={image ?? useImage} className="object-fit-cover" alt="Profile" />
+                  <img src={image ?? useImage} className="object-fit-cover"
+                  alt="Profile" />
                 </div>
                 <div>
                   <h2 className="fs-6 fw-medium title-text--1">{academyName ?? "Academy Name"}</h2>
@@ -93,14 +94,6 @@ const Profile = () => {
                     {email ?? "Email not available"}
                   </span>
                 </div>
-                {academyPhone && (
-                  <div className="col-6 col-sm-6">
-                    <h3 className="fs-6 fw-medium title-text--1">هاتف الأكاديمية</h3>
-                    <span className="fs-6 fw-medium title-text--1">
-                      {academyPhone ?? "Academy phone not available"}
-                    </span>
-                  </div>
-                )}
                 {address && (
                   <div className="col-6">
                     <h3 className="fs-6 fw-medium title-text--1">العنوان</h3>

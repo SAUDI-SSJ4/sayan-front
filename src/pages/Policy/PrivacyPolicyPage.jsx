@@ -1,190 +1,249 @@
 import NavBar from "../../component/MainPages/Header/NavBar";
 import { Subtitle, Title, Container, SectionTitle, List, ListItem, Wrapper, IconWrapper } from "./PolicyPageStyle.jsx";
 import { FaCheckCircle } from "react-icons/fa";
+import AcademyFooter from "../../component/MainPages/Footer/Footer.jsx";
 
 const PrivacyPolicyPage = () => {
   return (
     <Wrapper>
-      <div className="mt-5">
+      <div className>
         <NavBar />
       </div>
-      <Container>
+      <Container className>
         <Title>سياسة الخصوصية والنزاهة الأكاديمية</Title>
-        <Subtitle>سياسة الخصوصية والنزاهة الأكاديمية</Subtitle>
-        <SectionTitle>شروط وأحكام الاستخدام:</SectionTitle>
+        <Subtitle>شروط وأحكام استخدام منصة سيان</Subtitle>
+  
+        <SectionTitle>مقدمة</SectionTitle>
+        <p>
+          شروط وأحكام استخدام منصة سيان
+          باستخدام منصة سيان، فإنك توافق على هذه الشروط والأحكام، والتي قد يتم تحديثها دوريًا.
+          تلتزم سيان بحماية الحقوق الفكرية وضمان جودة المحتوى وفقًا للأنظمة والسياسات الوطنية.
+          يُمنع نشر أي محتوى مخالف، ويحق للمنصة حذف أو إيقاف أي حساب ينتهك القواعد.
+          لا تتحمل سيان مسؤولية الأعطال التقنية الناتجة عن ظروف خارجة عن إرادتها.
+          يحق لـسيان تعديل الشروط دون إشعار مسبق، ويعد استمرار الاستخدام موافقة على التعديلات. 
+        </p>
+  
+        <SectionTitle>الامتثال</SectionTitle>
         <List>
           <ListItem>
-            <IconWrapper>
-              <FaCheckCircle />
-            </IconWrapper>
-          <span>  غرض من الموقع هو تسهيل الوصول إلى المحتويات الفيديو المسموح الوصول لها.</span>
+            <IconWrapper><FaCheckCircle /></IconWrapper>
+            <span>كلمة المرور: أنت مسؤول عن أمان حسابك، ويجب إبلاغنا فورًا عند أي اختراق. لا نتحمل مسؤولية أي خسائر ناتجة عن إهمال كلمة المرور.</span>
           </ListItem>
           <ListItem>
-            <IconWrapper>
-              <FaCheckCircle />
-            </IconWrapper>
-          <span>  المستخدمين ملزمون بعدم اساءة الاستخدام وعليهم احترام جميع قوانين الاستخدام الخاصة بالمنصة.</span>
-          </ListItem>
-          <ListItem>
-            <IconWrapper>
-              <FaCheckCircle />
-            </IconWrapper>
-            تحتفظ المنصة بالحق في حظر أي مستخدم يقوم بمخالفة الشروط والأحكام.
-          </ListItem>
-          <ListItem>
-            <IconWrapper>
-              <FaCheckCircle />
-            </IconWrapper>
-            المعلومات المقدمة من المستخدم يجب أن تكون دقيقة وصحيحة.
-          </ListItem>
-          <ListItem>
-            <IconWrapper>
-              <FaCheckCircle />
-            </IconWrapper>
-            استخدام الخدمة لا يضمن الأداء المتواصل وغير المتقطع للموقع.
+            <IconWrapper><FaCheckCircle /></IconWrapper>
+            <span>معلومات الحساب: يجب تحديث بيانات الحساب باستمرار، بما في ذلك البريد الإلكتروني ووسائل الدفع.</span>
           </ListItem>
         </List>
-      
-
-      <hr/>
-      <SectionTitle>شروط وأحكام الاستخدام:</SectionTitle>
+  
+        <SectionTitle>سياسة الخصوصية والأمان</SectionTitle>
+        <p>
+          سياسة الخصوصية والأمان:
+          تلتزم سيان بحماية خصوصيتك، ويتم استخدام بياناتك وفقًا لسياسة الخصوصية المعتمدة. جميع المعلومات الشخصية وغير الشخصية محفوظة بأمان، وتخضع للقوانين المنظمة لحماية البيانات.
+        </p>
+  
+        <SectionTitle>زوار الموقع والمعلومات التعريفية</SectionTitle>
+        <p>
+          زوار الموقع والمعلومات التعريفية:
+          تجمع سيان بيانات غير شخصية مثل نوع المتصفح وتاريخ الزيارة لفهم سلوك المستخدمين وتحسين التجربة، دون نشر أي معلومات شخصية. نلتزم بحماية خصوصية المستخدمين، ولا نشارك بياناتهم الشخصية إلا وفق المتطلبات القانونية، أو لتحسين خدماتنا وتقديم تجربة أفضل، أو لاستطلاع الآراء حول المنصة وعرض الإعلانات المتعلقة بها. 
+        </p>
+  
+        <SectionTitle>الملكية الفكرية وحقوق النشر</SectionTitle>
         <List>
           <ListItem>
-            <IconWrapper>
-              <FaCheckCircle />
-            </IconWrapper>
-          <span>  غرض من الموقع هو تسهيل الوصول إلى المحتويات الفيديو المسموح الوصول لها.</span>
-          </ListItem>
-          <ListItem>
-            <IconWrapper>
-              <FaCheckCircle />
-            </IconWrapper>
-          <span>  المستخدمين ملزمون بعدم اساءة الاستخدام وعليهم احترام جميع قوانين الاستخدام الخاصة بالمنصة.</span>
-          </ListItem>
-          <ListItem>
-            <IconWrapper>
-              <FaCheckCircle />
-            </IconWrapper>
-            تحتفظ المنصة بالحق في حظر أي مستخدم يقوم بمخالفة الشروط والأحكام.
-          </ListItem>
-          <ListItem>
-            <IconWrapper>
-              <FaCheckCircle />
-            </IconWrapper>
-            المعلومات المقدمة من المستخدم يجب أن تكون دقيقة وصحيحة.
-          </ListItem>
-          <ListItem>
-            <IconWrapper>
-              <FaCheckCircle />
-            </IconWrapper>
-            استخدام الخدمة لا يضمن الأداء المتواصل وغير المتقطع للموقع.
+            <IconWrapper><FaCheckCircle /></IconWrapper>
+            <span>تحترم سيان حقوق الملكية الفكرية وتلتزم بحمايتها، كما يُحظر نشر أي محتوى غير مرخص أو ينتهك حقوق النشر. جميع النصوص، الرسومات، الشعارات، الأسماء، والوظائف في سيان هي ملك حصري للمنصة ومحمية بالقوانين المعمول بها. لا يجوز نسخ أو إعادة إنتاج أو توزيع أي محتوى دون إذن كتابي مسبق. يحق للزوار عرض المحتوى، لكنه يظل مملوكًا لـسيان أو الجهات المرخصة. يُمنع نشر أي محتوى يسيء للأفراد أو الجهات، أو يخالف القيم الإسلامية والأخلاقية، أو يؤثر سلبًا على الوحدة الوطنية.</span>
           </ListItem>
         </List>
-        <hr/>
-      <SectionTitle>شروط وأحكام الاستخدام:</SectionTitle>
+  
+        <SectionTitle>الرسوم، التسعير، والمدفوعات</SectionTitle>
+        <p>
+          الرسوم، التسعير، والمدفوعات
+          تسجيل الحساب في سيان مجاني، لكن قد تتغير هذه السياسة مستقبلاً. نحتفظ بالحق في تعديل أو فرض رسوم على بعض الخدمات، وتكون جميع الأسعار بالريال السعودي، سيان تحدد الاسعار، وقد يتم تعديلها بالزيادة أو النقصان وفقًا للسياسات المعتمدة.
+        </p>
+  
+        <SectionTitle>سياسة استرجاع المال</SectionTitle>
         <List>
           <ListItem>
-            <IconWrapper>
-              <FaCheckCircle />
-            </IconWrapper>
-          <span>  غرض من الموقع هو تسهيل الوصول إلى المحتويات الفيديو المسموح الوصول لها.</span>
+            <IconWrapper><FaCheckCircle /></IconWrapper>
+            <span>جميع المدفوعات نهائية وغير قابلة للاسترجاع النقدي، إلا في الحالات المؤهلة وحسب تقديرنا.</span>
           </ListItem>
           <ListItem>
-            <IconWrapper>
-              <FaCheckCircle />
-            </IconWrapper>
-          <span>  المستخدمين ملزمون بعدم اساءة الاستخدام وعليهم احترام جميع قوانين الاستخدام الخاصة بالمنصة.</span>
+            <IconWrapper><FaCheckCircle /></IconWrapper>
+            <span>قد يتم النظر في إعادة الأموال في حال إلغاء أو تأجيل الدورة، أو خصم المبلغ مرتين بالخطأ.</span>
           </ListItem>
           <ListItem>
-            <IconWrapper>
-              <FaCheckCircle />
-            </IconWrapper>
-            تحتفظ المنصة بالحق في حظر أي مستخدم يقوم بمخالفة الشروط والأحكام.
+            <IconWrapper><FaCheckCircle /></IconWrapper>
+            <span>عمليات الاسترجاع تخضع لموافقة سيان، وقد تُمنح كرصيد في حساب المستخدم للاستخدام المستقبلي.</span>
           </ListItem>
           <ListItem>
-            <IconWrapper>
-              <FaCheckCircle />
-            </IconWrapper>
-            المعلومات المقدمة من المستخدم يجب أن تكون دقيقة وصحيحة.
+            <IconWrapper><FaCheckCircle /></IconWrapper>
+            <span>لا يتم استرجاع الأموال بسبب عدم ملاءمة العتاد التقني أو حذف الدورات لأسباب قانونية.</span>
           </ListItem>
           <ListItem>
-            <IconWrapper>
-              <FaCheckCircle />
-            </IconWrapper>
-            استخدام الخدمة لا يضمن الأداء المتواصل وغير المتقطع للموقع.
+            <IconWrapper><FaCheckCircle /></IconWrapper>
+            <span>المنصة لا تضمن دقة المحتوى أو ملاءمته لتوقعات المستخدم، ولن يتم استرجاع الأموال بناءً على ذلك.</span>
+          </ListItem>
+          <ListItem>
+            <IconWrapper><FaCheckCircle /></IconWrapper>
+            <span>لا يحق للمستخدم طلب استرجاع المبلغ إذا لم يجتاز الدورة.</span>
           </ListItem>
         </List>
-        <hr/>
-      <SectionTitle>شروط وأحكام الاستخدام:</SectionTitle>
+  
+        <SectionTitle>الشهادات</SectionTitle>
+        <p>
+          الشهادات
+          تُصدر منصة سيان والمؤسسات المقدمة للدورات شهادات إتمام بناءً على تقديرها الخاص، وقد لا تُمنح شهادة لبعض الدورات وفقًا لمعاييرها.
+          لا يتيح التسجيل أو إكمال الدورات على سيان التقدم لبرامج درجات أكاديمية في المؤسسات المقدمة لها.
+          استخدام موارد الدورة يقتصر على نطاق المنصة فقط، ولا يمنح أي امتيازات إضافية للمستخدم.
+        </p>
+  
+        <SectionTitle>سلوكيات الأعضاء والزوار</SectionTitle>
         <List>
           <ListItem>
-            <IconWrapper>
-              <FaCheckCircle />
-            </IconWrapper>
-          <span>  غرض من الموقع هو تسهيل الوصول إلى المحتويات الفيديو المسموح الوصول لها.</span>
+            <IconWrapper><FaCheckCircle /></IconWrapper>
+            <span>جميع الأنشطة التي تتم باستخدام حسابك تقع تحت مسؤوليتك.</span>
           </ListItem>
           <ListItem>
-            <IconWrapper>
-              <FaCheckCircle />
-            </IconWrapper>
-          <span>  المستخدمين ملزمون بعدم اساءة الاستخدام وعليهم احترام جميع قوانين الاستخدام الخاصة بالمنصة.</span>
+            <IconWrapper><FaCheckCircle /></IconWrapper>
+            <span>لا يجوز لك مشاركة محتوى غير قانوني، مسيء، أو ينتهك القيم</span>
           </ListItem>
           <ListItem>
-            <IconWrapper>
-              <FaCheckCircle />
-            </IconWrapper>
-            تحتفظ المنصة بالحق في حظر أي مستخدم يقوم بمخالفة الشروط والأحكام.
+            <IconWrapper><FaCheckCircle /></IconWrapper>
+            <span>يمنع نشر محتوى إعلاني غير مرغوب فيه أو برمجيات خبيثة قد تضر بالمستخدمين أو الموقع.</span>
           </ListItem>
           <ListItem>
-            <IconWrapper>
-              <FaCheckCircle />
-            </IconWrapper>
-            المعلومات المقدمة من المستخدم يجب أن تكون دقيقة وصحيحة.
+            <IconWrapper><FaCheckCircle /></IconWrapper>
+            <span>أي انتهاك للقوانين المحلية أو الدولية، بما في ذلك حقوق الملكية الفكرية، غير مسموح به.</span>
           </ListItem>
           <ListItem>
-            <IconWrapper>
-              <FaCheckCircle />
-            </IconWrapper>
-            استخدام الخدمة لا يضمن الأداء المتواصل وغير المتقطع للموقع.
+            <IconWrapper><FaCheckCircle /></IconWrapper>
+            <span>لا يجوز انتحال شخصية أي شخص أو جهة.</span>
+          </ListItem>
+          <ListItem>
+            <IconWrapper><FaCheckCircle /></IconWrapper>
+            <span>يمنع التلاعب بالأسعار أو التدخل في قوائم الدورات.</span>
+          </ListItem>
+          <ListItem>
+            <IconWrapper><FaCheckCircle /></IconWrapper>
+            <span>لا يُسمح بوضع روابط لمواقع أخرى دون إذن كتابي من سيان.</span>
+          </ListItem>
+          <ListItem>
+            <IconWrapper><FaCheckCircle /></IconWrapper>
+            <span>يحظر تسويق منتجات أو خدمات غير قانونية.</span>
+          </ListItem>
+          <ListItem>
+            <IconWrapper><FaCheckCircle /></IconWrapper>
+            <span>لا يجوز تعطيل أو تشويش عمل الموقع بأي طريقة، مثل الهجمات السبرانية.</span>
+          </ListItem>
+          <ListItem>
+            <IconWrapper><FaCheckCircle /></IconWrapper>
+            <span>يمنع استخدام عناوين بريد إلكتروني أو IP مضللة لإخفاء المصدر الحقيقي لأي محتوى.</span>
+          </ListItem>
+          <ListItem>
+            <IconWrapper><FaCheckCircle /></IconWrapper>
+            <span>لا تحاول الوصول غير القانوني لأنظمة المنصة أو إعادة تفعيل حساب تم إيقافه.</span>
+          </ListItem>
+          <ListItem>
+            <IconWrapper><FaCheckCircle /></IconWrapper>
+            <span>يمنع جمع بيانات شخصية للأعضاء أو الزوار لأغراض تجارية أو غير قانونية.</span>
+          </ListItem>
+          <ListItem>
+            <IconWrapper><FaCheckCircle /></IconWrapper>
+            <span>لا يجوز استخدام أدوات أوتوماتيكية لتنزيل بيانات الموقع، إلا في الحالات المصرح بها مثل محركات البحث وأدوات RSS.</span>
+          </ListItem>
+          <ListItem>
+            <IconWrapper><FaCheckCircle /></IconWrapper>
+            <span>يجب الإبلاغ عن أي حساب ينتحل صفتك عبر البريد الإلكتروني [email protected].</span>
+          </ListItem>
+          <ListItem>
+            <IconWrapper><FaCheckCircle /></IconWrapper>
+            <span>التسجيل يصبح رسميًا بعد تفعيل الحساب عبر الرابط المرسل إلى بريدك الإلكتروني.</span>
+          </ListItem>
+          <ListItem>
+            <IconWrapper><FaCheckCircle /></IconWrapper>
+            <span>يمنع استخدام الموقع لأي أغراض غير قانونية أو غير مصرح بها.</span>
+          </ListItem>
+          <ListItem>
+            <IconWrapper><FaCheckCircle /></IconWrapper>
+            <span>أي محاولة للتأثير السلبي على تجربة المستخدمين الآخرين ستؤدي إلى إجراءات صارمة.</span>
+          </ListItem>
+          <ListItem>
+            <IconWrapper><FaCheckCircle /></IconWrapper>
+            <span>سيان تحتفظ بحق تعديل هذه الشروط وفقًا لتقديرها، ويجب عليك الالتزام بها دائمًا.</span>
           </ListItem>
         </List>
-        <hr/>
-      <SectionTitle>شروط وأحكام الاستخدام:</SectionTitle>
+  
+        <SectionTitle>رفع محتوى غير مناسب</SectionTitle>
+        <p>
+          رفع محتوى غير مناسب
+          منصة سيان غير مسؤولة عن أي محتوى يرفعه الأعضاء، وجميع المخاطر المتعلقة به تقع على عاتقك.
+          تحتفظ المنصة بالحق في مراقبة أو تعديل أو حذف أي محتوى دون سابق إنذار وفقًا لتقديرها.
+        </p>
+  
+        <SectionTitle>المعلومات المالية</SectionTitle>
         <List>
           <ListItem>
-            <IconWrapper>
-              <FaCheckCircle />
-            </IconWrapper>
-          <span>  غرض من الموقع هو تسهيل الوصول إلى المحتويات الفيديو المسموح الوصول لها.</span>
+            <IconWrapper><FaCheckCircle /></IconWrapper>
+            <span>المعلومات المالية:
+            أنت توافق على دفع رسوم الدورات التدريبية التي تشتريها، وتفوضنا لمعالجة الدفع عبر بطاقة الخصم/الائتمان أو وسائل أخرى بالتعاون مع شركاء معالجة الدفع الخارجيين.</span>
           </ListItem>
           <ListItem>
-            <IconWrapper>
-              <FaCheckCircle />
-            </IconWrapper>
-          <span>  المستخدمين ملزمون بعدم اساءة الاستخدام وعليهم احترام جميع قوانين الاستخدام الخاصة بالمنصة.</span>
+            <IconWrapper><FaCheckCircle /></IconWrapper>
+            <span>عند إجراء عملية شراء، يجب أن تكون طريقة الدفع صالحة ومصرح بها. في حال فشل الدفع، يتعين عليك سداد الرسوم المستحقة خلال 7 أيام من الإشعار، وإلا سنحتفظ بالحق في تعطيل الوصول للخدمة.</span>
           </ListItem>
           <ListItem>
-            <IconWrapper>
-              <FaCheckCircle />
-            </IconWrapper>
-            تحتفظ المنصة بالحق في حظر أي مستخدم يقوم بمخالفة الشروط والأحكام.
+            <IconWrapper><FaCheckCircle /></IconWrapper>
+            <span>المبالغ المدفوعة غير قابلة للاسترجاع أو الاستبدال إلا في حال عدم تقديم الخدمة بسبب عطل فني من طرفنا، وفي هذه الحالة يُحتفظ بالمبلغ كرصيد لاستخدامه خلال سنة واحدة فقط.</span>
           </ListItem>
           <ListItem>
-            <IconWrapper>
-              <FaCheckCircle />
-            </IconWrapper>
-            المعلومات المقدمة من المستخدم يجب أن تكون دقيقة وصحيحة.
+            <IconWrapper><FaCheckCircle /></IconWrapper>
+            <span>نحتفظ بالحق في حظر حسابك أو تقييد استخدامك إذا اعتقدنا أنك تسيء استخدام سياسة الاستبدال أو تنتهك الشروط والإرشادات.</span>
           </ListItem>
           <ListItem>
-            <IconWrapper>
-              <FaCheckCircle />
-            </IconWrapper>
-            استخدام الخدمة لا يضمن الأداء المتواصل وغير المتقطع للموقع.
+            <IconWrapper><FaCheckCircle /></IconWrapper>
+            <span>في حال تم إيقاف حسابك بسبب انتهاكات، لن تكون مؤهلاً لأي استرداد أو تعويض.</span>
+          </ListItem>
+          <ListItem>
+            <IconWrapper><FaCheckCircle /></IconWrapper>
+            <span>جميع المعاملات تخضع لتقديرنا النهائي، ونعمل دائمًا على ضمان توفير خدمات آمنة وموثوقة.</span>
           </ListItem>
         </List>
-        </Container>
+  
+        <SectionTitle>المعلومات الشخصية التعريفية</SectionTitle>
+        <p>
+          المعلومات الشخصية التعريفية
+          خصوصية الأعضاء والزوار تعد أولوية قصوى لمنصة سيان، ونلتزم بعدم مشاركة معلوماتكم الشخصية إلا في الحالات القانونية أو لتطوير خدماتنا وحماية حقوقنا.
+          نجمع معلومات أساسية مثل الاسم، البريد الإلكتروني، ووسيلة الدفع لتمكين استخدام الموقع وإدارة الحسابات بشكل آمن وفعال.
+          تُستخدم البيانات لتخصيص المحتوى، إرسال الإيصالات، تنفيذ الدفعات، واستطلاع آرائكم لتحسين خدماتنا.
+          قد نرسل تحديثات عن الخدمات الجديدة أو الدورات عبر البريد الإلكتروني، مع إمكانية إلغاء الاشتراك في أي وقت.
+          نشارك المعلومات مع أطراف ثالثة فقط عند الحاجة لتقديم الخدمات أو الامتثال للقوانين والتحقيقات الرسمية.
+          يتم التعامل مع بيانات المستخدمين إلكترونياً وبسرية تامة، وليست متاحة إلا للأطراف المصرح لها داخل الشركة.
+          نتعاون مع هيئات إنفاذ القانون عند طلب معلومات ضمن سياق التحقيقات الجنائية أو المدنية المتعلقة بالصالح العام.
+          نحتفظ بحق استخدام المعلومات داخلياً لتحسين تجربتكم وتزويدكم بمحتوى يلبي احتياجاتكم.
+          جميع المعاملات تخضع لأعلى معايير الأمان والشفافية لضمان ثقتكم المستمرة في خدماتنا.
+        </p>
+  
+        <SectionTitle>إخلاء مسؤولية من الضمان</SectionTitle>
+        <p>
+          إخلاء مسؤولية من الضمان
+          منصة سيان وجميع الشركات والأطراف المرتبطة بها تقدم خدماتها "كما هي" دون أي ضمانات صريحة أو ضمنية، بما في ذلك ضمانات النتائج المرجوة من الدورات. استخدامك للخدمات يكون على مسؤوليتك الخاصة، ولا تتحمل المنصة أي مسؤولية عن مصداقية الأعضاء أو المحتوى.
+        </p>
+  
+        <SectionTitle>سياسة الخصوصية</SectionTitle>
+        <p>
+          سياسة الخصوصية
+          توضح سياسة الخصوصية الحالية الإرشادات الداخلية لمنصة سيان حول إدارة معلومات المستخدمين، دون أن تشكل اتفاقًا قانونيًا أو ضمانًا لأي نوع.
+          نستخدم ملفات الكوكيز لتحسين تجربتك من خلال تتبع الاستخدام وتحليل البيانات غير الشخصية مثل نوع المتصفح ونظام التشغيل ومزود الخدمة.
+          هذه المعلومات تساعدنا على تحسين الموقع وتخصيصه لتلبية احتياجاتك بشكل أفضل.
+          نحتفظ بالحق في تعديل هذه السياسة وفقًا لتقديرنا الخاص، مع التزامنا بحماية خصوصيتك دائمًا.
+        </p>
+  
+        <hr />
+      </Container>
+      <AcademyFooter />
     </Wrapper>
   );
+
 };
 
 export default PrivacyPolicyPage;

@@ -15,6 +15,13 @@ export default defineConfig({
 
   optimizeDeps: {
     include: ['@ffmpeg/ffmpeg'],
+    "optimizeDeps": {
+      "exclude": ["lottie-web"]
+    },
+    "build": {
+      "rollupOptions": {
+        "external": ["lottie-web"]
+      }
+    }
   },
-  
 });

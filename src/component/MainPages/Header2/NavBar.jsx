@@ -9,6 +9,7 @@ const NavBar = () => {
   const [show, setShow] = useState(false);
   const [path, setPath] = useState("");
   const location = useLocation();
+  
   useEffect(() => {
     let temp = location.pathname;
     if (temp.split("/").length === 3) {
@@ -27,11 +28,19 @@ const NavBar = () => {
   useEffect(() => {
     const handleScroll = () => {
       const scrollTop = window.scrollY;
-      const shouldBeFixed = scrollTop > 100;
+      const isScreenWidthSmall = window.innerWidth < 1320;
+      const shouldBeFixed = scrollTop > 100 && isScreenWidthSmall;
+      console.log(isScreenWidthSmall);
       setMenuFixed(shouldBeFixed);
+
+      console.log("Scroll Top:", scrollTop);
+      console.log("Screen Width:", window.innerWidth);
+      console.log("Should Be Fixed:", shouldBeFixed);
     };
     window.addEventListener("scroll", handleScroll);
   }, []);
+
+  
 
   return (
     <div data-aos="fade-down">
@@ -62,16 +71,6 @@ const NavBar = () => {
                   to={`/LaunchYourAcademy`}
                 >
                   اطلق اكادميتك
-                </NavLink>
-              </li>
-              <li>
-                <NavLink
-                  className={({ isActive, isPending }) => {
-                    return isPending ? "pending" : isActive ? classes.NavActive : "";
-                  }}
-                  to={`/Blogs`}
-                >
-                  المدونة
                 </NavLink>
               </li>
               <li>

@@ -1,29 +1,120 @@
-@charset "UTF-8";
-@import url("https://fonts.googleapis.com/css2?family=Tajawal:wght@200;300;400;500;700;800&display=swap");
-@import '~rsuite/dist/rsuite-rtl.min.css';
-@import '~rsuite/styles/index.less';
 
+@import url("https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@100..900&display=swap");
 
+:root {
+  /* React Suite Primary Colors (Kept as is) */
+  --rs-primary-50: #f2f8ff;
+  --rs-primary-100: #c2ddff;
+  --rs-primary-200: #91c1ff;
+  --rs-primary-300: #61a3ff;
+  --rs-primary-400: #3083ff;
+  --rs-primary-500: #0062ff;
+  --rs-primary-600: #005af5;
+  --rs-primary-700: #004fe0;
+  --rs-primary-800: #0041c2;
+  --rs-primary-900: #003099;
 
+  /* Brand & Accent Colors */
+  --color-primary: var(--rs-primary-500);
+  --color-primary-alt: #0e85ff; /* Distinct primary shade */
+  --color-primary-rgb: 0, 98, 255; /* For rgba(var(--color-primary-rgb), 0.07) */
+  --color-accent-teal: #0fe8e8;
+  --color-accent-green: #16ad53;
+  --color-accent-red: #ff4747;
+  --color-accent-orange-loader: #ff3d00;
+  --color-accent-green-toggle: #0bd9a8;
+  --color-debug-red: red; /* For .toggelColor or similar debugging */
+
+  /* Text Colors */
+  --text-color-base: #323232; /* Default body text if not overridden by components */
+  --text-color-headings-alt: #1480a3; /* For .title, .subTitle */
+  --text-color-dark: #2b3674; /* Primary text, headings */
+  --text-color-medium: #5a6a85; /* Secondary text */
+  --text-color-light: #7e8799; /* Muted text, placeholders, icons */
+  --text-color-placeholder: #a3aed0;
+  --text-color-subtle: #636363;
+  --text-color-content-dark: #272727; /* For layout titles */
+  --text-color-contrast: #ffffff;
+  --text-color-contrast-alt: #fcfcfc; /* For .addBtn text */
+
+  /* Background Colors */
+  --bg-body: #f9f9fa;
+  --bg-main-page: #fcfcfc;
+  --bg-container: var(--text-color-contrast); /* Most cards, headers */
+  --bg-container-muted: #f4f4f4; /* For .resposive-container */
+  --bg-light-accent: #edeff2; /* timetags, chart bars, MonthlyAndYearly bg */
+  --bg-slick-dot: #e4ebf1;
+  --bg-input-subtle: rgba(129, 129, 129, 0.12);
+  --bg-file-icon: rgba(163, 174, 208, 0.12);
+  --bg-asider: #eee;
+  --bg-status-green: rgba(71, 255, 145, 0.07);
+  --bg-status-red: rgba(255, 71, 71, 0.07);
+  --bg-status-blue: rgba(var(--color-primary-rgb), 0.07);
+  --bg-wallet-btns-container: rgba(237, 239, 242, 0.26);
+
+  /* Border Colors */
+  --border-color-light: #edeff2;
+  --border-color-medium: #eaeff4;
+  --border-color-subtle: rgba(0, 0, 0, 0.07);
+  --border-color-slick-active-bg: #c0cdd8; /* Used as bg color */
+
+  /* Shadow Colors */
+  --shadow-xs: 0px 1px 2px 0px rgba(16, 24, 40, 0.04);
+  --shadow-contact: 0px 0px 40px 0px rgba(13, 119, 188, 0.05);
+  --shadow-wallet-btns: 0px 12px 50px 0px rgba(0, 0, 0, 0.04);
+
+  /* Specific Element Colors */
+  --underline-layout-title: rgba(255, 130, 15, 0.33);
+  --chart-bar-segment1: #1ec88b; /* Similar to --color-accent-green */
+  --chart-bar-segment2: #dddddb;
+  --chart-bar-segment3: var(--color-accent-red);
+
+  /* Semantic Colors (for components like personalCard) */
+  --semantic-colors-primary-contrast: var(--text-color-contrast); /* Fallback if this var is not defined elsewhere */
+}
 
 .title {
   font-size: 24px;
-  color: #1480a3;
-  font-family: "Cairo", sans-serif;
+  color: var(--text-color-headings-alt);
+  font-family: "Noto Kufi Arabic", sans-serif;
   text-align: center;
 }
-
-
 .subTitle {
   font-size: 14px;
-  color: #1480a3;
-  font-family: "Cairo", sans-serif;
+  color: var(--text-color-headings-alt);
+  font-family: "Noto Kufi Arabic", sans-serif;
   text-align: center;
   font-weight: 400;
 }
 
 body {
-  font-family: "Cairo", sans-serif;
+  font-family: "Noto Kufi Arabic", sans-serif;
+  background-color: var(--bg-body) !important;
+  color: var(--text-color-base);
+}
+
+.hidden {
+  display: none !important;
+}
+
+.text-decoration-none {
+  text-decoration: none !important;
+}
+
+a {
+  text-decoration: none !important;
+}
+
+
+.fade-in-item {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.data-list .fade-in-item:nth-child(1) {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .offcanvas-body {
@@ -36,11 +127,10 @@ body {
 
 .resposive-container {
   display: flex;
-  background-color: "#f4f4f4";
+  background-color: var(--bg-container-muted);
 }
-
 .responsive-sideBar {
-  background-color: white;
+  background-color: var(--bg-container);
 }
 
 .main-page {
@@ -48,18 +138,15 @@ body {
   width: 80%;
   padding-inline: 20px;
   min-height: 100vh;
-  background-color: #fcfcfc;
+  background-color: var(--bg-main-page);
 }
-
 @media (max-width: 1150px) {
   .responsive-sideBar {
     display: none;
   }
-
   .main-page {
     width: 100%;
   }
-
   .responsiveNav {
     display: block !important;
   }
@@ -68,7 +155,6 @@ body {
     display: block;
   }
 }
-
 .SlickDots {
   position: absolute;
   bottom: -25px;
@@ -83,7 +169,7 @@ body {
 }
 
 .SlickDot {
-  background-color: #e4ebf1;
+  background-color: var(--bg-slick-dot);
   width: 20px;
   height: 20px;
   display: block;
@@ -94,22 +180,19 @@ body {
 .slick-active a {
   width: 40px;
   border-radius: 14px;
-  background-color: #c0cdd8;
+  background-color: var(--border-color-slick-active-bg);
 }
 
 .ar {
   direction: rtl;
 }
-
 .en {
   direction: ltr;
 }
-
 div[dir="rtl"] .rs-picker-toggle.rs-btn-md .rs-picker-toggle-caret,
 .rs-picker-toggle.rs-btn-md .rs-picker-toggle-clean {
   right: unset;
 }
-
 div[dir="rtl"] .rs-check-item .rs-checkbox-checker > label {
   cursor: pointer;
   display: block;
@@ -117,28 +200,24 @@ div[dir="rtl"] .rs-check-item .rs-checkbox-checker > label {
   padding: 8px 11px 8px 12px;
   position: relative;
 }
-
 .rs-picker-cleanable .rs-picker-tag-wrapper {
   margin-left: 5px !important;
   margin-right: 5px !important;
 }
-
 .custome {
   width: 24px;
   height: 24px;
 }
-
 .rs-table-cell-content {
   text-align: center;
-  color: #7e8799;
+  color: var(--text-color-light);
 }
-
 .addBtn {
   cursor: pointer;
   border-radius: 10px;
-  border: 2px solid #0e85ff;
-  background: #0e85ff;
-  color: #fcfcfc !important;
+  border: 2px solid var(--color-primary-alt);
+  background: var(--color-primary-alt);
+  color: var(--text-color-contrast-alt) !important;
   font-size: 16px;
   font-weight: 500;
   display: flex;
@@ -147,38 +226,33 @@ div[dir="rtl"] .rs-check-item .rs-checkbox-checker > label {
   gap: 5px;
   padding: 10px 15px;
 }
-
 .TablePageHeader {
-  border-bottom: 1px solid #edeff2;
-  background-color: white;
+  border-bottom: 1px solid var(--border-color-light);
+  background-color: var(--bg-container);
   padding: 30px;
   margin-block: 20px;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
-
 .TablePageHeader .icon {
   padding: 6px;
   border-radius: 4px;
-  border: 1px solid #edeff2;
+  border: 1px solid var(--border-color-light);
 }
-
 .TablePageHeader .name {
   font-size: 18px;
-  color: #2b3674;
+  color: var(--text-color-dark);
   font-weight: 700;
   margin: 0;
   gap: 5px;
 }
-
 .tablePage {
-  color: #7e8799;
-  transition: 0.4;
+  color: var(--text-color-light);
+  transition: 0.4s;
   font-weight: 700;
   position: relative;
 }
-
 .tablePage::before {
   content: "";
   position: absolute;
@@ -188,16 +262,12 @@ div[dir="rtl"] .rs-check-item .rs-checkbox-checker > label {
   background-color: transparent;
   transition: 0.4s;
 }
-
 .tablePage.active {
-  color: #0e85ff !important;
+  color: var(--color-primary-alt) !important;
 }
-
 .tablePage.active::before {
-  content: "";
-  background-color: #0062ff;
+  background-color: var(--color-primary);
 }
-
 .userTabs ul {
   display: flex;
   gap: 40px;
@@ -205,66 +275,58 @@ div[dir="rtl"] .rs-check-item .rs-checkbox-checker > label {
   padding: 0;
   list-style: none;
 }
-
 .yesActive {
   border-radius: 30px;
-  background: rgba(71, 255, 145, 0.07);
+  background: var(--bg-status-green);
   padding: 4px 20px;
-  color: #47ff91;
+  color: var(--color-accent-green);
   text-align: center;
   font-size: 12px;
   font-style: normal;
   font-weight: 500;
 }
-
 .notActive {
   border-radius: 30px;
-  background: rgba(255, 71, 71, 0.07);
+  background: var(--bg-status-red);
   padding: 4px 20px;
-  color: #ff4747;
+  color: var(--color-accent-red);
   text-align: center;
   font-size: 12px;
   font-style: normal;
   font-weight: 500;
 }
-
 .ispending {
   border-radius: 30px;
-  background: #fcfcfc;
+  background: var(--bg-main-page); /* was #fcfcfc */
   padding: 4px 20px;
-  color: #7e8799;
+  color: var(--text-color-light);
   text-align: center;
   font-size: 12px;
   font-style: normal;
   font-weight: 500;
 }
-
 .Ended {
   border-radius: 30px;
-  background: rgba(0, 98, 255, 0.07);
+  background: var(--bg-status-blue);
   padding: 4px 20px;
-  color: #0062ff;
+  color: var(--color-primary);
   text-align: center;
   font-size: 12px;
   font-style: normal;
   font-weight: 500;
 }
-
 .ProfileHeader {
   border-radius: 5px;
   overflow: hidden;
 }
-
 .ProfileBg {
   background-image: url("./assets/images/ProfileBanner.png");
   height: 170px;
   background-size: cover;
 }
-
-.ProfileHeader {
-  background-color: white;
+.ProfileHeader { /* This class is duplicated, combining for clarity */
+  background-color: var(--bg-container);
 }
-
 .ProfileHeader .ProfileInfo {
   padding-inline: 30px;
   padding-block: 20px;
@@ -272,575 +334,494 @@ div[dir="rtl"] .rs-check-item .rs-checkbox-checker > label {
   justify-content: space-between;
   align-items: center;
 }
-
 .ProfileHeader .ProfileInfo h2 {
   font-size: 24px;
-  color: #2b3674;
+  color: var(--text-color-dark);
   font-weight: 700;
   margin: 0;
 }
-
 .ProfileHeader .ProfileInfo p {
   font-size: 14px;
-  color: #7e8799;
+  color: var(--text-color-light);
   font-weight: 400;
   margin: 0;
 }
-
-.ProfileHeader .ProfileInfo .ProfileImage {
+.ProfileHeader .ProfileImage {
   width: 120px;
   height: 120px;
   border-radius: 50%;
-  border: 2px solid white;
+  border: 2px solid var(--text-color-contrast);
   margin-top: -60px;
   margin-left: 30px;
 }
-.ProfileHeader .ProfileInfo .ProfileImage img {
+.ProfileHeader .ProfileImage img {
   width: 100%;
   height: 100%;
 }
-
 .personalCard {
-  border: 1px solid #edeff2;
-  background: var(--semantic-colors-primary-contrast, #fff);
+  border: 1px solid var(--border-color-light);
+  background: var(--semantic-colors-primary-contrast);
   height: 100%;
 }
-
 .personalCard .personalCardHeader {
-  border-bottom: 1px solid #edeff2;
+  border-bottom: 1px solid var(--border-color-light);
   padding: 16px 20px;
 }
-
 .personalCard .personalCardHeader h2 {
-  color: #2b3674;
+  color: var(--text-color-dark);
   text-align: right;
-  font-family: Readex Pro;
+  font-family: "Noto Kufi Arabic", sans-serif;
   font-size: 16px;
   font-style: normal;
   font-weight: 500;
   line-height: normal;
 }
-
 .personalCard .PersonalInfo {
   padding: 20px;
 }
-
 .personalCard .PersonalInfo h3 {
-  color: #2b3674;
+  color: var(--text-color-dark);
   font-size: 14px;
   font-style: normal;
   font-weight: 500;
   line-height: normal;
   margin: 0;
 }
-
 .personalCard .PersonalInfo span {
-  color: #686e7b;
-  /* color: red; */
+  color: var(--text-color-light);
   font-size: 16px;
   font-style: normal;
   font-weight: 400;
-  line-height: 24px;
-  /* 171.429% */
+  line-height: 24px; /* 171.429% */
 }
-
-.PersonalInfo div {
-  margin-top: 20px;
+.PersonalInfo {
+  div {
+    margin-top: 20px;
+  }
 }
-
 .socialLinks {
   padding: 20px;
 }
-
 .socialLinks .socialRow {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-top: 20px;
 }
-
 .socialLinks .socialRow .socialInfo {
   display: flex;
   align-items: center;
   gap: 10px;
 }
-
 .socialLinks .socialRow .socialInfo .socialIcon {
   border-radius: 6.833px;
-  border: 0.854px solid #eaeff4;
+  border: 0.854px solid var(--border-color-medium);
   padding: 10px;
-  background: var(--semantic-colors-primary-contrast, #fff);
+  background: var(--semantic-colors-primary-contrast);
 }
-
 .socialLinks .socialRow .socialInfo h3 {
-  color: #2b3674;
-  /* Medium/Headings H5 */
+  color: var(--text-color-dark);
   font-size: 16px;
   font-style: normal;
   font-weight: 500;
   line-height: normal;
 }
-
 .socialLinks .socialRow .socialInfo span {
-  color: #7e8799;
-  /* Body/Base - 14px */
+  color: var(--text-color-light);
   font-size: 14px;
   font-style: normal;
   font-weight: 400;
-  line-height: 24px;
-  /* 171.429% */
+  line-height: 24px; /* 171.429% */
 }
-
 .updateBtn {
-  color: #0fe8e8 !important;
+  color: var(--color-accent-teal) !important;
   cursor: pointer;
   font-size: 16px;
   font-style: normal;
   font-weight: 500;
   border-radius: 10px;
-  border: 1px solid #0fe8e8;
+  border: 1px solid var(--color-accent-teal);
   padding: 15px 20px;
   transition: 0.4s;
 }
-
 .updateBtn:hover {
-  background-color: #0fe8e8 !important;
-  color: white !important;
+  background-color: var(--color-accent-teal) !important;
+  color: var(--text-color-contrast) !important;
   text-decoration: none;
 }
-
 .CustomCard {
-  border: 1px solid #edeff2;
-  background: var(--semantic-colors-primary-contrast, #fff);
+  border: 1px solid var(--border-color-light);
+  background: var(--semantic-colors-primary-contrast);
+  padding: 60px 30px; /* Default padding from earlier */
 }
 
 .CustomFormControl {
   margin-top: 24px;
 }
-
 .CustomFormControl label {
-  color: #2b3674;
+  color: var(--text-color-dark);
   text-align: right;
   margin-bottom: 16px;
   font-size: 16px;
   font-style: normal;
   font-weight: 600;
-  line-height: 150%;
-  /* 24px */
+  line-height: 150%; /* 24px */
   letter-spacing: -0.32px;
   display: block;
 }
-
 .CustomFormControl input,
 .CustomFormControl select,
 .CustomFormControl textarea {
   width: 100%;
   border-radius: 10px;
-  border: 1px solid #edeff2;
-  background: var(--semantic-colors-primary-contrast, #fff);
+  border: 1px solid var(--border-color-light);
+  background: var(--semantic-colors-primary-contrast);
   padding: 10px;
+  font-family: "Noto Kufi Arabic", sans-serif; /* Ensure font */
 }
-
 .CustomFormControl input:focus,
 .CustomFormControl select:focus,
 .CustomFormControl textarea:focus {
   outline: none;
-  border: #0062ff 1px solid;
+  border: 1px solid var(--color-primary);
 }
-
 .formCard {
   justify-content: center;
   display: flex;
 }
-
 .formCard form {
   width: 80%;
 }
-
 .customSelect {
   width: 100%;
   border-radius: 10px;
-  border: 1px solid #edeff2;
-  background: var(--semantic-colors-primary-contrast, #fff);
+  border: 1px solid var(--border-color-light);
+  background: var(--semantic-colors-primary-contrast);
   padding: 10px;
+  font-family: "Noto Kufi Arabic", sans-serif; /* Ensure font */
 }
-
 .customSelect:focus {
   outline: none;
-  border: #0062ff 1px solid;
+  border: 1px solid var(--color-primary);
 }
-
 .submitBtn {
-  background-color: #0062ff;
-  color: white;
+  background-color: var(--color-primary);
+  color: var(--text-color-contrast);
   padding: 16px 50px;
   border-radius: 10px;
   border: none;
   font-weight: 700;
   font-size: 16px;
 }
-
 .phoneContainer {
   display: flex;
   width: 100%;
   border-radius: 10px;
-  border: 1px solid #edeff2;
-  background: var(--semantic-colors-primary-contrast, #fff);
+  border: 1px solid var(--border-color-light);
+  background: var(--semantic-colors-primary-contrast);
   padding: 6px;
 }
-
 .phoneContainer input {
   border: none;
   flex: 1;
+  font-family: "Noto Kufi Arabic", sans-serif; /* Ensure font */
 }
-
 .phoneContainer input:focus {
   outline: none;
 }
-
 .toggelColor {
-  background-color: red;
+  background-color: var(--color-debug-red);
 }
-
 .rs-toggle-checked .rs-toggle-presentation {
-  background-color: #0bd9a8 !important;
+  background-color: var(--color-accent-green-toggle) !important;
 }
-
 .form-check {
   display: flex !important;
   align-items: center !important;
   gap: 10px !important;
 }
-
 .form-check input {
   width: 20px !important;
   height: 20px !important;
 }
-
 .form-check label {
-  color: #7e8799;
+  color: var(--text-color-light);
   font-size: 16px;
   font-style: normal;
   font-weight: 500;
   line-height: 24px;
 }
-
-.CustomFormControl input {
+.CustomFormControl input { /* This is a more specific rule for input direction */
   direction: rtl;
 }
 
 .SearchAndShowbar {
-  background-color: white;
+  background-color: var(--bg-container);
   margin-block: 10px;
   padding-inline: 20px;
   padding-block: 20px;
 }
-
 .SearchAndShowbar .checkAll {
-  color: #0062ff;
+  color: var(--text-color-subtle);
   display: flex;
   align-items: center;
   gap: 5px;
   cursor: pointer;
   font-weight: 700;
 }
-
+.SearchAndShowbar .checkAll.active {
+  color: var(--color-primary-alt);
+}
 .SearchAndShowbar .midDIv,
 .SearchAndShowbar .EndDiv {
   display: flex;
 }
-
 .SearchAndShowbar .midDIv div,
 .SearchAndShowbar .EndDiv div {
-  color: #7e8799;
+  color: var(--text-color-light);
   display: flex;
   align-items: center;
   gap: 5px;
-  padding: 8px 15px;
+  padding: 0px 15px;
   cursor: pointer;
-  border: 1px solid #edeff2;
+  border: 1px solid var(--border-color-light);
 }
-
 .SearchAndShowbar .midDIv div.Active,
 .SearchAndShowbar .EndDiv div.Active {
-  color: #0062ff;
+  color: var(--color-primary);
 }
-
 .timetags {
   display: flex;
   gap: 10px;
   margin-top: 20px;
 }
-
 .timetags div {
-  background-color: #edeff2;
+  background-color: var(--bg-light-accent);
   padding: 5px 10px;
   border-radius: 10px;
-  color: #2b3674;
+  color: var(--text-color-dark);
   font-size: 14px;
   font-weight: 500;
   font-style: normal;
   line-height: 24px;
 }
-
 .chartCard {
   width: 100%;
   border-radius: 15px;
-  border: 2px solid #edeff2;
+  border: 2px solid var(--border-color-light);
+  background-color: var(--bg-container); /* Added default */
 }
-
 .chartCard .ChartHeader {
-  border-bottom: 2px solid #edeff2;
+  border-bottom: 2px solid var(--border-color-light);
   padding: 30px 20px;
   display: flex;
   gap: 20px;
   justify-content: space-between;
   width: 100%;
 }
-
-.chartCard .ChartHeader div {
+.chartCard .ChartHeader div { /* Generic div inside */
   display: flex;
   flex: 1;
 }
-
 .chartCard .ChartHeader .ChartText {
   display: flex;
   flex-direction: column;
   justify-content: center;
   gap: 30px;
 }
-
 .chartCard .ChartHeader .ChartText h3 {
-  color: #7e8799;
+  color: var(--text-color-light);
   font-size: 12px;
   font-style: normal;
   font-weight: 700;
-  line-height: 20px;
-  /* 166.667% */
+  line-height: 20px; /* 166.667% */
 }
-
 .chartCard .ChartHeader .ChartText p {
-  color: #7e8799;
+  color: var(--text-color-light);
   font-size: 24px;
   font-style: normal;
   font-weight: 700;
-  line-height: 30px;
-  /* 125% */
+  line-height: 30px; /* 125% */
 }
-
 .chartCard .ChartFooter {
   padding: 20px;
   display: flex;
   justify-content: center;
   gap: 20px;
 }
-
 .VideoCard {
   border-radius: 8px;
-  border: 1px solid #edeff2;
-  background: #fff;
+  border: 1px solid var(--border-color-light);
+  background: var(--bg-container);
   padding: 24px;
   position: relative;
   margin-top: 26px;
 }
-
 .VideoCard .VideoCardIcon {
   display: flex;
   gap: 5px;
   align-items: center;
   margin-bottom: 17px;
 }
-
 .VideoCard h4 {
-  color: #2b3674;
+  color: var(--text-color-dark);
   font-size: 18px;
   font-style: normal;
   font-weight: 500;
-  line-height: 150%;
-  /* 27px */
+  line-height: 150%; /* 27px */
 }
-
 .VideoCard h5 {
-  color: #a3aed0;
+  color: var(--text-color-placeholder);
   font-size: 12px;
   font-style: normal;
   font-weight: 400;
-  line-height: 150%;
-  /* 18px */
+  line-height: 150%; /* 18px */
 }
-
 .bookMark {
   position: absolute;
   left: 0;
   bottom: 0;
   border-radius: 0px 12px 0px 0px;
-  background: #fcfcfc;
+  background: var(--bg-main-page); /* Was #fcfcfc */
   padding: 15px;
 }
-
-.ChartCard {
+.ChartCard { /* Different from .chartCard */
   border-radius: 10px;
-  border: 1px solid #edeff2;
-  background-color: white;
+  border: 1px solid var(--border-color-light);
+  background-color: var(--bg-container);
   padding: 20px;
 }
-
 .ChartCard .ChartCardHeader {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid #edeff2;
+  border-bottom: 1px solid var(--border-color-light);
   padding-bottom: 15px;
   margin-bottom: 20px;
 }
-
 .ChartCard .ChartCardHeader p {
-  color: #7e8799;
+  color: var(--text-color-light);
   font-feature-settings: "clig" off, "liga" off;
-  font-family: Readex Pro;
+  font-family: "Noto Kufi Arabic", sans-serif;
   font-size: 18px;
   font-style: normal;
   font-weight: 400;
-  line-height: 20px;
-  /* 111.111% */
+  line-height: 20px; /* 111.111% */
   margin: 0;
 }
-
 .ChartCard .ChartCardHeader h2 {
-  color: #2b3674;
+  color: var(--text-color-dark);
   text-align: right;
   font-feature-settings: "clig" off, "liga" off;
-  font-family: Readex Pro;
+  font-family: "Noto Kufi Arabic", sans-serif;
   font-size: 22px;
   font-style: normal;
   font-weight: 700;
-  line-height: 28px;
-  /* 127.273% */
+  line-height: 28px; /* 127.273% */
   margin: 0;
 }
-
 .NormalCard {
   border-radius: 5px;
-  border: 1px solid #eaeff4;
-  background: #fff;
-  box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.04);
+  border: 1px solid var(--border-color-medium);
+  background: var(--bg-container);
+  box-shadow: var(--shadow-xs);
   padding: 32px;
 }
-
 .NormalCard h2 {
-  color: #2b3674;
+  color: var(--text-color-dark);
   font-size: 36px;
   font-style: normal;
   font-weight: 600;
-  line-height: 44px;
+  line-height: 44px; /* 122.222% */
   letter-spacing: -0.72px;
 }
-
 .NormalCard h2 p {
-  color: #5a6a85;
+  color: var(--text-color-medium);
   font-size: 20px;
-  font-style: "Readex Pro";
+  font-style: normal;
   font-weight: 400;
-  line-height: 28px;
+  line-height: 28px; /* 140% */
 }
-
 .NormalCard h3 {
-  color: #2b3674;
+  color: var(--text-color-dark);
   font-size: 20px;
   font-style: normal;
   font-weight: 500;
-  line-height: 28px;
+  line-height: 28px; /* 140% */
   letter-spacing: -0.4px;
 }
-
 .NormalCard p {
-  font-family: "Noto Kufi Arabic";
-  font-size: 16px;
-  font-weight: 400;
-  line-height: 24px;
-  letter-spacing: -0.10000000149011612px;
+  color: var(--text-color-medium);
   text-align: right;
-  color: #474747;
+  font-family: "Noto Kufi Arabic", sans-serif; /* Was Inter */
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px; /* 150% */
+  letter-spacing: -0.1px;
 }
-
-.CustomCard {
-  padding: 60px 30px;
-}
-
 .MonthlyAndYearly {
   border-radius: 14.769px;
-  background: #edeff2;
+  background: var(--bg-light-accent);
   display: flex;
   padding: 5px 15px;
 }
-
 .MonthlyAndYearly div {
   padding: 10px 15px;
-  color: #7e8799;
+  color: var(--text-color-light);
   text-align: center;
   font-feature-settings: "clig" off, "liga" off;
-  font-family: Readex Pro;
+  font-family: "Noto Kufi Arabic", sans-serif; /* Was Readex Pro */
   font-size: 14px;
   font-style: normal;
   font-weight: 400;
   border-radius: 10px;
   transition: 0.4s;
   cursor: pointer;
-  line-height: 16px;
-  /* 114.286% */
+  line-height: 16px; /* 114.286% */
 }
-
 .MonthlyAndYearly div.active {
   border-radius: 10px;
-  color: white;
-  background: #0062ff;
+  color: var(--text-color-contrast);
+  background: var(--color-primary);
 }
-
 .ChartRow {
   margin-top: 20px;
 }
-
 .ChartRow .ChartRowHeader {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
-
 .ChartRow .ChartRowHeader h2 {
-  color: #2b3674;
+  color: var(--text-color-dark);
   font-size: 14px;
   font-style: normal;
   font-weight: 400;
-  line-height: 16px;
-  /* 114.286% */
+  line-height: 16px; /* 114.286% */
 }
-
 .ChartRow .ChartRowHeader span {
-  color: #2b3674;
+  color: var(--text-color-dark);
   font-size: 12px;
   font-style: normal;
   font-weight: 500;
-  line-height: 14px;
-  /* 116.667% */
+  line-height: 14px; /* 116.667% */
 }
-
 .ChartRow .ChartBar {
-  background-color: #edeff2;
+  background-color: var(--bg-light-accent);
   width: 100%;
   margin-top: 10px;
   border-radius: 4px;
   height: 16px;
 }
-
 .ChartRow .ChartBar .data {
-  background-color: #2b3674;
+  background-color: var(--text-color-dark);
   width: 40%;
   height: 100%;
   border-radius: 4px;
 }
-
 .ChartRow .ChartBar .data.active {
-  background: linear-gradient(90deg, #0062ff 0%, #0fe8e8 100%);
+  background: linear-gradient(90deg, var(--color-primary) 0%, var(--color-accent-teal) 100%);
 }
 
 .BarPercentChart {
@@ -848,27 +829,22 @@ div[dir="rtl"] .rs-check-item .rs-checkbox-checker > label {
   display: flex;
   gap: 10px;
 }
-
 .BarPercentChart .data {
   border-radius: 10px;
   height: 30px;
 }
-
 .BarPercentChart .data:first-child {
-  background: #1ec88b;
+  background: var(--chart-bar-segment1);
   width: 60%;
 }
-
 .BarPercentChart .data:nth-child(2) {
-  background: #dddddb;
+  background: var(--chart-bar-segment2);
   width: 30%;
 }
-
 .BarPercentChart .data:nth-child(3) {
-  background: #ff4747;
+  background: var(--chart-bar-segment3);
   width: 10%;
 }
-
 .BarNumbers {
   display: flex;
   gap: 50px;
@@ -876,33 +852,28 @@ div[dir="rtl"] .rs-check-item .rs-checkbox-checker > label {
 }
 
 .BarNumbers .SingleNumber h2 {
-  color: #2b3674;
+  color: var(--text-color-dark);
   font-size: 18px;
   font-style: normal;
   font-weight: 400;
-  line-height: 20px;
-  /* 111.111% */
+  line-height: 20px; /* 111.111% */
 }
-
 .BarNumbers .SingleNumber span {
   display: flex;
   gap: 10px;
   align-items: center;
-  color: #7e8799;
+  color: var(--text-color-light);
   font-size: 18px;
   font-style: normal;
   font-weight: 700;
-  line-height: 24px;
-  /* 133.333% */
+  line-height: 24px; /* 133.333% */
 }
-
 .WalletContainer {
-  border: 1px solid #edeff2;
-  background-color: white;
+  border: 1px solid var(--border-color-light);
+  background-color: var(--bg-container);
   padding: 32px;
   margin-top: 30px;
 }
-
 .WalletContainer .WalletCash {
   display: flex;
   flex-direction: column;
@@ -910,194 +881,161 @@ div[dir="rtl"] .rs-check-item .rs-checkbox-checker > label {
   justify-content: center;
   gap: 20px;
 }
-
 .WalletContainer .WalletCash span {
-  color: #7e8799;
+  color: var(--text-color-light);
   font-size: 16px;
   font-style: normal;
   font-weight: 700;
-  line-height: 32px;
-  /* 200% */
+  line-height: 32px; /* 200% */
   letter-spacing: -0.288px;
 }
-
 .WalletContainer .WalletCash h2 {
-  color: #2b3674;
+  color: var(--text-color-dark);
   font-size: 40px;
   font-style: normal;
   font-weight: 700;
-  line-height: 32px;
-  /* 80% */
+  line-height: 32px; /* 80% */
   letter-spacing: -0.72px;
 }
-
 .WalletContainer .WalletCash p {
-  color: #2b3674;
+  color: var(--text-color-dark);
   font-size: 14px;
   font-style: normal;
   font-weight: 400;
-  line-height: 32px;
-  /* 228.571% */
+  line-height: 32px; /* 228.571% */
   letter-spacing: -0.252px;
   display: flex;
   justify-content: center;
   gap: 5px;
 }
-
 .WalletContainer .WalletCash .WalletBtns {
   border-radius: 10px;
-  background: rgba(237, 239, 242, 0.26);
+  background: var(--bg-wallet-btns-container);
   display: flex;
   justify-content: center;
   padding: 20px;
   gap: 20px;
 }
-
 .WalletContainer .WalletCash .WalletBtns div {
   display: flex;
   padding: 12px 20px;
   border-radius: 10px;
-  color: white;
+  color: var(--text-color-contrast);
 }
-
 .WalletContainer .WalletCash .WalletBtns div:first-child {
   border-radius: 10px;
-  background: #0e85ff;
+  background: var(--color-primary-alt);
 }
-
 .WalletContainer .WalletCash .WalletBtns div:nth-child(2) {
   border-radius: 10px;
-  background: #2b3674;
+  background: var(--text-color-dark);
 }
-
 .WalletStatistics .SingleStatistice {
-  border-radius: var(--16, 16px);
-  border: 1px solid #edeff2;
-  background: #fff;
+  border-radius: var(--16, 16px); /* Ensure --16 is defined or use 16px */
+  border: 1px solid var(--border-color-light);
+  background: var(--bg-container);
   padding: 15px;
 }
-
 .WalletStatistics .SingleStatistice span {
-  color: #7e8799;
+  color: var(--text-color-light);
   font-size: 14px;
   font-weight: 700;
-  line-height: 32px;
-  /* 228.571% */
+  line-height: 32px; /* 228.571% */
   letter-spacing: -0.252px;
 }
-
 .WalletStatistics .SingleStatistice h2 {
-  color: #2b3674;
+  color: var(--text-color-dark);
   font-size: 24px;
   font-style: normal;
   font-weight: 700;
-  line-height: 32px;
-  /* 133.333% */
+  line-height: 32px; /* 133.333% */
   letter-spacing: -0.432px;
 }
-
 .WalletStatistics .SingleStatistice p {
-  color: #2b3674;
+  color: var(--text-color-dark);
   font-size: 14px;
   font-style: normal;
   font-weight: 400;
-  line-height: 32px;
-  /* 228.571% */
+  line-height: 32px; /* 228.571% */
   letter-spacing: -0.252px;
   display: flex;
   align-items: center;
   gap: 5px;
 }
-
 .DoughnutLegned {
   width: 100%;
   max-width: 400px;
 }
-
 .DoughnutLegned div {
-  gap: 40px;
+  gap: 40px; /* This needs context, assuming flex/grid parent */
 }
 
 .ChartCardWallet {
   border-radius: 10px;
   margin-top: 40px;
-  border: 1px solid #edeff2;
-  background: #fff;
+  border: 1px solid var(--border-color-light);
+  background: var(--bg-container);
   padding: 20px;
 }
-
 .ChartCardWallet .WalletChartHeader .Tittle {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
-
 .ChartCardWallet .WalletChartHeader .Tittle h2 {
-  color: #2b3674;
+  color: var(--text-color-dark);
   font-size: 24px;
   font-style: normal;
   font-weight: 600;
-  line-height: 32px;
-  /* 133.333% */
+  line-height: 32px; /* 133.333% */
   letter-spacing: -0.432px;
 }
-
-.ChartCardWallet .WalletChartHeader .Tittle .btns {
+.ChartCardWallet .WalletChartHeader .btns {
   display: flex;
-  border-radius: var(--16, 16px);
-  background: #fff;
-  /* shadow */
-  box-shadow: 0px 12px 50px 0px rgba(0, 0, 0, 0.04);
+  border-radius: var(--16, 16px); /* Ensure --16 defined or use 16px */
+  background: var(--bg-container);
+  box-shadow: var(--shadow-wallet-btns);
   padding: 10px;
 }
-
-.ChartCardWallet .WalletChartHeader .Tittle .btns div {
-  color: #7e8799;
+.ChartCardWallet .WalletChartHeader .btns div {
+  color: var(--text-color-light);
   transition: 0.4s;
   cursor: pointer;
   font-size: 12px;
   font-style: normal;
   font-weight: 700;
-  line-height: 32px;
-  /* 266.667% */
+  line-height: 32px; /* 266.667% */
   letter-spacing: -0.216px;
   padding: 5px 15px;
-  border-radius: var(--16, 16px);
+  border-radius: var(--16, 16px); /* Ensure --16 defined or use 16px */
 }
-
-.ChartCardWallet .WalletChartHeader .Tittle .btns div.active {
-  color: white;
-  background: #2b3674;
+.ChartCardWallet .WalletChartHeader .btns div.active {
+  color: var(--text-color-contrast);
+  background: var(--text-color-dark);
 }
-
 .ChartCardWallet .WalletChartHeader .Time {
   display: flex;
   gap: 5px;
 }
-
 .ChartCardWallet .WalletChartHeader .Time div {
   padding: 5px 10px;
-  color: #7e8799;
+  color: var(--text-color-light);
   cursor: pointer;
   font-size: 14px;
   border-bottom: 2px solid transparent;
   font-weight: 600;
   transition: 0.4s;
-  line-height: 32px;
-  /* 228.571% */
+  line-height: 32px; /* 228.571% */
   letter-spacing: -0.252px;
 }
-
 .ChartCardWallet .WalletChartHeader .Time div.active {
-  color: #2b3674;
-  border-bottom: 2px solid #0e85ff;
+  color: var(--text-color-dark);
+  border-bottom: 2px solid var(--color-primary-alt);
 }
-
 @media (max-width: 900px) {
   .TablePageHeader {
     overflow-x: scroll;
   }
-
   .TablePageHeader .HeaderContainer {
     min-width: 900px;
     display: flex;
@@ -1105,123 +1043,138 @@ div[dir="rtl"] .rs-check-item .rs-checkbox-checker > label {
     align-items: center;
   }
 }
-
 .HeaderContainer {
   flex: 1;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
-
 .ModalHeader {
   display: flex;
 }
-
 .ModalHeader h3 {
-  color: #2b3674;
+  color: var(--text-color-dark);
   text-align: right;
-  font-family: Readex Pro;
+  font-family: "Noto Kufi Arabic", sans-serif; /* Was Readex Pro */
   font-size: 22px;
   font-style: normal;
   font-weight: 600;
-  line-height: 125.303%;
-  /* 27.567px */
+  line-height: 125.303%; /* 27.567px */
 }
-
 .ModalContainer {
   padding: 25px;
 }
-
-.Tittle {
-  color: #2b3674;
+.Tittle { /* General .Tittle class */
+  color: var(--text-color-dark);
   text-align: right;
   font-size: 24px;
   font-weight: 700;
-  line-height: 35px;
-  /* 145.833% */
+  line-height: 35px; /* 145.833% */
 }
-
 .LinkActive {
   padding: 16px;
 }
 
 /* Dark Mode Styles */
-body.dark-mode {
-  background-color: #1a1a1a;
-  color: #ffffff;
+:root {
+  /* Define dark mode specific variables here if they are simple overrides */
+  --dark-bg-body: #1a1a1a;
+  --dark-bg-main-page: #282c35;
+  --dark-bg-container: #2b2b2b; /* For cards, headers */
+  --dark-bg-container-alt: #222; /* For sidebar, table cells */
+  --dark-bg-input: #3a3a3a;
+  --dark-bg-status: rgba(255, 255, 255, 0.07);
+  --dark-border-color: #454545;
+  --dark-text-primary: #f0f0f0; /* Primary text in dark mode */
+  --dark-text-secondary: #ccc; /* Muted text in dark mode */
+  --dark-text-headings-alt: var(--rs-primary-200); /* Lighter for titles */
+  --dark-color-primary-alt: var(--rs-primary-400);
+  --dark-color-accent-green: #6effa8;
+  --dark-color-accent-red: #ff7878;
+  --dark-color-accent-blue-status: var(--rs-primary-300);
 }
 
-.dark-mode .main-page {
-  background-color: #282c35;
+body.dark-mode {
+  background-color: var(--dark-bg-body);
+  color: var(--dark-text-primary);
+
+  /* Override global variables for dark mode */
+  --bg-body: var(--dark-bg-body);
+  --bg-main-page: var(--dark-bg-main-page);
+  --bg-container: var(--dark-bg-container);
+  --bg-container-muted: var(--dark-bg-container-alt);
+  --bg-light-accent: var(--dark-border-color);
+  --bg-input-subtle: var(--dark-bg-input);
+  --bg-file-icon: rgba(200, 200, 200, 0.1);
+  --bg-status-green: var(--dark-bg-status);
+  --bg-status-red: var(--dark-bg-status);
+  --bg-status-blue: var(--dark-bg-status);
+  --bg-wallet-btns-container: rgba(200,200,200,0.1);
+
+
+  --text-color-base: var(--dark-text-primary);
+  --text-color-headings-alt: var(--dark-text-headings-alt);
+  --text-color-dark: var(--dark-text-primary);
+  --text-color-medium: var(--dark-text-secondary);
+  --text-color-light: var(--dark-text-secondary);
+  --text-color-placeholder: #888;
+  --text-color-subtle: #aaa;
+  --text-color-content-dark: var(--dark-text-primary);
+  --text-color-contrast: var(--dark-bg-body); /* Text on light elements in dark mode */
+  --text-color-contrast-alt: var(--dark-text-primary);
+
+  --border-color-light: var(--dark-border-color);
+  --border-color-medium: var(--dark-border-color);
+  --border-color-subtle: rgba(255, 255, 255, 0.1);
+  --border-color-slick-active-bg: var(--rs-primary-300);
+
+  --color-primary-alt: var(--dark-color-primary-alt);
+  --color-accent-green: var(--dark-color-accent-green);
+  --color-accent-red: var(--dark-color-accent-red);
+  --color-primary: var(--rs-primary-400); /* Lighter primary for dark mode */
+
+  --semantic-colors-primary-contrast: var(--dark-bg-container);
 }
 
 .dark-mode .responsive-sideBar {
-  background-color: #333 !important;
-}
-
-.dark-mode .TablePageHeader {
-  background-color: #1a1a1a;
-  color: #ffffff;
-}
-
-.dark-mode .addBtn {
-  background-color: #0e85ff;
-  border-color: #0e85ff;
+  background-color: #333 !important; /* Specific override if needed */
 }
 
 .dark-mode .SlickDot {
-  background-color: #ffffff;
+  background-color: var(--dark-border-color);
 }
 
-.dark-mode .yesActive,
-.dark-mode .notActive,
-.dark-mode .ispending,
 .dark-mode .Ended {
-  background-color: rgba(255, 255, 255, 0.07);
-  color: #ffffff;
+    color: var(--dark-color-accent-blue-status);
 }
-
-.dark-mode .ProfileHeader,
-.dark-mode .VideoCard,
-.dark-mode .CustomCard,
-.dark-mode .NormalCard,
-.dark-mode .WalletContainer,
-.dark-mode .WalletStatistics,
-.dark-mode .ChartCardWallet {
-  border: 1px solid #454545;
-  background-color: #2b2b2b;
-  color: #ffffff;
-}
-
-.dark-mode .ChartCard,
-.dark-mode .CustomCard,
-.dark-mode .MonthlyAndYearly,
-.dark-mode .ChartRow,
-.dark-mode .BarNumbers,
-.dark-mode .DoughnutLegned,
-.dark-mode .ChartCardWallet {
-  border-color: #454545;
-}
-
 .dark-mode .socialIcon {
-  border-color: #454545;
+  border-color: var(--dark-border-color); /* Already variable */
+  background-color: #333; /* Specific dark bg for icon container */
 }
-
-.dark-mode .formCard,
-.dark-mode .CustomFormControl,
-.dark-mode .submitBtn,
-.dark-mode .phoneContainer,
-.dark-mode .toggelColor,
 .dark-mode .rs-toggle-checked .rs-toggle-presentation {
-  background-color: #333 !important;
-  color: #ffffff;
+  background-color: var(--color-accent-green-toggle) !important; /* May need a dark-mode specific toggle color */
 }
-
 .dark-mode .form-check label {
-  color: #ffffff;
+  color: var(--dark-text-primary);
 }
-
-/* Toggle Dark Mode Button */
+.dark-mode .resposive-container { /* Handles the typo too */
+  background-color: var(--dark-bg-container-alt);
+}
+.dark-mode .rs-table-cell {
+  background-color: var(--dark-bg-container-alt);
+  color: var(--dark-text-primary) !important; /* rsuite might be specific */
+  border-color: var(--dark-border-color) !important;
+}
+.dark-mode .rs-table-cell-content {
+  color: var(--dark-text-primary);
+}
+.dark-mode .rs-table-hover .rs-table-cell { /* If there is a specific .rs-table-hover class for row */
+  background-color: #383838 !important; /* Slightly lighter on hover */
+}
+.dark-mode .table-container { /* Custom table wrapper */
+  background-color: var(--dark-bg-container-alt);
+}
+/* Toggle Dark Mode Button - This is an example, actual button might differ */
 .dark-mode-toggle {
   position: fixed;
   top: 20px;
@@ -1229,196 +1182,148 @@ body.dark-mode {
   cursor: pointer;
   z-index: 1000;
   font-size: 24px;
-  color: #ffffff;
+  color: var(--text-color-dark); /* Default icon color */
+  background-color: var(--bg-light-accent);
+  padding: 8px;
+  border-radius: 50%;
 }
-
-.dark-mode {
-  color: white !important;
-}
-
-.dark-mode .resposive-container {
-  background-color: #222;
-}
-
-.dark-mode .rs-table-cell {
-  background-color: #222;
-  color: white !important;
-}
-
-.dark-mode .rs-table-cell-content {
-  color: white;
-}
-
-.dark-mode .rs-table-hover {
-  color: black;
-}
-
-.dark-mode .table-container {
-  background-color: #222;
+.dark-mode .dark-mode-toggle {
+  color: var(--dark-text-primary);
+  background-color: var(--dark-bg-input);
 }
 
 .rowContainer {
   cursor: pointer;
 }
-
 .ToggleContainer h3 {
-  color: #2b3674;
+  color: var(--text-color-dark);
   font-size: 16px;
   font-style: normal;
   font-weight: 600;
-  line-height: 160%;
-  /* 25.6px */
+  line-height: 160%; /* 25.6px */
 }
-
 .ToggleContainer p {
-  color: #a3aed0;
+  color: var(--text-color-placeholder);
   font-size: 14px;
   font-style: normal;
   font-weight: 400;
-  line-height: 160%;
-  /* 22.4px */
+  line-height: 160%; /* 22.4px */
 }
-
 .aboutAcademyLayout {
   align-items: center;
-  font-family: "Tajawal", sans-serif !important;
- 
+  font-family: "Noto Kufi Arabic", sans-serif !important;
 }
 
 @media (max-width: 768px) {
   .aboutAcademyLayout .SectionText {
     margin-top: 20px;
-  color: var(--primary-color);
   }
 }
-
 @media (max-width: 400px) {
   .aboutAcademyLayout .SectionText {
-    margin-top: 20px;
- 
-
+    margin-top: 20px; /* Duplicate, can be removed if 768px covers it */
   }
 }
-
 .aboutAcademyLayout .SectionText h2 {
-  /* color: #323232; */
+  color: var(--text-color-base); /* Was #323232 */
   text-align: right;
-  font-family: "Tajawal", sans-serif !important;
+  font-family: "Noto Kufi Arabic", sans-serif !important;
   font-size: 56px;
   font-style: normal;
   font-weight: 800;
   line-height: 75px;
-  color: var(--primary-color);
 }
-
 .aboutAcademyLayout .SectionText h2 span {
-  color: var(--primary-color);
-  font-family: "Tajawal", sans-serif !important;
+  color: var(--color-primary); /* Was --primary-color, assuming it means brand primary */
+  font-family: "Noto Kufi Arabic", sans-serif !important;
 }
-
 @media (max-width: 768px) {
   .aboutAcademyLayout .SectionText h2 {
     font-size: 42px;
   }
 }
-
 @media (max-width: 400px) {
   .aboutAcademyLayout .SectionText h2 {
     font-size: 36px;
     line-height: normal;
   }
 }
-
 .aboutAcademyLayout .SectionText p {
-  font-family: "Tajawal", sans-serif !important;
-  color: #636363;
+  font-family: "Noto Kufi Arabic", sans-serif !important; /* Was -serif */
+  color: var(--text-color-subtle);
   text-align: right;
   font-size: 18px;
   font-style: normal;
-  font-weight: 500;
-  line-height: 150%;
-  /* 27px */
+  font-weight: 300; /* Keep from user spec */
+  line-height: 180%; /* 27px -> 1.8 if font-size is 18px (18*1.8=32.4), or 150% if 18*1.5=27 */
   margin-top: 15px;
 }
-
-.aboutAcademyLayout .SectionText .Btn {
+.aboutAcademyLayout .Btn {
   display: flex;
   margin-top: 30px;
   gap: 14px;
 }
-
-.aboutAcademyLayout .SectionText .Btn .Primary {
-  background-color: var(--primary-color);
+.aboutAcademyLayout .Btn .Primary {
+  background-color: var(--color-primary); /* Was --primary-color */
   padding: 20px 48px;
   border-radius: 49px;
-  border: 1px solid var(--primary-color);
+  border: 1px solid var(--color-primary); /* Was --primary-color */
   transition: 0.4s;
   cursor: pointer;
-  color: white;
-  color: #fff;
+  color: var(--text-color-contrast);
   text-align: center;
-  font-family: "Tajawal", sans-serif !important;
   font-size: 16px;
   font-style: normal;
   font-weight: 700;
   line-height: normal;
 }
-
-.aboutAcademyLayout .SectionText .Btn .Primary:hover {
-  background-color: white;
-  color: var(--primary-color);
+.aboutAcademyLayout .Btn .Primary:hover {
+  background-color: var(--bg-container);
+  color: var(--color-primary); /* Was --primary-color */
 }
-
 @media (max-width: 768px) {
-  .aboutAcademyLayout .SectionText .Btn .Primary {
+  .aboutAcademyLayout .Btn .Primary {
     padding: 10px 23px;
     display: flex;
     align-items: center;
   }
 }
-
 @media (max-width: 400px) {
-  .aboutAcademyLayout .SectionText .Btn .Primary {
+  .aboutAcademyLayout .Btn .Primary {
     padding: 10px 15px;
     display: flex;
     align-items: center;
   }
 }
-
-.aboutAcademyLayout .SectionText .Btn .Secondry {
+.aboutAcademyLayout .Btn .Secondry {
   background-color: transparent;
   padding: 10px 48px;
   transition: 0.4s;
   border-radius: 49px;
-  color: var(--primary-color);
-  font-family: "Tajawal", sans-serif !important;
+  color: var(--color-primary); /* Was --primary-color */
+  font-family: "Noto Kufi Arabic", sans-serif !important;
   display: flex;
   font-weight: 700;
   cursor: pointer;
   font-size: 16px;
   gap: 24px;
   align-items: center;
-  border: 1px solid var(--primary-color);
-  color: var(--primary-color);
+  border: 1px solid var(--color-primary); /* Was --primary-color */
 }
-
-@media (max-width: 768px) {
-  .aboutAcademyLayout .SectionText .Btn .Secondry {
-    padding: 10px 21px;
-  }
-}
-
-.aboutAcademyLayout .SectionText .Btn .Secondry path {
+.aboutAcademyLayout .Btn .Secondry path {
   transition: 0.4s;
 }
-
-.aboutAcademyLayout .SectionText .Btn .Secondry:hover {
-  background-color: var(--primary-color);
-  color: white;
+.aboutAcademyLayout .Btn .Secondry:hover {
+  background-color: var(--color-primary); /* Was --primary-color */
+  color: var(--text-color-contrast);
 }
-
-.aboutAcademyLayout .SectionText .Btn .Secondry:hover path {
-  fill: white;
+.aboutAcademyLayout .Btn .Secondry:hover path {
+  fill: var(--text-color-contrast);
+}
+@media (max-width: 768px) {
+  .aboutAcademyLayout .Btn .Secondry {
+    padding: 10px 21px;
+  }
 }
 
 @media (max-width: 768px) {
@@ -1426,59 +1331,49 @@ body.dark-mode {
     margin-bottom: 20px;
   }
 }
-
 .aboutAcademyLayout .SectionImage img {
   width: 100%;
 }
-
 .LayoutSectionTitle {
-  color: #272727;
+  color: var(--text-color-content-dark);
   text-align: right;
-  font-family: "Tajawal", sans-serif !important;
+  font-family: "Noto Kufi Arabic", sans-serif !important;
   font-size: 28px;
   font-style: normal;
   font-weight: 800;
   line-height: normal;
   margin-bottom: 64px;
 }
-
 .LayoutSectionTitle span {
-  color: var(--primary-color);
-  font-family: "Tajawal", sans-serif !important;
+  color: var(--color-primary); /* Was --primary-color */
+  font-family: "Noto Kufi Arabic", sans-serif !important;
   font-size: 28px;
   font-style: normal;
   font-weight: 800;
   line-height: normal;
 }
-
-
 @media (max-width: 768px) {
   .swiper-button-next {
     right: 10px !important;
     display: none !important;
   }
-
   .swiper-button-prev {
     left: 10px !important;
-    
     display: none !important;
   }
-
   .mySwiperContainer {
     padding-inline: 0px !important;
   }
 }
-
 .Layout2Title {
-  font-family: "Tajawal", sans-serif !important;
+  font-family: "Noto Kufi Arabic", sans-serif !important;
   text-align: center;
   position: relative;
   z-index: 2;
   font-size: 28px;
-  color: #272727;
+  color: var(--text-color-content-dark);
   font-weight: 800;
 }
-
 .Layout2Title:after {
   content: "";
   position: absolute;
@@ -1488,117 +1383,95 @@ body.dark-mode {
   width: 98px;
   height: 18px;
   bottom: 0;
-  background: rgba(255, 130, 15, 0.33);
+  background: var(--underline-layout-title);
 }
-
 .searchBar {
   border-radius: 49px;
-  border: 1px solid rgba(0, 0, 0, 0.07);
-  background: #fff;
+  border: 1px solid var(--border-color-subtle);
+  background: var(--bg-container);
   position: relative;
   padding: 17px 23px;
 }
-
 .searchBar input {
   width: 100%;
   border: none;
+  font-family: "Noto Kufi Arabic", sans-serif; /* Ensure font */
+  background-color: transparent; /* Ensure input bg is transparent */
 }
-
 .searchBar input:focus {
   outline: none;
 }
-
 .searchBar .iconWrapper {
   position: absolute;
   left: 23px;
   top: 50%;
   transform: translateY(-50%);
 }
-
 .contactUsCard {
   border-radius: 20px;
-  background: #fff;
+  background: var(--bg-container);
   width: 100%;
-  /* صس */
-  box-shadow: 0px 0px 40px 0px rgba(13, 119, 188, 0.05);
+  box-shadow: var(--shadow-contact);
   padding: 32px;
 }
-
 .contactUsCard input,
 .contactUsCard textarea {
   width: 100%;
   border-radius: 16px;
-  background: rgba(129, 129, 129, 0.12);
+  background: var(--bg-input-subtle);
   padding: 17px 30px;
   border: none;
+  font-family: "Noto Kufi Arabic", sans-serif; /* Ensure font */
 }
-
 .contactUsCard textarea {
   min-height: 300px;
 }
-
 .contactUsCard button {
-  color: var(--primary-color);
+  color: var(--color-primary); /* Was --primary-color */
   text-align: center;
-  font-family: Tajawal;
+  font-family: "Noto Kufi Arabic", sans-serif; /* Was Tajawal */
   font-size: 16px;
   font-style: normal;
   font-weight: 700;
   line-height: normal;
   border-radius: 49px;
-  border: 1px solid var(--primary-color);
+  border: 1px solid var(--color-primary); /* Was --primary-color */
   padding: 16px 80px;
   background-color: transparent;
   transition: 0.4s;
 }
-
 .contactUsCard button:hover {
-  background-color: var(--primary-color);
-  color: white;
-}
-
-body {
-  background-color: #fcfcfc !important;
+  background-color: var(--color-primary); /* Was --primary-color */
+  color: var(--text-color-contrast);
 }
 
 .DeleteIcon:hover svg .DeleteTrash {
+  fill: var(--color-accent-red) !important; /* Was #ff0000 */
   transition: 0.4s;
 }
-
-.DeleteIcon:hover svg .DeleteTrash {
-  fill: #ff0000 !important;
-  transition: 0.4s;
-}
-
 .SuccesModalConainer {
   padding-right: 0 !important;
 }
-
 .SuccesModalConainer .modal-dialog {
   height: 100vh;
   margin: 0;
   max-width: 100%;
   width: 100%;
 }
-
 .SuccesModalConainer .modal-content {
   height: 100%;
 }
-
 .SuccesModalConainer .modal-content img {
   width: 100%;
-  -o-object-fit: cover;
   object-fit: cover;
   height: 100%;
 }
-
 .btn-danger {
-  background-color: #ff4747;
+  background-color: var(--color-accent-red);
 }
-
 .FileInputLabel {
   margin-top: 24px;
-  color: #2b3674;
+  color: var(--text-color-dark);
   text-align: right;
   margin-bottom: 16px;
   font-size: 16px;
@@ -1608,35 +1481,30 @@ body {
   letter-spacing: -0.32px;
   display: block;
 }
-
 .FileInput {
   display: flex;
-  border: 1px solid #edeff2;
+  border: 1px solid var(--border-color-light);
   border-radius: 10px;
 }
-
 .FileInput input {
   display: none;
 }
-
 .FileInput .placeHolder {
   flex: 1;
-  color: #a3aed0;
+  color: var(--text-color-placeholder);
   text-align: right;
   cursor: pointer;
   font-size: 14px;
   font-style: normal;
   font-weight: 500;
-  line-height: 150%;
-  /* 21px */
+  line-height: 150%; /* 21px */
   letter-spacing: -0.28px;
   padding: 10px 16px;
 }
-
 .FileInput .FileInput__Icon {
-  background: rgba(163, 174, 208, 0.12);
+  background: var(--bg-file-icon);
   padding: 10px 12px;
-  color: #7e8799;
+  color: var(--text-color-light);
   display: flex;
   cursor: pointer;
   align-items: center;
@@ -1650,11 +1518,10 @@ body {
   display: inline-block;
   position: relative;
   border: 3px solid;
-  border-color: #fff #fff transparent;
+  border-color: var(--text-color-contrast) var(--text-color-contrast) transparent;
   box-sizing: border-box;
   animation: rotation 1s linear infinite;
 }
-
 .loader::after {
   content: "";
   box-sizing: border-box;
@@ -1665,7 +1532,7 @@ body {
   bottom: 0;
   margin: auto;
   border: 3px solid;
-  border-color: transparent #ff3d00 #ff3d00;
+  border-color: transparent var(--color-accent-orange-loader) var(--color-accent-orange-loader);
   width: 14px;
   height: 14px;
   border-radius: 50%;
@@ -1677,7 +1544,6 @@ body {
   0% {
     transform: rotate(0deg);
   }
-
   100% {
     transform: rotate(360deg);
   }
@@ -1687,7 +1553,6 @@ body {
   0% {
     transform: rotate(0deg);
   }
-
   100% {
     transform: rotate(-360deg);
   }
@@ -1698,38 +1563,43 @@ body {
   max-width: 1300px;
   margin: 34px auto;
 }
-
 @media (max-width: 600px) {
   .CustomContainer {
     margin-inline: 10px;
   }
 }
-
 .MuiSlider-rail {
-  background-color: #a3aed0 !important;
+  background-color: var(--text-color-placeholder) !important;
 }
-
 .MuiSlider-thumb {
-  background-color: white !important;
-  border: 1px solid #a3aed0;
+  background-color: var(--bg-container) !important;
+  border: 1px solid var(--text-color-placeholder);
 }
-
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: rgba(255, 255, 255, 0.9);
+}
 @media (max-width: 600px) {
-  .smallText {
+  .smallText { /* This class needs to be applied to an element */
     font-size: 36px;
   }
 }
 
-/*# sourceMappingURL=App.css.map */
-.centered-header {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.wraper {
+  margin: 0 auto;
+  width: 90%;
 }
-
-
-
-body, html {
-  font: 12px/16px sans-serif;
-  height: 100%;
+.asider {
+  background: var(--bg-asider);
+  float: right;
+  width: 20%;
+  padding: 1em;
+  position: sticky;
+  top: 3em;
+}
+.contenter {
+  width: 50%;
 }

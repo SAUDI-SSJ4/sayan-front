@@ -1,59 +1,53 @@
-.StudentRateContainer{
-    margin-top: 200px;
-    @media (max-width: 767px) {
-        margin-top: 100px;
-    }
-    .SectionTitle{
-  font-family: "Tajawal", sans-serif !important;
-text-align: center;
-position: relative;
-z-index: 2 ;
-font-size: 28px;color: #272727;
-font-weight: 800;
-&:after{
-    content: "";
-    position: absolute;
-    left: 50%;
-    z-index: 1;
-    transform: translateX(-50%);
-    width: 98px;
-    height: 18px;
-    bottom: 0;
-    background: rgba(255, 130, 15, 0.33);
-}
-    }
-}
-.RateCard{
-    padding: 33px 27px;
-    background: var(--01, #FFF);
+.StudentRateContainer {
+  padding: 10px 0;
+  background: #f8f9fa;
+  border-radius: 20px;
+  margin-top: 150px;
+  
+  @media (max-width: 767px) {
+    margin-top: 100px;
+    padding: 0px 0;
+  }
 
-/* صس */
-box-shadow: 0px 0px 40px 0px rgba(13, 119, 188, 0.1);
-.RateName{
-    color: #12141D;
-text-align: right;
-font-family: "Tajawal", sans-serif !important;
-
-font-size: 18px;
-font-style: normal;
-font-weight: 700;
-line-height: 24px; /* 133.333% */
-}
-.RateParagraph{
-    color: var(--black, #1D1D1D);
-text-align: right;
-font-family: "Tajawal", sans-serif !important;
-margin-block: 25px;
-font-size: 18px;
-font-style: normal;
-font-weight: 500;
-line-height: 26px; /* 144.444% */
-}
+  .SectionTitle {
+    text-align: center;
+    position: relative;
+    z-index: 2;
+    font-size: 32px;
+    color: #272727;
+    font-weight: 800;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+  }
 }
 
+.RateCard {
+  padding: 35px 30px;
+  background: #fff;
+  border-radius: 16px;
+  margin: 8px;
+  transition: all 0.3s ease;
 
-.RateName {
-margin: 0px;
-margin-right: 15px;
- 
+  &:hover {
+    transform: translateY(-5px);
+  }
+
+  .RateName {
+    color: #12141d;
+    text-align: right;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 1.4;
+    margin: 0 15px 0px 0;
+  }
+  .RateParagraph {
+    margin: 16px 0;
+    line-height: 1.7;
+    font-size: 16px;
+    height: auto; /* تأكد من أن الارتفاع يمكن أن يتمدد */
+    overflow-wrap: break-word; /* لكسر الكلمات الطويلة جدًا ومنعها من الخروج عن الحدود */
+    word-wrap: break-word; /* مرادف لـ overflow-wrap */
+    white-space: normal; /* تأكد من أن النص يلتف بشكل طبيعي */
+  }
 }

@@ -5,7 +5,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-import { Toaster, toast } from "react-hot-toast";
+import { toast } from "react-hot-toast";
 import { Avatar } from "@mui/material";
 import { useMutation } from "@tanstack/react-query";
 import { postProfile } from "../../utils/apis/client";
@@ -23,7 +23,9 @@ function UpdateProfile({ profileData, setShowUpdate }) {
     },
     validationSchema: Yup.object({
       name: Yup.string().required("الإسم مطلوب"),
-      email: Yup.string().email("بريد إلكتروني خاطئ").required("البريد الإلكتروني مطلوب"),
+      email: Yup.string()
+        .email("بريد إلكتروني خاطئ")
+        .required("البريد الإلكتروني مطلوب"),
       phone: Yup.string().required("رقم الهاتف مطلوب"),
     }),
     onSubmit: async (values) => {
@@ -81,11 +83,11 @@ function UpdateProfile({ profileData, setShowUpdate }) {
 
   // format username
 
-
-
   return (
     <div className={styles.main} ref={ref} onClick={handleOverlayClick}>
-      <div className={`${styles.container} animate__animated animate__bounceInUp`}>
+      <div
+        className={`${styles.container} animate__animated animate__bounceInUp`}
+      >
         <h4 className={styles.title}>تحديث معلومات حسابك</h4>
         <span className={styles.separator}></span>
 
@@ -108,7 +110,9 @@ function UpdateProfile({ profileData, setShowUpdate }) {
               onChange={handleImageChange}
               onBlur={formik.handleBlur}
             />
-            {formik.errors.image && formik.touched.image && <div className="error">{formik.errors.image}</div>}
+            {formik.errors.image && formik.touched.image && (
+              <div className="error">{formik.errors.image}</div>
+            )}
           </div>
 
           {/* Other form fields for name, email, and phone */}
@@ -178,14 +182,18 @@ function UpdateProfile({ profileData, setShowUpdate }) {
               }}
             />
           </div>
-          <Toaster />
+
           <Button
             className={`${classes.SubmitBtn} mt-4`}
             type="submit"
             disabled={mutation.isPending}
             style={{ display: "flex", justifyContent: "center" }}
           >
-            {mutation.isPending ? <div className="loader"></div> : <p style={{ margin: "0%" }}>حفظ</p>}
+            {mutation.isPending ? (
+              <div className="loader"></div>
+            ) : (
+              <p style={{ margin: "0%" }}>حفظ</p>
+            )}
           </Button>
         </form>
       </div>

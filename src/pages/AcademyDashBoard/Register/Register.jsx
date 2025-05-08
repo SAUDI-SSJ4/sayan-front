@@ -15,6 +15,8 @@ import OtpVerification from "../../signin/OtpVerification";
 import { academy_client } from "../../../utils/apis/client.config";
 
 const AcademyRegister = () => {
+  console.log("email: ", localStorage.getItem("otpEmail"));
+
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -24,7 +26,6 @@ const AcademyRegister = () => {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [searchParams, setSearchParams] = useSearchParams();
-
   // Get the step from URL params
   const step = searchParams.get("step") || "";
 
@@ -39,7 +40,9 @@ const AcademyRegister = () => {
     setLoading(true);
     try {
       const { data } = await academy_client.post("/register", formData);
-      setSearchParams({ step: "otp" }); 
+      localStorage.clear("otpEmail");
+      localStorage.setItem("otpEmail", formData.email);
+      setSearchParams({ step: "otp" });
       toast.success("تم ارسال الرمز الي بريدك الالكتروني الذي أدخلته");
     } catch (error) {
       toast.error(error?.response?.data?.message || "حدث خطأ ما");
@@ -107,6 +110,7 @@ const AcademyRegister = () => {
                     onChange={(e) => {
                       formik.handleChange(e);
                       setName(e.target.value);
+                      localStorage.setItem("otpEmail", email);
                     }}
                     onBlur={formik.handleBlur}
                     error={formik.touched.name && Boolean(formik.errors.name)}

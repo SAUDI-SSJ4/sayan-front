@@ -20,7 +20,7 @@ const LoginModal = ({ onClose }) => {
           <div className={Style.buttons}>
             <button 
               className={Style.loginButton}
-              onClick={() => navigate('/student/login', { state: { from: '/cart' } })}
+              onClick={() => navigate('/login', { state: { from: '/cart' } })}
             >
               تسجيل الدخول
             </button>

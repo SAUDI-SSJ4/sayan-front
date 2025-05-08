@@ -86,22 +86,9 @@ export const SideBarFilter = ({ filterByCategories, minValue, maxValue }) => {
     <div className={Style.SideBar}>
       <h2>التصفية</h2>
       <div className={Style.Lien} />
-      <Accordion style={{ boxShadow: "none" }}>
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel1-content"
-          id="panel1-header"
-        >
-          <p className={Style.accordionTitle}>المجال</p>
-        </AccordionSummary>
-        <AccordionDetails>
-          <p className={Style.accordionItem}>👩‍⚕️ مجال الاول</p>
-          <p className={Style.accordionItem}>🕵️‍♂️ مجال الثاني</p>
-          <p className={Style.accordionItem}>👜 مجال الثالث</p>
-        </AccordionDetails>
-      </Accordion>
+      
 
-      <Accordion style={{ boxShadow: "none" }}>
+      <Accordion className={Style.notoFont} style={{ boxShadow: "none", fontFamily: "Noto Kufi Arabic" }}>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel2-content"

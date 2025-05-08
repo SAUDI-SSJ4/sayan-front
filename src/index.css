@@ -1,119 +1,143 @@
-/* NEW CLASSESS STYLE CSS */
-/* START SUBJECT CLASSESS */
+@import url("https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@200..700&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+/* --- GLOBAL & ROOT STYLES --- */
 :root {
-  --primary-color: #3498db;
-  --text-color: #2ecc71;
+  --primary-color: #3498db; /* Main primary color from your new classes */
+  --primary-color-alt: #0e85ff; /* Specific blue for scrollbar & other elements */
+  --text-color-blue: rgb(39, 152, 228); /* Specific blue text */
+  --text-color-green: #2ecc71; /* From your new classes */
+  --text-color-white: #fff;
+  --border-color-light: #dcdcdc;
+  --bg-white: #fff;
+  --font-primary: 'Noto Kufi Arabic', sans-serif;
 }
 
+* {
+  box-sizing: border-box;
+  font-family: var(--font-primary) !important; /* Ensures Noto Kufi Arabic is applied everywhere */
+  /* scrollbar-width: thin; /* Firefox - Moved to specific section */
+  /* scrollbar-color: var(--primary-color-alt) transparent; /* Firefox - Moved */
+  /* -ms-overflow-style: -ms-autohiding-scrollbar; /* IE/Edge - Moved */
+}
+
+body {
+  /* font-family: var(--font-primary); Already set by '*' */
+  overflow: clip; /* Consider overflow-x: hidden; if only horizontal overflow is an issue */
+  min-height: 100vh;
+}
+
+/* --- SCROLLBAR STYLES --- */
+/* Webkit (Chrome, Safari, Edge Chromium) */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-thumb {
+  background-color: var(--primary-color-alt);
+  border-radius: 10px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Firefox */
+* { /* Applying to all elements for Firefox scrollbar styling */
+  scrollbar-width: thin;
+  scrollbar-color: var(--primary-color-alt) transparent;
+}
+
+/* IE and Edge (Legacy - may not be needed for modern Edge) */
+* {
+  -ms-overflow-style: -ms-autohiding-scrollbar;
+}
+
+
+/* --- UTILITY CLASSES (Your original "my style") --- */
+.blue-text {
+  color: var(--text-color-blue) !important;
+}
+
+.hidden-sm {
+  display: none;
+}
+
+.font-use { /* Redundant if '*' already sets the font */
+  /* font-family: var(--font-primary) !important; */
+}
+
+.mbb-0 {
+  margin-bottom: 0px !important;
+}
+
+@media (min-width: 768px) { /* md breakpoint */
+  .hidden-sm {
+    display: flex; /* Or block, inline-flex, etc., depending on desired layout */
+  }
+}
+
+.banner {
+  position: relative;
+  z-index: 40;
+  margin-top: 0rem;
+}
+
+/* --- COMPONENT STYLES (Your "NEW CLASSESS STYLE CSS") --- */
+
+/* Navbar */
 .navbar--1 {
   transition: all 0.5s;
 }
 .navbar--1.menu-fixed {
   position: fixed;
   top: 0;
+  left: 0; /* Added for full width positioning */
   width: 100%;
   z-index: 1001;
-  border: 1px solid #dcdcdc;
-  background: #fff;
+  border: 1px solid var(--border-color-light);
+  background: var(--bg-white);
   margin: 0 !important;
   border-radius: 0 !important;
   padding: 15px 100px;
 }
 
+/* AG Grid */
 .ag-header-cell-sortable .ag-header-cell-label {
   justify-content: center;
 }
-
 .ag-root-wrapper.ag-layout-normal {
   height: 100%;
   min-width: 1400px;
 }
 
-::-webkit-scrollbar {
-  width: 8px; /* Width of the scrollbar */
-  height: 8px; /* Height of the horizontal scrollbar */
-}
-
-::-webkit-scrollbar-thumb {
-  background-color: #0e85ff; /* Color of the scrollbar thumb */
-  border-radius: 10px; /* Rounded corners of the scrollbar thumb */
-}
-
-::-webkit-scrollbar-track {
-  background: transparent; /* Transparent scrollbar track */
-}
-
-/* For Firefox */
-* {
-  scrollbar-width: thin; /* Makes scrollbar thin */
-  scrollbar-color: #0e85ff transparent; /* Custom color */
-}
-
-/* For IE and Edge */
-* {
-  -ms-overflow-style: -ms-autohiding-scrollbar; /* Auto-hiding scrollbar */
-}
-
-@media screen and (max-width: 991px) {
-  .navbar--1.menu-fixed {
-    padding: 15px;
-  }
-  .navbar--1 .searchBar {
-    width: 100%;
-  }
-}
-
-@media screen and (max-width: 1235px) {
-  .navbar--1 ul li {
-    font-size: 12px !important;
-    font-weight: 700 !important;
-  }
-  .navbar--1 ul {
-    gap: 12px !important;
-  }
-}
-
-@media screen and (max-width: 1065px) {
-  .navbar--1 ul li {
-    font-size: 10px !important;
-  }
-  .navbar--1 ul {
-    gap: 8px !important;
-  }
-}
-.title-header {
-  font-size: 50px !important;
-}
-.img-card-per {
-  width: 50px !important;
-  height: 50px !important;
-}
+/* Swiper */
 .swiper {
-  padding-left: 22px;
+  padding-left: 22px; /* Default padding */
 }
 .swiper-button-prev,
 .swiper-button-next {
-  width: 20px;
+  width: 20px; /* Consider making this slightly larger for easier clicking */
   height: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
-  right: -25px;
-  /* background: #fff;
+  /* right: -25px; Positioned individually */
+  /* background: var(--bg-white);
   border: 1px solid #e7e7e7;
   border-radius: 50%;
   transition: all 0.5s;
   transform: translateY(50%) !important; */
-  /* 50* 0); */
 }
-
 .swiper-button-prev {
   left: -40px !important;
 }
 .swiper-button-next {
   right: -40px !important;
 }
-
 .swiper-button-prev:after,
 .swiper-button-next:after {
   font-size: 20px !important;
@@ -121,37 +145,18 @@
   color: var(--primary-color);
   transition: all 0.5s;
 }
-
-/* .swiper-button-prev:hover,
+/* Hover styles for swiper buttons (optional - uncomment to use) */
+/*
+.swiper-button-prev:hover,
 .swiper-button-next:hover {
   background: var(--primary-color);
   border-color: var(--primary-color);
 }
 .swiper-button-prev:hover:after,
 .swiper-button-next:hover:after {
-  color: #ffffff;
-} */
-
-
-.num-price {
-  font-size: 14px !important;
+  color: var(--text-color-white);
 }
-
-.SubjectSlider-slide-swiper {
-  padding: 0 !important;
-}
-
-@media screen and (max-width: 767px) {
-  .swiper {
-    padding: 20px 8px 50px 8px !important;
-  }
-  .swiper .container {
-    --bs-gutter-x: 0.6rem;
-
-    padding-left: 24px;
-    padding-right: 0;
-  }
-}
+*/
 .swiper-pagination {
   width: 100% !important;
   padding: 12px;
@@ -163,20 +168,92 @@
 .swiper-pagination .swiper-pagination-bullet {
   width: 15px;
   height: 15px;
-  border: 1px solid #dcdcdc;
+  border: 1px solid var(--border-color-light);
+  background-color: var(--bg-white); /* Default inactive color */
+  opacity: 0.7;
+}
+.swiper-pagination .swiper-pagination-bullet-active {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+  opacity: 1;
 }
 
-/* END SUBJECT CLASSESS */
-/* START NUMBERS CLASSESS */
+/* Subject Classes Specific */
+.noto-font { /* Redundant if '*' already sets the font */
+  /* font-family: var(--font-primary) !important; */
+}
+.title-header {
+  font-size: 50px !important;
+}
+.img-card-per {
+  width: 50px !important;
+  height: 50px !important;
+}
+.num-price {
+  font-size: 14px !important;
+}
+.SubjectSlider-slide-swiper { /* Typo in original? Assuming .SubjectSlider .swiper-slide */
+  padding: 0 !important;
+}
 
+/* Numbers Classes (Header related) */
 .all-header-content-top {
-  margin-top: -157px;
+  margin-top: -157px; /* Adjust this carefully based on header height */
 }
 .all-header-content-top .swiper {
   padding: 0 !important;
   margin-top: 15px;
 }
 
+/* --- MEDIA QUERIES --- */
+
+/* Navbar Adjustments */
+@media screen and (max-width: 1235px) {
+  .navbar--1 ul li {
+    font-size: 12px !important;
+    font-weight: 700 !important;
+  }
+  .navbar--1 ul {
+    gap: 12px !important;
+  }
+}
+@media screen and (max-width: 1065px) {
+  .navbar--1 ul li {
+    font-size: 10px !important;
+  }
+  .navbar--1 ul {
+    gap: 8px !important;
+  }
+}
+@media screen and (max-width: 991px) { /* lg breakpoint */
+  .navbar--1.menu-fixed {
+    padding: 15px;
+  }
+  .navbar--1 .searchBar { /* Assuming .searchBar is a class within .navbar--1 */
+    width: 100%;
+  }
+}
+
+/* Swiper Adjustments for Mobile */
+@media screen and (max-width: 767px) { /* md breakpoint */
+  .swiper {
+    padding: 20px 8px 50px 8px !important;
+  }
+  .swiper .container { /* Assuming Bootstrap container */
+    --bs-gutter-x: 0.6rem;
+    padding-left: 24px; /* Or var(--bs-gutter-x) */
+    padding-right: 0;   /* Or var(--bs-gutter-x) */
+  }
+  /* Hide swiper nav buttons on small screens if desired */
+  /*
+  .swiper-button-prev,
+  .swiper-button-next {
+    display: none !important;
+  }
+  */
+}
+
+/* Header Content Adjustments */
 @media screen and (max-width: 1300px) {
   .header-bg .all-container-header {
     padding-bottom: 200px !important;
@@ -192,12 +269,8 @@
     margin-bottom: 35px !important;
   }
 }
-body {
-  overflow: clip;
-  min-height: 100vh;
-}
-@media screen and (max-width: 991px) {
-  .title-header {
+@media screen and (max-width: 991px) { /* lg breakpoint */
+  .title-header { /* This seems to override the 1300px one, check intent */
     font-size: 65px !important;
     line-height: 168% !important;
   }
@@ -215,30 +288,27 @@ body {
     top: 36px;
   }
 }
-
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 768px) { /* md breakpoint */
   .title-header {
     font-size: 45px !important;
   }
 }
-
-@media screen and (max-width: 450px) {
+@media screen and (max-width: 450px) { /* xs breakpoint */
   .title-header {
     font-size: 32px !important;
   }
-  .header-bg .title-header--1 {
+  .header-bg .title-header--1 { /* Assuming a modifier class */
     font-size: 15px !important;
   }
-  .copy-text--1 {
+  .copy-text--1 { /* Assuming a modifier class */
     font-size: 12px;
     font-weight: 600;
   }
 }
 
-/* END NUMBERS CLASSESS */
-/* START PAGE LaunchYourAcademy */
-@media screen and (max-width: 575px) {
-  .swithcer---1 div {
+/* Page: LaunchYourAcademy */
+@media screen and (max-width: 575px) { /* sm breakpoint */
+  .swithcer---1 div { /* Typo: switcher? */
     width: fit-content;
     padding: 13px 40px;
     text-align: center;
@@ -247,20 +317,20 @@ body {
     font-size: 25px !important;
     margin-bottom: 25px !important;
   }
+  /* MUI Accordion specific styles */
   .MuiAccordionSummary-content p {
     font-size: 15px !important;
     line-height: 1.8;
   }
-  .css-1uza2uv-MuiPaper-root-MuiAccordion-root {
+  .css-1uza2uv-MuiPaper-root-MuiAccordion-root { /* Highly specific MUI class, prone to break with updates */
     padding: 10px !important;
   }
-  ._GoalCard_1w0uh_150 h2 {
+  ._GoalCard_1w0uh_150 h2 { /* CSS Module class */
     font-size: 18px !important;
   }
 }
 
-/* END PAGE LaunchYourAcademy */
-/* START PAGE BLOGS */
+/* Page: Blogs */
 .card-container--info .img-card-container .details-card--1 {
   justify-content: space-between;
   gap: 24px;
@@ -270,25 +340,25 @@ body {
     font-size: 16px !important;
   }
 }
-@media screen and (max-width: 450px) {
+@media screen and (max-width: 450px) { /* xs breakpoint */
   .card-container--info .text--1 {
     font-size: 14px !important;
   }
 }
-/* END PAGE BLOGS */
-/* START PAGE AI */
-@media screen and (max-width: 575px) {
-  ._CardContainer_1itfy_394 p {
+
+/* Page: AI */
+@media screen and (max-width: 575px) { /* sm breakpoint */
+  ._CardContainer_1itfy_394 p { /* CSS Module class */
     font-size: 14px !important;
   }
   .container-ai p,
-  ._BannerText_1eh8y_12 p {
+  ._BannerText_1eh8y_12 p { /* CSS Module class */
     font-size: 13px;
     font-weight: 600;
     line-height: 1.9;
   }
   .container-ai h1,
-  ._BannerText_1eh8y_12 h1,
+  ._BannerText_1eh8y_12 h1, /* CSS Module class */
   .CustomContainer h1 {
     font-size: 22px !important;
   }
@@ -296,15 +366,36 @@ body {
     font-size: 16px !important;
   }
 }
-/* END PAGE AI */
-/* START DASHBOARD STUDENT */
+
+/* Dashboard: Student */
 .drop-menu--1 {
-  z-index: 10;
+  z-index: 10; /* Ensure this is above other elements it might overlap */
 }
 .card-chart--1 p {
   padding-top: 10px;
 }
-@media screen and (max-width: 575px) {
+.info-details--1 {
+  background: var(--bg-white);
+  padding: 30px 0;
+}
+.info-details--1 ._CardBody_1nzz4_33 { /* CSS Module class */
+  margin-top: 0;
+}
+.main-buttons .btn-new {
+  padding: 12px 17px !important;
+  transition: all 0.4s !important;
+  cursor: pointer;
+  text-align: center;
+}
+.main-buttons .btn-new:hover {
+  background: rgb(13, 110, 253); /* Consider using a CSS variable */
+  color: var(--text-color-white) !important;
+}
+.main-buttons .btn-remove:hover {
+  background: #fa3434; /* Consider using a CSS variable */
+}
+
+@media screen and (max-width: 575px) { /* sm breakpoint - Dashboard Student */
   .navbar-dash {
     flex-wrap: wrap;
     gap: 20px;
@@ -317,7 +408,7 @@ body {
   }
   .card-chart--1 h2 {
     font-size: 23px !important;
-    gap: 12px;
+    gap: 12px; /* Ensure parent is flex/grid */
   }
   .card-detials-chart .card-detials-chart-info {
     flex-wrap: wrap;
@@ -326,14 +417,13 @@ body {
   .card-detials-chart h2 {
     font-size: 15px !important;
   }
-  .TablePageHeader .HeaderContainer {
+  .TablePageHeader .HeaderContainer { /* Original had this, assuming it's for TablePageHeader */
     min-width: 100%;
   }
 }
-
-@media screen and (max-width: 525px) {
+@media screen and (max-width: 525px) { /* Dashboard Table Header */
   .TablePageHeader {
-    display: flex;
+    display: flex; /* Already flex, but explicit */
     align-items: center;
     flex-wrap: wrap;
     gap: 12px;
@@ -342,9 +432,8 @@ body {
     width: 100%;
   }
 }
-
-@media screen and (max-width: 450px) {
-  .TablePageHeader .d-flex div {
+@media screen and (max-width: 450px) { /* xs breakpoint - Dashboard Student & Table */
+  .TablePageHeader .d-flex div { /* Assuming .d-flex is a Bootstrap class or custom */
     font-size: 13px !important;
     font-weight: 600;
   }
@@ -352,46 +441,21 @@ body {
     font-size: 12px !important;
     font-weight: 600;
   }
-  .main-page > div > .SearchAndShowbar {
+  /* SearchAndShowbar adjustments (original CSS had 'main-page > div > .SearchAndShowbar') */
+  .SearchAndShowbar {
     flex-wrap: wrap;
     gap: 12px;
   }
-  .main-page > div > .SearchAndShowbar .midDIv,
-  .main-page > div > .SearchAndShowbar div {
+  .SearchAndShowbar .midDIv, /* Typo: midDiv? */
+  .SearchAndShowbar div { /* This is too general, be more specific if possible */
     width: 100%;
-  }
-  .main-page > div > .SearchAndShowbar div {
     text-align: center;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 15px;
   }
-}
-
-.info-details--1 {
-  background: #ffffff;
-  padding: 30px 0;
-}
-
-.info-details--1 ._CardBody_1nzz4_33 {
-  margin-top: 0;
-}
-
-.main-buttons .btn-new {
-  padding: 12px 17px !important;
-  transition: all 0.4s !important;
-  cursor: pointer;
-  text-align: center;
-}
-.main-buttons .btn-new:hover {
-  background: rgb(13, 110, 253);
-  color: #fff !important;
-}
-.main-buttons .btn-remove:hover {
-  background: #fa3434;
-}
-@media screen and (max-width: 450px) {
+  /* All Cards Info */
   .all-cards-info {
     padding: 20px 12px !important;
     display: flex;
@@ -409,9 +473,8 @@ body {
     width: 100%;
   }
 }
-/* END DASHBOARD STUDENT */
 
-/* START PAGE MARKETING */
+/* Page: Marketing */
 .all-marketing-card {
   margin-bottom: 50px;
 }
@@ -419,18 +482,17 @@ body {
   margin: 0 !important;
   min-width: 100% !important;
 }
-.all-marketing-card .CustomCard {
+.all-marketing-card .CustomCard { /* Assuming .CustomCard is used here */
   padding: 0 !important;
   margin: 0;
 }
 
-/* END PAGE MARKETING */
-/* START PAGE WALLET */
-@media screen and (max-width: 768px) {
-  .all-wallet-content .WalletContainer {
+/* Page: Wallet */
+@media screen and (max-width: 768px) { /* md breakpoint */
+  .all-wallet-content .WalletContainer { /* Assuming .WalletContainer from previous CSS is used */
     padding: 20px 10px !important;
   }
-  .WalletContainer .WalletCash .WalletBtns .button-wallet {
+  .WalletContainer .WalletCash .WalletBtns .button-wallet { /* Assuming .button-wallet class */
     width: 100%;
     text-align: center;
     justify-content: center;
@@ -448,7 +510,7 @@ body {
   .all-wallet-content .WalletContainer .WalletCash h2 {
     font-size: 25px !important;
   }
-  .all-wallet-content .ChartCardWallet .WalletChartHeader .Tittle h2 {
+  .all-wallet-content .ChartCardWallet .WalletChartHeader .Tittle h2 { /* Assuming .ChartCardWallet from previous CSS */
     font-size: 17px !important;
   }
   .all-wallet-content .ChartCardWallet .WalletChartHeader .Tittle {
@@ -464,52 +526,48 @@ body {
     text-align: center;
   }
 }
-/* END PAGE WALLET */
-/* START PROFILE */
-.all-porfile .ProfileHeader .ProfileInfo {
+
+/* Page: Profile */
+.all-porfile .ProfileHeader .ProfileInfo { /* Assuming .ProfileHeader from previous CSS */
   flex-wrap: wrap;
   gap: 15px;
 }
 @media screen and (max-width: 558px) {
-  .all-porfile .updateBtn {
+  .all-porfile .updateBtn { /* Assuming .updateBtn from previous CSS */
     width: 100%;
     text-align: center;
   }
 }
-/* END PROFILE */
-/* START REPORT */
 
+/* Page: Report */
 @media screen and (max-width: 550px) {
   .all-info-report .report-card--1 .report-info-details {
     flex-wrap: wrap;
     gap: 15px;
   }
-  .all-info-report .MonthlyAndYearly {
+  .all-info-report .MonthlyAndYearly { /* Assuming .MonthlyAndYearly from previous CSS */
     width: 100%;
   }
   .all-info-report .MonthlyAndYearly div {
     width: 100%;
   }
-  .all-info-report .BarNumbers {
+  .all-info-report .BarNumbers { /* Assuming .BarNumbers from previous CSS */
     flex-wrap: wrap;
   }
-  .all-info-report h2 {
+  .all-info-report h2 { /* General h2 in this context */
     font-size: 17px !important;
   }
 }
-/* END REPORT */
-/* START STUDENT RATE */
 
+/* Page: Student Rate Modal */
 .modal-student h2 {
   font-size: 17px !important;
 }
 
-/* END STUDENT RATE */
-/* START SUBSCRIPE PAGE */
-.sub-info-content .userTabs {
-  left: initial !important;
+/* Page: Subscribe */
+.sub-info-content .userTabs { /* Assuming .userTabs from previous CSS */
+  left: initial !important; /* Overrides some absolute positioning? */
 }
-
 @media screen and (max-width: 900px) {
   .all-tab-top .TablePageHeader {
     flex-wrap: wrap !important;
@@ -528,44 +586,44 @@ body {
     transform: translate(0) !important;
   }
 }
-@media screen and (max-width: 575px) {
-  .Toastify__toast-container--rtl {
+@media screen and (max-width: 575px) { /* sm breakpoint */
+  .Toastify__toast-container--rtl { /* React-Toastify specific */
     padding: 10px !important;
   }
 }
-/* END SUBSCRIPE PAGE */
-/* START PAGE ROLE PERMESSION */
+
+/* Page: Role Permission */
 @media screen and (max-width: 550px) {
-  .all-search-bar :is(.midDIv, .EndDiv) {
+  .all-search-bar :is(.midDIv, .EndDiv) { /* Assuming .midDiv & .EndDiv from previous CSS */
     width: 100%;
     gap: 15px;
-    align-items: center;
+    align-items: center; /* Center items if they wrap */
   }
   .all-search-bar :is(.midDIv, .EndDiv) div {
     text-align: center;
     display: flex;
     align-items: center;
-    width: 100%;
+    width: 100%; /* Make each item full width */
     justify-content: center;
   }
 }
-/* END PAGE ROLE PERMESSION */
-/* START PAGE ADD NEW ROLE */
+
+/* Page: Add New Role */
 .all-info-top-header .TablePageHeader {
-  overflow: initial;
+  overflow: initial; /* Override previous overflow: scroll */
 }
 .all-info-top-header .TablePageHeader .HeaderContainer {
-  min-width: 100%;
+  min-width: 100%; /* Ensure it doesn't try to be wider */
 }
 .all-info-top-header .all-marketing-card .card-marketing-one .info-card--details {
   padding: 10px;
 }
 .all-info-top-header .all-marketing-card .card-marketing-one .updateBtn {
-  padding: 15px !important;
+  padding: 15px !important; /* High specificity */
   font-size: 12px;
   font-weight: 600;
 }
-@media screen and (max-width: 991px) {
+@media screen and (max-width: 991px) { /* lg breakpoint */
   .all-info-top-header .all-marketing-card .card-marketing-one {
     padding: 0px !important;
   }
@@ -573,23 +631,25 @@ body {
     padding: 15px !important;
   }
 }
-@media screen and (max-width: 768px) {
-  .all-info-top-header .CustomCard {
+@media screen and (max-width: 768px) { /* md breakpoint */
+  .all-info-top-header .CustomCard { /* Assuming .CustomCard from previous CSS */
     padding: 15px 15px 22px 15px !important;
   }
-  .header-top--2 .CustomCard {
+  .header-top--2 .CustomCard { /* More specific card style */
     padding: 0 !important;
   }
-  .all-info-top-header .CustomCard .row {
+  .all-info-top-header .CustomCard .row { /* Assuming Bootstrap row */
     width: 100%;
+    margin-left: 0; /* Reset Bootstrap negative margins if needed */
+    margin-right: 0;
   }
 }
-@media screen and (max-width: 450px) {
+@media screen and (max-width: 450px) { /* xs breakpoint */
   .all-info-top-header .info-content-header .updateBtn {
     width: 100%;
     text-align: center;
   }
-  .all-info-top-header .CustomCard .submitBtn {
+  .all-info-top-header .CustomCard .submitBtn { /* Assuming .submitBtn from previous CSS */
     width: 100%;
   }
   .title-info---1 {
@@ -601,41 +661,38 @@ body {
   }
 }
 
-/* END PAGE ADD NEW ROLE */
-/* START PAGE DIGITAL */
+/* Page: Digital Product */
 .digital-info {
   padding: 20px !important;
 }
-.digital-info .chartCard .ChartHeader .ChartText p {
+.digital-info .chartCard .ChartHeader .ChartText p { /* Assuming .chartCard etc. from previous CSS */
   font-size: 17px !important;
 }
-.digital-info canvas {
-  width: 100%;
+.digital-info canvas { /* Be careful with global canvas styling */
+  width: 100% !important; /* Ensure responsiveness, but !important is strong */
+  height: auto !important;
 }
 .digital-info .card-digital {
   margin-bottom: 0 !important;
 }
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 768px) { /* md breakpoint */
   .digital-info {
     padding: 10px !important;
   }
 }
 
-/* END PAGE DIGITAL */
-
-/* START PAGE SINGLE PRODUCT */
-@media screen and (max-width: 991px) {
+/* Page: Single Product */
+@media screen and (max-width: 991px) { /* lg breakpoint */
   .img-card--1 {
     width: 100%;
-    height: 100%;
+    height: 100%; /* Might distort if aspect ratio not maintained by parent */
     object-fit: cover;
   }
-
   .card-single {
     padding: 15px;
   }
 }
-@media screen and (max-width: 575px) {
+@media screen and (max-width: 575px) { /* sm breakpoint */
   .card-price-button .price-num {
     margin: auto;
     width: 100%;
@@ -655,57 +712,57 @@ body {
   .text-content--1 {
     font-size: 15px !important;
   }
-  .all-buttons-content :is(.updateBtn, .addBtn) {
+  .all-buttons-content :is(.updateBtn, .addBtn) { /* Assuming .updateBtn, .addBtn from previous */
     width: 100%;
-    text-align: center;
+    text-align: center; /* Text within button */
+    justify-content: center; /* If button is flex */
   }
 }
 
-/* END PAGE SINGLE PRODUCT */
-/* START PAGE BLOG */
+/* Page: Blog (List) */
 .card-blog--1 {
   margin: 0;
 }
-@media screen and (max-width: 575px) {
+@media screen and (max-width: 575px) { /* sm breakpoint */
   .all-cards-blogs {
     padding: 10px;
   }
 }
-/* END PAGE BLOG */
 
-/* START PAGE ADD NEW BLOG */
-@media screen and (max-width: 991px) {
+/* Page: Add New Blog */
+@media screen and (max-width: 991px) { /* lg breakpoint */
   .all-info-top-header .all-new-blog {
     padding: 0 !important;
   }
-  .all-info-top-header .all-new-blog .row {
-    margin: auto;
+  .all-info-top-header .all-new-blog .row { /* Bootstrap row */
+    margin-left: 0;
+    margin-right: 0;
   }
 }
-@media screen and (max-width: 575px) {
+@media screen and (max-width: 575px) { /* sm breakpoint */
   .all-info-top-header .all-new-blog .updateBtn {
     width: 100%;
     text-align: center;
   }
 }
-/* END PAGE ADD NEW BLOG */
-/* START PAGE VIDEO */
+
+/* Page: Video */
 .card-video--1 {
   margin: 0;
 }
-.all-card-video-info .VideoCard {
+.all-card-video-info .VideoCard { /* Assuming .VideoCard from previous CSS */
   margin: 0 !important;
 }
-/* END PAGE VIDEO */
-/* START ADD NEW NOTIFICATION */
-@media screen and (max-width: 768px) {
-  .all-info-top-header .all-add-notific {
+
+/* Page: Add New Notification */
+@media screen and (max-width: 768px) { /* md breakpoint */
+  .all-info-top-header .all-add-notific { /* Typo: notification? */
     padding: 0 0 22px 0 !important;
   }
 }
-/* END ADD NEW NOTIFICATION */
-/* START PAGE SUBSCRIPTION */
-.main-info-top .userTabs {
+
+/* Page: Subscription */
+.main-info-top .userTabs { /* Assuming .userTabs from previous CSS */
   position: relative !important;
   left: initial !important;
   transform: translate(0) !important;
@@ -713,7 +770,7 @@ body {
 .card-policy--1 {
   padding: 18px 15px;
 }
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 768px) { /* md breakpoint */
   .card-info-sub {
     padding: 15px;
   }
@@ -724,8 +781,8 @@ body {
     padding: 12px;
   }
 }
-/* END PAGE SUBSCRIPTION */
-/* START PAGE EXAM */
+
+/* Page: Exam */
 .card-exam-one .title-text--1 {
   font-size: 25px;
   line-height: 1.8;
@@ -733,18 +790,19 @@ body {
 .card-exam-one .VideoCard {
   margin: 0;
 }
-
 @media screen and (max-width: 550px) {
   .button-content--1 :is(.addBtn, .updateBtn) {
     width: 100%;
     text-align: center;
+    justify-content: center; /* If flex */
   }
+  /* MUI Accordion specific */
   .all-exams-show .css-1dfyxll-MuiPaper-root-MuiAccordion-root {
     padding: 10px;
   }
 }
-/* END PAGE EXAM */
-/* START PAGE SINGLE COURSE */
+
+/* Page: Single Course */
 .course-card--info .title-course {
   font-size: 30px !important;
 }
@@ -762,7 +820,7 @@ body {
   line-height: 1.8;
   font-weight: 500;
 }
-@media screen and (max-width: 767px) {
+@media screen and (max-width: 767px) { /* md breakpoint */
   .course-card--info .title-course {
     font-size: 20px !important;
   }
@@ -772,18 +830,17 @@ body {
   .card-course-details .text--1 {
     font-size: 14px;
   }
-  .card-course-details .Tittle {
+  .card-course-details .Tittle { /* Assuming .Tittle from previous CSS */
     font-size: 17px;
     line-height: 1.8;
   }
 }
-/* END PAGE SINGLE COURSE */
 
-/* START PAGE CERTIDCATE */
+/* Page: Certificate */
 .card-certificate .date-card {
   font-weight: 600;
 }
-.card-certificate .title-card-cer {
+.card-certificate .title-card-cer { /* Typo: certificate? */
   padding: 5px 0;
   font-size: 17px;
   font-weight: 600;
@@ -796,28 +853,25 @@ body {
   font-size: 15px;
   font-weight: 500;
 }
-
+.card-single-certificate {
+  border: 1px solid var(--border-color-light);
+  margin: 25px 0;
+  padding: 0 !important;
+  border-radius: 10px;
+}
 .card-single-certificate .title-single--1 {
   font-size: 20px;
   font-weight: 600;
   padding: 10px 0;
 }
-
 .card-single-certificate .title-single--2 {
   font-size: 22px;
   font-weight: 600;
   margin: 0 !important;
 }
-
 .card-single-certificate .title-single--3 {
   font-size: 17px;
   font-weight: 600;
-}
-.card-single-certificate {
-  border: 1px solid #dcdcdc;
-  margin: 25px 0;
-  padding: 0 !important;
-  border-radius: 10px;
 }
 .card-single-certificate .info-card-certification {
   margin: 0 !important;
@@ -827,24 +881,20 @@ body {
   .card-single-certificate .title-single--1 {
     font-size: 16px;
   }
-
   .card-single-certificate .title-single--2 {
     font-size: 18px;
   }
-
   .card-single-certificate .title-single--3 {
     font-size: 14px;
   }
 }
-/* END PAGE CERTIDCATE */
 
-/* START PAGE OFFER */
+/* Page: Offer */
 .card-single-offer {
-  border: 1px solid #dcdcdc;
+  border: 1px solid var(--border-color-light);
 }
 .all-info-card-offer .card-single-offer {
-  margin: 0 !important
-  ;
+  margin: 0 !important;
   padding: 0 !important;
   max-width: 100% !important;
 }
@@ -871,10 +921,8 @@ body {
     padding: 10px 10px 30px 10px;
   }
 }
-/* END PAGE OFFER */
-/* ====================================
-START DASHBOARD ADMIN
-=========================================*/
+
+/* --- DASHBOARD: ADMIN --- */
 .card-side-one {
   gap: 14px !important;
   padding: 12px 6px;
@@ -888,7 +936,7 @@ START DASHBOARD ADMIN
   font-weight: 600;
 }
 
-/* START WALLET PAGE */
+/* Wallet Page (Admin) */
 .main-wallet--info .btn-wallet--1 {
   text-align: center;
   display: flex;
@@ -896,41 +944,34 @@ START DASHBOARD ADMIN
   justify-content: center;
   gap: 10px;
 }
-
 @media screen and (max-width: 550px) {
   .main-wallet--info .btn-wallet--1 {
     width: 100%;
   }
-  .main-wallet--info .WalletContainer {
+  .main-wallet--info .WalletContainer { /* Assuming .WalletContainer from previous CSS */
     padding: 32px 10px !important;
   }
-  .main-wallet--info .btns {
+  .main-wallet--info .btns { /* Assuming .btns group from previous CSS */
     display: flex;
     align-items: center;
     gap: 10px;
-    flex-wrap: nowrap !important;
+    flex-wrap: nowrap !important; /* Prevent wrapping of buttons inside */
   }
   .main-wallet--info .btns,
-  .main-wallet--info .btns .btn--1 {
-    width: 100%;
+  .main-wallet--info .btns .btn--1 { /* Individual button */
+    width: 100%; /* Make button take full width of its flex item space */
     text-align: center;
   }
 }
-/* END WALLET PAGE */
 
-/* ====================================
-END DASHBOARD ADMIN
-=========================================*/
-/* =======================================
-START DASHBOARD ACADEMY
-=======================================*/
-@media screen and (max-width: 450px) {
+/* --- DASHBOARD: ACADEMY --- */
+@media screen and (max-width: 450px) { /* xs breakpoint */
   .main-dash-info {
     gap: 30px !important;
   }
 }
-/* START PAGE REPORT */
-@media screen and (max-width: 450px) {
+/* Report Page (Academy) */
+@media screen and (max-width: 450px) { /* xs breakpoint */
   .main-report--info {
     width: 100%;
     margin: 15px 0 10px 0;
@@ -939,13 +980,12 @@ START DASHBOARD ACADEMY
     width: 100%;
   }
 }
-/* END PAGE REPORT */
-@media screen and (max-width: 768px) {
-  .acadmy-single-course .image-bg {
-    height: 300px !important;
+/* Single Course (Academy) */
+@media screen and (max-width: 768px) { /* md breakpoint */
+  .acadmy-single-course .image-bg { /* Typo: academy? */
+    height: 300px !important; /* Maintain aspect ratio if possible instead of fixed height */
   }
 }
-
 @media screen and (max-width: 550px) {
   .add-join .updateBtn {
     width: 100%;
@@ -957,66 +997,50 @@ START DASHBOARD ACADEMY
 }
 .main-custom-card .card-one---1 {
   padding: 15px !important;
-  border: 1px solid #dcdcdc !important;
-}
-/* =======================================
-END DASHBOARD ACADEMY
-=======================================*/
-/* START SIDEBAR DASHBOARD */
-:is(.main-info-sidebar-bottom, .button-sidebar-bottom) {
-  width: 100%;
+  border: 1px solid var(--border-color-light) !important;
 }
 
+/* --- DASHBOARD: SIDEBAR --- */
+:is(.main-info-sidebar-bottom, .button-sidebar-bottom) { /* :is pseudo-class for grouping */
+  width: 100%;
+}
 .title-dash-link {
   font-size: 15px !important;
   font-weight: 500 !important;
 }
-
 .icon-close-side {
   width: 45px;
   height: 45px;
-  display: none;
+  display: none; /* Hidden by default */
   justify-content: center;
   align-items: center;
-  background: red;
+  background: var(--color-accent-red); /* Using variable for red */
   font-size: 17px;
   font-weight: bold;
-  color: #fff;
+  color: var(--text-color-white);
   cursor: pointer;
   position: absolute;
   top: 0;
-  left: 0;
+  left: 0; /* Or right for RTL */
+  z-index: 1002; /* Above fixed navbar */
 }
 @media screen and (max-width: 1150px) {
   .icon-close-side {
-    display: flex;
+    display: flex; /* Shown on smaller screens */
   }
+  /* Add styles to hide sidebar by default on mobile and show when toggled */
 }
-/* END SIDEBAR DASHBOARD */
 
-/* START LANDING PAGE 1 */
+/* --- LANDING PAGE 1 --- */
 .all-navbar-layout-1 {
   padding: 14px 24px !important;
   margin-top: 5px;
 }
-
-.image-rightxx .col-lg-8 {
-  order: 1;
-}
-
-.image-rightxx .col-lg-4 {
-  order: 2;
-}
-
-/* Reverse order: Image on the left */
-.image-leftxx .col-lg-8 {
-  order: 2;
-  text-align: left;
-}
-
-.image-leftxx .col-lg-4 {
-  order: 1;
-}
+/* Image alignment classes for sections */
+.image-rightxx .col-lg-8 { order: 1; }
+.image-rightxx .col-lg-4 { order: 2; }
+.image-leftxx .col-lg-8 { order: 2; text-align: left; }
+.image-leftxx .col-lg-4 { order: 1; }
 
 .button-new-account {
   padding: 14px 38px !important;
@@ -1025,6 +1049,9 @@ END DASHBOARD ACADEMY
 @media screen and (max-width: 550px) {
   .buttons-header {
     width: 100%;
+    display: flex; /* Added for gap and potential wrapping */
+    flex-direction: column; /* Stack buttons on small screens */
+    gap: 10px;
   }
   .buttons-header .button-one-1 {
     width: 100%;
@@ -1042,31 +1069,30 @@ END DASHBOARD ACADEMY
     padding: 10px 20px !important;
   }
 }
-@media screen and (max-width: 450px) {
+@media screen and (max-width: 450px) { /* xs breakpoint */
   .buttons-header,
   .all-top-info-layout-3 {
-    flex-wrap: wrap;
+    flex-wrap: wrap; /* Already flex column from 550px, wrap won't do much unless direction changes */
   }
   .text-content-faq {
     font-size: 22px !important;
   }
 }
-@media screen and (max-width: 991px) {
+/* Login Banner */
+@media screen and (max-width: 991px) { /* lg breakpoint */
   .bg-login-banner {
     display: none;
   }
-
   .button-login--1 {
-    min-width: 100% !important;
+    min-width: 100% !important; /* Button takes full width */
   }
 }
-
+/* Product Slider Pagination */
 :is(.all-product-slider--1, .all-product-slider--2) .swiper-pagination-bullet {
-  right: initial !important;
+  right: initial !important; /* Reset if previously set */
 }
 :is(.all-product-slider--1, .all-product-slider--2) .swiper-pagination {
   left: initial !important;
   right: 50% !important;
   transform: translateX(50%) !important;
 }
-/* END LANDING PAGE 1 */

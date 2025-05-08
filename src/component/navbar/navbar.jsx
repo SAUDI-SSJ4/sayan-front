@@ -10,17 +10,14 @@ import { useLogOut } from "../../utils/hooks/useLogOut";
 import SayanLogo from "../../assets/images/SayanLogo.png";
 import { useNavigate } from "react-router-dom";
 
-
 const NavBar = ({ setShow, profileData }) => {
   const [showDropDown, setShowDropDown] = useState(false);
-  
+
   const dropdownVariants = {
     hidden: { opacity: 0, y: "120%" },
     visible: { opacity: 1, y: " 100%", transition: { duration: 0.3 } },
   };
-
   const navigate = useNavigate();
-
   return (
     <div className={`${classes.navbar} navbar-dash`}>
       <div className={classes.container}>
@@ -33,9 +30,10 @@ const NavBar = ({ setShow, profileData }) => {
         <div>
           <div className={`${classes.Profile}`}>
             <img
-              src={profileData?.image}
+              src={profileData?.image || profileData.academy?.image || ""}
               alt="user-avatar"
               onClick={() => setShowDropDown(!showDropDown)}
+              className="object-cover"
             />
             <div className={classes.greenBall}></div>
             <AnimatePresence>
@@ -65,7 +63,10 @@ const NavBar = ({ setShow, profileData }) => {
                     الوضع (فاتح)
                   </div> */}
 
-                  <div className="d-flex align-items-center" onClick={() => useLogOut()}>
+                  <div
+                    className="d-flex align-items-center"
+                    onClick={() => useLogOut()}
+                  >
                     <LogoutOutlinedIcon sx={{ color: "#A3AED0" }} />
                     <span style={{ color: "red" }}> تسجيل الخروج</span>
                   </div>
@@ -74,18 +75,21 @@ const NavBar = ({ setShow, profileData }) => {
             </AnimatePresence>
           </div>
         </div>
-        <NotificationsNoneOutlinedIcon sx={{ width: "30px", height: "30px", color: "#7E8799" }} />
+        <NotificationsNoneOutlinedIcon
+          sx={{ width: "30px", height: "30px", color: "#7E8799" }}
+        />
       </div>
       <div className={`${classes.Title} input--info`}>
         <div className={classes.searchBar}>
           <input type="text" placeholder="ابحث..." />
-          <SearchIcon sx={{ width: "20px", height: "20px", color: "#7E8799" }} />
+          <SearchIcon
+            sx={{ width: "20px", height: "20px", color: "#7E8799" }}
+          />
         </div>
       </div>
 
       {/*  */}
-      <div className={classes.SayanLogo} onClick={() => navigate('/')}>
-
+      <div className={classes.SayanLogo} onClick={() => navigate("/")}>
         <img src={SayanLogo} alt="SayanLogo" />
       </div>
     </div>

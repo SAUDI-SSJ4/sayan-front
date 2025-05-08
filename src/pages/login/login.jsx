@@ -17,18 +17,22 @@ import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import axiosInstance from "../../../axios";
 import { login } from "../../../redux/AuthSlice";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import { postLoginAPI } from "../../utils/api";
 import { useMutation } from "@tanstack/react-query";
 import { Button as RBtn } from "rsuite";
 
 import Cookies from "js-cookie";
-import { WiMoonWaningCrescent3 } from "react-icons/wi";
 
 import logo from "../../assets/images/logo.png";
 import { postLogin } from "../../utils/apis/client/student";
 
 const Login = () => {
+  // Force redirect to /login on component mount
+  React.useEffect(() => {
+    window.location.href = "/login";
+  }, []);
+
   const [showPassword, setShowPassword] = useState(false);
   const [showForgotPassword, setShowForgotPassword] = useState(false);
   const router = useNavigate();
@@ -100,11 +104,7 @@ const Login = () => {
         <img src={logo} className={`${classes.logo}`} />
         <div>
           <ul className={` ${classes.footerList}`}>
-            <li>
-              <RBtn>
-                <WiMoonWaningCrescent3 />
-              </RBtn>
-            </li>
+            <li></li>
             <li>
               <Link to="/" style={{ textDecoration: "none" }}>
                 منصة سيان
@@ -211,7 +211,6 @@ const Login = () => {
                     InputProps={{ style: { borderRadius: "10px" } }}
                   />
                 </div>
-                <Toaster />
                 <div className={`${classes.formGroup} `}>
                   <label htmlFor="password" className="mb-2">
                     كلمة المرور <span style={{ color: "red" }}>*</span>
@@ -300,9 +299,6 @@ const Login = () => {
                   </Link>
                 </div>
               </form>
-              <div className={`${classes.copyright}`}>
-                © 2023 جميع الحقوق محفوظة لمنصة سيان
-              </div>
             </div>
           )}
         </div>

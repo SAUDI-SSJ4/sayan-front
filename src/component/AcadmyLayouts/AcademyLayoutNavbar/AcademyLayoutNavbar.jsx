@@ -1,96 +1,96 @@
 import classes from "./AcademyLayoutNavbar.module.scss";
-// import image from "../../../assets/images/acadmeylogo.png";
 import Offcanvas from "react-bootstrap/Offcanvas";
 import MenuIcon from "@mui/icons-material/Menu";
-import { useEffect, useState } from "react";
-import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
-import axiosInstance from "../../../../axios";
-import userss from "../../../assets/images/userAvatar.jpg";
-import Cookies from "js-cookie";
+import { useState } from "react";
+import { Link, useParams } from "react-router-dom";
+import { useAuth } from "../../../utils/hooks/useAuth";
 
-const AcademyLayoutNavbar = ({ navSettings }) => {
-  const navigate = useNavigate();
+const AcademyLayoutNavbar = ({
+  profile,
+  academySettings,
+  studentOpinions,
+  faqs,
+}) => {
+  const { id } = useParams();
   const [show, setShow] = useState(false);
-  const [path, setPath] = useState("");
-
-  const token = Cookies.get("student_token");
-
-  const { acdemyId } = useParams();
-
-  useEffect(() => {
-    setPath(acdemyId);
-  }, []);
-
-  const [profileData, setprofileData] = useState([]);
-  const [Loader, setLoader] = useState(false);
-
-  useEffect(() => {
-    if (token) {
-      axiosInstance
-        .get("/profile", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        })
-        .then((res) => res.data)
-        .then((data) => {
-          setprofileData(data);
-          setLoader(true);
-        })
-        .catch((error) => {
-          navigate("/login");
-        });
-    }
-  }, []);
-
-  console.log(path);
+  const { user, isLoading: isLoadingUser } = useAuth();
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+  const links = [
+    { name: "الرئيسية", to: "#" },
+    { name: "الدورات", to: "#courses" },
+    { name: "أراء الطلاب", to: "#student-opinions" },
+    { name: "الأسئلة الشائعة", to: "#faqs" },
+    { name: "تواصل معنا", to: "#contact" },
+  ];
   return (
     <div data-aos="fade-down" className={`container`}>
       <div className={`${classes.NavBarContainer} all-navbar-layout-1`}>
         <div className={classes.NavBarRoutes}>
-          <Link to="/" className={classes.logo}>
-            <img src={navSettings.template?.logo} alt="sayn academy logo" />
+          <Link to={`/acdemy/${id}`} className={classes.logo}>
+            <img
+              src={academySettings.logo}
+              alt="sayn academy logo"
+              className="object-cover"
+            />
           </Link>
-          {true && !token ? (
-            <div className={classes.Routes}>
-              <ul>
-                <li>
-                  <Link to={`/acdemy/${acdemyId}`}>الرئيسية</Link>
-                </li>
-                <li>
-                  <Link to={`/acdemy/${acdemyId}/AllCoursesPage`}>الدورات</Link>
-                </li>
-                <li>
-                  <Link to={`/acdemy/${acdemyId}/AllBlogs`}>المدونة</Link>
-                </li>
-                <li>
-                  <Link to={`/acdemy/${acdemyId}/AllProductsPage`}>
-                    المنتجات الرقمية
-                  </Link>
-                </li>
-                <li>
-                  {" "}
-                  <Link to={`/acdemy/${acdemyId}/ContactUs`}>
-                    تواصل معنا
-                  </Link>{" "}
-                </li>
-              </ul>
-            </div>
-          ) : null}
+          <div className={classes.Routes}>
+            <ul>
+              {links.map((link, index) => {
+                if (
+                  link.to === "#student-opinions" &&
+                  studentOpinions.length === 0
+                ) {
+                  return null;
+                }
+                if (link.to === "#faqs" && faqs.length === 0) {
+                  return null;
+                }
+                return (
+                  <li key={index}>
+                    <Link
+                      to={link.to}
+                      className="hover:!text-[#009AFF] duration-200 transition-colors"
+                    >
+                      {link.name}
+                    </Link>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
         </div>
-        {token && Loader ? (
+        {isLoadingUser ? (
+          <div className="flex items-center gap-4">
+            <div className="w-20 h-6 bg-gray-300 animate-pulse"></div>
+            <div className="w-12 h-12 rounded-full bg-gray-300 animate-pulse"></div>
+          </div>
+        ) : user ? (
           <div className={classes.NavBarBtns}>
-            <Link className={classes.Secondry} to={"/student/dashboard"}>
+            <Link
+              className={classes.Secondry}
+              to={
+                user.academy?.id === profile.id
+                  ? "/academy"
+                  : `/student/dashboard`
+              }
+            >
               لوحة التحكم
             </Link>
-            <img
-              style={{ width: "50px", borderRadius: "50%" }}
-              src={Loader ? profileData?.data.image : userss}
-              alt=""
-              className={classes.avatarImage}
-            />
+            {user.academy?.id === profile.id && user.academy.image && (
+              <img
+                src={user.academy.image}
+                alt=""
+                className="rounded-full w-10 h-10 object-cover"
+              />
+            )}
+            {user.academy?.id !== profile.id && user.image && (
+              <img
+                src={user.image}
+                alt=""
+                className="rounded-full w-10 h-10 object-cover"
+              />
+            )}
           </div>
         ) : (
           <div className={classes.NavBarBtns}>

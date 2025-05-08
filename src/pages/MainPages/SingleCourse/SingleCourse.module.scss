@@ -653,7 +653,7 @@
 .CourseTitle {
   display: flex;
   align-items: center;
-  flex-wrap: wrap;
+  justify-content: space-between;
   h2 {
     font-family: "Noto Kufi Arabic";
     font-size: 36px;
@@ -680,5 +680,11 @@
 
   &:hover {
     background-color: darken(#0062ff, 10%);
+  }
+}
+
+.cardInfo {
+  @media (min-width: 1300px) {
+    min-width: 1320px;
   }
 }

@@ -76,19 +76,6 @@ import Checkout from "../pages/Student/Checkout/Checkout";
 
 const StudentRoute = () => {
 
-
-  // const loginType = Cookies.get("login_type");
-
-  // const AuthGaurd = ({ children }) => {
-  //   if (loginType === "student") {
-  //     return children;
-  //   } else {
-  //     toast.error("يرجى تسجيل الدخول");
-  //     return <Navigate to="/" />;
-  //   }
-  // };
-
-
   return (
     <>
       <LayOut>
