@@ -6,10 +6,10 @@ import AcademyFooter from "../../component/MainPages/Footer/Footer.jsx";
 const PrivacyPolicyPage = () => {
   return (
     <Wrapper>
-      <div className="mt-5">
+      <div className>
         <NavBar />
       </div>
-      <Container className="noto-font">
+      <Container className>
         <Title>سياسة الخصوصية والنزاهة الأكاديمية</Title>
         <Subtitle>شروط وأحكام استخدام منصة سيان</Subtitle>
   

@@ -33,10 +33,30 @@ const SideBar = ({ flag, mobile, setShow, profileData }) => {
 
     if (isProfileVisible) {
       return (
-        <div className={`${classes.Profile} ${classes.profileVisible}`} 
-        onClick={() => handleNavigation()}>
+        <div className={`${classes.Profile} ${classes.profileVisible}`}>
           <img src={profileImage} alt={profileData?.id || "Academy"} />
-          <p className={classes.profileName}>{formatLongText(profileName, 15)}</p>
+          <div className="d-flex flex-column align-items-center gap-2">
+            <p className={classes.profileName}>{formatLongText(profileName, 15)}</p>
+            {pathname.includes("/academy") && (
+              <button 
+                onClick={() => handleNavigation()}
+                className="btn btn-primary btn-sm d-flex align-items-center justify-content-center gap-1"
+                style={{ 
+                  fontSize: '12px', 
+                  fontWeight: 'bold',
+                  height: '40px',
+                  width: '150px',
+                  backgroundColor: '#0062ff',
+                  border: 'none',
+                  borderRadius: '10px',
+                  padding: '0 8px'
+                }}
+              >
+                <span style={{ color: 'white', fontWeight: 'bold' }}>زيارة صفحة الأكاديمية</span>
+                <i className="fas fa-arrow-left" style={{ fontSize: '8px', color: 'white' }}></i>
+              </button>
+            )}
+          </div>
         </div>
       );
     }

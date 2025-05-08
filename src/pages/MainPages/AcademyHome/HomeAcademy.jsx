@@ -11,16 +11,13 @@ import { motion } from "framer-motion";
 import Skeleton from "@mui/material/Skeleton";
 import { getCourse } from "../../../utils/apis/client/academy";
 
-const Numbers = lazy(() =>
-  import("../../../component/MainPages/Numbers/Numbers")
-);
-const SubjectSlider = lazy(() =>
-  import("../../../component/MainPages/SubjectCard/subjectSlider")
-);
-const Footer = lazy(() => import("../../../component/MainPages/Footer/Footer"));
-const SubjectCard = lazy(() =>
-  import("../../../component/MainPages/SubjectCard/SubjectCard")
-);
+// تغيير طريقة استيراد المكونات
+import SubjectCard from "../../../component/MainPages/SubjectCard/SubjectCard";
+import Footer from "../../../component/MainPages/Footer/Footer";
+
+// استخدام lazy فقط للمكونات الثقيلة
+const Numbers = lazy(() => import("../../../component/MainPages/Numbers/Numbers"));
+const SubjectSlider = lazy(() => import("../../../component/MainPages/SubjectCard/subjectSlider"));
 
 const HomeAcademy = () => {
   

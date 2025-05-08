@@ -1,75 +1,100 @@
 .NavBarContainer {
   background-color: white;
-  padding: 18px 24px;
-  box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.05);
+  padding: 16px 30px;
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.03);
   display: flex;
   justify-content: space-between;
-  border-radius: 21px;
+  border-radius: 16px;
   align-items: center;
-  width: 1300px;
-  margin: auto;
+  width: 100%;
+  max-width: 1300px;
+  margin: 20px auto;
+
   .NavBarRoutes {
     display: flex;
-    gap: 50px;
+    gap: 40px;
+    align-items: center;
+
     .Routes {
+      display: flex;
+      align-items: center;
+
       @media (max-width: 991px) {
         display: none;
       }
-      display: flex;
-      align-items: center;
+
       ul {
-        display: flex !important;
-        gap: 20px;
+        display: flex;
+        gap: 30px;
         list-style: none;
-        padding: 0px;
-        margin: 0px;
+        padding: 0;
+        margin: 0;
+
         li {
-          font-size: 17px;
-          font-style: normal;
+          font-size: 16px;
           font-weight: 500;
+          transition: color 0.3s ease;
+          
+          &:hover {
+            color: #009aff;
+          }
         }
       }
     }
+
     .logo {
       img {
-        width: 59px !important;
-        height: 59px !important;
+        height: 50px !important;
+        object-fit: contain;
       }
     }
   }
+
   .NavBarBtns {
     display: flex;
-    gap: 20px;
+    gap: 24px;
+    align-items: center;
+
     @media (max-width: 991px) {
       display: none;
     }
-    align-items: center;
+
     .Secondry {
       font-weight: 600;
-      font-size: 16px;
+      font-size: 15px;
       color: #009aff;
       cursor: pointer;
+      transition: opacity 0.3s ease;
+
+      &:hover {
+        opacity: 0.8;
+      }
     }
+
     .Primary {
       color: white !important;
       text-decoration: none;
       cursor: pointer;
       background-color: #009aff;
-      padding: 20px 38px;
-      border-radius: 49px;
+      padding: 12px 30px;
+      border-radius: 30px;
       font-weight: 600;
-      font-size: 16px;
-      border: 1px solid #009aff;
-      transition: 0.4s;
+      font-size: 15px;
+      border: 1.5px solid #009aff;
+      transition: all 0.3s ease;
+  
       &:hover {
-        background-color: white !important;
+        background-color: transparent;
         color: #009aff !important;
       }
     }
   }
+
   .MobileMenu {
     display: none;
-    font-size: 30px;
+    font-size: 24px;
+    cursor: pointer;
+
     @media (max-width: 991px) {
       display: block;
     }

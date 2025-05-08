@@ -130,7 +130,6 @@ const FaqTable = ({
               onClick={handleCheck}
             />
           </Column>
-
           <Column flexGrow={1} minWidth={150}>
             <HeaderCell
               style={{
@@ -141,7 +140,7 @@ const FaqTable = ({
                 fontWeight: "700",
               }}
             >
-              العنوان
+              السؤال
             </HeaderCell>
             <NameCell
               style={{
@@ -165,32 +164,7 @@ const FaqTable = ({
                 fontWeight: "700",
               }}
             >
-              أسم الاكادمية
-            </HeaderCell>
-            <Cell
-              style={{
-                paddingBlock: "18px",
-                textAlign: "center",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              {(rowData) => (rowData.academy ? rowData.academy.name : "N/A")}
-            </Cell>
-          </Column>
-
-          <Column flexGrow={1} minWidth={150}>
-            <HeaderCell
-              style={{
-                paddingBlock: "18px",
-                textAlign: "center",
-                fontSize: "14px",
-                color: "#2B3674",
-                fontWeight: "700",
-              }}
-            >
-              المحتوى
+              الإجابة
             </HeaderCell>
             <NameCell
               style={{
@@ -201,29 +175,6 @@ const FaqTable = ({
                 alignItems: "center",
               }}
               dataKey="answer"
-            />
-          </Column>
-          <Column flexGrow={1} minWidth={150}>
-            <HeaderCell
-              style={{
-                paddingBlock: "18px",
-                textAlign: "center",
-                fontSize: "14px",
-                color: "#2B3674",
-                fontWeight: "700",
-              }}
-            >
-              الحالة
-            </HeaderCell>
-            <StatusCell
-              style={{
-                paddingBlock: "18px",
-                textAlign: "center",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-              dataKey="status"
             />
           </Column>
 

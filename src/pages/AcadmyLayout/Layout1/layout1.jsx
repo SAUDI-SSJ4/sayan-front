@@ -98,6 +98,7 @@ const Layout1 = () => {
             href={`${academyData.settings.favicon}?v=${Date.now()}`}
             key="favicon"
           />
+          {/* No custom font specification - will use system default */}
         </Helmet>
         <AcademyLayoutNavbar
           profile={academyData.profile}
@@ -111,16 +112,19 @@ const Layout1 = () => {
         {/* نبذة عن المعلم */}
 
         <About academyData={academyData} />
-
         <Courses academyData={academyData} />
         {academyData.opinions.length > 0 && (
-          <StudentRateSection
-            opinions={academyData.opinions}
-            academySettings={academyData.settings}
-          />
+          <div style={{ marginTop: '0px', marginBottom: '150px' }}>
+            <StudentRateSection
+              opinions={academyData.opinions}
+              academySettings={academyData.settings}
+            />
+          </div>
         )}
         {academyData.faqs.length > 0 && (
-          <FAQ faqs={academyData.faqs} academySettings={academyData.settings} />
+          <div className="md:mt-[200px] mt-[50px]">
+            <FAQ faqs={academyData.faqs} academySettings={academyData.settings} />
+          </div>
         )}
         <Footer academySettings={academyData.settings} />
       </>
@@ -134,13 +138,14 @@ const Courses = ({ academyData }) => {
   return (
     <div
       id="courses"
-      className="CustomContainer mt-5 position-relative"
+      className="CustomContainer"
+      style={{ marginTop: '200px' }}
       data-aos-duration="1000"
     >
       {academyData.courses.length > 0 ? (
         <>
-          <div className={`${classes.title} text-center`}>
-            المواد التعليمية الأكثر مبيعا
+          <div className={`${classes.title} text-center`} style={{ marginBottom: '15px' }}>
+            المواد التعليمية 
           </div>
           <Swiper
             pagination={{ clickable: true }}
@@ -198,8 +203,8 @@ const Courses = ({ academyData }) => {
 
 const Hero = ({ academyData }) => {
   return (
-    <div className="container mb-4">
-      <div className="row aboutAcademyLayout g-4 mt-3">
+    <div className="container" style={{ marginTop: '100px', marginBottom: '150px' }}>
+      <div className="row aboutAcademyLayout g-4">
         <div className="col-lg-6">
           <div data-aos="fade-up" className="SectionText">
             <h2>
@@ -208,9 +213,7 @@ const Hero = ({ academyData }) => {
               </span>{" "}
               <br />
               {academyData.slider.sub_title}{" "}
-              <span style={{ color: academyData.settings.primary_color }}>
-                .
-              </span>
+              <span style={{ color: academyData.settings.primary_color }}>.</span>
             </h2>
             <p className="fs-6 fw-medium text-content--1">
               {academyData.slider.content}
@@ -221,41 +224,46 @@ const Hero = ({ academyData }) => {
                 style={{
                   background: academyData.settings.primary_color,
                 }}
-                target="_blank"
-                className="w-[160px] h-[56px] rounded-[49px] text-sm text-white flex justify-center items-center opacity-90 hover:opacity-100 duration-200 transition-opacity"
-                rel="noreferrer"
+                className="w-[160px] h-[56px] rounded-[49px] text-sm text-white flex justify-center items-center opacity-90 hover:opacity-100 duration-200 transition-opacity font-bold"
               >
                 {academyData.slider.first_button_title}
               </a>
               <a
                 style={{
-                  border: `1px solid ${academyData.settings.primary_color}`,
+                  border: `1px solid ${academyData.settings.secondary_color}`,
                 }}
-                className="w-[226px] h-[56px] rounded-[49px] text-sm gap-3 flex justify-center items-center opacity-90 hover:opacity-100 duration-200 transition-opacity"
+                className="w-[226px] h-[56px] rounded-[49px] text-sm gap-3 flex justify-center items-center opacity-90 hover:opacity-100 duration-200 transition-opacity font-bold"
                 href={academyData.slider.second_button_link}
                 target="_blank"
                 rel="noreferrer"
               >
                 <span
                   style={{
-                    color: academyData.settings.primary_color,
+                    color: academyData.settings.secondary_color,
                   }}
                 >
                   {academyData.slider.second_button_title}
                 </span>
                 <PlayBtn
-                  color={academyData.settings.primary_color}
-                  iconColor={academyData.settings.primary_color}
+                  color={academyData.settings.secondary_color}
+                  iconColor={academyData.settings.secondary_color}
                 />
               </a>
             </div>
           </div>
         </div>
         <div className="col-lg-6 !pr-10">
-          <div data-aos="fade-right" className="SectionImage">
-            <img src={academyData.slider.image} alt="Slider" />
-          </div>
-        </div>
+  <div data-aos="fade-right" className="SectionImage">
+    <img
+      src={academyData.slider.image} 
+      alt="Slider"
+      loading="lazy"
+      width="800"
+      height="600"
+      style={{ maxHeight: '600px', width: 'auto', objectFit: 'contain' }}
+    />
+  </div>
+</div>
       </div>
       <div className="d-flex justify-content-center cursor-pointer mt-sm-5">
         <img
@@ -270,85 +278,45 @@ const Hero = ({ academyData }) => {
 const About = ({ academyData }) => {
   return (
     <div className="container mt-5">
-      <div className="row g-3 aboutAcademyLayout">
-        <div className="col-lg-6">
-          <div data-aos="fade-up" className="SectionImage !pl-14">
-            <img src={academyData.about.image} alt="About Image" />
-          </div>
+      <div className="row g-4 aboutAcademyLayout">
+        <div className="col-lg-6 order-2 order-lg-1">
+        <div data-aos="fade-up" className="SectionImage !pl-0 lg:!pl-14">
+  <img
+    src={academyData.about.image}
+    alt="About Image"
+    className="w-full h-auto object-cover rounded-lg"
+    style={{
+      width: '100%',
+      maxHeight: '600px',
+      objectFit: 'contain', // أو objectFit: 'contain' إذا أردت الصورة كاملة بدون قص
+      display: 'block',
+      margin: '0 auto'
+    }}
+  />
+</div>
         </div>
-        <div className="col-lg-6">
-          <div className="SectionText">
-            <h2 data-aos="fade-up" data-aos-duration="1000">
-              <span
-                style={{
-                  color: academyData.settings.primary_color,
-                }}
-              >
+        <div className="col-lg-6 order-1 order-lg-2">
+          <div className="SectionText px-4 lg:px-0">
+            <h2 data-aos="fade-up" data-aos-duration="1000" className="text-3xl lg:text-4xl mb-4">
+              <span style={{ color: academyData.settings.primary_color }}>
                 {academyData.about.title}
               </span>{" "}
               <br />
               {academyData.about.sub_title}{" "}
-              <span style={{ color: academyData.settings.primary_color }}>
-                .
-              </span>
+              <span style={{ color: academyData.settings.primary_color }}>.</span>
             </h2>
-            <p
-              data-aos="fade-up"
-              data-aos-duration="1000"
-              data-aos-delay="100"
-              className="fs-6 fw-medium text-content--1"
-            >
+            <p className="fs-6 fw-medium text-content--1 mb-6">
               {academyData.about.content}
             </p>
-            <div
-              className="d-flex"
-              style={{
-                alignItems: "center",
-                gap: "40px",
-                marginTop: "30px",
-              }}
-            >
-              <div
-                data-aos="fade-right"
-                data-aos-duration="1000"
-                data-aos-delay="200"
-                style={{
-                  fontWeight: "600",
-                  display: "flex",
-                  gap: "10px",
-                  alignItems: "center",
-                  fontSize: "20px",
-                }}
-                className="title-text--1"
-              >
-                <CertificationIcon />
-                {academyData.about.feature_one}
+            <div className="flex flex-wrap gap-6 lg:gap-10 mt-6">
+              <div className="flex items-center gap-3 title-text--1">
+                <CertificationIcon color={academyData.settings.secondary_color} />
+                <span className="">{academyData.about.feature_one}</span>
               </div>
-              <div
-                data-aos="fade-right"
-                data-aos-duration="1000"
-                data-aos-delay="300"
-                style={{
-                  width: "2px",
-                  backgroundColor: "rgba(50, 50, 50, 0.50)",
-                  height: "30px",
-                }}
-              ></div>
-              <div
-                data-aos="fade-right"
-                data-aos-duration="1000"
-                data-aos-delay="400"
-                style={{
-                  fontWeight: "600",
-                  display: "flex",
-                  gap: "10px",
-                  alignItems: "center",
-                  fontSize: "20px",
-                }}
-                className="title-text--1"
-              >
-                <GraduateIcon />
-                {academyData.about.feature_two}
+              <div className="hidden lg:block w-0.5 h-8 bg-opacity-50" style={{ backgroundColor: academyData.settings.secondary_color }}></div>
+              <div className="flex items-center gap-3 title-text--1">
+                <GraduateIcon color={academyData.settings.secondary_color} />
+                <span className="text-base lg:text-lg">{academyData.about.feature_two}</span>
               </div>
             </div>
           </div>
@@ -361,10 +329,6 @@ const Footer = ({ academySettings }) => {
   const navigate = useNavigate();
 
   const socialLinks = [
-    {
-      icon: Facebook,
-      url: "https://www.facebook.com/sayan.edtech",
-    },
     {
       icon: Instagram,
       url: "https://www.instagram.com/sayan_edtech",
@@ -379,7 +343,7 @@ const Footer = ({ academySettings }) => {
     },
     {
       icon: Youtube,
-      url: "https://www.youtube.com/@sayan_edtech",
+      url: "https://www.tiktok.com/@sayan_edtech",
     },
   ];
   return (
@@ -395,26 +359,6 @@ const Footer = ({ academySettings }) => {
                   alt="App Store"
                   className="h-8"
                 />
-              </div>
-              <div className="flex flex-col leading-none space-y-0">
-                <p className="text-xs m-0 p-0 text-gray-300">متوفر على</p>
-                <p className="text-sm font-bold m-0 p-0">Google Play</p>
-              </div>
-            </div>
-          </a>
-
-          <a href="#">
-            <div className="flex items-center bg-black px-4 py-2 gap-2 rounded-md text-white text-center">
-              <div>
-                <img
-                  src="https://labayh.net/wp-content/uploads/2022/06/apple-app.svg"
-                  alt="App Store"
-                  className="h-8"
-                />
-              </div>
-              <div className="flex flex-col leading-none space-y-0">
-                <p className="text-xs m-0 p-0 text-gray-300">متوفر على</p>
-                <p className="text-sm font-bold m-0 p-0">App Store</p>
               </div>
             </div>
           </a>
@@ -433,10 +377,10 @@ const Footer = ({ academySettings }) => {
               style={{
                 background: academySettings.primary_color,
               }}
-              className="rounded-md w-10 h-10 flex items-center justify-center cursor-pointer transition duration-300 ease-in-out hover:scale-105"
+              className="rounded-[7px] w-8 h-8 flex items-center justify-center cursor-pointer transition duration-300 ease-in-out hover:scale-105"
             >
               <a href={link.url} target="_blank" rel="noreferrer">
-                <img src={link.icon} alt="Social Icon" className="h-6 w-6" />
+                <img src={link.icon} alt="Social Icon" className="h-4 w-4" />
               </a>
             </li>
           ))}
@@ -446,7 +390,7 @@ const Footer = ({ academySettings }) => {
       {/* Copyright & Legal */}
       <div className="text-center mt-6 text-gray-500 text-sm">
         <p>
-          جميع الحقوق محفوظة لمنصة سيان © 2023 |
+          جميع الحقوق محفوظة لمنصة سيان © 2025 |
           <span
             style={{ color: academySettings.primary_color }}
             className="cursor-pointer hover:underline"

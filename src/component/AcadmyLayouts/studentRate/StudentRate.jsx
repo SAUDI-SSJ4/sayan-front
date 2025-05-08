@@ -8,18 +8,15 @@ import quma from "../../../assets/images/quma.png";
 import { Navigation, Pagination, Scrollbar, A11y } from "swiper/modules";
 import { Rate } from "rsuite";
 import { StarBorderOutlined } from "@mui/icons-material";
+
 const StudentRateSection = ({ opinions, academySettings }) => {
   return (
     <div id="student-opinions" className={classes.StudentRateContainer}>
       <div className={classes.SectionTitle}>
         <span>أراء الطلاب .</span>
-        <span
-          style={{ background: academySettings?.primary_color }}
-          className="w-[100px] h-[18px] block mx-auto relative bottom-4 -z-10"
-        ></span>
       </div>
 
-      <div className="container mt-5">
+      <div className="container" style={{ marginTop: '12px' }}>
         <Swiper
           modules={[Navigation, Pagination, Scrollbar, A11y]}
           breakpoints={{
@@ -28,8 +25,8 @@ const StudentRateSection = ({ opinions, academySettings }) => {
               spaceBetween: 10,
             },
             1200: {
-              slidesPerView: 3,
-              spaceBetween: 20,
+              slidesPerView: 4,
+              spaceBetween: 5,
             },
           }}
         >
@@ -48,10 +45,10 @@ const StudentRateSection = ({ opinions, academySettings }) => {
                       <Rate
                         className={classes.RateStarsCss}
                         value={opinion.rating}
-                        color="orange"
+                        color="#FFD700"
                         size="sm"
                         readOnly
-                        renderCharacter={() => <StarBorderOutlined />}
+                        renderCharacter={() => <StarBorderOutlined style={{ color: '#FFD700', fill: '#FFD700' }} />}
                       />
                     </div>
                   </div>

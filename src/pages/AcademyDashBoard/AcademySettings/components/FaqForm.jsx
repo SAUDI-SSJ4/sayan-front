@@ -66,10 +66,10 @@ function FaqForm({ faq }) {
     <form onSubmit={formik.handleSubmit} className="row">
       <div className="col-lg-6 col-md-12">
         <div className="CustomFormControl">
-          <label htmlFor="question">العنوان</label>
+          <label htmlFor="question">السؤال</label>
           <input
             type="text"
-            placeholder="ادخل عنوان المقال هنا"
+            placeholder="ادخل السؤال هنا"
             id="question"
             name="question"
             value={formik.values.question}
@@ -84,9 +84,9 @@ function FaqForm({ faq }) {
 
       <div className="col-lg-12 col-md-12">
         <div className="CustomFormControl">
-          <label htmlFor="answer">الوصف</label>
+          <label htmlFor="answer">الايجابة</label>
           <textarea
-            placeholder="ادخل النص هنا"
+            placeholder="ادخل الاجابة هنا"
             id="answer"
             name="answer"
             value={formik.values.answer}
