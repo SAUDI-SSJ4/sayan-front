@@ -1,13 +1,11 @@
 import { useState, useMemo } from "react";
 import classes from "./SubjectCard.module.scss";
-import TeacherMask from "../../../assets/images/TeacherMask.png";
 import Image from "../../../assets/images/CourseImage.png";
 import StarIcon from "@mui/icons-material/Star";
 import { Link } from "react-router-dom";
 import { Tooltip } from "@mui/material";
-import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-import { formatLongText, handleRateStare } from "../../../utils/helpers";
+import { formatLongText } from "../../../utils/helpers";
 import Cookies from "js-cookie";
 
 const SubjectCard = ({ mainData, academySettings }) => {
@@ -30,7 +28,7 @@ const SubjectCard = ({ mainData, academySettings }) => {
     const types = {
       attend: "حضورية",
       recorded: "تفاعلية",
-      default: "مباشرة"
+      default: "مباشرة",
     };
     return types[type] || types.default;
   }, [type]);
@@ -39,24 +37,26 @@ const SubjectCard = ({ mainData, academySettings }) => {
 
   // Favorite Icon Component
   const FavoriteButton = () => (
-    <div style={{
-      backgroundColor: 'white',
-      borderRadius: '50%',
-      padding: '8px',
-      display: 'flex',
-      boxShadow: '0 3px 6px rgba(0,0,0,0.1)',
-      transition: 'transform 0.2s ease',
-      cursor: isLoading ? "not-allowed" : "pointer",
-      '&:hover': {
-        transform: 'scale(1.05)'
-      }
-    }}>
-      <FavoriteIcon 
-        sx={{ 
-          color: isFavorite ? '#ff3b30' : '#9e9e9e', 
-          fontSize: '24px',
-          transition: 'color 0.2s ease'
-        }} 
+    <div
+      style={{
+        backgroundColor: "white",
+        borderRadius: "50%",
+        padding: "8px",
+        display: "flex",
+        boxShadow: "0 3px 6px rgba(0,0,0,0.1)",
+        transition: "transform 0.2s ease",
+        cursor: isLoading ? "not-allowed" : "pointer",
+        "&:hover": {
+          transform: "scale(1.05)",
+        },
+      }}
+    >
+      <FavoriteIcon
+        sx={{
+          color: isFavorite ? "#ff3b30" : "#9e9e9e",
+          fontSize: "24px",
+          transition: "color 0.2s ease",
+        }}
       />
     </div>
   );
@@ -129,12 +129,14 @@ const SubjectCard = ({ mainData, academySettings }) => {
         />
 
         <div className="d-flex justify-content-between align-items-center mt-3">
-          <h2 style={{ 
-            maxWidth: '65%', 
-            whiteSpace: 'nowrap',
-            overflow: 'hidden',
-            textOverflow: 'ellipsis'
-          }}>
+          <h2
+            style={{
+              maxWidth: "65%",
+              whiteSpace: "nowrap",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+            }}
+          >
             <Tooltip title={title} placement="top">
               <span>{title}</span>
             </Tooltip>
@@ -142,7 +144,7 @@ const SubjectCard = ({ mainData, academySettings }) => {
           <div
             className={classes.Badge}
             style={{
-              background: academySettings.primary_color,
+              background: academySettings?.primary_color,
             }}
           >
             {courseTypeLabel}
@@ -151,8 +153,8 @@ const SubjectCard = ({ mainData, academySettings }) => {
 
         <div className={`${classes.Rate} mt-3`}>
           <div className="d-flex align-items-center gap-2">
-            <StarIcon sx={{ fontSize: '24px', color: '#FFD700' }} />
-            <span style={{ fontSize: '16px', fontWeight: '600' }}>{stars}</span>
+            <StarIcon sx={{ fontSize: "24px", color: "#FFD700" }} />
+            <span style={{ fontSize: "16px", fontWeight: "600" }}>{stars}</span>
           </div>
         </div>
 
@@ -164,11 +166,14 @@ const SubjectCard = ({ mainData, academySettings }) => {
 
         <div className={classes.Footer}>
           <div className={classes.priceHolder}>
-            <h1 className={classes.price} style={{
-              fontSize: '24px',
-              fontWeight: '800',
-              color: '#272727'
-            }}>
+            <h1
+              className={classes.price}
+              style={{
+                fontSize: "24px",
+                fontWeight: "800",
+                color: "#272727",
+              }}
+            >
               {price ? `${price} ريال` : "مجاني"}
             </h1>
           </div>
