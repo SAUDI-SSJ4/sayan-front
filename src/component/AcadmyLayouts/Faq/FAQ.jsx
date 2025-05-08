@@ -42,7 +42,7 @@ const AccordionSummary = styled((props) => (
           sx={{
             fontSize: "2rem",
             color: "white",
-            background: props.academySettings.secondary_color,
+            background: props.academySettings?.secondary_color,
             borderRadius: "50%",
             width: "auto",
             height: "auto",
@@ -95,7 +95,7 @@ const FAQ = ({ faqs, academySettings }) => {
             className="text-content-faq"
           >
             الأسئلة الشائعة{" "}
-            <span style={{ color: academySettings.secondary_color }}>؟</span>
+            <span style={{ color: academySettings?.secondary_color }}>؟</span>
           </h3>
         </div>
         <div

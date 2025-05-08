@@ -29,7 +29,7 @@ const AcademyLayoutNavbar = ({
         <div className={classes.NavBarRoutes}>
           <Link to={`/acdemy/${id}`} className={classes.logo}>
             <img
-              src={academySettings.logo}
+              src={academySettings?.logo}
               alt="sayn academy logo"
               className="object-cover"
             />
@@ -39,11 +39,11 @@ const AcademyLayoutNavbar = ({
               {links.map((link, index) => {
                 if (
                   link.to === "#student-opinions" &&
-                  studentOpinions.length === 0
+                  studentOpinions?.length === 0
                 ) {
                   return null;
                 }
-                if (link.to === "#faqs" && faqs.length === 0) {
+                if (link.to === "#faqs" && faqs?.length === 0) {
                   return null;
                 }
                 return (
@@ -70,14 +70,14 @@ const AcademyLayoutNavbar = ({
             <Link
               className={classes.Secondry}
               to={
-                user.academy?.id === profile.id
+                user.academy?.id === profile?.id
                   ? "/academy"
                   : `/student/dashboard`
               }
             >
               لوحة التحكم
             </Link>
-            {user.academy?.id === profile.id && user.academy.image && (
+            {user.academy?.id === profile?.id && user.academy.image && (
               <img
                 src={user.academy.image}
                 alt=""

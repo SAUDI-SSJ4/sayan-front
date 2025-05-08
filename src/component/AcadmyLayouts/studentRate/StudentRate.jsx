@@ -14,7 +14,7 @@ const StudentRateSection = ({ opinions, academySettings }) => {
       <div className={classes.SectionTitle}>
         <span>أراء الطلاب .</span>
         <span
-          style={{ background: academySettings.primary_color }}
+          style={{ background: academySettings?.primary_color }}
           className="w-[100px] h-[18px] block mx-auto relative bottom-4 -z-10"
         ></span>
       </div>
