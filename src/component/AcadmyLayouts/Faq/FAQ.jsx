@@ -38,7 +38,16 @@ const AccordionSummary = styled((props) => (
           alignItems: "center",
         }}
       >
-        <ExpandMoreIcon sx={{ fontSize: "2rem" }} />
+        <ExpandMoreIcon
+          sx={{
+            fontSize: "2rem",
+            color: "white",
+            background: props.academySettings?.secondary_color,
+            borderRadius: "50%",
+            width: "auto",
+            height: "auto",
+          }}
+        />
       </div>
     }
     {...props}
@@ -65,7 +74,7 @@ const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
   padding: theme.spacing(2),
   borderTop: "1px solid rgba(0, 0, 0, .125)",
 }));
-const FAQ = ({ profileData }) => {
+const FAQ = ({ faqs, academySettings }) => {
   const [expanded, setExpanded] = React.useState(false);
 
   const handleChange = (panel) => (event, isExpanded) => {
@@ -73,7 +82,7 @@ const FAQ = ({ profileData }) => {
   };
 
   return (
-    <div className="container mt-5">
+    <div id="faqs" className="container mt-5">
       <div className="row g-3">
         <div className="col-lg-4 col-md-12">
           <h3
@@ -85,7 +94,8 @@ const FAQ = ({ profileData }) => {
             }}
             className="text-content-faq"
           >
-            الأسئلة الشائعة <span style={{ color: "#DF932D" }}>؟</span>
+            الأسئلة الشائعة{" "}
+            <span style={{ color: academySettings?.secondary_color }}>؟</span>
           </h3>
         </div>
         <div
@@ -93,7 +103,7 @@ const FAQ = ({ profileData }) => {
           data-aos-delay="100"
           className="col-lg-8 col-md-12"
         >
-          {profileData?.faq?.map((e, i) => {
+          {faqs?.map((e, i) => {
             return (
               <Accordion
                 key={i}
@@ -103,6 +113,7 @@ const FAQ = ({ profileData }) => {
                 <AccordionSummary
                   aria-controls="panel1d-content"
                   id="panel1d-header"
+                  academySettings={academySettings}
                 >
                   <p
                     style={{

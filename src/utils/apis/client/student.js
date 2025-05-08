@@ -23,7 +23,6 @@ export const postVerify = async (data) => {
   return await website_client.post(`/verify`, data);
 };
 
-
 export const postLogin = async (data) => {
   return await website_client.post(`/login`, data);
 };

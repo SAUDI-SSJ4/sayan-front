@@ -43,7 +43,8 @@ const SingleCourse = () => {
     };
   }, []);
 
-  const handleChange = (panel) => (_, isExpanded) => setExpanded(isExpanded ? panel : false);
+  const handleChange = (panel) => (_, isExpanded) =>
+    setExpanded(isExpanded ? panel : false);
 
   if (isError) {
     console.log(error);
@@ -65,12 +66,12 @@ const SingleCourse = () => {
           />
 
           <div className={Style.cardInfo}>
-          <CourseInfo
-            courseData={courseData}
-            active={active}
-            expanded={expanded}
-            handleChange={handleChange}
-          />
+            <CourseInfo
+              courseData={courseData}
+              active={active}
+              expanded={expanded}
+              handleChange={handleChange}
+            />
           </div>
         </div>
       </Header2>

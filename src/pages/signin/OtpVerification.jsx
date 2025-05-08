@@ -1,23 +1,22 @@
 import React, { useState } from "react";
 import Button from "@mui/material/Button";
-import CircularProgress from "@mui/material/CircularProgress";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import classes from "./login.module.scss";
 import OtpInput from "./OtpInput";
-import axiosInstance from "../../../axios";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { postVerify } from "../../utils/apis/client/student";
 
-const OtpVerification = ({ email }) => {
+const OtpVerification = ({
+  email,
+  disableRedirect,
+  setResetToken,
+  setShowResetPassword,
+  setShowSendOtp,
+}) => {
   const navigate = useNavigate();
   const [otpValues, setOtpValues] = useState(new Array(6).fill(""));
-  const [emaill, setEmail] = useState("");
-  console.log("email: " ,localStorage.getItem("otpEmail"));
-  email = localStorage.getItem("otpEmail");
-    // setEmail(localStorage.getItem("otpEmail"));
-
 
   const formik = useFormik({
     initialValues: {
@@ -32,10 +31,17 @@ const OtpVerification = ({ email }) => {
       formik.setSubmitting(true);
       postVerify({ otp: values.otp, email })
         .then((res) => {
-          navigate("/student/login");
-          toast.success("تم انشاء الحساب بنجاح");
-          localStorage.clear("otpEmail");
+          if (res.status === 200) {
+            !disableRedirect && navigate("/student/login");
+            if (res.data?.data.reset_token) {
+              setResetToken(res.data?.data.reset_token);
+              setShowResetPassword(true);
+              setShowSendOtp(false);
+            }
 
+            toast.success("تم التأكيد بنجاح");
+            localStorage.clear("otpEmail");
+          }
         })
         .catch((error) => {
           toast.error(error?.response?.data?.message);
@@ -61,7 +67,7 @@ const OtpVerification = ({ email }) => {
       }
     }
   };
- 
+
   return (
     <div className="w-50 d-flex flex-column justify-content-center align-items-start gap-3">
       <div className={`${classes.line}`}></div>
@@ -99,7 +105,7 @@ const OtpVerification = ({ email }) => {
             alignItems: "center",
           }}
         >
-          {formik.isSubmitting ? <div className="loader"></div> : "انشاء حسابي"}
+          {formik.isSubmitting ? <div className="loader"></div> : "تأكيد"}
         </Button>
       </form>
     </div>

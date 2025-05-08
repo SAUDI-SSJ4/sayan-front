@@ -27,7 +27,10 @@ import { Button } from "rsuite";
 import { useDeleteOpinion } from "../../../framework/accademy/academysetting-opinions";
 import { Error } from "@mui/icons-material";
 import { toast } from "react-toastify";
-import { DeleteAcademyFaq, DeleteAcademyOpinion } from "../../../utils/apis/client/academy";
+import {
+  DeleteAcademyFaq,
+  DeleteAcademyOpinion,
+} from "../../../utils/apis/client/academy";
 
 const AcademySettings = () => {
   const [TableOrNot, setTableOrNot] = useState(true);
@@ -40,7 +43,10 @@ const AcademySettings = () => {
 
   const checkAllHandler = () => {
     setCheckedKeys((perv) => {
-      if (perv?.length === data?.length && (perv?.length !== 0 || data?.length !== 0)) {
+      if (
+        perv?.length === data?.length &&
+        (perv?.length !== 0 || data?.length !== 0)
+      ) {
         return [];
       } else {
         return [...data];
@@ -48,29 +54,30 @@ const AcademySettings = () => {
     });
   };
   const DeleteSelectedOpinions = async () => {
-    
     try {
       // Create an array of deletion promises
       const deletionPromises = checkedKeys.map((item) =>
         DeleteAcademyOpinion(item.id)
-    );
-    
+      );
+
       // Wait for all deletions to finish
-      const results = await Promise.all(deletionPromises)
-      
+      const results = await Promise.all(deletionPromises);
+
       // Check each response and handle success/failure
       let successCount = 0;
       results.forEach((res, index) => {
         if (res.success) {
           successCount++;
-          toast.success(`تم حذف تعليق ${checkedKeys[index].student_name} بنجاح`);
+          toast.success(
+            `تم حذف تعليق ${checkedKeys[index].student_name} بنجاح`
+          );
           setCheckedKeys([]);
           setIsRefresh(true);
         } else {
           toast.error(`حدث خطأ عند حذف العنصر ${checkedKeys[index].id}`);
         }
       });
-  
+
       if (successCount > 0) {
         // Refresh the table data
         const updatedData = data.filter(
@@ -86,13 +93,13 @@ const AcademySettings = () => {
   const DeleteSelectedFAQs = async () => {
     try {
       // Create an array of deletion promises
-      const deletionPromises = checkedKeys.map((item) =>
-        DeleteAcademyFaq(item.id) // Assume DeleteFAQ is the API function for deleting a FAQ
+      const deletionPromises = checkedKeys.map(
+        (item) => DeleteAcademyFaq(item.id) // Assume DeleteFAQ is the API function for deleting a FAQ
       );
-  
+
       // Wait for all deletions to finish
       const results = await Promise.all(deletionPromises);
-  
+
       // Check each response and handle success/failure
       let successCount = 0;
       results.forEach((res, index) => {
@@ -105,7 +112,7 @@ const AcademySettings = () => {
           toast.error(`حدث خطأ عند حذف العنصر ${checkedKeys[index].id}`);
         }
       });
-  
+
       if (successCount > 0) {
         // Refresh the table data
         const updatedData = data.filter(
@@ -118,8 +125,6 @@ const AcademySettings = () => {
       console.error("Error deleting FAQs:", error);
     }
   };
-  
-  
 
   const getTitle = () => {
     switch (true) {
@@ -153,32 +158,59 @@ const AcademySettings = () => {
               <div className="icon">
                 <PeopleAltIcon sx={{ color: "#A3AED0" }} />
               </div>
-              <div style={{ color: "#7E8799" }}>
-              {getTitle()}
-              </div>
+              <div style={{ color: "#7E8799" }}>{getTitle()}</div>
             </div>
             {location.pathname.includes("/settings/ratesOfStudents") ? (
               <div className="d-flex align-items-center gap-3 flex-wrap  ">
-              {checkedKeys.length>0?<Button onClick={()=>DeleteSelectedOpinions()} size="lg" appearance="primary" color="red" > حذف المحددة</Button>:""}
-              <Link to={"/academy/settings/ratesOfStudents/add"} className="addBtn">
-                <AddCircleIcon />
-                أضافة
-              </Link>
+                {checkedKeys.length > 0 ? (
+                  <Button
+                    onClick={() => DeleteSelectedOpinions()}
+                    size="lg"
+                    appearance="primary"
+                    color="red"
+                  >
+                    {" "}
+                    حذف المحددة
+                  </Button>
+                ) : (
+                  ""
+                )}
+                <Link
+                  to={"/academy/settings/ratesOfStudents/add"}
+                  className="addBtn"
+                >
+                  <AddCircleIcon />
+                  أضافة
+                </Link>
               </div>
-            ) :location.pathname.includes("/settings/faq") ? (
-           
-               <div className="d-flex align-items-center gap-3 flex-wrap  ">
-               {checkedKeys.length>0?<Button onClick={()=>DeleteSelectedFAQs()} size="lg" appearance="primary" color="red" > حذف المحددة</Button>:""}
-               <Link to={"/academy/settings/faq/add"} className="addBtn">
-                <AddCircleIcon />
-                أضافة
-              </Link>
-               </div>
+            ) : location.pathname.includes("/settings/faq") ? (
+              <div className="d-flex align-items-center gap-3 flex-wrap  ">
+                {checkedKeys.length > 0 ? (
+                  <Button
+                    onClick={() => DeleteSelectedFAQs()}
+                    size="lg"
+                    appearance="primary"
+                    color="red"
+                  >
+                    {" "}
+                    حذف المحددة
+                  </Button>
+                ) : (
+                  ""
+                )}
+                <Link to={"/academy/settings/faq/add"} className="addBtn">
+                  <AddCircleIcon />
+                  أضافة
+                </Link>
+              </div>
             ) : (
               ""
             )}
             {location.pathname.includes("/settings/call-to-action") ? (
-              <Link to={"/academy/settings/call-to-action/add"} className="addBtn">
+              <Link
+                to={"/academy/settings/call-to-action/add"}
+                className="addBtn"
+              >
                 <AddCircleIcon />
                 أضافة
               </Link>
@@ -240,7 +272,7 @@ const AcademySettings = () => {
                 isRefresh={isRefresh}
                 setIsRefresh={setIsRefresh}
               />
-            ):location.pathname.includes("/settings/ratesOfStudents") ?(
+            ) : location.pathname.includes("/settings/ratesOfStudents") ? (
               <StudentRatesTable
                 checkedKeys={checkedKeys}
                 setDeleteModal={setDeleteModal}
@@ -302,11 +334,11 @@ const AcademySettings = () => {
             exit={{ y: -10, opacity: 0 }}
             transition={{ duration: 0.2 }}
           >
-              <DigitalProductsCardContainer
-                setData={setData}
-                checkedKeys={checkedKeys}
-                setCheckedKeys={setCheckedKeys}
-              />
+            <DigitalProductsCardContainer
+              setData={setData}
+              checkedKeys={checkedKeys}
+              setCheckedKeys={setCheckedKeys}
+            />
           </motion.div>
         )}
       </AnimatePresence>

@@ -117,7 +117,7 @@ const CartButton = () => {
                   className={Style.viewCartButton}
                   onClick={() => {
                     handleClose();
-                    navigate('/cart');
+                    navigate('/student/ShoppingCart');
                   }}
                 >
                   عرض العربة
@@ -126,7 +126,7 @@ const CartButton = () => {
                   className={Style.checkoutButton}
                   onClick={() => {
                     handleClose();
-                    navigate('/checkout');
+                    navigate('/student/Checkout');
                   }}
                 >
                   إتمام الشراء
