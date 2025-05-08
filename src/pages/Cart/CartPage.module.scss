@@ -208,3 +208,373 @@
     padding: 16px 32px;
   }
 }
+
+// صفحة الدفع
+.checkoutPage {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  direction: rtl;
+  font-family: 'Cairo', sans-serif;
+
+  .backButton {
+    display: flex;
+    align-items: center;
+    background: none;
+    border: none;
+    color: #555;
+    cursor: pointer;
+    font-size: 0.9rem;
+    padding: 0.5rem;
+    margin-top: 1rem;
+
+    &:hover {
+      color: #007bff;
+    }
+
+    svg {
+      margin-left: 0.5rem;
+    }
+  }
+
+  .checkoutContent {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    margin-top: 2rem;
+
+    @media (min-width: 768px) {
+      flex-direction: row;
+    }
+  }
+
+  .orderDetails {
+    flex: 2;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 1.5rem;
+
+    h3 {
+      border-bottom: 1px solid #eee;
+      padding-bottom: 1rem;
+      margin-bottom: 1.5rem;
+      font-size: 1.2rem;
+      color: #333;
+    }
+
+    .itemsList {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .orderItem {
+      display: flex;
+      padding: 1rem 0;
+      border-bottom: 1px solid #f0f0f0;
+
+      &:last-child {
+        border-bottom: none;
+      }
+
+      .itemImage {
+        width: 80px;
+        height: 60px;
+        margin-left: 1rem;
+
+        img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          border-radius: 4px;
+        }
+      }
+
+      .itemInfo {
+        flex: 1;
+
+        h4 {
+          margin: 0 0 0.5rem;
+          font-size: 1rem;
+          color: #333;
+        }
+
+        p {
+          margin: 0;
+          color: #666;
+          font-weight: bold;
+        }
+      }
+    }
+  }
+
+  .paymentSummary {
+    flex: 1;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 1.5rem;
+    height: fit-content;
+
+    h3 {
+      border-bottom: 1px solid #eee;
+      padding-bottom: 1rem;
+      margin-bottom: 1.5rem;
+      font-size: 1.2rem;
+      color: #333;
+    }
+
+    .couponSection {
+      display: flex;
+      margin-bottom: 1.5rem;
+
+      input {
+        flex: 1;
+        padding: 0.8rem;
+        border: 1px solid #ddd;
+        border-radius: 4px 0 0 4px;
+        font-size: 0.9rem;
+        direction: rtl;
+        outline: none;
+
+        &:focus {
+          border-color: #007bff;
+        }
+
+        &:disabled {
+          background-color: #f9f9f9;
+        }
+      }
+
+      button {
+        padding: 0.8rem 1.2rem;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 0 4px 4px 0;
+        cursor: pointer;
+        font-weight: bold;
+        font-size: 0.9rem;
+
+        &:hover {
+          background-color: #0069d9;
+        }
+
+        &:disabled {
+          background-color: #cccccc;
+          cursor: not-allowed;
+        }
+      }
+    }
+
+    .summaryDetails {
+      margin-bottom: 1.5rem;
+
+      .summaryRow {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 0.8rem;
+        font-size: 0.95rem;
+        color: #555;
+
+        &.total {
+          font-weight: bold;
+          font-size: 1.1rem;
+          color: #333;
+          margin-top: 1rem;
+          padding-top: 1rem;
+          border-top: 1px solid #eee;
+        }
+
+        &.discount {
+          color: #28a745;
+        }
+      }
+    }
+
+    .termsSection {
+      margin-bottom: 1.5rem;
+
+      label {
+        display: flex;
+        align-items: center;
+        font-size: 0.9rem;
+        color: #555;
+
+        input {
+          margin-left: 0.5rem;
+        }
+
+        a {
+          color: #007bff;
+          text-decoration: none;
+          margin: 0 0.25rem;
+
+          &:hover {
+            text-decoration: underline;
+          }
+        }
+      }
+    }
+
+    .errorMessage {
+      color: #dc3545;
+      font-size: 0.9rem;
+      margin-bottom: 1rem;
+      padding: 0.5rem;
+      background-color: #f8d7da;
+      border-radius: 4px;
+    }
+
+    .paymentButton {
+      width: 100%;
+      padding: 1rem;
+      background-color: #28a745;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      margin-bottom: 1rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: background-color 0.2s;
+
+      svg {
+        margin-left: 0.5rem;
+      }
+
+      &:hover {
+        background-color: #218838;
+      }
+
+      &:disabled {
+        background-color: #cccccc;
+        cursor: not-allowed;
+      }
+    }
+
+    .securePayment {
+      text-align: center;
+      color: #6c757d;
+      font-size: 0.8rem;
+    }
+  }
+}
+
+// صفحة نتيجة الدفع
+.paymentResultPage {
+  max-width: 800px;
+  margin: 3rem auto;
+  text-align: center;
+  padding: 2rem;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+  direction: rtl;
+  font-family: 'Cairo', sans-serif;
+
+  .statusIcon {
+    margin-bottom: 1.5rem;
+
+    svg {
+      font-size: 5rem;
+    }
+  }
+
+  .paymentStatusSuccess .statusIcon svg {
+    color: #28a745;
+  }
+
+  .paymentStatusFailed .statusIcon svg {
+    color: #dc3545;
+  }
+
+  .paymentStatusLoading .statusIcon svg,
+  .paymentStatusPending .statusIcon svg {
+    color: #ffc107;
+  }
+
+  h2 {
+    margin-bottom: 1rem;
+    color: #333;
+  }
+
+  p {
+    color: #666;
+    margin-bottom: 2rem;
+    line-height: 1.6;
+  }
+
+  .paymentDetails {
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+
+    .detailRow {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 0.8rem;
+      padding-bottom: 0.8rem;
+      border-bottom: 1px solid #eee;
+
+      &:last-child {
+        margin-bottom: 0;
+        padding-bottom: 0;
+        border-bottom: none;
+      }
+
+      span:first-child {
+        color: #6c757d;
+      }
+
+      span:last-child {
+        font-weight: bold;
+        color: #333;
+      }
+    }
+  }
+
+  .actionButtons {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+
+    button {
+      padding: 0.8rem 1.5rem;
+      border-radius: 4px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .primaryButton {
+      background-color: #007bff;
+      color: white;
+      border: none;
+
+      &:hover {
+        background-color: #0069d9;
+      }
+    }
+
+    .secondaryButton {
+      background-color: transparent;
+      color: #6c757d;
+      border: 1px solid #6c757d;
+
+      &:hover {
+        background-color: #f8f9fa;
+        color: #5a6268;
+      }
+    }
+  }
+}
