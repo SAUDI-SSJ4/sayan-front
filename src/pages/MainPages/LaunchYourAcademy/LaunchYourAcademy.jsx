@@ -72,7 +72,7 @@ const LaunchYourAcademy = () => {
             className={Style.BannerText}
             data-aos="fade-up"
           >
-            <div style={{ position: "relative" }}>
+            <div style={{ position: "relative", display: "flex" }}>
               <img className={Style.FloaitngImage1} src={affiliatesmarketing} />
               <img style={{ maxWidth: "100%" }} className={Style.FloaitngImage} src={Books} />
               <img className={Style.FloaitngImage2} src={sessions} />
@@ -90,7 +90,7 @@ const LaunchYourAcademy = () => {
             <div className={Style.BtnContainer}>
               <div
                 onClick={() => {
-                  navigate("/Register");
+                  navigate("/signin");
                 }}
                 className={`${Style.Primary}`}
               >
@@ -311,7 +311,7 @@ const LaunchYourAcademy = () => {
           </div>
         </div>
         <div className="CustomContainer " style={{ marginTop: "150px" }}>
-          <div className="d-flex justify-content-center gap-4 flex-wrap">
+          <div className="flex flex-col md:flex-row justify-content-center gap-4 flex-wrap">
             <div className={Style.VisionCard}>
               <div className="d-flex justify-content-center" style={{ position: "relative" }}>
                 <img className={Style.SSImage} src={ssssss2} />
@@ -354,9 +354,10 @@ const LaunchYourAcademy = () => {
             </div>
           </div>
         </div>
-        <PartnerSection />
+       
       </div>
-      <div className="CustomContainer">
+
+      {/* <div className="CustomContainer">
         <div
           style={{
             color: "black",
@@ -417,7 +418,8 @@ const LaunchYourAcademy = () => {
             )
           )}
         </Swiper>
-      </div>
+      </div> */}
+
       <FAQ />
       <Footer />
     </>

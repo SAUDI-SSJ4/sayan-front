@@ -47,52 +47,52 @@ const SearchAndShowBar = ({
 
       {/* Mid section with search, filter, and delete options */}
       <div className="midDIv d-flex flex-wrap align-items-center ">
-  {/* Search Section */}
-  <div className="SearchDiv d-flex align-items-center">
-    <SearchIcon style={{ color: "#555" }} />
-    <input
-      type="text"
-      placeholder="بحث عن دورة..."
-      value={searchQuery}
-      onChange={(e) => setSearchQuery(e.target.value)}
-      className="form-control search-input border-0"
-      style={{ maxWidth: "200px", minWidth: "120px" }}
-    />
-  </div>
+        {/* Search Section */}
+        <div className="SearchDiv d-flex align-items-center">
+          <SearchIcon style={{ color: "#555" }} />
+          <input
+            type="text"
+            placeholder="بحث عن دورة..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="form-control search-input border-0"
+            style={{ maxWidth: "200px", minWidth: "120px" }}
+          />
+        </div>
 
-  {/* Filter Section */}
-  <div className="filter d-flex align-items-center ">
-    <FilterListIcon style={{ color: "#555" }} />
-    <select
-      value={sortOrder}
-      onChange={(e) => setSortOrder(e.target.value)}
-      className="form-select sort-dropdown border-0"
-      style={{
-        maxWidth: "200px",
-        minWidth: "120px",
-        backgroundColor: "#fff",
-        color: "#555",
-      }}
-    >
-      <option value="asc">الترتيب تصاعدي</option>
-      <option value="desc">الترتيب تنازلي</option>
-    </select>
-  </div>
+        {/* Filter Section */}
+        <div className="filter d-flex align-items-center ">
+          <FilterListIcon style={{ color: "#555" }} />
+          <select
+            value={sortOrder}
+            onChange={(e) => setSortOrder(e.target.value)}
+            className="form-select sort-dropdown border-0"
+            style={{
+              maxWidth: "200px",
+              minWidth: "120px",
+              backgroundColor: "#fff",
+              color: "#555",
+            }}
+          >
+            <option value="asc">الترتيب تصاعدي</option>
+            <option value="desc">الترتيب تنازلي</option>
+          </select>
+        </div>
 
-  {/* Edit and Delete Section */}
-  {ShowEditAndDelete && (
-    <div
-      className="filter d-flex align-items-center gap-2 p-1 px-3 text-danger cursor-pointer"
-      onClick={() => setDeleteModal(true)}
-    >
-      <DeleteIcon />
-      <span>ازالة</span>
-    </div>
-  )}
-</div>
+        {/* Edit and Delete Section */}
+        {ShowEditAndDelete && (
+          <div
+            className="filter d-flex align-items-center gap-2 p-1 px-3 text-danger cursor-pointer"
+            onClick={() => setDeleteModal(true)}
+          >
+            <DeleteIcon />
+            <span>ازالة</span>
+          </div>
+        )}
+      </div>
 
       {/* View toggle buttons */}
-      {!showNoTable && (
+      {/* {!showNoTable && (
         <div className="EndDiv">
           <div
             className={!TableOrNot ? "Active" : ""}
@@ -107,7 +107,7 @@ const SearchAndShowBar = ({
             <ViewHeadlineIcon />
           </div>
         </div>
-      )}
+      )} */}
     </div>
   );
 };

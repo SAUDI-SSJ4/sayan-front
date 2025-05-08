@@ -16,6 +16,9 @@ import ProductIcon from "../../assets/icons/ProductIcon";
 import CouponIcon from "../../assets/icons/CouponIcon";
 import { ButtonSoon } from "../../utils/styles";
 import { Fragment, useMemo } from "react";
+import { Badge } from "flowbite-react";
+// icons
+import { PencilRuler } from "lucide-react";
 
 const AcademeyNavigation = ({ setShow, mobile }) => {
   const location = useLocation();
@@ -49,6 +52,7 @@ const AcademeyNavigation = ({ setShow, mobile }) => {
           </div>
         </div>
       </NavLink>
+
       <NavLink
         to="/academy/profile"
         end
@@ -63,6 +67,7 @@ const AcademeyNavigation = ({ setShow, mobile }) => {
           </div>
         </div>
       </NavLink>
+
       <Collection
         mainIcon={
           <OpenBookIcon
@@ -77,7 +82,11 @@ const AcademeyNavigation = ({ setShow, mobile }) => {
               "/academy/Categories",
               "/academy/SingleExam",
               "/academy/Certficates",
-            ].find((path) => location.pathname === path || location.pathname.includes(path))}
+            ].find(
+              (path) =>
+                location.pathname === path ||
+                location.pathname.includes(path)
+            )}
           />
         }
         mainTitle={"ادارة المحتوى "}
@@ -92,175 +101,86 @@ const AcademeyNavigation = ({ setShow, mobile }) => {
           "/academy/Categories",
           "/academy/SingleExam",
           "/academy/Certficates",
-        ].find((path) => location.pathname === path || location.pathname.includes(path))}
+        ].find(
+          (path) =>
+            location.pathname === path || location.pathname.includes(path)
+        )}
       >
-        <Collection
-          mainIcon={
-            <div
-              className="d-flex justify-content-center"
-              style={{ width: "35px", height: "35px" }}
-            >
-              {ballIcon}
-            </div>
-          }
-          mainTitle={"المواد التعليمية  "}
-          nested
-        >
+       
           <NavLink
-            to="academy/training-courses"
-            className={({ isActive, isPending }) => {
-              return isPending ? "pending" : isActive ? `${classes.Link} LinkActive` : classes.Link;
-            }}
+            to="/academy/training-courses"
+            className={({ isActive, isPending }) =>
+              isPending
+                ? "pending"
+                : isActive
+                ? classes.activeSubLink
+                : classes.Link
+            }
           >
             <div
               className={classes.subIcon}
-              onClick={(e) => {
-                mobile ? setShow(false) : null;
+              onClick={() => {
+                if (mobile) setShow(false);
               }}
             >
               <div>{ballIcon}</div>
               <span className="title-dash-link">الدورات التدريبية</span>
             </div>
           </NavLink>
-          <NavLink
-            className={({ isActive, isPending }) => {
-              return isPending ? "pending" : isActive ? `${classes.Link} LinkActive` : classes.Link;
-            }}
-            to="academy/Certficates"
-          >
-            <div
-              className={classes.subIcon}
-              onClick={(e) => {
-                mobile ? setShow(false) : null;
-              }}
-            >
-              <div>{ballIcon}</div>
-              <span>الشهادات</span>
-            </div>
-          </NavLink>
-          {/* chage Link to div for time being   */}
 
-          <div
-            className={({ isActive, isPending }) => {
-              return isPending ? "pending" : isActive ? `${classes.Link} LinkActive` : classes.Link;
-            }}
-            to="academy/Exams"
-          >
-            <div
-              className={classes.subIcon}
-              onClick={(e) => {
-                mobile ? setShow(false) : null;
-              }}
-            >
-              <div>{ballIcon}</div>
-              <span className="title-dash-link"> الاختبارات </span>
-              <ButtonSoon className={classes.btnSoon}>قريبا</ButtonSoon>
-            </div>
-          </div>
-        </Collection>
-
-        <div
-          className={({ isActive, isPending }) => {
-            return isPending ? "pending" : isActive ? `${classes.Link} LinkActive` : classes.Link;
-          }}
-          // to="academy/Sessions"
-        >
-          {/* chage Link to div for time being   */}
+        <div className={classes.Link}>
           <div
             className={classes.subIcon}
-            onClick={(e) => {
-              mobile ? setShow(false) : null;
+            onClick={() => {
+              if (mobile) setShow(false);
             }}
           >
             <div>{ballIcon}</div>
             <span className="title-dash-link">الجلسات الحضورية </span>
-            <ButtonSoon className={classes.btnSoon}>قريبا</ButtonSoon>
+            <Badge color="failure">قريباً</Badge>
           </div>
         </div>
-        <NavLink
-          className={({ isActive, isPending }) => {
-            return isPending ? "pending" : isActive ? `${classes.Link} LinkActive` : classes.Link;
-          }}
-          to="academy/DigitalProducts"
-        >
+
+        <div className={classes.Link}>
           <div
             className={classes.subIcon}
-            onClick={(e) => {
-              mobile ? setShow(false) : null;
+            onClick={() => {
+              if (mobile) setShow(false);
             }}
           >
             <div>{ballIcon}</div>
             <span className="title-dash-link">المنتجات الرقمية</span>
+            <Badge color="failure">قريباً</Badge>
           </div>
-        </NavLink>
-        <NavLink
-          className={({ isActive, isPending }) => {
-            return isPending ? "pending" : isActive ? `${classes.Link} LinkActive` : classes.Link;
-          }}
-          to="academy/ProductPackages"
-        >
+        </div>
+
+        <div className={classes.Link}>
           <div
             className={classes.subIcon}
-            onClick={(e) => {
-              mobile ? setShow(false) : null;
+            onClick={() => {
+              if (mobile) setShow(false);
             }}
           >
             <div>{ballIcon}</div>
             <span className="title-dash-link">حزم المنتجات</span>
+            <Badge color="failure">قريباً</Badge>
           </div>
-        </NavLink>
-        <NavLink
-          className={({ isActive, isPending }) => {
-            return isPending ? "pending" : isActive ? `${classes.Link} LinkActive` : classes.Link;
-          }}
-          to="academy/Blogs"
-        >
+        </div>
+
+        <div className={classes.Link}>
           <div
             className={classes.subIcon}
-            onClick={(e) => {
-              mobile ? setShow(false) : null;
+            onClick={() => {
+              if (mobile) setShow(false);
             }}
           >
             <div>{ballIcon}</div>
             <span className="title-dash-link">المدونات </span>
-          </div>
-        </NavLink>
-
-        {/* chage Link to div for time being   */}
-        <div
-          className={({ isActive, isPending }) => {
-            return isPending ? "pending" : isActive ? `${classes.Link} LinkActive` : classes.Link;
-          }}
-          to="academy/Video"
-        >
-          <div
-            className={classes.subIcon}
-            onClick={(e) => {
-              mobile ? setShow(false) : null;
-            }}
-          >
-            <div>{ballIcon}</div>
-            <span className="title-dash-link">مكتبة الفيديو </span>
-            <ButtonSoon className={classes.btnSoon}>قريبا</ButtonSoon>
+            <Badge color="failure">قريباً</Badge>
           </div>
         </div>
-        <NavLink
-          className={({ isActive, isPending }) => {
-            return isPending ? "pending" : isActive ? `${classes.Link} LinkActive` : classes.Link;
-          }}
-          to="academy/Categories"
-        >
-          <div
-            className={classes.subIcon}
-            onClick={(e) => {
-              mobile ? setShow(false) : null;
-            }}
-          >
-            <div>{ballIcon}</div>
-            <span className="title-dash-link">التصنيفات </span>
-          </div>
-        </NavLink>
       </Collection>
+
       <Collection
         mainIcon={
           <BagCustomIcon
@@ -286,32 +206,32 @@ const AcademeyNavigation = ({ setShow, mobile }) => {
           "/academy/StudentBagCertifcate",
         ].find((path) => location.pathname === path)}
       >
-        <NavLink
-          to="academy/StudentInfo"
-          className={({ isActive, isPending }) => {
-            return isPending ? "pending" : isActive ? `${classes.Link} LinkActive` : classes.Link;
-          }}
-        >
+        <div className={classes.Link}>
           <div
             className={classes.subIcon}
-            onClick={(e) => {
-              mobile ? setShow(false) : null;
+            onClick={() => {
+              if (mobile) setShow(false);
             }}
           >
             <div>{ballIcon}</div>
             <span className="title-dash-link">بيانات الطلاب</span>
+            <Badge color="failure">قريباً</Badge>
           </div>
-        </NavLink>
+        </div>
         <NavLink
-          className={({ isActive, isPending }) => {
-            return isPending ? "pending" : isActive ? `${classes.Link} LinkActive` : classes.Link;
-          }}
+          className={({ isActive, isPending }) =>
+            isPending
+              ? "pending"
+              : isActive
+              ? classes.activeSubLink
+              : classes.Link
+          }
           to="/academy/StudentBagExams"
         >
           <div
             className={classes.subIcon}
-            onClick={(e) => {
-              mobile ? setShow(false) : null;
+            onClick={() => {
+              if (mobile) setShow(false);
             }}
           >
             <div>{ballIcon}</div>
@@ -319,49 +239,48 @@ const AcademeyNavigation = ({ setShow, mobile }) => {
           </div>
         </NavLink>
         <NavLink
-          className={({ isActive, isPending }) => {
-            return isPending ? "pending" : isActive ? `${classes.Link} LinkActive` : classes.Link;
-          }}
+          className={({ isActive, isPending }) =>
+            isPending
+              ? "pending"
+              : isActive
+              ? classes.activeSubLink
+              : classes.Link
+          }
           to="/academy/StudentBagCertifcate"
         >
           <div
             className={classes.subIcon}
-            onClick={(e) => {
-              mobile ? setShow(false) : null;
+            onClick={() => {
+              if (mobile) setShow(false);
             }}
           >
             <div>{ballIcon}</div>
             <span className="title-dash-link">الشهادات </span>
           </div>
         </NavLink>
-        {/* chage Link to div for time being   */}
-        <div
-          className={({ isActive, isPending }) => {
-            return isPending ? "pending" : isActive ? `${classes.Link} LinkActive` : classes.Link;
-          }}
-          to="academy/Comments"
-        >
+        <div className={classes.Link}>
           <div
             className={classes.subIcon}
-            onClick={(e) => {
-              mobile ? setShow(false) : null;
+            onClick={() => {
+              if (mobile) setShow(false);
             }}
           >
             <div>{ballIcon}</div>
             <span className="title-dash-link">التعليقات </span>
-            <ButtonSoon className={classes.btnSoon}>قريبا</ButtonSoon>
+            <Badge color="failure">قريباً</Badge>
           </div>
         </div>
       </Collection>
+
       <Collection
         mainIcon={
-          <BagCustomIcon
+          <PencilRuler
+            strokeWidth={3}
             active={[
               "/academy/settings/slider",
               "/academy/settings/about",
               "/academy/settings/ratesOfStudents",
               "/academy/settings/faq",
-
               "/academy/settings/call-to-action",
               "/academy/settings/footer",
               "/academy/settings/partner",
@@ -369,7 +288,7 @@ const AcademeyNavigation = ({ setShow, mobile }) => {
             ].find((path) => location.pathname === path)}
           />
         }
-        mainTitle={"التحكم فى الموقع"}
+        mainTitle={"تعديل واجهات الأكاديمية"}
         acitve={[
           "/academy/settings/main",
           "/academy/settings/slider",
@@ -382,16 +301,20 @@ const AcademeyNavigation = ({ setShow, mobile }) => {
           "/academy/settings/template",
         ].find((path) => location.pathname === path)}
       >
-       <NavLink
+        <NavLink
           to="/academy/settings/main"
-          className={({ isActive, isPending }) => {
-            return isPending ? "pending" : isActive ? `${classes.Link} LinkActive` : classes.Link;
-          }}
+          className={({ isActive, isPending }) =>
+            isPending
+              ? "pending"
+              : isActive
+              ? classes.activeSubLink
+              : classes.Link
+          }
         >
           <div
             className={classes.subIcon}
-            onClick={(e) => {
-              mobile ? setShow(false) : null;
+            onClick={() => {
+              if (mobile) setShow(false);
             }}
           >
             <div>{ballIcon}</div>
@@ -400,14 +323,18 @@ const AcademeyNavigation = ({ setShow, mobile }) => {
         </NavLink>
         <NavLink
           to="/academy/settings/slider"
-          className={({ isActive, isPending }) => {
-            return isPending ? "pending" : isActive ? `${classes.Link} LinkActive` : classes.Link;
-          }}
+          className={({ isActive, isPending }) =>
+            isPending
+              ? "pending"
+              : isActive
+              ? classes.activeSubLink
+              : classes.Link
+          }
         >
           <div
             className={classes.subIcon}
-            onClick={(e) => {
-              mobile ? setShow(false) : null;
+            onClick={() => {
+              if (mobile) setShow(false);
             }}
           >
             <div>{ballIcon}</div>
@@ -415,15 +342,19 @@ const AcademeyNavigation = ({ setShow, mobile }) => {
           </div>
         </NavLink>
         <NavLink
-          className={({ isActive, isPending }) => {
-            return isPending ? "pending" : isActive ? `${classes.Link} LinkActive` : classes.Link;
-          }}
+          className={({ isActive, isPending }) =>
+            isPending
+              ? "pending"
+              : isActive
+              ? classes.activeSubLink
+              : classes.Link
+          }
           to="/academy/settings/about"
         >
           <div
             className={classes.subIcon}
-            onClick={(e) => {
-              mobile ? setShow(false) : null;
+            onClick={() => {
+              if (mobile) setShow(false);
             }}
           >
             <div>{ballIcon}</div>
@@ -431,251 +362,78 @@ const AcademeyNavigation = ({ setShow, mobile }) => {
           </div>
         </NavLink>
         <NavLink
-          className={({ isActive, isPending }) => {
-            return isPending ? "pending" : isActive ? `${classes.Link} LinkActive` : classes.Link;
-          }}
+          className={({ isActive, isPending }) =>
+            isPending
+              ? "pending"
+              : isActive
+              ? classes.activeSubLink
+              : classes.Link
+          }
           to="/academy/settings/ratesOfStudents"
         >
           <div
             className={classes.subIcon}
-            onClick={(e) => {
-              mobile ? setShow(false) : null;
+            onClick={() => {
+              if (mobile) setShow(false);
             }}
           >
             <div>{ballIcon}</div>
-            <span className="title-dash-link">تعديل اراء الطلبة</span>
+            <span className="title-dash-link">تقييمات الطلاب</span>
           </div>
         </NavLink>
         <NavLink
-          className={({ isActive, isPending }) => {
-            return isPending ? "pending" : isActive ? `${classes.Link} LinkActive` : classes.Link;
-          }}
+          className={({ isActive, isPending }) =>
+            isPending
+              ? "pending"
+              : isActive
+              ? classes.activeSubLink
+              : classes.Link
+          }
           to="/academy/settings/faq"
         >
           <div
             className={classes.subIcon}
-            onClick={(e) => {
-              mobile ? setShow(false) : null;
+            onClick={() => {
+              if (mobile) setShow(false);
             }}
           >
             <div>{ballIcon}</div>
             <span className="title-dash-link">الاسئلة الشائعة</span>
           </div>
         </NavLink>
-
-        <NavLink
-          className={({ isActive, isPending }) => {
-            return isPending ? "pending" : isActive ? `${classes.Link} LinkActive` : classes.Link;
-          }}
-          to="/academy/settings/call-to-action"
-        >
-          <div
-            className={classes.subIcon}
-            onClick={(e) => {
-              mobile ? setShow(false) : null;
-            }}
-          >
-            <div>{ballIcon}</div>
-            <span className="title-dash-link">ادارة الاعدادات</span>
-          </div>
-        </NavLink>
-        <NavLink
-          className={({ isActive, isPending }) => {
-            return isPending ? "pending" : isActive ? `${classes.Link} LinkActive` : classes.Link;
-          }}
-          to="/academy/settings/footer"
-        >
-          <div
-            className={classes.subIcon}
-            // onClick={(e) => {
-            //   mobile ? setShow(false) : null;
-            // }}
-          >
-            <div>{ballIcon}</div>
-            <span className="title-dash-link">الذيل</span>
-          </div>
-        </NavLink>
-        <NavLink
-          className={({ isActive, isPending }) => {
-            return isPending ? "pending" : isActive ? `${classes.Link} LinkActive` : classes.Link;
-          }}
-          to="/academy/settings/partner"
-        >
-          <div
-            className={classes.subIcon}
-            onClick={(e) => {
-              mobile ? setShow(false) : null;
-            }}
-          >
-            <div>{ballIcon}</div>
-            <span className="title-dash-link">الشركاء</span>
-            <ButtonSoon className={classes.btnSoon}>قريبا</ButtonSoon>
-          </div>
-        </NavLink>
-        {/* <NavLink
-          className={({ isActive, isPending }) => {
-            return isPending ? "pending" : isActive ? `${classes.Link} LinkActive` : classes.Link;
-          }}
-          to="/academy/settings/template"
-        >
-          <div
-            className={classes.subIcon}
-            onClick={(e) => {
-              mobile ? setShow(false) : null;
-            }}
-          >
-            <div>{ballIcon}</div>
-            <span className="title-dash-link">النموذج</span>
-          </div>
-        </NavLink> */}
       </Collection>
-      <div
-        to="academy/EmployeeMangment"
-        className={({ isActive, isPending }) => {
-          return isPending ? "pending" : isActive ? classes.activeLink : "";
-        }}
-      >
-        <div className={classes.mainIcon}>
-          <div>
-            <EmployeeMangment
-              active={["/academy/EmployeeMangment"].find((path) => location.pathname === path)}
-            />
-            <span className="title-dash-link">ادارة الموظفين </span>
-            <ButtonSoon className={classes.btnSoon}>قريبا</ButtonSoon>
-          </div>
-        </div>
-      </div>
-      <NavLink
-        to="academy/Products"
-        className={({ isActive, isPending }) => {
-          return isPending ? "pending" : isActive ? classes.activeLink : "";
-        }}
-      >
-        <div className={classes.mainIcon}>
-          <div>
-            <ProductIcon
-              active={["/academy/Products"].find((path) => location.pathname === path)}
-            />
-            <span className="title-dash-link">المنتجات</span>
-          </div>
-        </div>
-      </NavLink>
-      <div
-        to="academy/Coupons"
-        className={({ isActive, isPending }) => {
-          return isPending ? "pending" : isActive ? classes.activeLink : "";
-        }}
-      >
-        <div className={classes.mainIcon}>
-          <div>
-            <CouponIcon active={["/academy/Coupons"].find((path) => location.pathname === path)} />
-            <span className="title-dash-link">الكوبونات</span>
-            <ButtonSoon className={classes.btnSoon}>قريبا</ButtonSoon>
-          </div>
-        </div>
-      </div>
 
-      {/* <Collection
-        mainIcon={
-          <ShopCustomIcon
-            active={[
-              "/academy/JoiningForms",
-              "/academy/FinancialTransactions",
-              "/academy/AffiliateMarketing",
-              "/academy/Sales",
-            ].find((path) => location.pathname === path)}
+      <div className={classes.mainIcon}>
+        <div>
+          <EmployeeMangment
+            active={["/academy/EmployeeMangment"].find(
+              (path) => location.pathname === path
+            )}
           />
-        }
-        mainTitle={<span className="title-dash-link">التسويق</span>}
-        acitve={[
-          "/academy/SubscreptionPacks",
-          "/academy/FinancialTransactions",
-          "/academy/AffiliateMarketing",
-          "/academy/Sales",
-        ].find((path) => location.pathname === path)}
-      >
-        <div
-          className={({ isActive, isPending }) => {
-            return isPending ? "pending" : isActive ? `${classes.Link} LinkActive` : classes.Link;
-          }}
-          to="academy/AffiliateMarketing"
-        >
-          <div
-            className={classes.subIcon}
-            onClick={(e) => {
-              mobile ? setShow(false) : null;
-            }}
-          >
-            <div>{ballIcon}</div>
-            <span className="title-dash-link">التسويق بالعمولة </span>
-            <ButtonSoon className={classes.btnSoon}>قريبا</ButtonSoon>
-          </div>
+          <span className="title-dash-link">ادارة الموظفين </span>
+          <Badge color="failure">قريباً</Badge>
         </div>
-        <div
-          className={({ isActive, isPending }) => {
-            return isPending ? "pending" : isActive ? `${classes.Link} LinkActive` : classes.Link;
-          }}
-          to="academy/FinancialTransactions"
-        >
-          <div
-            className={classes.subIcon}
-            onClick={(e) => {
-              mobile ? setShow(false) : null;
-            }}
-          >
-            <div>{ballIcon}</div>
-            <span className="title-dash-link">المعاملات المالية</span>
-            <ButtonSoon className={classes.btnSoon}>قريبا</ButtonSoon>
-          </div>
+      </div>
+      <div className={classes.mainIcon}>
+        <div>
+          <ProductIcon
+            active={["/academy/Products"].find(
+              (path) => location.pathname === path
+            )}
+          />
+          <span className="title-dash-link">المنتجات</span>
+          <Badge color="failure">قريباً</Badge>
         </div>
-        <div
-          className={({ isActive, isPending }) => {
-            return isPending ? "pending" : isActive ? `${classes.Link} LinkActive` : classes.Link;
-          }}
-          to="academy/Sales"
-        >
-          <div
-            className={classes.subIcon}
-            onClick={(e) => {
-              mobile ? setShow(false) : null;
-            }}
-          >
-            <div>{ballIcon}</div>
-            <span className="title-dash-link">العروض </span>
-            <ButtonSoon className={classes.btnSoon}>قريبا</ButtonSoon>
-          </div>
-        </div>
-        <div
-          className={({ isActive, isPending }) => {
-            return isPending ? "pending" : isActive ? `${classes.Link} LinkActive` : classes.Link;
-          }}
-          to="academy/SubscreptionPacks"
-        >
-          <div
-            className={classes.subIcon}
-            onClick={(e) => {
-              mobile ? setShow(false) : null;
-            }}
-          >
-            <div>{ballIcon}</div>
-            <span className="title-dash-link">باقات الاشتراك </span>
-            <ButtonSoon className={classes.btnSoon}>قريبا</ButtonSoon>
-          </div>
-        </div>
-      </Collection> */}
-
-      <div
-        to="academy/Coupons"
-        className={({ isActive, isPending }) => {
-          return isPending ? "pending" : isActive ? classes.activeLink : "";
-        }}
-      >
-        <div className={classes.mainIcon}>
-          <div>
-            <CouponIcon active={["/academy/Coupons"].find((path) => location.pathname === path)} />
-            <span className="title-dash-link">التسويق</span>
-            <ButtonSoon className={classes.btnSoon}>قريبا</ButtonSoon>
-          </div>
+      </div>
+      <div className={classes.mainIcon}>
+        <div>
+          <CouponIcon
+            active={["/academy/Coupons"].find(
+              (path) => location.pathname === path
+            )}
+          />
+          <span className="title-dash-link">الكوبونات</span>
+          <Badge color="failure">قريباً</Badge>
         </div>
       </div>
 
@@ -688,29 +446,26 @@ const AcademeyNavigation = ({ setShow, mobile }) => {
         <div className={classes.mainIcon}>
           <div>
             <WalletCustomIcon
-              active={["/academy/Wallet"].find((path) => location.pathname === path)}
+              active={["/academy/Wallet"].find(
+                (path) => location.pathname === path
+              )}
             />
             <span className="title-dash-link">المحفظة </span>
           </div>
         </div>
       </NavLink>
 
-      <NavLink
-        to="academy/ReportsAndStatistics"
-        className={({ isActive, isPending }) => {
-          return isPending ? "pending" : isActive ? classes.activeLink : "";
-        }}
-      >
-        <div className={classes.mainIcon}>
-          <div>
-            <StaticsCustomIcon
-              active={["/academy/ReportsAndStatistics"].find((path) => location.pathname === path)}
-            />
-            <span className="title-dash-link">التقارير والاحصائيات </span>
-            <ButtonSoon className={classes.btnSoon}>قريبا</ButtonSoon>
-          </div>
+      <div className={classes.mainIcon}>
+        <div>
+          <StaticsCustomIcon
+            active={["/academy/ReportsAndStatistics"].find(
+              (path) => location.pathname === path
+            )}
+          />
+          <span className="title-dash-link">التقارير والاحصائيات </span>
+          <Badge color="failure">قريباً</Badge>
         </div>
-      </NavLink>
+      </div>
       <div className={`${classes.Bot} gap-3`}>
         <div className={classes.Icon}>
           <SmartToyIcon sx={{ fontSize: "35px", color: "white" }} />
@@ -719,10 +474,9 @@ const AcademeyNavigation = ({ setShow, mobile }) => {
           <h2 className="fs-6 fw-bold">
             مساعدك الذكي !
             <br />
-            متصل الان
+            قادم قريبا
           </h2>
           <span className="fs-6 fw-medium  button-sidebar-bottom">
-            تواصل
             <KeyboardBackspaceIcon />
           </span>
         </div>

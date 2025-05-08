@@ -18,12 +18,11 @@ import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import axiosInstance from "../../../axios";
 import { login } from "../../../redux/AuthSlice";
-import toast, { Toaster } from "react-hot-toast";
+import toast from "react-hot-toast";
 import { postLoginAPI } from "../../utils/api";
 import { useMutation } from "@tanstack/react-query";
 import logo from "../../assets/images/logo.png";
 import Cookies from "js-cookie";
-import { WiMoonWaningCrescent3 } from "react-icons/wi";
 
 const LoginAdmin = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -98,11 +97,7 @@ const LoginAdmin = () => {
       >
         <img src={logo} className={`${classes.logo}`} />
         <ul className={` ${classes.footerList}`}>
-          <li>
-            <RBtn>
-              <WiMoonWaningCrescent3 />
-            </RBtn>
-          </li>
+          <li></li>
           <li>
             <Link to="/" style={{ textDecoration: "none" }}>
               منصة سيان
@@ -215,7 +210,6 @@ const LoginAdmin = () => {
                     }}
                   />
                 </div>
-                <Toaster />
                 <div className={`${classes.formGroup} `}>
                   <label htmlFor="password" className="mb-2">
                     كلمة المرور <span style={{ color: "red" }}>*</span>

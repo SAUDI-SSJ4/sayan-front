@@ -9,7 +9,7 @@ import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { Link } from "react-router-dom";
 import OtpVerification from "./OtpVerification";
-import { WiMoonWaningCrescent3 } from "react-icons/wi";
+
 import { useMutation } from "@tanstack/react-query";
 import { postRegister } from "../../utils/apis/client/academy";
 import { useToast } from "../../utils/hooks/useToast";
@@ -21,6 +21,10 @@ const Signin = () => {
   const [userEmail, setUserEmail] = useState("");
   const [isRegisterDone, setIsRegisterDone] = useState(false);
 
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const toggleConfirmPasswordVisibility = () =>
+    setShowConfirmPassword(!showConfirmPassword);
+
   const { success, error } = useToast();
 
   const mutation = useMutation({
@@ -31,38 +35,43 @@ const Signin = () => {
       success("تم ارسال الرمز الي بريدك الالكتروني الذي أدخلته");
     },
     onError: (err) => {
-      error(err.response?.data?.message + "❌" || "حدث خطأ ما");
+      console.log(err);
+      error(
+        JSON.stringify(String(err.response?.data?.errors?.server)) + "❌" ||
+          "حدث خطأ ما"
+      );
     },
   });
 
   const formik = useFormik({
     initialValues: {
-      title: "",
       name: "",
       email: "",
       phone: "",
       password: "",
+      confirmPassword: "",
       image: null,
     },
     validationSchema: Yup.object({
-      title: Yup.string().required("العنوان مطلوب"),
       name: Yup.string().required("الإسم مطلوب"),
       email: Yup.string()
         .email("بريد الكتروني خطأ")
         .required("البريد الالكتروني مطلوب"),
       phone: Yup.string().required("رقم الهاتف مطلوب"),
       password: Yup.string().required("كلمة السر مطلوبة"),
+      confirmPassword: Yup.string()
+        .oneOf([Yup.ref("password"), null], "كلمات المرور غير متطابقة")
+        .required("يجب تأكيد كلمة المرور"),
       image: Yup.mixed().required("شعار الاكادمية مطلوب"),
     }),
     onSubmit: (values) => {
       const formData = new FormData();
-      formData.append("title", values.title);
       formData.append("name", values.name);
       formData.append("email", values.email);
       formData.append("phone", values.phone);
       formData.append("password", values.password);
       formData.append("image", values.image);
-      // console.log(values)
+      console.log(values);
       mutation.mutate(formData);
     },
   });
@@ -79,11 +88,7 @@ const Signin = () => {
         <img src={logo} alt="Logo" className={classes.logo} />
         <div>
           <ul className={classes.footerList}>
-            <li>
-              <Button>
-                <WiMoonWaningCrescent3 />
-              </Button>
-            </li>
+            <li></li>
             <li>
               <Link to="/" className="text-white text-decoration-none">
                 منصة سيان
@@ -131,30 +136,13 @@ const Signin = () => {
               <h3>انشاء حساب</h3>
               <p>ادخل المعلومات الخاصة بحسابك لاستقبال رمز OTP</p>
 
-              <form onSubmit={formik.handleSubmit}>
+              <form
+                onSubmit={formik.handleSubmit}
+                className="flex flex-col gap-1"
+              >
                 <div className={`${classes.formGroup} mb-2`}>
-                  <label htmlFor="title">
+                  <label className="mb-2 font-use font-bold" htmlFor="name">
                     إسم الاكاديمية <span style={{ color: "red" }}>*</span>
-                  </label>
-                  <TextField
-                    fullWidth
-                    id="title"
-                    name="title"
-                    type="text"
-                    value={formik.values.title}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    error={formik.touched.title && Boolean(formik.errors.title)}
-                    helperText={formik.touched.title && formik.errors.title}
-                    InputProps={{
-                      style: { borderRadius: "10px", height: "48px" },
-                    }}
-                  />
-                </div>
-
-                <div className={`${classes.formGroup} mb-2`}>
-                  <label htmlFor="name">
-                    الاسم <span style={{ color: "red" }}>*</span>
                   </label>
                   <TextField
                     fullWidth
@@ -173,7 +161,7 @@ const Signin = () => {
                 </div>
 
                 <div className={`${classes.formGroup} mb-2`}>
-                  <label htmlFor="email">
+                  <label className="mb-2 font-use font-bold" htmlFor="email">
                     البريد الإلكتروني <span style={{ color: "red" }}>*</span>
                   </label>
                   <TextField
@@ -193,7 +181,7 @@ const Signin = () => {
                 </div>
 
                 <div className={`${classes.formGroup} mb-2`}>
-                  <label htmlFor="phone">
+                  <label className="mb-2 font-use font-bold" htmlFor="phone">
                     رقم الهاتف <span style={{ color: "red" }}>*</span>
                   </label>
                   <TextField
@@ -213,7 +201,7 @@ const Signin = () => {
                 </div>
 
                 <div className={`${classes.formGroup} mb-2`}>
-                  <label htmlFor="password">
+                  <label className="mb-2 font-use font-bold" htmlFor="password">
                     كلمة المرور <span style={{ color: "red" }}>*</span>
                   </label>
                   <TextField
@@ -244,7 +232,47 @@ const Signin = () => {
                 </div>
 
                 <div className={`${classes.formGroup} mb-2`}>
-                  <label htmlFor="image">
+                  <label
+                    className="mb-2 font-use font-bold"
+                    htmlFor="confirmPassword"
+                  >
+                    تأكيد كلمة المرور <span style={{ color: "red" }}>*</span>
+                  </label>
+                  <TextField
+                    fullWidth
+                    id="confirmPassword"
+                    name="confirmPassword"
+                    type={showConfirmPassword ? "text" : "password"} // Separate state for confirm password visibility
+                    value={formik.values.confirmPassword}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    error={
+                      formik.touched.confirmPassword &&
+                      Boolean(formik.errors.confirmPassword)
+                    }
+                    helperText={
+                      formik.touched.confirmPassword &&
+                      formik.errors.confirmPassword
+                    }
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <IconButton onClick={toggleConfirmPasswordVisibility}>
+                            {showConfirmPassword ? (
+                              <Visibility />
+                            ) : (
+                              <VisibilityOff />
+                            )}
+                          </IconButton>
+                        </InputAdornment>
+                      ),
+                      style: { borderRadius: "10px", height: "48px" },
+                    }}
+                  />
+                </div>
+
+                <div className={`${classes.formGroup} mb-2`}>
+                  <label className="mb-2 font-use font-bold" htmlFor="image">
                     شعار الاكادمية <span style={{ color: "red" }}>*</span>
                   </label>
                   <TextField
@@ -317,15 +345,15 @@ const Signin = () => {
                   </Link>
                 </div>
               </form>
+              <p className={`${classes.copyright}`}>
+                © 2023 جميع الحقوق محفوظة لمنصة سيان
+              </p>
             </div>
           ) : (
             <div className="d-flex justify-content-center align-items-center">
               <OtpVerification email={userEmail} />
             </div>
           )}
-          {/* <div className={classes.copyright}>
-              © 2023 جميع الحقوق محفوظة لمنصة سيان
-          </div> */}
         </div>
       </div>
     </div>

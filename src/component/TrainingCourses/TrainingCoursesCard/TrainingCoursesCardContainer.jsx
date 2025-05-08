@@ -1,151 +1,63 @@
-import "ag-grid-community/styles/ag-grid.css";
-import "ag-grid-community/styles/ag-theme-quartz.css";
 import { Link } from "react-router-dom";
-import { useMemo, useCallback } from "react";
-import { AgGridReact } from "ag-grid-react";
-import Swal from "sweetalert2";
 import { MainSpinner } from "../../UI/MainSpinner";
-import { useToggleMutation } from "../../../../services/mutation";
-import { MdFavoriteBorder, MdFavorite } from "react-icons/md";
-import { GoArrowUpRight } from "react-icons/go";
-import { handleLevels, handleRateStare } from "../../../utils/helpers";
 
-const TrainingCoursesCardContainer = ({ rowData, isLoading }) => {
-  // Handles course details redirection
-  const renderCourseDetailsLink = useCallback(
-    (params) => (
-      <Link to={`/student/courseDetails/${params.value}`}>
-        <GoArrowUpRight color="#0e85ff" size={22} cursor="pointer" />
-      </Link>
-    ),
-    []
-  );
-
-  // Favorite toggle mutation
-  const { mutate: toggleFavorite } = useToggleMutation();
-
-  // SweetAlert confirmation before adding to favorites
-  const handleFavoriteToggle = useCallback(
-    async (courseId, isFavored) => {
-      const result = await Swal.fire({
-        title: isFavored ? "إزالة من المفضلة" : "الإضافة إلى المفضلة",
-        text: isFavored
-          ? "هل تريد إزالة هذه الدورة من المفضلة؟"
-          : "هل تريد إضافة هذه الدورة إلى المفضلة؟",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: isFavored ? "إزالة" : "إضافة",
-        cancelButtonText: "لا",
-      });
-
-      if (result.isConfirmed) {
-        toggleFavorite({ course_id: courseId });
-      }
-    },
-    [toggleFavorite]
-  );
-
-  // Renders the favorite icon based on `faved` status
-  const renderFavoriteIcon = useCallback(
-    (params) => {
-      const isFavored = params.data.faved;
-      return isFavored ? (
-        <MdFavorite
-          onClick={() => handleFavoriteToggle(params.value, isFavored)}
-          color="#0e85ff"
-          size={22}
-          cursor="pointer"
-        />
-      ) : (
-        <MdFavoriteBorder
-          onClick={() => handleFavoriteToggle(params.value, isFavored)}
-          size={22}
-          cursor="pointer"
-        />
-      );
-    },
-    [handleFavoriteToggle]
-  );
-
-  // Column definitions with proper memoization
-  const colDefs = useMemo(
-    () => [
-      {
-        field: "id",
-        headerName: "تفاصيل الكورس",
-        cellRenderer: renderCourseDetailsLink,
-      },
-      {
-        field: "id",
-        headerName: "المفضلة",
-        cellRenderer: renderFavoriteIcon,
-      },
-      {
-        field: "level",
-        headerName: "المستوى",
-        valueFormatter: ({ value }) => handleLevels(value),
-      },
-      {
-        field: "trainer",
-        headerName: "اسم المدرب",
-      },
-      {
-        field: "stars",
-        headerName: "التقييم",
-        valueFormatter: ({ value }) => handleRateStare(value),
-      },
-      {
-        field: "price",
-        headerName: "السعر",
-        valueFormatter: ({ value }) => `ريال ${value.toLocaleString()}`,
-        cellClassRules: {
-          "red-cell": ({ value }) => value > 100,
-          "blue-cell": ({ value }) => value <= 100,
-        },
-      },
-      {
-        field: "title",
-        headerName: "اسم الدورة التدريبية",
-        flex: 3,
-      },
-    ],
-    [renderCourseDetailsLink, renderFavoriteIcon]
-  );
-
-  const defaultColDef = useMemo(
-    () => ({
-      flex: 1,
-      filter: true,
-      editable: false,
-      cellStyle: { textAlign: "center" },
-    }),
-    []
-  );
-
+const TrainingCoursesCardContainer = ({ courses, isLoading }) => {
   return (
     <div
-      className="ag-theme-quartz overflow-x-scroll"
+      className="ag-theme-quartz overflow-x-scroll m-0 !max-w-full"
       style={{ height: 600, maxWidth: "96%", margin: "auto" }}
     >
-      {isLoading ? (
-        <MainSpinner css="" />
-      ) : rowData && rowData.length > 0 ? (
-        <AgGridReact
-          rowData={rowData}
-          columnDefs={colDefs}
-          rowSelection="multiple"
-          pagination
-          paginationPageSize={8}
-          paginationPageSizeSelector={[4, 8]}
-          defaultColDef={defaultColDef}
-        />
+      {isLoading && <MainSpinner />}
+      {!isLoading && courses && courses.length > 0 ? (
+        <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 p-0 m-0 mt-2">
+          {courses.map((course) => (
+            <Card key={course.id} course={course} />
+          ))}
+        </ul>
       ) : (
-        <div>No courses available at the moment.</div> // Fallback for no data
+        <div className="text-center">
+          <h2>لا توجد دورات تدريبية متاحة</h2>
+        </div>
       )}
     </div>
   );
 };
 
 export default TrainingCoursesCardContainer;
+
+const Card = ({ course }) => {
+  return (
+    <li className="border border-[#EDEFF2] rounded-[10px]">
+      <Link
+        to={`/student/Coursedetails/${course.id}`}
+        className="flex flex-col h-full"
+      >
+        <img
+          src={course.image}
+          alt="Course Thumbnail"
+          className="object-cover rounded-tr-[10px] rounded-tl-[10px] h-[300px]"
+        />
+        <div className="p-3 space-y-3">
+          <h3 className="text-lg lg:text-xl text-[#2B3674] hover:text-[#0062ff] duration-200 transition-colors">
+            {course.title}
+          </h3>
+          <div className="flex items-center gap-2">
+            <span className="bg-[#0FE8E80D] text-[#0FE8E8] rounded-[12px] w-[88px] h-[32px] text-center">
+              تفاعلية
+            </span>
+          </div>
+          <div className="flex items-center gap-3 group w-fit">
+            <img
+              src={course.academy_image}
+              alt="Academy Image"
+              className="w-10 h-10 rounded-full opacity-95 group-hover:opacity-100 duration-200 transition-opacity"
+            />
+            <h4 className="text-sm text-[#7E8799] m-0 group-hover:text-[#0062ff] duration-200 transition-colors">
+              {course.academy}
+            </h4>
+          </div>
+        </div>
+      </Link>
+    </li>
+  );
+};

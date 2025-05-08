@@ -1,5 +1,5 @@
 import Style from "./home.module.scss";
-import {  useState, lazy, Suspense, useCallback, useMemo } from "react";
+import { useState, lazy, Suspense, useCallback, useMemo } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Pagination } from "@mui/material";
 import { HomeMainHeader } from "./HomeComponents/HomeMainHeader";
@@ -9,11 +9,18 @@ import { getCourses } from "../../../utils/apis/client";
 import { MainSpinner } from "../../../component/UI/MainSpinner";
 import { motion } from "framer-motion";
 import Skeleton from "@mui/material/Skeleton";
+import { Helmet } from "react-helmet-async";
 
-const Numbers = lazy(() => import("../../../component/MainPages/Numbers/Numbers"));
-const SubjectSlider = lazy(() => import("../../../component/MainPages/SubjectCard/subjectSlider"));
+const Numbers = lazy(() =>
+  import("../../../component/MainPages/Numbers/Numbers")
+);
+const SubjectSlider = lazy(() =>
+  import("../../../component/MainPages/SubjectCard/subjectSlider")
+);
 const Footer = lazy(() => import("../../../component/MainPages/Footer/Footer"));
-const SubjectCard = lazy(() => import("../../../component/MainPages/SubjectCard/SubjectCard"));
+const SubjectCard = lazy(() =>
+  import("../../../component/MainPages/SubjectCard/SubjectCard")
+);
 
 const Home = () => {
   const [filterData, setFilterData] = useState([]);
@@ -35,8 +42,10 @@ const Home = () => {
     cacheTime: 10000,
   });
 
-
-  const coursePrices = useMemo(() => courses.map((course) => course.price) || [], [courses]);
+  const coursePrices = useMemo(
+    () => courses.map((course) => course.price) || [],
+    [courses]
+  );
   const minPrice = Math.min(...coursePrices, 0);
   const maxPrice = Math.max(...coursePrices, 10000);
 
@@ -53,13 +62,17 @@ const Home = () => {
 
   const handlePageChange = (_, page) => {
     setCurrentPage(page);
-    queryClient.prefetchQuery(["courses", page + 1], () => getCourses(page + 1));
+    queryClient.prefetchQuery(["courses", page + 1], () =>
+      getCourses(page + 1)
+    );
   };
 
   const filterByCourseTitle = useCallback(
     (searchQuery) => {
       const filtered = searchQuery
-        ? courses.filter((course) => course.title.toLowerCase().includes(searchQuery.toLowerCase()))
+        ? courses.filter((course) =>
+            course.title.toLowerCase().includes(searchQuery.toLowerCase())
+          )
         : courses;
 
       setFilterData(filtered);
@@ -71,8 +84,10 @@ const Home = () => {
   const filterByCategories = useCallback(
     (priceRange, category, type) => {
       const filtered = courses.filter((course) => {
-        const matchesPrice = course.price >= priceRange[0] && course.price <= priceRange[1];
-        const matchesCategory = category === "all" || course.category_id === category;
+        const matchesPrice =
+          course.price >= priceRange[0] && course.price <= priceRange[1];
+        const matchesCategory =
+          category === "all" || course.category_id === category;
         const matchesType = type === "all" || course.type === type;
         return matchesPrice && matchesCategory && matchesType;
       });
@@ -83,84 +98,97 @@ const Home = () => {
   );
 
   return (
-    <div className="header-bg" style={{ backgroundColor: "white" }}>
-      <HomeMainHeader />
+    <>
+      <Helmet>
+        <link
+          rel="icon"
+          type="image/svg+xml"
+          href="/favicon.svg"
+          key="favicon"
+        />
+      </Helmet>
+      <div className="header-bg" style={{ backgroundColor: "white" }}>
+        <HomeMainHeader />
 
-      <div className="container">
+        <div className="container">
+          <Suspense fallback={<MainSpinner />}>
+            <Numbers />
+          </Suspense>
+        </div>
+
         <Suspense fallback={<MainSpinner />}>
-          <Numbers />
+          <SubjectSlider />
         </Suspense>
-      </div>
 
-      <Suspense fallback={<MainSpinner />}>
-        <SubjectSlider />
-      </Suspense>
+        <div className={Style.AllSubject}>
+          <div className="CustomContainer">
+            <SubjectHeader filterByCourseTitle={filterByCourseTitle} />
 
-      <div className={Style.AllSubject}>
-        <div className="CustomContainer">
-        <SubjectHeader filterByCourseTitle={filterByCourseTitle} />
-
-
-          <div className="row g-3">
-            <div className="col-12 col-md-12 col-lg-3">
-              <SideBarFilter
-                minValue={minPrice}
-                maxValue={maxPrice}
-                filterByCategories={filterByCategories}
-              />
-            </div>
-
-
-
-
-            <div className="col-12 col-md-12 col-lg-9">
-              <div className="row g-2">
-                {isLoading ? (
-                  <div className="row g-2">
-                    {[...Array(POSTS_PER_PAGE)].map((_, index) => (
-                      <div key={index} className="col-12 col-md-6 col-lg-6 col-xl-4">
-                        <Skeleton variant="rectangular" width={220} height={200} />
-                        <Skeleton width="40%" />
-                        <Skeleton width="70%" />
-                      </div>
-                    ))}
-                  </div>
-                ) : error ? (
-                  <div>Error loading courses</div>
-                ) : (
-                  currentCourses &&
-                  currentCourses.map((course, index) => (
-                    <motion.div
-                      key={index}
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.5 }}
-                      className="col-12 col-md-6 col-lg-6 col-xl-4"
-                    >
-                      <Suspense fallback={<MainSpinner />}>
-                        <SubjectCard mainData={course} />
-                      </Suspense>
-                    </motion.div>
-                  ))
-                )}
+            <div className="row g-3">
+              <div className="col-12 col-md-12 col-lg-3">
+                <SideBarFilter
+                  minValue={minPrice}
+                  maxValue={maxPrice}
+                  filterByCategories={filterByCategories}
+                />
               </div>
 
-              <div className="d-flex justify-content-center mt-4">
-                <Pagination
-                  count={Math.ceil(filteredData.length / POSTS_PER_PAGE)}
-                  color="primary"
-                  onChange={handlePageChange}
-                />
+              <div className="col-12 col-md-12 col-lg-9">
+                <div className="row g-2">
+                  {isLoading ? (
+                    <div className="row g-2">
+                      {[...Array(POSTS_PER_PAGE)].map((_, index) => (
+                        <div
+                          key={index}
+                          className="col-12 col-md-6 col-lg-6 col-xl-4"
+                        >
+                          <Skeleton
+                            variant="rectangular"
+                            width={220}
+                            height={200}
+                          />
+                          <Skeleton width="40%" />
+                          <Skeleton width="70%" />
+                        </div>
+                      ))}
+                    </div>
+                  ) : error ? (
+                    <div>Error loading courses</div>
+                  ) : (
+                    currentCourses &&
+                    currentCourses.map((course, index) => (
+                      <motion.div
+                        key={index}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.5 }}
+                        className="col-12 col-md-6 col-lg-6 col-xl-4"
+                      >
+                        <Suspense fallback={<MainSpinner />}>
+                          <SubjectCard mainData={course} />
+                        </Suspense>
+                      </motion.div>
+                    ))
+                  )}
+                </div>
+
+                <div className="d-flex justify-content-center mt-4">
+                  <Pagination
+                    count={Math.ceil(filteredData.length / POSTS_PER_PAGE)}
+                    color="primary"
+                    onChange={handlePageChange}
+                  />
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
 
-      <Suspense fallback={<MainSpinner />}>
-        <Footer />
-      </Suspense>
-    </div>
+        <Suspense fallback={<MainSpinner />}>
+          <Footer />
+        </Suspense>
+      </div>
+    </>
   );
 };
 

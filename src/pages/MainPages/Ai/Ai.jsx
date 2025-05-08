@@ -5,7 +5,7 @@ import "swiper/css/scrollbar";
 import Style from "./Ai.module.scss";
 import Footer from "../../../component/MainPages/Footer/Footer";
 import Header2 from "../../../component/MainPages/Header2/Header2";
-import FAQ from "../../../component/MainPages/FAQ/FAQ";
+import FaqAI from "../../../component/MainPages/FAQ/FaqAI";
 import TrainingSession from "../../../assets/images/Ai.png";
 import affiliatesMarketing from "../../../assets/images/Ai1.png";
 import sessions from "../../../assets/images/Ai2.png";
@@ -13,6 +13,11 @@ import AiIcon from "../../../assets/icons/AiIcon.svg";
 import CallCenter from "../../../assets/icons/CallCenter.svg";
 import Statics from "../../../assets/icons/Statics.svg";
 import Maps from "../../../assets/icons/maps.svg";
+import icon2 from "../../../assets/icons/AIPage/icon2.svg";
+import icon3 from "../../../assets/icons/AIPage/icon3.svg";
+import icon5 from "../../../assets/icons/AIPage/icon5.svg";
+import icon6 from "../../../assets/icons/AIPage/icon6.svg";
+import icon7 from "../../../assets/icons/AIPage/icon7.svg";
 
 // Reusable GoalCard Component
 
@@ -38,7 +43,7 @@ const Ai = () => {
       <Header2>
         <div className={Style.Container}>
           <div className={Style.BannerText} data-aos="fade-up">
-            <div style={{ position: "relative" }}>
+            <div style={{ position: "relative", display: "flex" }}>
               <img className={Style.FloaitngImage1} src={affiliatesMarketing} alt="Affiliates" />
               <img
                 style={{ maxWidth: "100%" }}
@@ -66,29 +71,34 @@ const Ai = () => {
         <div className="CustomContainer mt-5">
           <div className="row mt-2 justify-content-center">
             <GoalCard
-              icon={AiIcon}
-              title="زيادة الإنتاجية"
-              description="التدريب يجعل الموظفين أكثر كفاءة وإنتاجية، حيث يكونون مجهزين بشكل أفضل لمواجهة مهامهم ويكتسبون ثقة أكبر في قدراتهم، مما يؤدي إلى تحسين الأداء."
+              icon={icon3}
+              title="تصحيح الاختبارات"
+              description="الذكاء الاصطناعي يتولى تصحيح الاختبارات ويقدم تحليلات مفصلة لنتائج الطلاب."
             />
             <GoalCard
-              icon={CallCenter}
-              title="دعم فني بلا توقف"
-              description="تمتع بالطمأنينة مع دعمنا الفني المتاح على مدار الساعة، مهما كان استفسارك أو تحديك."
+              icon={icon7}
+              title="خاصية سؤال التركيز"
+              description="هذه الخاصية تعزز تركيز الطلاب عبر سؤال يتطلب تفاعلًا للتقدم في الدرس."
             />
             <GoalCard
-              icon={Statics}
-              title="نقلة نوعية في المبيعات"
-              description="استفد من أدواتنا الذكية لتعزيز مبيعاتك وتحسين تفاعل الطلاب. في سيان، نساعدك على تحقيق أهدافك التجارية بفعالية."
+              icon={icon2}
+              title="خاصية اختبرني"
+              description="توفر اختبارات مخصصة بعد كل درس لقياس مستوى استفادة الطالب."
             />
             <GoalCard
-              icon={Maps}
-              title="تحسين تجربة التعليم"
-              description="استكشف قوة الذكاء الاصطناعي في تعزيز فهم الطلاب وتلبية احتياجاتهم التعليمية بدقة."
+              icon={icon6}
+              title="الإجابة على أسئلة الطلاب"
+              description="الذكاء الاصطناعي يجيب على الاستفسارات، موفرًا فهمًا أعمق للمواد."
+            />
+            <GoalCard
+              icon={icon5}
+              title="المساعد الشخصي"
+              description="مساعد رقمي متاح دائمًا لمساعدة الطلاب والمعلمين في جميع احتياجاتهم التعليمية."
             />
           </div>
         </div>
       </div>
-      <FAQ />
+      <FaqAI />
       <Footer />
     </>
   );

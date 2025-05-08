@@ -1,4 +1,12 @@
-import { Table, Popover, Whisper, Dropdown, IconButton, Progress, Avatar } from "rsuite";
+import {
+  Table,
+  Popover,
+  Whisper,
+  Dropdown,
+  IconButton,
+  Progress,
+  Avatar,
+} from "rsuite";
 import { mockUsers } from "../DigitalProductsCard/mock";
 import { Checkbox } from "@mui/material";
 import React, { useEffect } from "react";
@@ -8,6 +16,7 @@ import { useAllFAQ } from "../../../framework/accademy/academysetting-faq";
 import { Spinner } from "react-bootstrap";
 import { Error } from "@mui/icons-material";
 import { useAllOpinions } from "../../../framework/accademy/academysetting-opinions";
+import { useSelector } from "react-redux";
 
 const { Column, HeaderCell, Cell } = Table;
 const data = mockUsers(1);
@@ -19,7 +28,14 @@ const StatusCell = ({ rowData, dataKey, ...props }) => {
   return <Cell {...props}>{rowData[dataKey] == 1 ? "مفعل" : "غير مفعل"}</Cell>;
 };
 
-const CheckCell = ({ rowData, onClick, checkedKeys, dataKey, style, ...props }) => (
+const CheckCell = ({
+  rowData,
+  onClick,
+  checkedKeys,
+  dataKey,
+  style,
+  ...props
+}) => (
   <Cell {...props} style={{ padding: 0 }}>
     <div style={style}>
       <Checkbox
@@ -39,14 +55,26 @@ const ActionCell = ({ rowData, dataKey, setShow, ...props }) => {
       <div style={{ color: "#A3AED0" }}>
         <BorderColorOutlinedIcon
           sx={{ cursor: "pointer" }}
-          onClick={() => navigate(`/academy/settings/ratesOfStudents/edit/${rowData[dataKey]}`)}
+          onClick={() =>
+            navigate(
+              `/academy/settings/ratesOfStudents/edit/${rowData[dataKey]}`
+            )
+          }
         />
       </div>
     </Cell>
   );
 };
 
-const StudentRatesTable = ({ checkAllHandler, checkedKeys,isRefresh, setIsRefresh, setData, setCheckedKeys, setDeleteModal }) => {
+const StudentRatesTable = ({
+  checkAllHandler,
+  checkedKeys,
+  isRefresh,
+  setIsRefresh,
+  setData,
+  setCheckedKeys,
+  setDeleteModal,
+}) => {
   let indeterminate = false;
 
   const handleCheck = (value, checkedKeys) => {
@@ -56,12 +84,19 @@ const StudentRatesTable = ({ checkAllHandler, checkedKeys,isRefresh, setIsRefres
       setCheckedKeys((perv) => perv.filter((item) => item !== value));
     }
   };
+  const profileInfo = useSelector((state) => state.academyUser.academy);
+  const academyId = profileInfo?.academy?.id;
 
-  let { data: opinionsData, isLoading, errors,refresh } = useAllOpinions();
- useEffect(()=>{
-   refresh()
-   setIsRefresh(false)
- },[isRefresh])
+  let {
+    data: opinionsData,
+    isLoading,
+    errors,
+    refresh,
+  } = useAllOpinions(academyId);
+  useEffect(() => {
+    refresh();
+    setIsRefresh(false);
+  }, [isRefresh]);
 
   if (errors) return <Error />;
 
@@ -81,7 +116,7 @@ const StudentRatesTable = ({ checkAllHandler, checkedKeys,isRefresh, setIsRefres
           style={{ direction: "rtl" }}
           headerHeight={60}
           rowHeight={60}
-          data={opinionsData}
+          data={opinionsData.data}
           id="table"
         >
           <Column width={100} align="center">
@@ -150,7 +185,13 @@ const StudentRatesTable = ({ checkAllHandler, checkedKeys,isRefresh, setIsRefres
                 alignItems: "center",
               }}
             >
-             {rowData=>rowData.student_avatar ? <Avatar src={rowData.student_avatar} size="lg" circle /> : "N/A"}
+              {(rowData) =>
+                rowData.student_avatar ? (
+                  <Avatar src={rowData.student_avatar} size="lg" circle />
+                ) : (
+                  "N/A"
+                )
+              }
             </Cell>
           </Column>
 
@@ -175,9 +216,8 @@ const StudentRatesTable = ({ checkAllHandler, checkedKeys,isRefresh, setIsRefres
                 alignItems: "center",
               }}
             >
-             {rowData=>rowData.rate ? rowData.rate+" نجمة" : "N/A"}
+              {(rowData) => (rowData.rate ? rowData.rate + " نجمة" : "N/A")}
             </Cell>
-
           </Column>
           <Column flexGrow={1} minWidth={150}>
             <HeaderCell
@@ -203,7 +243,6 @@ const StudentRatesTable = ({ checkAllHandler, checkedKeys,isRefresh, setIsRefres
             />
           </Column>
 
-          
           <Column flexGrow={1} minWidth={150}>
             <HeaderCell
               style={{

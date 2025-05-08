@@ -1,63 +1,70 @@
 import classes from "./signin.module.scss";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import React, { useState } from "react";
-import { useFormik } from "formik";
-import * as Yup from "yup";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import InputAdornment from "@mui/material/InputAdornment";
 import IconButton from "@mui/material/IconButton";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import { Link, useNavigate, useSearchParams } from "react-router-dom";
-import { Button as RBtn } from "rsuite";
-import { WiMoonWaningCrescent3 } from "react-icons/wi";
+import { Link, useNavigate } from "react-router-dom";
 import logo from "../../assets/images/logo.png";
 import { useMutation } from "@tanstack/react-query";
 import { postRegister } from "../../utils/apis/client/student";
-import Cookies from "js-cookie";
 import { useToast } from "../../utils/hooks/useToast";
 import OtpVerification from "../signin/OtpVerification";
 
 const StudentSignIn = () => {
   const [showPassword, setShowPassword] = useState(false);
-  const [userEmail, setUserEmail] = useState("");
   const [isRegisterDone, setIsRegisterDone] = useState(false);
-
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    password: "",
+    confirmPassword: "",
+    image: null,
+  });
+  console.log(formData);
+  const [errors, setErrors] = useState({});
   const navigate = useNavigate();
   const { success, error } = useToast();
 
-  // Get the step from URL params
+  const validateForm = () => {
+    const newErrors = {};
 
-  const formik = useFormik({
-    initialValues: {
-      name: "",
-      email: "",
-      phone: "",
-      password: "",
-      image: "",
-      rememberMe: true,
-    },
-    validationSchema: Yup.object({
-      name: Yup.string().required("اسم الطالب مطلوب"),
-      phone: Yup.string()
-        .min(10, "رقم الهاتف يجب ان يكون 10 ارقام")
-        .required("رقم الهاتف مطلوب"),
-      email: Yup.string()
-        .email("بريد الكتروني خطأ")
-        .required("البريد الالكتروني مطلوب"),
-      password: Yup.string().required("كلمة المرور مطلوبة"),
-    }),
-    onSubmit: (values) => {
-      const formData = new FormData();
-      formData.append("name", values.name);
-      formData.append("email", values.email);
-      formData.append("phone", values.phone);
-      formData.append("password", values.password);
-      formData.append("image", values.image);
-      mutation.mutateAsync(formData);
-    },
-  });
+    if (!formData.name) newErrors.name = "اسم الطالب مطلوب";
+    if (!formData.phone) newErrors.phone = "رقم الهاتف مطلوب";
+    else if (formData.phone.length < 10)
+      newErrors.phone = "رقم الهاتف يجب ان يكون 10 ارقام";
+    if (!formData.email) newErrors.email = "البريد الالكتروني مطلوب";
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email))
+      newErrors.email = "بريد الكتروني خطأ";
+    if (!formData.password) newErrors.password = "كلمة المرور مطلوبة";
+    if (!formData.confirmPassword)
+      newErrors.confirmPassword = "تأكيد كلمة المرور مطلوب";
+    else if (formData.password !== formData.confirmPassword)
+      newErrors.confirmPassword = "كلمة المرور يجب ان تكون متطابقة";
+    if (!formData.image) newErrors.image = "الصورة الشخصية مطلوبة";
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleFileChange = (e) => {
+    setFormData((prev) => ({
+      ...prev,
+      image: e.target.files[0],
+    }));
+  };
 
   const togglePasswordVisibility = () => {
     setShowPassword((prev) => !prev);
@@ -74,17 +81,30 @@ const StudentSignIn = () => {
   };
 
   const mutation = useMutation({
-    mutationFn: (data) => postRegister(data),
+    mutationFn: (data) => {
+      const formData = new FormData();
+      formData.append("name", data.name);
+      formData.append("email", data.email);
+      formData.append("phone", data.phone);
+      formData.append("password", data.password);
+      formData.append("image", data.image);
+      return postRegister(formData);
+    },
     onSuccess: ({ data }) => {
-      setUserEmail(data.email);
       setIsRegisterDone(true);
       success(data.message);
     },
-    onError: (error) => {
-      console.log(error);
-      error(error.response.data.message + "❌");
+    onError: (err) => {
+      error(err.response?.data?.message || "حدث خطأ أثناء التسجيل");
     },
   });
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (validateForm()) {
+      mutation.mutate(formData);
+    }
+  };
 
   return (
     <div className={`row gx-3 ${classes.LoginContainer}`}>
@@ -93,11 +113,6 @@ const StudentSignIn = () => {
       >
         <img src={logo} alt="Logo" className={classes.logo} />
         <ul className={classes.footerList}>
-          <li>
-            <RBtn>
-              <WiMoonWaningCrescent3 />
-            </RBtn>
-          </li>
           <li>منصة سيان</li>
           <li>الشروط والأحكام</li>
           <li>سياسة الخصوصية</li>
@@ -115,11 +130,12 @@ const StudentSignIn = () => {
               العودة للصفحة الرئيسية <ArrowBackIosIcon />
             </Link>
           </div>
-          {!isRegisterDone && !userEmail ? (
+
+          {!isRegisterDone ? (
             <div className={classes.LoginForm}>
               <h2>إنشاء حساب جديد</h2>
               <p>ادخل المعلومات الخاصة بحسابك</p>
-              <form onSubmit={formik.handleSubmit}>
+              <form onSubmit={handleSubmit}>
                 {[
                   {
                     id: "name",
@@ -149,11 +165,10 @@ const StudentSignIn = () => {
                       name={id}
                       type={type}
                       placeholder={placeholder}
-                      value={formik.values[id]}
-                      onChange={formik.handleChange}
-                      onBlur={formik.handleBlur}
-                      error={formik.touched[id] && Boolean(formik.errors[id])}
-                      helperText={formik.touched[id] && formik.errors[id]}
+                      value={formData[id]}
+                      onChange={handleChange}
+                      error={!!errors[id]}
+                      helperText={errors[id]}
                     />
                   </div>
                 ))}
@@ -168,15 +183,37 @@ const StudentSignIn = () => {
                     name="password"
                     type={showPassword ? "text" : "password"}
                     placeholder="ادخل كلمة المرور"
-                    value={formik.values.password}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                    error={
-                      formik.touched.password && Boolean(formik.errors.password)
-                    }
-                    helperText={
-                      formik.touched.password && formik.errors.password
-                    }
+                    value={formData.password}
+                    onChange={handleChange}
+                    error={!!errors.password}
+                    helperText={errors.password}
+                    InputProps={{
+                      ...textFieldProps.InputProps,
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <IconButton onClick={togglePasswordVisibility}>
+                            {showPassword ? <Visibility /> : <VisibilityOff />}
+                          </IconButton>
+                        </InputAdornment>
+                      ),
+                    }}
+                  />
+                </div>
+
+                <div className={classes.formGroup}>
+                  <label htmlFor="confirmPassword" className="mb-2">
+                    تأكيد كلمة المرور <span style={{ color: "red" }}>*</span>
+                  </label>
+                  <TextField
+                    {...textFieldProps}
+                    id="confirmPassword"
+                    name="confirmPassword"
+                    type={showPassword ? "text" : "password"}
+                    placeholder="أعد إدخال كلمة المرور"
+                    value={formData.confirmPassword}
+                    onChange={handleChange}
+                    error={!!errors.confirmPassword}
+                    helperText={errors.confirmPassword}
                     InputProps={{
                       ...textFieldProps.InputProps,
                       endAdornment: (
@@ -199,7 +236,7 @@ const StudentSignIn = () => {
                     id="image"
                     name="image"
                     placeholder="اختر صورة شخصية"
-                    value={formik.values.image?.name || ""}
+                    value={formData.image?.name || ""}
                     InputProps={{
                       ...textFieldProps.InputProps,
                       readOnly: true,
@@ -221,17 +258,14 @@ const StudentSignIn = () => {
                               type="file"
                               hidden
                               accept="image/*"
-                              onChange={(event) => {
-                                const file = event.target.files[0];
-                                formik.setFieldValue("image", file);
-                              }}
+                              onChange={handleFileChange}
                             />
                           </Button>
                         </InputAdornment>
                       ),
                     }}
-                    error={formik.touched.image && Boolean(formik.errors.image)}
-                    helperText={formik.touched.image && formik.errors.image}
+                    error={!!errors.image}
+                    helperText={errors.image}
                   />
                 </div>
 
@@ -239,11 +273,12 @@ const StudentSignIn = () => {
                   type="submit"
                   className={`${classes.SubmitBtn} mt-2`}
                   style={{ display: "flex", justifyContent: "center" }}
+                  disabled={mutation.isPending}
                 >
                   {mutation.isPending ? (
                     <div className="loader"></div>
                   ) : (
-                    "تسجيل الدخول"
+                    "التسجيل"
                   )}
                 </button>
 
@@ -251,18 +286,18 @@ const StudentSignIn = () => {
                   <span className={classes.nothaveaccount}>
                     لديك حساب بالفعل؟
                   </span>{" "}
-                  <Link to="/student/login" className={classes.forgotPassword}>
+                  <Link to="/login" className={classes.forgotPassword}>
                     تسجيل الدخول
                   </Link>
                 </div>
               </form>
-              <div className={`${classes.copyright}`}>
+              <p className={`${classes.copyright}`}>
                 © 2023 جميع الحقوق محفوظة لمنصة سيان
-              </div>
+              </p>
             </div>
           ) : (
             <div className="d-flex justify-content-center align-items-center">
-              <OtpVerification email={userEmail} />
+              <OtpVerification email={formData.email} />
             </div>
           )}
         </div>

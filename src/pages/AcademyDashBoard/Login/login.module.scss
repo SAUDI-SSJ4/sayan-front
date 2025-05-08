@@ -6,14 +6,10 @@
   font-size: 14px;
   margin-top: 40px;
   text-align: end;
-  @media (max-width: 768px) {
-    margin-left: 16px;
-  }
 }
 .LoginForm {
   margin-top: 112px;
   margin-right: 10px;
-  padding: 0 16px;
 }
 .LoginForm h3 {
   color: #2b3674;
@@ -54,6 +50,9 @@
 }
 
 .forgotPasswordForm {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
   h3 {
     font-size: 24px;
     font-weight: 700;
@@ -171,7 +170,6 @@
 
 .footerList {
   display: flex;
-  flex-wrap: wrap;
   align-self: flex-start;
   justify-self: flex-end;
   justify-content: center;
@@ -205,21 +203,16 @@
   }
 }
 
-.copyright {
-  justify-self: end;
-  align-self: flex-end;
-  position: absolute;
-  bottom: 50px;
-  left: 140px;
+.LoginContainer .copyright {
+  margin-top: 40px;
+  text-align: left;
   color: #a3aed0;
   @media (max-width: 768px) {
-    margin: 0 auto;
     text-align: center;
   }
-  @media (max-width: 992px) {
-    margin-top: 40px;
-    position: static;
-    bottom: auto;
-    left: auto;
-  }
+}
+.LoginForm .OtpVerification {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-    academy: [],
+  academy: null,
 };
 
 const AcademyAuthSlics = createSlice({

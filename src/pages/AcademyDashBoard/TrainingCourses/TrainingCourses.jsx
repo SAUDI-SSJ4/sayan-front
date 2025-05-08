@@ -17,30 +17,26 @@ import { useDispatch, useSelector } from "react-redux";
 import { getAcademyCoursesThunk } from "../../../../redux/courses/CourseThunk";
 import { useAuth } from "../../../utils/hooks/useAuth";
 
-
 const AcadmeyTrainingCourses = () => {
-
-  const dispatch = useDispatch()
-  const [tableOrNot, setTableOrNot] = useState(false);
-  const [isLoading, setisLoading] = useState(false)
+  const dispatch = useDispatch();
+  const [tableOrNot, setTableOrNot] = useState(true);
+  const [isLoading, setisLoading] = useState(false);
   const [checkedKeys, setCheckedKeys] = useState([]);
   const [activeTab, setActiveTab] = useState("all");
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [sortOrder, setSortOrder] = useState("DESC");
 
-  const { user } = useAuth()
-  const { academyCourses } = useSelector((state) => state.course)
-
+  const { user } = useAuth();
+  const { academyCourses } = useSelector((state) => state.course);
 
   useEffect(() => {
-    setisLoading(true)
+    setisLoading(true);
     if (academyCourses.length == 0) {
-      dispatch(getAcademyCoursesThunk()).unwrap()
+      dispatch(getAcademyCoursesThunk()).unwrap();
     }
-    setisLoading(false)
-  }, [])
-
+    setisLoading(false);
+  }, []);
 
   const handleCheck = (key) => {
     setCheckedKeys((prev) =>
@@ -48,9 +44,7 @@ const AcadmeyTrainingCourses = () => {
     );
   };
 
-
   const isChecked = (key) => checkedKeys.includes(key);
-
 
   const checkAllHandler = () => {
     if (isAllSelected) {
@@ -60,16 +54,16 @@ const AcadmeyTrainingCourses = () => {
     }
   };
 
-
   const filteredCourses = useMemo(() => {
     const courses = academyCourses || [];
     return courses
-      .filter((course) => (activeTab === "all" ? true : course.type === activeTab))
+      .filter((course) =>
+        activeTab === "all" ? true : course.type === activeTab
+      )
       .filter((course) =>
         course.title.toLowerCase().includes(searchQuery.toLowerCase())
       );
   }, [academyCourses, activeTab, searchQuery]);
-
 
   const sortedCourses = useMemo(() => {
     return filteredCourses?.sort((a, b) =>
@@ -79,7 +73,9 @@ const AcadmeyTrainingCourses = () => {
     );
   }, [filteredCourses, sortOrder]);
 
-  const isAllSelected = filteredCourses?.length === checkedKeys?.length && filteredCourses?.length > 0;
+  const isAllSelected =
+    filteredCourses?.length === checkedKeys?.length &&
+    filteredCourses?.length > 0;
 
   if (isLoading)
     return (
@@ -87,7 +83,6 @@ const AcadmeyTrainingCourses = () => {
         <Spinner className="" />
       </div>
     );
-
 
   return (
     <>
@@ -105,12 +100,14 @@ const AcadmeyTrainingCourses = () => {
               <div className="userTabs">
                 <ul className="flex-wrap gap-3">
                   <li
-                    className={`tablePage ${activeTab === "all" ? "active" : ""}`}
+                    className={`tablePage ${
+                      activeTab === "all" ? "active" : ""
+                    }`}
                     onClick={() => setActiveTab("all")}
                   >
                     الدورات ({academyCourses?.length || 0})
                   </li>
-                  <li
+                  {/* <li
                     className={`tablePage ${activeTab === "live" ? "active" : ""}`}
                     onClick={() => setActiveTab("live")}
                   >
@@ -121,7 +118,7 @@ const AcadmeyTrainingCourses = () => {
                     onClick={() => setActiveTab("recorded")}
                   >
                     الدورات غير المباشرة
-                  </li>
+                  </li> */}
                 </ul>
               </div>
 
@@ -149,7 +146,11 @@ const AcadmeyTrainingCourses = () => {
           setDeleteModal={setShowDeleteModal}
           setSortOrder={setSortOrder}
         />
-        <AcademyDeleteModal show={showDeleteModal} onClose={() => setShowDeleteModal(false)} onConfirm={() => console.log("confirm", checkedKeys)} />
+        <AcademyDeleteModal
+          show={showDeleteModal}
+          onClose={() => setShowDeleteModal(false)}
+          onConfirm={() => console.log("confirm", checkedKeys)}
+        />
       </div>
 
       {!tableOrNot ? (
@@ -172,14 +173,11 @@ const AcadmeyTrainingCourses = () => {
                 acadmey={user.academy || false}
               />
             </FlexboxGrid.Item>
-          )
-          )}
+          ))}
         </FlexboxGrid>
       ) : (
         <CoursesDataTaple CoursesData={sortedCourses} />
       )}
-
-
     </>
   );
 };

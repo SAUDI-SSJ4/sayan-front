@@ -23,12 +23,11 @@ export const postVerify = async (data) => {
   return await website_client.post(`/verify`, data);
 };
 
-
 export const postLogin = async (data) => {
   return await website_client.post(`/login`, data);
 };
 
 export const getStudentProfile = async () => {
-  const { data: response } = await website_client.get("/student-profile");
+  const { data: response } = await website_client.get("/profile");
   return response.data;
 };

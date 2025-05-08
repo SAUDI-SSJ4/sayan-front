@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { IoIosArrowBack, IoIosArrowDown } from "react-icons/io";
 import classes from "./collection.module.scss";
+import { useLocation } from "react-router-dom";
 
 const Collection = ({
   mainIcon,
@@ -11,6 +12,7 @@ const Collection = ({
   pos = "left",
 }) => {
   const [isExpanded, setIsExpanded] = useState(false);
+  const location = useLocation();
 
   const toggleExpansion = () => {
     setIsExpanded((prev) => !prev);
@@ -30,12 +32,18 @@ const Collection = ({
     <>
       <div
         className={containerClass}
-        style={{ padding: nested ? "16px" : "", fontSize: nested ? "14px" : "" }}
+        style={{ 
+          padding: nested ? "16px" : "",
+          fontSize: nested ? "14px" : ""
+        }}
         onClick={toggleExpansion}
       >
         <div>
           {mainIcon}
-          <span className="title-dash-link" style={{ fontWeight: 600 }}>
+          <span 
+            className="title-dash-link" 
+            style={{ fontWeight: 600 }}
+          >
             {mainTitle}
           </span>
         </div>

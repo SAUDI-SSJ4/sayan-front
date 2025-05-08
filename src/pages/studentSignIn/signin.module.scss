@@ -155,11 +155,10 @@
   }
 }
 
-.copyright {
-  margin-top: 32px;
+.LoginForm .copyright {
   text-align: left;
+  margin-top: 40px;
   color: #a3aed0;
-
   @media (max-width: 768px) {
     text-align: center;
   }

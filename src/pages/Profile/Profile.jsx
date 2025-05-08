@@ -1,23 +1,54 @@
 import { RiTwitterXFill } from "react-icons/ri";
+
+
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { FaFacebook } from "react-icons/fa";
 import { FaSnapchatGhost } from "react-icons/fa";
 import Insta from "../../assets/icons/Insta.svg";
-import { useState } from "react";
-
+import { useState, useEffect } from "react";
+import StudentBanner from "../../assets/images/StudentBanner.jpg";
 import UpdateProfile from "./UpdateProfile";
 import styless from "./UpdateProfile.module.css";
 import defaultUser from "../../assets/images/default-user.jpg";
 import { useSelector } from "react-redux";
+import axios from "axios";
+import Cookies from "js-cookie";
+
 
 const Profile = () => {
   const [showUpdate, setShowUpdate] = useState(false);
-  const user = useSelector((state) => state.auth.user);
+
+  const [user, setUser] = useState(null);
+const token = Cookies.get("student_token");
+useEffect(() => {
+  const fetchUser = async () => {
+    try {
+      const response = await axios.get('https://www.sayan-server.com/academy/students/5', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+      },
+      });
+      setUser(response.data);
+      console.log("response: ", response);
+    } catch (error) {
+      console.error('Error fetching user data:', error);
+    }
+  };
+  
+  fetchUser();
+}, []);
+
+  const { name, email, phone, image } = user ?? {};
+  
+  console.log("User Info: " + user);
+
 
   return (
     <div className="all-porfile mt-3">
       <div className="ProfileHeader">
-        <div className="ProfileBg"></div>
+        <div className="ProfileBg">
+          <img src={user ? user.image : StudentBanner} height={200} className="w-100 object-fit-cover rounded"   alt="" />
+        </div>
         <div className="ProfileInfo">
           <div className="d-flex flex-wrap">
             <div className="ProfileImage overflow-hidden">
@@ -25,7 +56,7 @@ const Profile = () => {
             </div>
             <div>
               <h2>{user?.name}</h2>
-              <p>@Administration</p>
+              <span>تاريخ الإنشاء : {user?.created_at?.split('T')[0]}</span>
             </div>
           </div>
           <div className="updateBtn" onClick={() => setShowUpdate(true)}>
@@ -44,10 +75,10 @@ const Profile = () => {
                 <h3>الاسم</h3>
                 <span>{user?.name}</span>
               </div>
-              <div className=" col-12 col-sm-6 ">
+              {/* <div className=" col-12 col-sm-6 ">
                 <h3>الدور</h3>
                 <span>مدير النظام </span>
-              </div>
+              </div> */}
               <div className=" col-12 col-sm-6 ">
                 <h3>النوع</h3>
                 <span>ذكر </span>

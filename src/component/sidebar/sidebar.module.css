@@ -1,33 +1,54 @@
 .sidebarHeader {
   display: flex;
   justify-content: center;
-  padding: 10px 13px;
+  padding: 15px;
   font-family: "Cairo", sans-serif;
   align-items: center;
-  margin-top: 30px;
+  margin: 20px 0;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(5px);
+  border-radius: 12px;
+  transition: all 0.3s ease;
 }
+
 .sidebarHeader .Profile {
   display: flex;
-  gap: 10px;
+  gap: 15px;
   align-items: center;
   justify-content: center;
+  padding: 5px;
 }
+
 .sidebarHeader .Profile img {
-  width: 50px;
-  height: 50px;
+  width: 45px;
+  height: 45px;
   border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid rgba(236, 240, 238, 0.2);
+  transition: transform 0.3s ease;
 }
+
+.sidebarHeader .Profile img:hover {
+  transform: scale(1.05);
+}
+
 .sidebarHeader .Profile div {
   display: flex;
   flex-direction: column;
   color: #ecf0ee;
 }
+
 .sidebarHeader .Profile div p {
   margin: 0;
   font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.3px;
 }
+
 .sidebarHeader .Profile div span {
-  font-size: 9px;
+  font-size: 11px;
+  opacity: 0.8;
+  margin-top: 2px;
 }
 .sidebarHeader .showBtn {
   display: flex;

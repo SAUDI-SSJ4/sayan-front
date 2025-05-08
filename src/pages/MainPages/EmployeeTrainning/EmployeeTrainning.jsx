@@ -19,6 +19,11 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
+import icon1 from "../../../assets/icons/EmployeeTrainingPage/icon1.svg";
+import icon2 from "../../../assets/icons/EmployeeTrainingPage/icon2.svg";
+import icon3 from "../../../assets/icons/EmployeeTrainingPage/icon3.svg";
+import icon4 from "../../../assets/icons/EmployeeTrainingPage/icon4.svg";
+import FaqTraining from "../../../component/MainPages/FAQ/FaqTraining";
 
 const EmployeeTrainning = () => {
   return (
@@ -26,7 +31,7 @@ const EmployeeTrainning = () => {
       <Header2>
         <div className={Style.Container}>
           <div className={Style.BannerText} data-aos="fade-up">
-            <div style={{ position: "relative" }}>
+            <div style={{ position: "relative", display: "flex" }}>
               <img className={Style.FloaitngImage1} src={affiliatesmarketing} />
               <img className={Style.FloaitngImage} src={TrainingSession} />
               <img className={Style.FloaitngImage2} src={sessions} />
@@ -51,13 +56,12 @@ const EmployeeTrainning = () => {
               <div className={Style.GoalCard}>
                 <div className="d-flex">
                   <div className={Style.GoalIcon}>
-                    <img src={AiIcon} />
+                    <img src={icon1} />
                   </div>
                 </div>
                 <h2 className="fs-6 fw-bold  title-text--1"> زيادة الإنتاجية </h2>
                 <p className="fs-6 fw-medium text-content--1">
-                  التدريب يجعل الموظفين أكثر كفاءة وإنتاجية، حيث يكونون مجهزين بشكل أفضل لمواجهة
-                  مهامهم ويكتسبون ثقة أكبر في قدراتهم، مما يؤدي إلى تحسين الأداء.
+                التدريب يجعل الموظفين أكثر كفاءة وإنتاجية، حيث يكونون مجهزين بشكل أفضل لمواجهة مهامهم ويكتسبون ثقة أكبر في قدراتهم، مما يؤدي إلى تحسين الأداء.
                 </p>
               </div>
             </div>
@@ -65,12 +69,12 @@ const EmployeeTrainning = () => {
               <div className={Style.GoalCard}>
                 <div className="d-flex">
                   <div className={Style.GoalIcon}>
-                    <img src={CallCenter} />
+                    <img src={icon2} />
                   </div>
                 </div>
-                <h2 className="fs-6 fw-bold  title-text--1">دعم فني بلا توقف</h2>
+                <h2 className="fs-6 fw-bold  title-text--1">الاحتفاظ بالموظفين</h2>
                 <p className="fs-6 fw-medium text-content--1">
-                  تمتع بالطمأنينة مع دعمنا الفني المتاح على مدار الساعة، مهما كان استفسارك أو تحديك.
+                %75 من الموظفين من المرجح أن يبقوا لفترة أطول في المنظمات التي تستثمر في نموهم، مما يعزز رضاهم وولائهم.
                 </p>
               </div>
             </div>
@@ -78,13 +82,12 @@ const EmployeeTrainning = () => {
               <div className={Style.GoalCard}>
                 <div className="d-flex">
                   <div className={Style.GoalIcon}>
-                    <img src={Statics} />
+                    <img src={icon3} />
                   </div>
                 </div>
-                <h2 className="fs-6 fw-bold  title-text--1">نقلة نوعية في المبيعات</h2>
+                <h2 className="fs-6 fw-bold  title-text--1">تحسين المهارات</h2>
                 <p className="fs-6 fw-medium text-content--1">
-                  استفد من أدواتنا الذكية لتعزيز مبيعاتك وتحسين تفاعل الطلاب. في سيان، نساعدك على
-                  تحقيق أهدافك التجارية بفعالية.
+                يساعد تطوير الموظفين على اكتساب مهارات جديدة، مما يزيد الرضا الوظيفي ويفتح فرص التقدم.
                 </p>
               </div>
             </div>
@@ -92,12 +95,12 @@ const EmployeeTrainning = () => {
               <div className={Style.GoalCard}>
                 <div className="d-flex">
                   <div className={Style.GoalIcon}>
-                    <img src={maps} />
+                    <img src={icon4} />
                   </div>
                 </div>
-                <h2 className="fs-6 fw-bold  title-text--1">تحسين تجربة التعليم</h2>
+                <h2 className="fs-6 fw-bold  title-text--1">الابتكار والقدرة على التكيف</h2>
                 <p className="fs-6 fw-medium text-content--1">
-                  استكشف قوة الذكاء الاصطناعي في تعزيز فهم الطلاب وتلبية احتياجاتهم التعليمية بدقة
+                تطوير الموظفين يعزز القدرة على التكيف مع التغيرات السوقية ويشجع على الابتكار.
                 </p>
               </div>
             </div>
@@ -152,6 +155,7 @@ const EmployeeTrainning = () => {
             </div>
           </div>
         </div>
+
         <div className="CustomContainer " style={{ marginTop: "120px" }}>
           <div className="row " style={{ alignItems: "center" }}>
             <div data-aos="fade-right" className="col-lg-6  d-flex justify-content-center">
@@ -167,7 +171,7 @@ const EmployeeTrainning = () => {
                     textAlign: "right",
                   }}
                 >
-                  نظام إدارة ومتابعة المتدربين
+               إنشاء أكاديمية خاصة بالشركة
                 </h2>
                 <p
                   style={{
@@ -179,9 +183,7 @@ const EmployeeTrainning = () => {
                     textAlign: "justified",
                   }}
                 >
-                  نؤمن بأن التعليم هو القوة الدافعة لمستقبل مشرق،
-                  <br /> يسوده الإبداع والابتكا بناء جيل متعلم ومبدع، مجهز
-                  <br /> بالمعرفة والقدرات لقيادة عصر جديد من التقدم.ر.
+توفر المنصة القدرة على بناء أكاديمية تعليمية مخصصة لشركتك، مكملة بدومين خاص، مما يسهل إدارة ومتابعة التدريب بشكل مؤتمت واحترافي.
                 </p>
               </div>
             </div>
@@ -318,7 +320,7 @@ const EmployeeTrainning = () => {
         </div>
       </div>
 
-      <FAQ />
+      <FaqTraining />
       <Footer />
     </Fragment>
   );
