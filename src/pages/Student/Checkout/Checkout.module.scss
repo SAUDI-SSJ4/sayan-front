@@ -385,3 +385,92 @@
     flex-direction: row-reverse;
   }
 }
+
+.checkoutWrapper {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 15px;
+}
+
+.paymentNote {
+  margin-top: 15px;
+  color: #7E8799;
+  font-size: 14px;
+  background-color: #f8f9fa;
+  padding: 10px 15px;
+  border-radius: 8px;
+  border-right: 3px solid #0062FF;
+}
+
+.largerOption {
+  padding: 10px !important;
+}
+
+.termsSection {
+  margin: 20px 0 10px;
+  padding: 15px;
+  border-radius: 8px;
+  background-color: #f8f9fa;
+}
+
+.termsLabel {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  cursor: pointer;
+  
+  input[type="checkbox"] {
+    margin-top: 3px;
+  }
+
+  span {
+    font-size: 14px;
+    color: #2B3674;
+  }
+
+  a {
+    color: #0062FF;
+    text-decoration: none;
+    
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+.errorMessage {
+  color: #fa3434;
+  background-color: #fff0f0;
+  padding: 12px;
+  border-radius: 8px;
+  margin-top: 15px;
+  font-size: 14px;
+  border-right: 3px solid #fa3434;
+}
+
+.appliedButton {
+  background-color: #28a745 !important;
+  
+  &:hover {
+    background-color: #218838 !important;
+  }
+}
+
+.securePayment {
+  margin-top: 15px;
+  text-align: center;
+  
+  small {
+    color: #7E8799;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    &:before {
+      content: "🔒";
+      margin-left: 5px;
+    }
+  }
+}
