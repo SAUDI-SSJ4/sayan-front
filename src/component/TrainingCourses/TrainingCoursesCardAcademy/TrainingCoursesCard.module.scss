@@ -1,0 +1,144 @@
+.Card {
+  margin-bottom: 50px;
+  background-color: #f8f8f8;
+  border-radius: 10px;
+}
+.CardImage {
+  position: relative;
+  img {
+    width: 100%;
+    max-height: 240px;
+    border-radius: 5px;
+  }
+  .CardCheck {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background-color: #edeff2;
+    border: 4px solid white;
+    width: 30px;
+    border-radius: 50%;
+    cursor: pointer;
+    height: 30px;
+    background: #edeff2;
+    &.Checked {
+      background: #c6ffe7;
+      color: #1ad4b2;
+    }
+  }
+  .CardMotion {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+  }
+}
+.CardBody {
+  margin-top: 20px;
+  .CardTitleContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 10px;
+    padding: 10px;
+  }
+  h2 {
+    color: #2b3674;
+    text-align: right;
+    font-family: "Readex Pro", sans-serif;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 32px;
+    cursor: pointer;
+    position: relative; /* Required for the pseudo-element */
+  
+    &::after {
+      content: "";
+      position: absolute;
+      bottom: 0; /* Position the line at the bottom of the element */
+      right: 0;
+      height: 1px;
+      width: 0; /* Start with a width of 0 */
+      background-color: #2b3674; /* Same color as the text */
+      transition: width 0.3s ease; /* Smooth width animation */
+    }
+  
+    &:hover::after {
+      width: 100%; /* Expand the line on hover */
+    }
+  }
+  
+  .Tags {
+    div {
+      font-size: 13px;
+      border-radius: 12px;
+    }
+  }
+}
+/* Dark mode styles for .Card */
+.dark-mode .Card {
+  background: #1a1a1a !important ; /* Dark background color */
+  color: #ccc; /* Light text color */
+}
+
+.dark-mode .CardImage .CardCheck {
+  background-color: #2b2b2b; /* Darker background color for the check */
+  border: 4px solid white; /* Border color */
+  color: #1ad4b2; /* Checked color */
+}
+
+.dark-mode .CardBody h2 {
+  color: #fff; /* White text color for headings */
+}
+
+.dark-mode .CardBody .Tags div {
+  background: #2b2b2b !important; /* Darker background color for tags */
+  color: #ccc; /* Light text color for tags */
+}
+
+.TrainerContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 20px 10px;
+  padding: 10px;
+
+  .TrainerImage {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  .TrainerTitle {
+    margin-left: 10px; /* Adjust spacing for alignment */
+    display: flex;
+    flex-direction: column;
+    margin-right: 10px;
+
+    p {
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 0;
+
+      &.TrainerName {
+        font-size: 12px;
+        font-weight: 500;
+        color: #535353;
+        margin-top: 2px;
+      }
+    }
+  }
+
+  .TrainerDeleteIcon {
+    background-color: #ec2222;
+    padding: 4px;
+    border-radius: 50%;
+    cursor: pointer;
+    .TrainerIcon{
+        color: #fff;
+    }
+  }
+}

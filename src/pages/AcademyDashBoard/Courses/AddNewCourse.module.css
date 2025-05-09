@@ -1,0 +1,450 @@
+.backBtn {
+  border: 1px solid #0fe8e8;
+  color: #0fe8e8 !important;
+  padding: 10px 15px;
+  font-size: 18px;
+  border-radius: 8px;
+  & > * {
+    margin: 0 5px;
+  }
+}
+
+.steperProg {
+  border-bottom: 1px solid #eee;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 35px 70px 5px;
+  .steperProgImg {
+    color: #a3aed0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-bottom: 30px;
+    .steperProgtext {
+      margin-top: 15px;
+      padding: 10px 0px;
+      display: flex;
+
+      justify-content: space-between;
+    }
+  }
+  .steperProgcount {
+    background-color: #0062ff;
+    padding: 15px 20px;
+    width: 200px;
+    color: #fff;
+    font-size: 18px;
+    border-radius: 10px;
+  }
+  .steperProgsave {
+    background-color: transparent;
+    padding: 15px 20px;
+    width: 200px;
+    color: #0fe8e8;
+    border: 1px solid #0fe8e8;
+    font-size: 18px;
+    border-radius: 10px;
+  }
+}
+
+.container {
+  display: flex;
+  /* justify-content: space-between; */
+  width: 100%;
+  min-height: 80vh;
+}
+.saveBtnTwo {
+  margin-top: 40px;
+  background-color: #29e088;
+  color: #fff;
+  padding: 15px 30px;
+  width: 200px;
+  border-radius: 8px;
+  font-size: 18px;
+}
+
+.sidexld {
+  width: fit-content;
+}
+
+.sideSettings {
+  border: 1px solid #edeff2;
+  width: fit-content;
+  padding: 10px;
+  & > div {
+    .MuiAccordionSummary-expandIconWrapper {
+      background-color: gold;
+    }
+    padding: 10px !important;
+    margin: 10px !important;
+  }
+  .sideSettingsDiv {
+    display: flex;
+    background-color: #fff;
+    padding: 20px 15px;
+    margin: 20px;
+    border-radius: 8px;
+    & > * {
+      margin: 0 5px;
+    }
+  }
+}
+
+.sideSecLap {
+  background-color: #fbfbfb;
+  width: fit-content;
+  padding: 10px;
+  & > div {
+    .MuiAccordionSummary-expandIconWrapper {
+      background-color: gold;
+    }
+    padding: 10px !important;
+    margin: 10px !important;
+  }
+  .sideSecLapDiv {
+    display: flex;
+    background-color: #fff;
+    padding: 20px 15px;
+    margin: 20px;
+    border-radius: 8px;
+    & > * {
+      margin: 0 5px;
+    }
+  }
+}
+.sideBarNav {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  .sideup {
+    display: flex;
+    justify-content: space-between;
+  }
+  .iconText {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 2.5px 10px;
+    margin: 5px 0px;
+    width: 135px;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+    transform: scale(1);
+    svg {
+      width: 22.5px;
+      height: 22.5px;
+      margin-top: 15px;
+      margin-bottom: 10px;
+    }
+    p {
+      font-size: smaller;
+      font-weight: 500;
+    }
+  }
+
+  .notAllwo {
+    cursor: not-allowed;
+    color: #979797;
+  }
+
+  .allwo {
+    cursor: pointer;
+  }
+}
+
+.boardLap {
+  flex: 1;
+  text-align: center;
+  margin-top: 30px;
+  padding: 45px;
+  h4 {
+    margin-bottom: 30px;
+  }
+}
+
+.savebtn {
+  background-color: #0e85ff;
+  color: #fff;
+  font-size: 18px;
+  padding: 10px 30px;
+  width: 150px;
+  border-radius: 8px;
+  margin: 30px auto;
+}
+
+.categoryShow {
+  text-align: center;
+  flex: 1;
+  margin-top: 30px;
+  span {
+    border-top: 1px solid #eee;
+    display: block;
+    width: 100%;
+    margin: 10px auto;
+  }
+  .catImage {
+    width: 350px;
+    margin: 20px auto;
+    img {
+      max-width: 100%;
+    }
+  }
+}
+
+.saveSecondbtn {
+  background-color: #6ada31;
+  color: #fff;
+  font-size: 18px;
+  padding: 10px 30px;
+  width: 150px;
+  border-radius: 8px;
+  margin: 30px auto;
+}
+
+.deletebtn {
+  background-color: #ffffff;
+  color: #f35858;
+  border: #f35858 solid 1px;
+  font-size: 18px;
+  padding: 10px 30px;
+  width: 150px;
+  border-radius: 8px;
+  text-wrap: nowrap;
+  margin: 30px auto;
+}
+
+.soonBtn {
+  background-color: #f35858;
+  color: #edeff2;
+  font-weight: 700;
+  font-size: 10px;
+  padding: 4px 10px;
+  border-radius: 8px;
+  text-wrap: nowrap;
+}
+
+.activeButton {
+  background-color: #0062ff; /* Primary background color */
+  color: #fff; /* White color for text and SVG */
+  svg > path {
+    fill: #fff;
+  }
+}
+
+.lessonType {
+  min-width: 34px;
+  height: 34px;
+  background-color: rgba(30, 2, 170, 0.2);
+  border-radius: 50%;
+  padding: 7px;
+  path {
+    fill: rgb(30, 2, 170);
+  }
+}
+
+.lessonTypeActive {
+  background-color: rgba(30, 30, 30, 0.1);
+  path {
+    fill: white;
+  }
+}
+
+.deleteBtn {
+  padding: 3px; /* Some padding for a comfortable click area */
+  border-radius: 5px; /* Rounded corners for a modern look */
+  text-wrap: nowrap; /* Ensure the text doesn't wrap */
+  transition: background-color 0.2s ease-in-out; /* Smooth transition for hover effect */
+  background-color: rgba(240, 0, 0, 0.2); /* A slightly darker red for hover */
+  svg {
+    width: 22.5px;
+  }
+  svg > path {
+    fill: #ff0602;
+  }
+}
+.deleteBtn:hover {
+  background-color: rgba(240, 0, 0, 0.4); /* A slightly darker red for hover */
+  /* A slightly darker red for hover */
+  cursor: pointer; /* Change cursor to pointer on hover */
+}
+
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+}
+.modalTitle {
+  font-size: larger;
+  font-weight: 650;
+  padding: 0px;
+  margin: 0px;
+}
+
+.modalSubTitle {
+  font-size: small;
+  font-weight: 650;
+  padding: 0px;
+  margin: 0px;
+}
+.toolCard {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  border: 1px solid #f0f0f0;
+  border-radius: 4px;
+  padding: 1.5rem;
+  font-weight: 600;
+  text-align: center;
+  cursor: pointer;
+  background-color: white;
+  color: #505080;
+  transition: all 0.3s ease;
+  width: 100%;
+}
+.toolCard > p {
+  margin: 0px;
+  min-width: fit-content;
+}
+.toolCard > svg {
+  margin: 0px;
+  min-width: fit-content;
+}
+
+.selectedTool {
+  background-color: #f0f0f0;
+  color: #505080;
+}
+
+.formControl {
+  margin-bottom: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.label {
+  display: block;
+  margin-bottom: 0.5rem;
+  padding-right: 0.5rem;
+
+  font-weight: 600;
+  color: #505080;
+}
+
+.input {
+  display: block;
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #fff;
+  transition: all 0.3s ease;
+}
+
+.input:focus {
+  outline: none;
+  border-color: #0062ff;
+}
+
+.error {
+  color: red;
+  font-size: 0.8rem;
+  margin-top: 0.25rem;
+  padding-right: 0.5rem;
+}
+
+.dashboard {
+  display: grid;
+  grid-template-areas: "left1 left2 content right";
+  grid-template-columns: 150px 320px 1fr 340px;
+
+  min-height: 80vh;
+  /* Create space between grid items */
+  outline: 1px solid #edeff2;
+}
+
+.sidebar {
+  padding: 4px;
+  outline: 1px solid #edeff2;
+}
+
+.sidebar.left.first {
+  grid-area: left1;
+}
+
+.sidebar.left.second {
+  grid-area: left2;
+  background-color: #f4f4f4;
+  overflow-y: auto;
+  overflow-x: hidden;
+  max-height: 105vh;
+}
+
+.sidebar.right {
+  grid-area: right;
+}
+
+.content {
+  grid-area: content;
+  padding: 16px;
+  background-color: #ffffff;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .dashboard {
+    grid-template-areas:
+      "left1"
+      "left2"
+      "content"
+      "right";
+    grid-template-columns: 1fr;
+  }
+}
+
+.addNewVideoContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  padding: 60px 40px;
+  h4 {
+    font-size: 28px;
+    color: #2b3674;
+    font-weight: bold;
+  }
+}
+
+.LessonCard {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: #2b3674;
+  gap: 5px;
+  .title {
+    font-size: 20px;
+    margin: 0 0 0 10px;
+  }
+  .count {
+    color: #6b7280;
+    font-size: 14px;
+    gap: 5px;
+  }
+}

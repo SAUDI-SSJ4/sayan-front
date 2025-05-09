@@ -1,0 +1,227 @@
+.sidebarHeader {
+  display: flex;
+  justify-content: center;
+  padding: 15px;
+  font-family: "Cairo", sans-serif;
+  align-items: center;
+  margin: 20px 0;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(5px);
+  border-radius: 12px;
+  transition: all 0.3s ease;
+}
+
+.sidebarHeader .Profile {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  justify-content: center;
+  padding: 5px;
+}
+
+.sidebarHeader .Profile img {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid rgba(236, 240, 238, 0.2);
+  transition: transform 0.3s ease;
+}
+
+.sidebarHeader .Profile img:hover {
+  transform: scale(1.05);
+}
+
+.sidebarHeader .Profile div {
+  display: flex;
+  flex-direction: column;
+  color: #ecf0ee;
+}
+
+.sidebarHeader .Profile div p {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.3px;
+}
+
+.sidebarHeader .Profile div span {
+  font-size: 11px;
+  opacity: 0.8;
+  margin-top: 2px;
+}
+.sidebarHeader .showBtn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 15px;
+  padding: 14px;
+  border-radius: 8px;
+}
+
+a {
+  color: #7e8799 !important;
+}
+
+.body {
+  position: relative;
+  direction: rtl;
+  color: #7e8799 !important;
+  padding: 38px 21px;
+  font-family: "Cairo", sans-serif;
+}
+.body .mainIcon {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+  padding: 10px;
+}
+.body .mainIcon div {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.body .mainIcon span {
+  font-size: 18px;
+  font-weight: 600;
+  color: #7e8799 !important;
+}
+.body .subIcon {
+  display: flex;
+  position: relative;
+  z-index: 2;
+  align-items: center;
+  gap: 5px;
+}
+.body .subIcon div {
+  display: flex;
+  align-items: center;
+  width: 35px;
+  height: 35px;
+  justify-content: center;
+  align-items: center;
+}
+.body .subIcon span {
+  font-size: 14px;
+  font-weight: 400;
+  color: #7e8799 !important;
+}
+
+.marker {
+  width: 100%;
+  position: absolute;
+  transition: 0.4s;
+  z-index: 0;
+  left: 0;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+.marker .line {
+  background-color: #f0b740;
+  border-radius: 4px;
+  height: 35px;
+  width: 5px;
+}
+.marker .trapezoid {
+  height: 45px;
+  flex: 1;
+  -webkit-clip-path: polygon(100% 0, 100% 100%, 0 89%, 0 15%);
+  clip-path: polygon(100% 0, 100% 100%, 0 89%, 0 15%);
+  background: rgb(240, 183, 64);
+  background: linear-gradient(90deg, rgba(240, 183, 64, 0.6446953782) 39%, rgba(0, 0, 0, 0) 95%);
+}
+
+.active .body {
+  padding: 0;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+.active .sidebarHeader {
+  padding: 10px;
+}
+.active .Profile {
+  position: absolute;
+  opacity: 0;
+  transition: 0.4s;
+  z-index: -1;
+}
+.active .mainIcon span {
+  position: absolute;
+  opacity: 0;
+  transition: 0.4s;
+  z-index: -1;
+}
+.active .subIcon span {
+  position: absolute;
+  opacity: 0;
+  transition: 0.4s;
+  z-index: -1;
+}
+
+.sideBar {
+  flex-direction: column;
+  display: flex;
+  border-inline-end: 1px solid #edeff2;
+}
+.sideBar .body {
+  flex: 1;
+}
+
+.activeLink .mainIcon {
+  padding: 10px;
+  border-radius: 5px;
+  color: white !important;
+  background-color: #0062ff;
+}
+.activeLink .mainIcon span {
+  font-size: 18px;
+  font-weight: 600;
+  color: white !important;
+}
+
+.Link {
+  padding: 5px;
+  display: flex;
+}
+
+.activeSubLink {
+  padding: 7px;
+  display: flex;
+  color: #0062ff !important;
+}
+
+.Bot {
+  border-radius: 20px;
+  background: linear-gradient(136deg, #22d2a7 24.6%, #23e766 103.34%);
+  padding: 20px;
+  display: flex;
+  margin-top: 30px;
+  gap: 20px;
+}
+.Bot .Icon {
+  margin-top: 20px;
+}
+.Bot h2 {
+  color: #fff;
+  display: flex;
+  gap: 10px;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 24px; /* 171.429% */
+  line-height: 40px;
+}
+.Bot span {
+  border-radius: var(--16, 16px);
+  background: rgba(252, 252, 252, 0.43);
+  color: white;
+  padding: 15px 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin-top: 20px;
+} /*# sourceMappingURL=sidebar.module.css.map */

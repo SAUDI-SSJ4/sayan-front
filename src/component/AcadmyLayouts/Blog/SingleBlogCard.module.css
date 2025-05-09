@@ -1,0 +1,70 @@
+.CardContainer {
+  padding: 16px;
+  border-radius: 20px;
+  background: var(--white, #FFF);
+  transition: 0.4s;
+  box-shadow: 0px 0px 120px 0px rgba(0, 0, 0, 0.1);
+}
+.CardContainer:hover {
+  box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.15);
+  transform: translateY(-10px);
+}
+.CardContainer p {
+  color: #202020;
+  text-align: right;
+  margin-block: 30px;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 800;
+  line-height: 150%; /* 30px */
+}
+.CardContainer .ImageContainer {
+  position: relative;
+}
+.CardContainer .ImageContainer img {
+  width: 100%;
+  border-radius: 20px;
+}
+.CardContainer .ImageContainer .Badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  padding: 7px 15px;
+  font-weight: 600;
+  border-radius: 30px;
+  background: #DF932D;
+  color: white;
+}
+.CardContainer .ImageContainer .detials {
+  display: flex;
+  position: absolute;
+  justify-content: space-between;
+  color: black;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 15px;
+  font-weight: 800;
+  bottom: -10px;
+  width: 90%;
+  border-radius: 30px;
+  background: #FFF;
+  box-shadow: 0px 0px 30px 0px rgba(13, 119, 188, 0.1);
+}
+.CardContainer .Footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.CardContainer .Footer span {
+  color: #A79F9F;
+  text-align: right;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}
+.CardContainer .Footer img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}/*# sourceMappingURL=SingleBlogCard.module.css.map */

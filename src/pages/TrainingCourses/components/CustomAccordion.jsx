@@ -1,0 +1,81 @@
+import React, { useState } from 'react';
+import { Accordion, AccordionSummary, AccordionDetails } from '@mui/material'; // Assuming Material-UI
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+
+const CustomAccordion = ({
+  data = [],
+  renderSummary,
+  renderDetails,
+  onPanelChange,
+  defaultExpanded = null,
+}) => {
+  const [expanded, setExpanded] = useState(defaultExpanded);
+
+  const handleChange = (panel) => (event, isExpanded) => {
+    setExpanded(isExpanded ? panel : null);
+    if (onPanelChange) onPanelChange(panel, isExpanded);
+  };
+
+  return (
+    <div style={{ padding: '10px' }}>
+      {data.map((item, index) => (
+         <Accordion
+         key={index}
+         expanded={expanded === `panel${index}`}
+         onChange={handleChange(`panel${index}`)}
+         style={{
+           border: "none",
+           backgroundColor: "transparent",
+           boxShadow: "none",
+           marginBottom: "10px",
+           borderRadius: "17px", // Matches AccordionSummary border radius
+
+         }}
+         sx={{
+            boxShadow: "none", // Removes the shadow
+            "&:before": {
+              display: "none", // Removes the border-like line before the accordion
+            },
+          }}
+       >
+         <AccordionSummary
+           expandIcon={
+             <ExpandMoreIcon
+               style={{
+                 transform: expanded === `panel${index}` ? "rotate(-180deg)" : "rotate(90deg)",
+                 transition: "transform 0.3s",
+                 backgroundColor: "#0e85ff",
+                 color:"white",
+                 padding:"2px",
+                 borderRadius: "50%",
+               }}
+             />
+           }
+           aria-controls={`panel${index}-content`}
+           id={`panel${index}-header`}
+           style={{
+             backgroundColor: "white",
+             border: "1px solid #eee",
+             borderRadius: "17px",
+             padding: "15px",
+             boxShadow: "none",
+           }}
+         >
+           {renderSummary(item, index)}
+         </AccordionSummary>
+         <AccordionDetails
+           style={{
+             padding: "5px",
+             paddingRight:"10px",
+             borderRight: "2px solid #eee",
+           }}
+         >
+           {renderDetails(item, index)}
+         </AccordionDetails>
+       </Accordion>
+      ))}
+    </div>
+  );
+};
+
+export default CustomAccordion;

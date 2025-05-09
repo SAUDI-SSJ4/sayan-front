@@ -1,0 +1,84 @@
+.MainContainer{
+    margin-top: 20px;
+    background: white;
+    .PageImage{
+        position: relative;
+        img{
+            width: 100%;
+        }
+     div{
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 80%;
+        transform: translate(-50%,-50%);
+        h2{
+            color: #FFF;
+
+
+font-size: 48px;
+font-style: normal;
+font-weight: 400;
+line-height: 103.4%; /* 49.632px */
+letter-spacing: 0.5px;
+text-transform: uppercase;
+        }
+        p{
+            color: #FFF;
+text-align: right;
+font-family: Readex Pro;
+font-size: 40px;
+font-style: normal;
+font-weight: 400;
+line-height: normal;
+letter-spacing: -1px;
+        }
+     }
+    }
+    .PageBody{
+        padding: 20px;
+    }
+}
+
+/* Dark mode styles for .MainContainer */
+.dark-mode .MainContainer {
+    background: #1a1a1a; /* Dark background color */
+    color: #ccc; /* Light text color */
+}
+
+.dark-mode .PageImage div h2 {
+    color: #FFF; /* White text color for headings */
+}
+
+.dark-mode .PageImage div p {
+    color: #FFF; /* White text color for paragraphs */
+}
+
+/* You can adjust the background color and text colors based on your preference */
+.displayTypeSwitcher .btn {
+    padding: 8px 16px;
+    margin: 0 5px;
+    border: 1px solid #ccc;
+    background-color: white;
+    cursor: pointer;
+  }
+  
+  .displayTypeSwitcher .btn.active {
+    background-color: #007bff;
+    color: white;
+    border-color: #007bff;
+  }
+  
+  .tag-custom {
+    background-color: #e6f7e6;  /* Custom background for "live" */
+    border-radius: 20px;
+    font-size: 14px;
+    padding: 5px 15px;
+    display: inline-flex;
+    align-items: center;
+  }
+  
+  .tag-custom.blue {
+    background-color: #e6f0ff;  /* Custom background for "recorded" */
+  }
+  

@@ -1,0 +1,100 @@
+.Card {
+  display: flex;
+  justify-content: center;
+  padding: 45px;
+  background-color: white;
+}
+.Card .ProductInfo {
+  max-width: 700px;
+}
+.Card .ProductInfo .Price {
+  display: flex;
+  margin-top: 20px;
+}
+.Card .ProductInfo .Price div {
+  padding: 15px 24px;
+  border-radius: 12px;
+  background: rgba(255, 71, 71, 0.05);
+  color: #ff4747;
+  font-size: 28px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 20px;
+}
+.Card .ProductInfo h3 {
+  color: #4a3aff;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 700;
+  margin-block: 17px;
+  line-height: 20px; /* 111.111% */
+}
+.Card .ProductInfo h4 {
+  color: #170f49;
+  font-size: 34px;
+  font-style: normal;
+  font-weight: 700;
+  margin-bottom: 17px;
+  line-height: 46px; /* 135.294% */
+}
+.Card .ProductInfo p {
+  color: #7e8799;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 30px; /* 166.667% */
+}
+
+.Numbers {
+  width: 100%;
+  margin-top: 30px;
+  margin-bottom: 30px;
+  display: flex;
+  justify-content: center;
+}
+.Numbers div {
+  display: flex;
+  margin-top: 20px;
+  flex-direction: column;
+  align-items: center;
+}
+.Numbers div h1 {
+  color: #0FE8E8;
+  font-size: 50px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 62px; /* 124% */
+}
+.Numbers div h4 {
+  color: #7E8799;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 22px; /* 110% */
+}
+
+.SmallCard {
+  width: 100%;
+  border-radius: var(--Border-radius-M, 4px);
+  border: 1px solid #EDEFF2;
+  background: #FFF;
+}
+.SmallCard img {
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+.SmallCard span {
+  color: #A3AED0;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  margin-top: 20px;
+  line-height: 133.4%; /* 16.008px */
+}
+.SmallCard h5 {
+  color: #2B3674;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 133.4%; /* 24.012px */
+}/*# sourceMappingURL=SingleProductDetials.module.css.map */

@@ -1,0 +1,186 @@
+/* Light mode styles */
+
+.ChartCard {
+    border-radius: 10px;
+    border: 1px solid #EDEFF2;
+    background-color: white;
+    padding: 32px;
+
+    @media (max-width: 767px) {
+        padding: 20px;
+    }
+
+    .Doughnut {
+        width: 400px;
+        height: 400px;
+
+        @media (max-width: 767px) {
+            width: 100%;
+            height: 300px;
+        }
+    }
+
+    .ChartCardHeader {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid #EDEFF2;
+        padding-bottom: 15px;
+        margin-bottom: 20px;
+
+        p {
+            color: #7E8799;
+            font-feature-settings: 'clig' off, 'liga' off;
+            font-family: Readex Pro;
+            font-size: 18px;
+            font-style: normal;
+            font-weight: 400;
+            line-height: 20px;
+            margin: 0;
+        }
+
+        h2 {
+            color: #2B3674;
+            text-align: right;
+            font-feature-settings: 'clig' off, 'liga' off;
+            font-family: Readex Pro;
+            font-size: 22px;
+            font-style: normal;
+            font-weight: 700;
+            line-height: 28px;
+            margin: 0;
+        }
+    }
+}
+
+.sideCard {
+    display: flex;
+    background-color: white;
+    padding: 20px;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+
+    .Text {
+        color: #A3AED0;
+        font-size: 16px;
+        font-weight: 500;
+        line-height: 30px;
+        letter-spacing: -0.32px;
+    }
+
+    img {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+    }
+
+    h2 {
+        color: #2B3674;
+        font-size: 20px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: 32px;
+        letter-spacing: -0.4px;
+    }
+}
+
+.Dropdown {
+    button {
+        background-color: white;
+        color: #1E02AA !important;
+        font-weight: 600;
+        border: 1px solid #EDEFF2;
+        border-radius: 10px;
+    }
+}
+
+/* Dark mode styles */
+.darkMode .ChartCard {
+   
+        background-color: #2c2c2c !important;
+        border: 1px solid #333 !important;
+        color: #fff;
+   
+  
+}
+
+.darkMode .ChartCardHeader {
+    border-bottom: 1px solid #333;
+
+    p {
+        color: #b0b0b0;
+    }
+
+    h2 {
+        color: #ddd;
+    }
+}
+
+.darkMode .sideCard {
+    background-color: #2c2c2c;
+
+    .Text {
+        color: #555;
+    }
+
+    img {
+        border: 3px solid #777;
+    }
+
+    h2 {
+        color: #ddd;
+    }
+}
+
+.darkMode .Dropdown button {
+    background-color: #2c2c2c;
+    color: #aaa !important;
+    border: 1px solid #444;
+}
+
+/* Your existing styles */
+
+/* Dark mode styles */
+.darkMode .ChartCard {
+    background-color: #2c2c2c !important;
+    border: 1px solid #333 !important;
+    color: #fff;
+  }
+  
+  .darkMode .ChartCardHeader {
+    border-bottom: 1px solid #333;
+  
+    p {
+      color: #b0b0b0;
+    }
+  
+    h2 {
+      color: #ddd;
+    }
+  }
+  
+  .darkMode .sideCard {
+    background-color: #2c2c2c;
+  
+    .Text {
+      color: #555;
+    }
+  
+    img {
+      border: 3px solid #777;
+    }
+  
+    h2 {
+      color: #ddd;
+    }
+  }
+  
+  .darkMode .Dropdown button {
+    background-color: #2c2c2c;
+    color: #aaa !important;
+    border: 1px solid #444;
+  }
+  

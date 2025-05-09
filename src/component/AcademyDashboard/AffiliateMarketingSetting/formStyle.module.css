@@ -1,0 +1,17 @@
+.FormRadio {
+  border-radius: 8px;
+  border: 1px solid #EAECF0;
+  background: #FFF;
+  display: flex;
+  gap: 12px;
+  padding: 16px;
+  width: 100%;
+  transition: 0.4s;
+  align-items: center;
+  cursor: pointer;
+}
+.FormRadio.active {
+  background-color: #efefef;
+  color: #7E8799;
+  font-weight: 600;
+}/*# sourceMappingURL=formStyle.module.css.map */
