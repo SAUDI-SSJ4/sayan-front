@@ -18,45 +18,28 @@ export const CartProvider = ({ children }) => {
   });
 
   useEffect(() => {
-    if (!Cookies.get('cart_id')) {
-      const randomId = `cart_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
-      Cookies.set('cart_id', randomId, { path: '/' });
-    }
-  }, []);
-
-  useEffect(() => {
     localStorage.setItem('cart', JSON.stringify(cartItems));
   }, [cartItems]);
 
   const addToCart = async (course) => {
     const token = Cookies.get('student_token');
-    const cart_id = Cookies.get('cart_id');
     
-    if (!cart_id) {
-      const randomId = `cart_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`;
-      Cookies.set('cart_id', randomId, { path: '/' });
-    }
-    
+    /* Make API call to add item to cart */
     try {
-      const headers = {
-        'Accept': 'application/json',
-        'TheCookie': `cart_id=${Cookies.get('cart_id')}`
-      };
-      
-      if (token) {
-        headers['Authorization'] = `Bearer ${token}`;
-      }
-      
       const response = await axios.post('https://www.sayan-server.com/api/v1/cart/add', {
-        item_id: course.id,
-        item_type: "course",
+        course_id: course.id,
         quantity: 1
-      }, { headers });
-      
-      if (response && response.data && response.data.data) {
-        if (response.data.data.cookie_id) {
-          Cookies.set('cart_id', response.data.data.cookie_id, { path: '/' });
+      }, {
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': `Bearer ${token}`,
         }
+      });
+      
+      if (response) {
+        // document.cookie = `cart_id=${response.data.cookie_id}; path=/`;
+        console.log("response: ", response.data.data.cookie_id);
+        Cookies.set('cart_id', response.data.data.cookie_id);
       }
 
     } catch (error) {
@@ -64,7 +47,9 @@ export const CartProvider = ({ children }) => {
       return;
     }
     
+
     setCartItems(prevItems => {
+      // Check if course is already in cart
       const exists = prevItems.some(item => item.id === course.id);
       if (exists) {
         return prevItems;
@@ -74,74 +59,65 @@ export const CartProvider = ({ children }) => {
   };
 
   const removeFromCart = async (courseId) => {
+    /*
+    https://www.sayan-server.com/api/v1/cart/remove/{cart_item_id}
+    */
+   
     const token = Cookies.get('student_token');
-    const cart_id = Cookies.get('cart_id');
 
-    if (!cart_id) {
-      console.error('No cart ID found');
-      return;
-    }
-
+    /* Make API call to add item to cart */
     try {
-      const getCartResponse = await axios.get('https://www.sayan-server.com/api/v1/cart', {
+      const response = await axios.delete(`https://www.sayan-server.com/api/v1/cart/delete/${courseId}`, {}, {
         headers: {
           'Accept': 'application/json',
-          'TheCookie': `cart_id=${cart_id}`
+          'Authorization': `Bearer ${token}`,
         }
       });
       
-      const cartItem = getCartResponse.data.data.find(item => item.item_id === courseId);
-      
-      if (!cartItem) {
-        console.error(`Cart item with course ID ${courseId} not found`);
-        setCartItems(prevItems => prevItems.filter(item => item.id !== courseId));
-        return;
+      if (response) {
+        // document.cookie = `cart_id=${response.data.cookie_id}; path=/`;
+        console.log("response:", response );
       }
-      
-      const headers = {
-        'Accept': 'application/json',
-        'TheCookie': `cart_id=${cart_id}`
-      };
-      
-      if (token) {
-        headers['Authorization'] = `Bearer ${token}`;
-      }
-      
-      await axios.delete(`https://www.sayan-server.com/api/v1/cart/delete/${cartItem.cart_id}`, { 
-        headers 
-      });
-      
-      console.log(`Item ${courseId} successfully removed from cart`);
+
     } catch (error) {
-      console.error('Error removing item from cart:', error);
+      console.error('Error Removing item to cart:', error);
+      return;
     }
+
 
     setCartItems(prevItems => prevItems.filter(item => item.id !== courseId));
   };
 
   const clearCart = async () => {
-    const token = Cookies.get('student_token');
-    const cart_id = Cookies.get('cart_id');
+    /*
+    https://www.sayan-server.com/api/v1/cart/clear
+    */
 
-    if (!cart_id) {
-      console.error('No cart ID found');
+
+
+    const token = Cookies.get('student_token');
+
+    /* Make API call to add item to cart */
+    try {
+      const response = await axios.delete(`https://www.sayan-server.com/api/v1/cart/clear`, {}, {
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        }
+      });
+      
+      if (response) {
+        // document.cookie = `cart_id=${response.data.cookie_id}; path=/`;
+        console.log("response:", response );
+      }
+
+    } catch (error) {
+      console.error('Error Removing item to cart:', error);
       return;
     }
 
-    try {
-      const headers = {
-        'Accept': 'application/json',
-        'TheCookie': `cart_id=${cart_id}`
-      };
-      
-      if (token) {
-        headers['Authorization'] = `Bearer ${token}`;
-      }
-      
-      await axios.delete('https://www.sayan-server.com/api/v1/cart/clear', { headers });
-    } catch (error) {
-      console.error('Error clearing cart:', error);
-    }
+
+
 
     setCartItems([]);
   };

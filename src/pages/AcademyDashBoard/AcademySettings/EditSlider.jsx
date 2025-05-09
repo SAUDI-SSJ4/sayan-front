@@ -27,9 +27,13 @@ const validationSchema = Yup.object().shape({
   content: Yup.string().required("المحتوى مطلوب"),
   image: Yup.mixed().required("الصورة مطلوبة"),
   first_button_title: Yup.string().required("زر رئيسي مطلوب"),
-  first_button_link: Yup.string().required("الرابط الرئيسي مطلوب"),
+  first_button_link: Yup.string()
+    .required("الرابط الرئيسي مطلوب")
+    .url("يجب أن يكون رابطًا صحيحًا"),
   second_button_title: Yup.string().required("زر ثانوي مطلوب"),
-  second_button_link: Yup.string().required("الرابط الثانوي مطلوب"),
+  second_button_link: Yup.string()
+    .required("الرابط الثانوي مطلوب")
+    .url("يجب أن يكون رابطًا صحيحًا"),
 });
 
 const EditSlider = () => {
