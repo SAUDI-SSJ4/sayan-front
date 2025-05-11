@@ -13,7 +13,7 @@
   --text-color-green: #2ecc71; /* From your new classes */
   --text-color-white: #fff;
   --border-color-light: #dcdcdc;
-  --bg-white: #fff;
+  --bg-white: #ffffff;
   --font-primary: 'Noto Kufi Arabic', sans-serif;
 }
 
@@ -66,9 +66,6 @@ body {
   display: none;
 }
 
-.font-use { /* Redundant if '*' already sets the font */
-  /* font-family: var(--font-primary) !important; */
-}
 
 .mbb-0 {
   margin-bottom: 0px !important;
@@ -178,10 +175,6 @@ body {
   opacity: 1;
 }
 
-/* Subject Classes Specific */
-.noto-font { /* Redundant if '*' already sets the font */
-  /* font-family: var(--font-primary) !important; */
-}
 .title-header {
   font-size: 50px !important;
 }

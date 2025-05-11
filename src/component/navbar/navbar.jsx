@@ -30,7 +30,7 @@ const NavBar = ({ setShow, profileData }) => {
         <div>
           <div className={`${classes.Profile}`}>
             <img
-              src={profileData?.image || profileData.academy?.image || ""}
+              src={profileData?.academy?.image || profileData?.image}
               alt="user-avatar"
               onClick={() => setShowDropDown(!showDropDown)}
               className="object-cover"

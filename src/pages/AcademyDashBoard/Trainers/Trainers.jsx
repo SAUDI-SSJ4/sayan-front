@@ -58,12 +58,6 @@ export default function Trainers() {
   const columnDefs = useMemo(
     () => [
       {
-        headerName: "ID",
-        field: "id",
-        sortable: true,
-        flex: 0.5,
-      },
-      {
         headerName: "المدرب",
         field: "name",
         cellRenderer: ({ data }) => (
@@ -76,12 +70,6 @@ export default function Trainers() {
             <span>{data.name}</span>
           </div>
         ),
-      },
-      {
-        headerName: "أكاديمية",
-        field: "academy",
-        sortable: true,
-        flex: 1,
       },
       {
         headerName: "البريد الإلكتروني",

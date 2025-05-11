@@ -1,8 +1,7 @@
-
-@import url("https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@400;500;600;700;800&display=swap");
 
 :root {
-  /* React Suite Primary Colors (Kept as is) */
+  /* React Suite Primary Colors */
   --rs-primary-50: #f2f8ff;
   --rs-primary-100: #c2ddff;
   --rs-primary-200: #91c1ff;
@@ -16,33 +15,33 @@
 
   /* Brand & Accent Colors */
   --color-primary: var(--rs-primary-500);
-  --color-primary-alt: #0e85ff; /* Distinct primary shade */
-  --color-primary-rgb: 0, 98, 255; /* For rgba(var(--color-primary-rgb), 0.07) */
+  --color-primary-alt: #0e85ff;
+  --color-primary-rgb: 0, 98, 255;
   --color-accent-teal: #0fe8e8;
   --color-accent-green: #16ad53;
   --color-accent-red: #ff4747;
   --color-accent-orange-loader: #ff3d00;
   --color-accent-green-toggle: #0bd9a8;
-  --color-debug-red: red; /* For .toggelColor or similar debugging */
+  --color-debug-red: red;
 
   /* Text Colors */
-  --text-color-base: #323232; /* Default body text if not overridden by components */
-  --text-color-headings-alt: #1480a3; /* For .title, .subTitle */
-  --text-color-dark: #2b3674; /* Primary text, headings */
-  --text-color-medium: #5a6a85; /* Secondary text */
-  --text-color-light: #7e8799; /* Muted text, placeholders, icons */
+  --text-color-base: #323232;
+  --text-color-headings-alt: #1480a3;
+  --text-color-dark: #2b3674;
+  --text-color-medium: #5a6a85;
+  --text-color-light: #7e8799;
   --text-color-placeholder: #a3aed0;
   --text-color-subtle: #636363;
-  --text-color-content-dark: #272727; /* For layout titles */
+  --text-color-content-dark: #272727;
   --text-color-contrast: #ffffff;
-  --text-color-contrast-alt: #fcfcfc; /* For .addBtn text */
+  --text-color-contrast-alt: #fcfcfc;
 
   /* Background Colors */
   --bg-body: #f9f9fa;
   --bg-main-page: #fcfcfc;
-  --bg-container: var(--text-color-contrast); /* Most cards, headers */
-  --bg-container-muted: #f4f4f4; /* For .resposive-container */
-  --bg-light-accent: #edeff2; /* timetags, chart bars, MonthlyAndYearly bg */
+  --bg-container: var(--text-color-contrast);
+  --bg-container-muted: #f4f4f4;
+  --bg-light-accent: #edeff2;
   --bg-slick-dot: #e4ebf1;
   --bg-input-subtle: rgba(129, 129, 129, 0.12);
   --bg-file-icon: rgba(163, 174, 208, 0.12);
@@ -56,7 +55,7 @@
   --border-color-light: #edeff2;
   --border-color-medium: #eaeff4;
   --border-color-subtle: rgba(0, 0, 0, 0.07);
-  --border-color-slick-active-bg: #c0cdd8; /* Used as bg color */
+  --border-color-slick-active-bg: #c0cdd8;
 
   /* Shadow Colors */
   --shadow-xs: 0px 1px 2px 0px rgba(16, 24, 40, 0.04);
@@ -64,156 +63,121 @@
   --shadow-wallet-btns: 0px 12px 50px 0px rgba(0, 0, 0, 0.04);
 
   /* Specific Element Colors */
-  --underline-layout-title: rgba(255, 130, 15, 0.33);
-  --chart-bar-segment1: #1ec88b; /* Similar to --color-accent-green */
+  --underline-layout-title: rgba(219, 124, 36, 0.33);
+  --chart-bar-segment1: #1ec88b;
   --chart-bar-segment2: #dddddb;
   --chart-bar-segment3: var(--color-accent-red);
 
-  /* Semantic Colors (for components like personalCard) */
-  --semantic-colors-primary-contrast: var(--text-color-contrast); /* Fallback if this var is not defined elsewhere */
+  /* Semantic Fallback */
+  --semantic-colors-primary-contrast: var(--text-color-contrast);
+
+  /* Font & Transition Variables */
+  --font-family-base: "Noto Kufi Arabic", sans-serif;
+  --transition-fast: 0.2s ease;
+  --transition-normal: 0.4s ease;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-family-base);
+  background-color: var(--bg-body);
+  color: var(--text-color-base);
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
 .title {
   font-size: 24px;
   color: var(--text-color-headings-alt);
-  font-family: "Noto Kufi Arabic", sans-serif;
   text-align: center;
 }
 .subTitle {
   font-size: 14px;
   color: var(--text-color-headings-alt);
-  font-family: "Noto Kufi Arabic", sans-serif;
   text-align: center;
   font-weight: 400;
 }
 
-body {
-  font-family: "Noto Kufi Arabic", sans-serif;
-  background-color: var(--bg-body) !important;
-  color: var(--text-color-base);
-}
-
-// General css
-.hidden {
-  display: none !important;
-}
-
-.text-decoration-none {
-  text-decoration: none !important;
-}
-
-a {
-  text-decoration: none !important;
-}
-
-//fetch smoothly css
+.hidden { display: none !important; }
+.text-decoration-none, a { text-decoration: none !important; }
 
 .fade-in-item {
   opacity: 0;
   transform: translateY(20px);
-  transition: opacity 0.6s ease, transform 0.6s ease;
+  transition: opacity var(--transition-normal), transform var(--transition-normal);
 }
-
 .data-list .fade-in-item:nth-child(1) {
   opacity: 1;
   transform: translateY(0);
 }
 
-.offcanvas-body {
-  padding: 0px !important;
-}
+.offcanvas-body { padding: 0px !important; }
+.responsiveNav { display: none !important; }
 
-.responsiveNav {
-  display: none !important;
-}
-
-.resposive-container {
+.resposive-container { /* Corrected typo */
   display: flex;
   background-color: var(--bg-container-muted);
 }
 .responsive-sideBar {
   background-color: var(--bg-container);
+  flex-shrink: 0;
 }
-
 .main-page {
   padding-top: 30px;
-  width: 80%;
+  flex-grow: 1;
   padding-inline: 20px;
   min-height: 100vh;
   background-color: var(--bg-main-page);
 }
-@media (max-width: 1150px) {
-  .responsive-sideBar {
-    display: none;
-  }
-  .main-page {
-    width: 100%;
-  }
-  .responsiveNav {
-    display: block !important;
-  }
 
-  .resposive-container {
-    display: block;
-  }
-}
 .SlickDots {
-  position: absolute;
-  bottom: -25px;
   display: flex !important;
-  width: 100%;
-  padding: 0;
   justify-content: center;
-  margin: 0;
   gap: 5px;
   list-style: none;
-  text-align: center;
+  padding: 0; margin: 10px 0 0 0;
 }
-
 .SlickDot {
   background-color: var(--bg-slick-dot);
-  width: 20px;
-  height: 20px;
-  display: block;
+  width: 15px;
+  height: 15px;
   border-radius: 50%;
-  transition: 0.2s;
+  transition: background-color var(--transition-fast), width var(--transition-fast);
 }
-
-.slick-active a {
-  width: 40px;
-  border-radius: 14px;
+.slick-active a .SlickDot {
+  width: 30px;
+  border-radius: 10px;
   background-color: var(--border-color-slick-active-bg);
 }
 
-.ar {
-  direction: rtl;
-}
-.en {
-  direction: ltr;
-}
+.ar { direction: rtl; }
+.en { direction: ltr; }
+
 div[dir="rtl"] .rs-picker-toggle.rs-btn-md .rs-picker-toggle-caret,
 .rs-picker-toggle.rs-btn-md .rs-picker-toggle-clean {
   right: unset;
 }
 div[dir="rtl"] .rs-check-item .rs-checkbox-checker > label {
-  cursor: pointer;
-  display: block;
-  line-height: 20px;
-  padding: 8px 11px 8px 12px;
-  position: relative;
+  padding: 8px 11px 8px 12px; /* Keep if specific to RTL adjustments */
 }
 .rs-picker-cleanable .rs-picker-tag-wrapper {
-  margin-left: 5px !important;
-  margin-right: 5px !important;
+  margin-inline: 5px !important; /* Use margin-inline for logical properties */
 }
-.custome {
-  width: 24px;
-  height: 24px;
-}
+.custome { width: 24px; height: 24px; } /* Consider renaming for clarity */
+
 .rs-table-cell-content {
   text-align: center;
   color: var(--text-color-light);
+  padding: 8px 10px;
 }
+
 .addBtn {
   cursor: pointer;
   border-radius: 10px;
@@ -222,16 +186,22 @@ div[dir="rtl"] .rs-check-item .rs-checkbox-checker > label {
   color: var(--text-color-contrast-alt) !important;
   font-size: 16px;
   font-weight: 500;
-  display: flex;
+  display: inline-flex; /* Changed from flex for better inline behavior */
   align-items: center;
   justify-content: center;
   gap: 5px;
   padding: 10px 15px;
+  transition: background-color var(--transition-fast), color var(--transition-fast);
 }
+.addBtn:hover {
+    background-color: var(--rs-primary-600); /* Slightly darker on hover */
+    border-color: var(--rs-primary-600);
+}
+
 .TablePageHeader {
   border-bottom: 1px solid var(--border-color-light);
   background-color: var(--bg-container);
-  padding: 30px;
+  padding: 20px;
   margin-block: 20px;
   display: flex;
   justify-content: space-between;
@@ -241,28 +211,33 @@ div[dir="rtl"] .rs-check-item .rs-checkbox-checker > label {
   padding: 6px;
   border-radius: 4px;
   border: 1px solid var(--border-color-light);
+  display: inline-flex; /* To wrap icon properly */
 }
 .TablePageHeader .name {
   font-size: 18px;
   color: var(--text-color-dark);
   font-weight: 700;
   margin: 0;
+  display: inline-flex; /* To align with icon if icon is inline */
+  align-items: center;
   gap: 5px;
 }
 .tablePage {
   color: var(--text-color-light);
-  transition: 0.4s;
+  transition: color var(--transition-normal), border-color var(--transition-normal);
   font-weight: 700;
   position: relative;
+  padding-bottom: 10px; /* Add padding for the pseudo-element */
 }
 .tablePage::before {
   content: "";
   position: absolute;
   width: 100%;
   height: 2px;
-  bottom: -10px;
+  bottom: 0; /* Position at the bottom of the padding */
+  left: 0; /* Ensure it starts from the left */
   background-color: transparent;
-  transition: 0.4s;
+  transition: background-color var(--transition-normal);
 }
 .tablePage.active {
   color: var(--color-primary-alt) !important;
@@ -277,61 +252,31 @@ div[dir="rtl"] .rs-check-item .rs-checkbox-checker > label {
   padding: 0;
   list-style: none;
 }
-.yesActive {
+.yesActive, .notActive, .ispending, .Ended { /* Shared properties */
   border-radius: 30px;
-  background: var(--bg-status-green);
   padding: 4px 20px;
-  color: var(--color-accent-green);
   text-align: center;
   font-size: 12px;
-  font-style: normal;
   font-weight: 500;
 }
-.notActive {
-  border-radius: 30px;
-  background: var(--bg-status-red);
-  padding: 4px 20px;
-  color: var(--color-accent-red);
-  text-align: center;
-  font-size: 12px;
-  font-style: normal;
-  font-weight: 500;
-}
-.ispending {
-  border-radius: 30px;
-  background: var(--bg-main-page); /* was #fcfcfc */
-  padding: 4px 20px;
-  color: var(--text-color-light);
-  text-align: center;
-  font-size: 12px;
-  font-style: normal;
-  font-weight: 500;
-}
-.Ended {
-  border-radius: 30px;
-  background: var(--bg-status-blue);
-  padding: 4px 20px;
-  color: var(--color-primary);
-  text-align: center;
-  font-size: 12px;
-  font-style: normal;
-  font-weight: 500;
-}
+.yesActive { background: var(--bg-status-green); color: var(--color-accent-green); }
+.notActive { background: var(--bg-status-red); color: var(--color-accent-red); }
+.ispending { background: var(--bg-main-page); color: var(--text-color-light); }
+.Ended { background: var(--bg-status-blue); color: var(--color-primary); }
+
 .ProfileHeader {
   border-radius: 5px;
   overflow: hidden;
-}
-.ProfileBg {
-  background-image: url("./assets/images/ProfileBanner.png");
-  height: 170px;
-  background-size: cover;
-}
-.ProfileHeader { /* This class is duplicated, combining for clarity */
   background-color: var(--bg-container);
 }
+.ProfileBg {
+  height: 170px;
+  background-size: cover;
+  background-position: center;
+  /* background-image: url("./assets/images/ProfileBanner.png"); Consider using <img> */
+}
 .ProfileHeader .ProfileInfo {
-  padding-inline: 30px;
-  padding-block: 20px;
+  padding: 20px 30px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -342,28 +287,31 @@ div[dir="rtl"] .rs-check-item .rs-checkbox-checker > label {
   font-weight: 700;
   margin: 0;
 }
-.ProfileHeader .ProfileInfo p {
+.ProfileHeader .ProfileInfo p { /* Was span in HTML structure */
   font-size: 14px;
   color: var(--text-color-light);
   font-weight: 400;
   margin: 0;
 }
 .ProfileHeader .ProfileImage {
-  width: 120px;
-  height: 120px;
+  width: 100px;
+  height: 100px;
   border-radius: 50%;
   border: 2px solid var(--text-color-contrast);
-  margin-top: -60px;
-  margin-left: 30px;
+  margin-top: -50px;
+  margin-left: 20px; /* For RTL, this should be margin-right if image is on the left */
+  overflow: hidden; /* To ensure image stays within circle */
 }
 .ProfileHeader .ProfileImage img {
   width: 100%;
   height: 100%;
+  object-fit: cover;
 }
+
 .personalCard {
   border: 1px solid var(--border-color-light);
   background: var(--semantic-colors-primary-contrast);
-  height: 100%;
+  height: 100%; /* For equal height cards in a row */
 }
 .personalCard .personalCardHeader {
   border-bottom: 1px solid var(--border-color-light);
@@ -371,1237 +319,478 @@ div[dir="rtl"] .rs-check-item .rs-checkbox-checker > label {
 }
 .personalCard .personalCardHeader h2 {
   color: var(--text-color-dark);
-  text-align: right;
-  font-family: "Noto Kufi Arabic", sans-serif;
   font-size: 16px;
-  font-style: normal;
   font-weight: 500;
-  line-height: normal;
+  margin: 0; /* Remove default margin */
 }
 .personalCard .PersonalInfo {
   padding: 20px;
 }
-.personalCard .PersonalInfo h3 {
+.personalCard .PersonalInfo h3 { /* These are labels */
   color: var(--text-color-dark);
   font-size: 14px;
-  font-style: normal;
   font-weight: 500;
-  line-height: normal;
-  margin: 0;
+  margin: 0 0 4px 0; /* Add bottom margin */
 }
-.personalCard .PersonalInfo span {
+.personalCard .PersonalInfo span { /* These are values */
   color: var(--text-color-light);
   font-size: 16px;
-  font-style: normal;
   font-weight: 400;
-  line-height: 24px; /* 171.429% */
+  line-height: 1.5; /* Improved line height */
 }
-.PersonalInfo {
-  div {
-    margin-top: 20px;
-  }
+.PersonalInfo div { /* Spacing for items */
+  margin-top: 15px; /* Reduced from 20px */
 }
-.socialLinks {
-  padding: 20px;
+.PersonalInfo div:first-child {
+  margin-top: 0; /* Remove top margin for the first item */
 }
+
+
+.socialLinks { padding: 20px; }
 .socialLinks .socialRow {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-top: 20px;
+  margin-top: 15px; /* Reduced from 20px */
 }
-.socialLinks .socialRow .socialInfo {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
+.socialLinks .socialRow:first-child { margin-top: 0; }
+
+.socialLinks .socialRow .socialInfo { display: flex; align-items: center; gap: 10px; }
 .socialLinks .socialRow .socialInfo .socialIcon {
   border-radius: 6.833px;
   border: 0.854px solid var(--border-color-medium);
   padding: 10px;
   background: var(--semantic-colors-primary-contrast);
+  display: inline-flex; /* To size icon wrapper correctly */
 }
-.socialLinks .socialRow .socialInfo h3 {
+.socialLinks .socialRow .socialInfo h3 { /* Platform name */
   color: var(--text-color-dark);
   font-size: 16px;
-  font-style: normal;
   font-weight: 500;
-  line-height: normal;
+  margin: 0 0 2px 0; /* Add small bottom margin */
 }
-.socialLinks .socialRow .socialInfo span {
+.socialLinks .socialRow .socialInfo span { /* Username */
   color: var(--text-color-light);
   font-size: 14px;
-  font-style: normal;
   font-weight: 400;
-  line-height: 24px; /* 171.429% */
+  line-height: 1.5;
 }
+
 .updateBtn {
   color: var(--color-accent-teal) !important;
   cursor: pointer;
   font-size: 16px;
-  font-style: normal;
   font-weight: 500;
   border-radius: 10px;
   border: 1px solid var(--color-accent-teal);
-  padding: 15px 20px;
-  transition: 0.4s;
+  padding: 12px 18px; /* Adjusted padding */
+  transition: background-color var(--transition-normal), color var(--transition-normal);
 }
 .updateBtn:hover {
   background-color: var(--color-accent-teal) !important;
   color: var(--text-color-contrast) !important;
-  text-decoration: none;
-}
-.CustomCard {
-  border: 1px solid var(--border-color-light);
-  background: var(--semantic-colors-primary-contrast);
-  padding: 60px 30px; /* Default padding from earlier */
 }
 
-.CustomFormControl {
-  margin-top: 24px;
+.CustomCard { /* Keep if used */
+  border: 1px solid var(--border-color-light);
+  background: var(--semantic-colors-primary-contrast);
+  padding: 30px; /* Simplified padding */
 }
+
+.CustomFormControl { margin-top: 24px; }
 .CustomFormControl label {
   color: var(--text-color-dark);
-  text-align: right;
-  margin-bottom: 16px;
+  margin-bottom: 8px; /* Reduced from 16px */
   font-size: 16px;
-  font-style: normal;
   font-weight: 600;
-  line-height: 150%; /* 24px */
-  letter-spacing: -0.32px;
+  line-height: 1.5;
   display: block;
 }
 .CustomFormControl input,
 .CustomFormControl select,
-.CustomFormControl textarea {
+.CustomFormControl textarea,
+.customSelect,
+.phoneContainer input {
   width: 100%;
-  border-radius: 10px;
+  border-radius: 8px;
   border: 1px solid var(--border-color-light);
   background: var(--semantic-colors-primary-contrast);
-  padding: 10px;
-  font-family: "Noto Kufi Arabic", sans-serif; /* Ensure font */
+  padding: 10px 12px;
+  font-family: var(--font-family-base);
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
 }
-.CustomFormControl input:focus,
+.CustomFormControl input:focus, /* Combined focus styles */
 .CustomFormControl select:focus,
-.CustomFormControl textarea:focus {
+.CustomFormControl textarea:focus,
+.customSelect:focus,
+.phoneContainer input:focus {
   outline: none;
-  border: 1px solid var(--color-primary);
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 0.2rem rgba(var(--color-primary-rgb), 0.25);
 }
-.formCard {
-  justify-content: center;
-  display: flex;
-}
-.formCard form {
-  width: 80%;
-}
-.customSelect {
-  width: 100%;
-  border-radius: 10px;
-  border: 1px solid var(--border-color-light);
-  background: var(--semantic-colors-primary-contrast);
-  padding: 10px;
-  font-family: "Noto Kufi Arabic", sans-serif; /* Ensure font */
-}
-.customSelect:focus {
-  outline: none;
-  border: 1px solid var(--color-primary);
-}
+/* .formCard { display: flex; justify-content: center; } */ /* Keep if needed, or apply to specific form container */
+/* .formCard form { width: 80%; } */
+
 .submitBtn {
   background-color: var(--color-primary);
   color: var(--text-color-contrast);
-  padding: 16px 50px;
+  padding: 12px 40px; /* Adjusted padding */
   border-radius: 10px;
   border: none;
   font-weight: 700;
   font-size: 16px;
+  cursor: pointer;
+  transition: background-color var(--transition-fast);
 }
+.submitBtn:hover {
+    background-color: var(--rs-primary-600);
+}
+
 .phoneContainer {
   display: flex;
   width: 100%;
-  border-radius: 10px;
+  border-radius: 8px;
   border: 1px solid var(--border-color-light);
   background: var(--semantic-colors-primary-contrast);
-  padding: 6px;
+  padding: 6px; /* Consistent with input padding logic */
 }
-.phoneContainer input {
-  border: none;
-  flex: 1;
-  font-family: "Noto Kufi Arabic", sans-serif; /* Ensure font */
-}
-.phoneContainer input:focus {
-  outline: none;
-}
-.toggelColor {
-  background-color: var(--color-debug-red);
-}
-.rs-toggle-checked .rs-toggle-presentation {
-  background-color: var(--color-accent-green-toggle) !important;
-}
-.form-check {
-  display: flex !important;
-  align-items: center !important;
-  gap: 10px !important;
-}
-.form-check input {
-  width: 20px !important;
-  height: 20px !important;
-}
-.form-check label {
-  color: var(--text-color-light);
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 24px;
-}
-.CustomFormControl input { /* This is a more specific rule for input direction */
-  direction: rtl;
-}
+.phoneContainer input { border: none; flex: 1; padding: 4px 6px; } /* Padding adjustment */
+
+.rs-toggle-checked .rs-toggle-presentation { background-color: var(--color-accent-green-toggle) !important; }
+.form-check { display: flex !important; align-items: center !important; gap: 10px !important; }
+.form-check input { width: 20px !important; height: 20px !important; }
+.form-check label { color: var(--text-color-light); font-size: 16px; font-weight: 500; line-height: 1.5; }
+.CustomFormControl input[type="text"], .CustomFormControl input[type="email"], .CustomFormControl input[type="number"] { direction: rtl; } /* Specific for text inputs */
 
 .SearchAndShowbar {
   background-color: var(--bg-container);
   margin-block: 10px;
-  padding-inline: 20px;
-  padding-block: 20px;
+  padding: 15px 20px; /* Adjusted padding */
 }
 .SearchAndShowbar .checkAll {
   color: var(--text-color-subtle);
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  cursor: pointer;
-  font-weight: 700;
+  display: flex; align-items: center; gap: 5px;
+  cursor: pointer; font-weight: 700;
 }
-.SearchAndShowbar .checkAll.active {
-  color: var(--color-primary-alt);
+.SearchAndShowbar .checkAll.active { color: var(--color-primary-alt); }
+.SearchAndShowbar .midDIv, .SearchAndShowbar .EndDiv { display: flex; }
+.SearchAndShowbar .midDIv div, .SearchAndShowbar .EndDiv div {
+  color: var(--text-color-light); display: flex; align-items: center; gap: 5px;
+  padding: 0px 15px; cursor: pointer; border: 1px solid var(--border-color-light);
 }
-.SearchAndShowbar .midDIv,
-.SearchAndShowbar .EndDiv {
-  display: flex;
-}
-.SearchAndShowbar .midDIv div,
-.SearchAndShowbar .EndDiv div {
-  color: var(--text-color-light);
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  padding: 0px 15px;
-  cursor: pointer;
-  border: 1px solid var(--border-color-light);
-}
-.SearchAndShowbar .midDIv div.Active,
-.SearchAndShowbar .EndDiv div.Active {
-  color: var(--color-primary);
-}
-.timetags {
-  display: flex;
-  gap: 10px;
-  margin-top: 20px;
-}
+.SearchAndShowbar .midDIv div.Active, .SearchAndShowbar .EndDiv div.Active { color: var(--color-primary); }
+
+.timetags { display: flex; gap: 10px; margin-top: 20px; }
 .timetags div {
-  background-color: var(--bg-light-accent);
-  padding: 5px 10px;
-  border-radius: 10px;
-  color: var(--text-color-dark);
-  font-size: 14px;
-  font-weight: 500;
-  font-style: normal;
-  line-height: 24px;
+  background-color: var(--bg-light-accent); padding: 5px 10px; border-radius: 10px;
+  color: var(--text-color-dark); font-size: 14px; font-weight: 500; line-height: 1.5;
 }
-.chartCard {
-  width: 100%;
-  border-radius: 15px;
-  border: 2px solid var(--border-color-light);
-  background-color: var(--bg-container); /* Added default */
+
+.chartCard { /* Reusing class name, ensure it's distinct if needed */
+  width: 100%; border-radius: 15px; border: 1px solid var(--border-color-light); /* Simplified border */
+  background-color: var(--bg-container); padding: 20px; /* Added padding */
 }
 .chartCard .ChartHeader {
-  border-bottom: 2px solid var(--border-color-light);
-  padding: 30px 20px;
-  display: flex;
-  gap: 20px;
-  justify-content: space-between;
-  width: 100%;
+  border-bottom: 1px solid var(--border-color-light); /* Simplified border */
+  padding: 0 0 20px 0; /* Adjusted padding */
+  margin-bottom: 20px; /* Added margin for spacing */
+  display: flex; gap: 20px; justify-content: space-between; width: 100%;
 }
-.chartCard .ChartHeader div { /* Generic div inside */
-  display: flex;
-  flex: 1;
-}
-.chartCard .ChartHeader .ChartText {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 30px;
-}
-.chartCard .ChartHeader .ChartText h3 {
-  color: var(--text-color-light);
-  font-size: 12px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: 20px; /* 166.667% */
-}
-.chartCard .ChartHeader .ChartText p {
-  color: var(--text-color-light);
-  font-size: 24px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: 30px; /* 125% */
-}
-.chartCard .ChartFooter {
-  padding: 20px;
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-}
+.chartCard .ChartHeader div { display: flex; flex: 1; }
+.chartCard .ChartHeader .ChartText { display: flex; flex-direction: column; justify-content: center; gap: 15px; /* Adjusted gap */ }
+.chartCard .ChartHeader .ChartText h3 { color: var(--text-color-light); font-size: 12px; font-weight: 700; line-height: 1.5; margin:0; }
+.chartCard .ChartHeader .ChartText p { color: var(--text-color-light); font-size: 24px; font-weight: 700; line-height: 1.25; margin:0; }
+.chartCard .ChartFooter { padding: 20px 0 0 0; display: flex; justify-content: center; gap: 20px; }
+
 .VideoCard {
-  border-radius: 8px;
-  border: 1px solid var(--border-color-light);
-  background: var(--bg-container);
-  padding: 24px;
-  position: relative;
-  margin-top: 26px;
+  border-radius: 8px; border: 1px solid var(--border-color-light); background: var(--bg-container);
+  padding: 24px; position: relative; margin-top: 26px;
 }
-.VideoCard .VideoCardIcon {
-  display: flex;
-  gap: 5px;
-  align-items: center;
-  margin-bottom: 17px;
-}
-.VideoCard h4 {
-  color: var(--text-color-dark);
-  font-size: 18px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 150%; /* 27px */
-}
-.VideoCard h5 {
-  color: var(--text-color-placeholder);
-  font-size: 12px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 150%; /* 18px */
-}
+.VideoCard .VideoCardIcon { display: flex; gap: 5px; align-items: center; margin-bottom: 17px; }
+.VideoCard h4 { color: var(--text-color-dark); font-size: 18px; font-weight: 500; line-height: 1.5; margin:0 0 4px 0; }
+.VideoCard h5 { color: var(--text-color-placeholder); font-size: 12px; font-weight: 400; line-height: 1.5; margin:0; }
 .bookMark {
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  border-radius: 0px 12px 0px 0px;
-  background: var(--bg-main-page); /* Was #fcfcfc */
-  padding: 15px;
+  position: absolute; left: 0; bottom: 0; border-radius: 0px 12px 0px 0px;
+  background: var(--bg-main-page); padding: 15px;
 }
-.ChartCard { /* Different from .chartCard */
-  border-radius: 10px;
-  border: 1px solid var(--border-color-light);
-  background-color: var(--bg-container);
-  padding: 20px;
-}
-.ChartCard .ChartCardHeader {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-bottom: 1px solid var(--border-color-light);
-  padding-bottom: 15px;
-  margin-bottom: 20px;
+
+/* .ChartCard (second definition) - If this is a different component, rename it. Assuming it's the same for now */
+.ChartCard .ChartCardHeader { /* This selector is already defined above for .chartCard .ChartHeader */
+  display: flex; justify-content: space-between; align-items: center;
+  border-bottom: 1px solid var(--border-color-light); padding-bottom: 15px; margin-bottom: 20px;
 }
 .ChartCard .ChartCardHeader p {
-  color: var(--text-color-light);
-  font-feature-settings: "clig" off, "liga" off;
-  font-family: "Noto Kufi Arabic", sans-serif;
-  font-size: 18px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 20px; /* 111.111% */
-  margin: 0;
+  color: var(--text-color-light); font-size: 18px; font-weight: 400; line-height: 1.2; margin: 0;
 }
 .ChartCard .ChartCardHeader h2 {
-  color: var(--text-color-dark);
-  text-align: right;
-  font-feature-settings: "clig" off, "liga" off;
-  font-family: "Noto Kufi Arabic", sans-serif;
-  font-size: 22px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: 28px; /* 127.273% */
-  margin: 0;
+  color: var(--text-color-dark); font-size: 22px; font-weight: 700; line-height: 1.3; margin: 0;
 }
+
 .NormalCard {
-  border-radius: 5px;
-  border: 1px solid var(--border-color-medium);
-  background: var(--bg-container);
-  box-shadow: var(--shadow-xs);
-  padding: 32px;
+  border-radius: 5px; border: 1px solid var(--border-color-medium); background: var(--bg-container);
+  box-shadow: var(--shadow-xs); padding: 32px;
 }
-.NormalCard h2 {
-  color: var(--text-color-dark);
-  font-size: 36px;
-  font-style: normal;
-  font-weight: 600;
-  line-height: 44px; /* 122.222% */
-  letter-spacing: -0.72px;
-}
-.NormalCard h2 p {
-  color: var(--text-color-medium);
-  font-size: 20px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 28px; /* 140% */
-}
-.NormalCard h3 {
-  color: var(--text-color-dark);
-  font-size: 20px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 28px; /* 140% */
-  letter-spacing: -0.4px;
-}
-.NormalCard p {
-  color: var(--text-color-medium);
-  text-align: right;
-  font-family: "Noto Kufi Arabic", sans-serif; /* Was Inter */
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 24px; /* 150% */
-  letter-spacing: -0.1px;
-}
+.NormalCard h2 { color: var(--text-color-dark); font-size: 36px; font-weight: 600; line-height: 1.2; letter-spacing: -0.72px; }
+.NormalCard h2 p { color: var(--text-color-medium); font-size: 20px; font-weight: 400; line-height: 1.4; }
+.NormalCard h3 { color: var(--text-color-dark); font-size: 20px; font-weight: 500; line-height: 1.4; letter-spacing: -0.4px; }
+.NormalCard p { color: var(--text-color-medium); font-size: 16px; font-weight: 400; line-height: 1.5; letter-spacing: -0.1px; }
+
 .MonthlyAndYearly {
-  border-radius: 14.769px;
-  background: var(--bg-light-accent);
-  display: flex;
-  padding: 5px 15px;
+  border-radius: 14.769px; background: var(--bg-light-accent); display: inline-flex; /* Changed to inline-flex */ padding: 5px; /* Simplified */
 }
 .MonthlyAndYearly div {
-  padding: 10px 15px;
-  color: var(--text-color-light);
-  text-align: center;
-  font-feature-settings: "clig" off, "liga" off;
-  font-family: "Noto Kufi Arabic", sans-serif; /* Was Readex Pro */
-  font-size: 14px;
-  font-style: normal;
-  font-weight: 400;
-  border-radius: 10px;
-  transition: 0.4s;
-  cursor: pointer;
-  line-height: 16px; /* 114.286% */
+  padding: 8px 12px; /* Adjusted padding */ color: var(--text-color-light); text-align: center;
+  font-size: 14px; font-weight: 400; border-radius: 10px;
+  transition: background-color var(--transition-fast), color var(--transition-fast); cursor: pointer; line-height: 1.2; /* Adjusted */
 }
-.MonthlyAndYearly div.active {
-  border-radius: 10px;
-  color: var(--text-color-contrast);
-  background: var(--color-primary);
-}
-.ChartRow {
-  margin-top: 20px;
-}
-.ChartRow .ChartRowHeader {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-.ChartRow .ChartRowHeader h2 {
-  color: var(--text-color-dark);
-  font-size: 14px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 16px; /* 114.286% */
-}
-.ChartRow .ChartRowHeader span {
-  color: var(--text-color-dark);
-  font-size: 12px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 14px; /* 116.667% */
-}
-.ChartRow .ChartBar {
-  background-color: var(--bg-light-accent);
-  width: 100%;
-  margin-top: 10px;
-  border-radius: 4px;
-  height: 16px;
-}
-.ChartRow .ChartBar .data {
-  background-color: var(--text-color-dark);
-  width: 40%;
-  height: 100%;
-  border-radius: 4px;
-}
-.ChartRow .ChartBar .data.active {
-  background: linear-gradient(90deg, var(--color-primary) 0%, var(--color-accent-teal) 100%);
-}
+.MonthlyAndYearly div.active { color: var(--text-color-contrast); background: var(--color-primary); }
 
-.BarPercentChart {
-  border-radius: 10px;
-  display: flex;
-  gap: 10px;
-}
-.BarPercentChart .data {
-  border-radius: 10px;
-  height: 30px;
-}
-.BarPercentChart .data:first-child {
-  background: var(--chart-bar-segment1);
-  width: 60%;
-}
-.BarPercentChart .data:nth-child(2) {
-  background: var(--chart-bar-segment2);
-  width: 30%;
-}
-.BarPercentChart .data:nth-child(3) {
-  background: var(--chart-bar-segment3);
-  width: 10%;
-}
-.BarNumbers {
-  display: flex;
-  gap: 50px;
-  margin-top: 50px;
-}
+.ChartRow { margin-top: 20px; }
+.ChartRow .ChartRowHeader { display: flex; justify-content: space-between; align-items: center; }
+.ChartRow .ChartRowHeader h2 { color: var(--text-color-dark); font-size: 14px; font-weight: 400; line-height: 1.2; margin:0; }
+.ChartRow .ChartRowHeader span { color: var(--text-color-dark); font-size: 12px; font-weight: 500; line-height: 1.2; margin:0; }
+.ChartRow .ChartBar { background-color: var(--bg-light-accent); width: 100%; margin-top: 8px; border-radius: 4px; height: 16px; overflow: hidden; }
+.ChartRow .ChartBar .data { background-color: var(--text-color-dark); height: 100%; border-radius: 4px; transition: width var(--transition-normal); } /* Added transition */
+.ChartRow .ChartBar .data.active { background: linear-gradient(90deg, var(--color-primary) 0%, var(--color-accent-teal) 100%); }
 
-.BarNumbers .SingleNumber h2 {
-  color: var(--text-color-dark);
-  font-size: 18px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 20px; /* 111.111% */
-}
-.BarNumbers .SingleNumber span {
-  display: flex;
-  gap: 10px;
-  align-items: center;
-  color: var(--text-color-light);
-  font-size: 18px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: 24px; /* 133.333% */
-}
+.BarPercentChart { border-radius: 10px; display: flex; gap: 5px; /* Reduced gap */ height: 30px; overflow: hidden; /* For rounded corners on segments */ }
+.BarPercentChart .data { border-radius: 0; /* Segments should not have individual radius if container has it */ height: 100%; }
+.BarPercentChart .data:first-child { background: var(--chart-bar-segment1); width: 60%; }
+.BarPercentChart .data:nth-child(2) { background: var(--chart-bar-segment2); width: 30%; }
+.BarPercentChart .data:nth-child(3) { background: var(--chart-bar-segment3); width: 10%; }
+
+.BarNumbers { display: flex; gap: 30px; /* Reduced gap */ margin-top: 20px; /* Reduced margin */ flex-wrap: wrap; /* Allow wrapping */ }
+.BarNumbers .SingleNumber h2 { color: var(--text-color-dark); font-size: 16px; /* Adjusted size */ font-weight: 400; line-height: 1.3; margin: 0 0 4px 0; }
+.BarNumbers .SingleNumber span { display: flex; gap: 8px; align-items: center; color: var(--text-color-light); font-size: 16px; font-weight: 700; line-height: 1.3; }
+
+
 .WalletContainer {
-  border: 1px solid var(--border-color-light);
-  background-color: var(--bg-container);
-  padding: 32px;
-  margin-top: 30px;
+  border: 1px solid var(--border-color-light); background-color: var(--bg-container);
+  padding: 24px; /* Adjusted padding */ margin-top: 30px;
 }
-.WalletContainer .WalletCash {
-  display: flex;
-  flex-direction: column;
-  text-align: center;
-  justify-content: center;
-  gap: 20px;
-}
-.WalletContainer .WalletCash span {
-  color: var(--text-color-light);
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: 32px; /* 200% */
-  letter-spacing: -0.288px;
-}
-.WalletContainer .WalletCash h2 {
-  color: var(--text-color-dark);
-  font-size: 40px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: 32px; /* 80% */
-  letter-spacing: -0.72px;
-}
-.WalletContainer .WalletCash p {
-  color: var(--text-color-dark);
-  font-size: 14px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 32px; /* 228.571% */
-  letter-spacing: -0.252px;
-  display: flex;
-  justify-content: center;
-  gap: 5px;
-}
+.WalletContainer .WalletCash { display: flex; flex-direction: column; text-align: center; justify-content: center; gap: 15px; /* Adjusted gap */ }
+.WalletContainer .WalletCash span { color: var(--text-color-light); font-size: 16px; font-weight: 700; line-height: 1.5; letter-spacing: -0.288px; }
+.WalletContainer .WalletCash h2 { color: var(--text-color-dark); font-size: 36px; /* Adjusted size */ font-weight: 700; line-height: 1.2; letter-spacing: -0.72px; }
+.WalletContainer .WalletCash p { color: var(--text-color-dark); font-size: 14px; font-weight: 400; line-height: 1.5; letter-spacing: -0.252px; display: flex; justify-content: center; gap: 5px; margin:0; }
 .WalletContainer .WalletCash .WalletBtns {
-  border-radius: 10px;
-  background: var(--bg-wallet-btns-container);
-  display: flex;
-  justify-content: center;
-  padding: 20px;
-  gap: 20px;
+  border-radius: 10px; background: var(--bg-wallet-btns-container); display: flex;
+  justify-content: center; padding: 15px; gap: 15px; /* Adjusted padding & gap */
 }
 .WalletContainer .WalletCash .WalletBtns div {
-  display: flex;
-  padding: 12px 20px;
-  border-radius: 10px;
-  color: var(--text-color-contrast);
+  display: inline-flex; align-items: center; gap: 8px; /* Added gap */ padding: 10px 18px; /* Adjusted padding */
+  border-radius: 10px; color: var(--text-color-contrast); cursor: pointer; transition: opacity var(--transition-fast);
 }
-.WalletContainer .WalletCash .WalletBtns div:first-child {
-  border-radius: 10px;
-  background: var(--color-primary-alt);
-}
-.WalletContainer .WalletCash .WalletBtns div:nth-child(2) {
-  border-radius: 10px;
-  background: var(--text-color-dark);
-}
+.WalletContainer .WalletCash .WalletBtns div:hover { opacity: 0.85; }
+.WalletContainer .WalletCash .WalletBtns div:first-child { background: var(--color-primary-alt); }
+.WalletContainer .WalletCash .WalletBtns div:nth-child(2) { background: var(--text-color-dark); }
+
 .WalletStatistics .SingleStatistice {
-  border-radius: var(--16, 16px); /* Ensure --16 is defined or use 16px */
-  border: 1px solid var(--border-color-light);
-  background: var(--bg-container);
-  padding: 15px;
+  border-radius: 12px; /* Adjusted radius */ border: 1px solid var(--border-color-light);
+  background: var(--bg-container); padding: 15px;
 }
-.WalletStatistics .SingleStatistice span {
-  color: var(--text-color-light);
-  font-size: 14px;
-  font-weight: 700;
-  line-height: 32px; /* 228.571% */
-  letter-spacing: -0.252px;
-}
-.WalletStatistics .SingleStatistice h2 {
-  color: var(--text-color-dark);
-  font-size: 24px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: 32px; /* 133.333% */
-  letter-spacing: -0.432px;
-}
-.WalletStatistics .SingleStatistice p {
-  color: var(--text-color-dark);
-  font-size: 14px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 32px; /* 228.571% */
-  letter-spacing: -0.252px;
-  display: flex;
-  align-items: center;
-  gap: 5px;
-}
-.DoughnutLegned {
-  width: 100%;
-  max-width: 400px;
-}
-.DoughnutLegned div {
-  gap: 40px; /* This needs context, assuming flex/grid parent */
-}
+.WalletStatistics .SingleStatistice span { color: var(--text-color-light); font-size: 14px; font-weight: 700; line-height: 1.5; letter-spacing: -0.252px; }
+.WalletStatistics .SingleStatistice h2 { color: var(--text-color-dark); font-size: 22px; /* Adjusted size */ font-weight: 700; line-height: 1.3; letter-spacing: -0.432px; }
+.WalletStatistics .SingleStatistice p { color: var(--text-color-dark); font-size: 14px; font-weight: 400; line-height: 1.5; letter-spacing: -0.252px; display: flex; align-items: center; gap: 5px; margin:0; }
+
+/* .DoughnutLegned div { gap: 40px; } - This is too generic, style specific legend items */
 
 .ChartCardWallet {
-  border-radius: 10px;
-  margin-top: 40px;
-  border: 1px solid var(--border-color-light);
-  background: var(--bg-container);
-  padding: 20px;
+  border-radius: 10px; margin-top: 30px; /* Adjusted margin */ border: 1px solid var(--border-color-light);
+  background: var(--bg-container); padding: 20px;
 }
-.ChartCardWallet .WalletChartHeader .Tittle {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-.ChartCardWallet .WalletChartHeader .Tittle h2 {
-  color: var(--text-color-dark);
-  font-size: 24px;
-  font-style: normal;
-  font-weight: 600;
-  line-height: 32px; /* 133.333% */
-  letter-spacing: -0.432px;
-}
+.ChartCardWallet .WalletChartHeader .Tittle { display: flex; justify-content: space-between; align-items: center; }
+.ChartCardWallet .WalletChartHeader .Tittle h2 { color: var(--text-color-dark); font-size: 22px; /* Adjusted size */ font-weight: 600; line-height: 1.3; letter-spacing: -0.432px; margin:0; }
 .ChartCardWallet .WalletChartHeader .btns {
-  display: flex;
-  border-radius: var(--16, 16px); /* Ensure --16 defined or use 16px */
-  background: var(--bg-container);
-  box-shadow: var(--shadow-wallet-btns);
-  padding: 10px;
+  display: flex; border-radius: 12px; /* Adjusted radius */ background: var(--bg-container);
+  box-shadow: var(--shadow-wallet-btns); padding: 8px; /* Adjusted padding */
 }
 .ChartCardWallet .WalletChartHeader .btns div {
-  color: var(--text-color-light);
-  transition: 0.4s;
-  cursor: pointer;
-  font-size: 12px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: 32px; /* 266.667% */
-  letter-spacing: -0.216px;
-  padding: 5px 15px;
-  border-radius: var(--16, 16px); /* Ensure --16 defined or use 16px */
+  color: var(--text-color-light); transition: background-color var(--transition-fast), color var(--transition-fast); cursor: pointer;
+  font-size: 12px; font-weight: 700; line-height: 1.5; letter-spacing: -0.216px;
+  padding: 5px 12px; /* Adjusted padding */ border-radius: 8px; /* Adjusted radius */
 }
-.ChartCardWallet .WalletChartHeader .btns div.active {
-  color: var(--text-color-contrast);
-  background: var(--text-color-dark);
-}
-.ChartCardWallet .WalletChartHeader .Time {
-  display: flex;
-  gap: 5px;
-}
+.ChartCardWallet .WalletChartHeader .btns div.active { color: var(--text-color-contrast); background: var(--text-color-dark); }
+
+.ChartCardWallet .WalletChartHeader .Time { display: flex; gap: 5px; margin-top: 10px; /* Added margin */ }
 .ChartCardWallet .WalletChartHeader .Time div {
-  padding: 5px 10px;
-  color: var(--text-color-light);
-  cursor: pointer;
-  font-size: 14px;
-  border-bottom: 2px solid transparent;
-  font-weight: 600;
-  transition: 0.4s;
-  line-height: 32px; /* 228.571% */
-  letter-spacing: -0.252px;
+  padding: 5px 10px; color: var(--text-color-light); cursor: pointer; font-size: 14px;
+  border-bottom: 2px solid transparent; font-weight: 600; transition: color var(--transition-fast), border-color var(--transition-fast);
+  line-height: 1.5; letter-spacing: -0.252px;
 }
-.ChartCardWallet .WalletChartHeader .Time div.active {
-  color: var(--text-color-dark);
-  border-bottom: 2px solid var(--color-primary-alt);
-}
-@media (max-width: 900px) {
-  .TablePageHeader {
-    overflow-x: scroll;
-  }
-  .TablePageHeader .HeaderContainer {
-    min-width: 900px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-}
-.HeaderContainer {
-  flex: 1;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-.ModalHeader {
-  display: flex;
-}
-.ModalHeader h3 {
-  color: var(--text-color-dark);
-  text-align: right;
-  font-family: "Noto Kufi Arabic", sans-serif; /* Was Readex Pro */
-  font-size: 22px;
-  font-style: normal;
-  font-weight: 600;
-  line-height: 125.303%; /* 27.567px */
-}
-.ModalContainer {
-  padding: 25px;
-}
-.Tittle { /* General .Tittle class */
-  color: var(--text-color-dark);
-  text-align: right;
-  font-size: 24px;
-  font-weight: 700;
-  line-height: 35px; /* 145.833% */
-}
-.LinkActive {
-  padding: 16px;
-}
-
-/* Dark Mode Styles */
-:root {
-  /* Define dark mode specific variables here if they are simple overrides */
-  --dark-bg-body: #1a1a1a;
-  --dark-bg-main-page: #282c35;
-  --dark-bg-container: #2b2b2b; /* For cards, headers */
-  --dark-bg-container-alt: #222; /* For sidebar, table cells */
-  --dark-bg-input: #3a3a3a;
-  --dark-bg-status: rgba(255, 255, 255, 0.07);
-  --dark-border-color: #454545;
-  --dark-text-primary: #f0f0f0; /* Primary text in dark mode */
-  --dark-text-secondary: #ccc; /* Muted text in dark mode */
-  --dark-text-headings-alt: var(--rs-primary-200); /* Lighter for titles */
-  --dark-color-primary-alt: var(--rs-primary-400);
-  --dark-color-accent-green: #6effa8;
-  --dark-color-accent-red: #ff7878;
-  --dark-color-accent-blue-status: var(--rs-primary-300);
-}
-
-body.dark-mode {
-  background-color: var(--dark-bg-body);
-  color: var(--dark-text-primary);
-
-  /* Override global variables for dark mode */
-  --bg-body: var(--dark-bg-body);
-  --bg-main-page: var(--dark-bg-main-page);
-  --bg-container: var(--dark-bg-container);
-  --bg-container-muted: var(--dark-bg-container-alt);
-  --bg-light-accent: var(--dark-border-color);
-  --bg-input-subtle: var(--dark-bg-input);
-  --bg-file-icon: rgba(200, 200, 200, 0.1);
-  --bg-status-green: var(--dark-bg-status);
-  --bg-status-red: var(--dark-bg-status);
-  --bg-status-blue: var(--dark-bg-status);
-  --bg-wallet-btns-container: rgba(200,200,200,0.1);
+.ChartCardWallet .WalletChartHeader .Time div.active { color: var(--text-color-dark); border-bottom-color: var(--color-primary-alt); }
 
 
-  --text-color-base: var(--dark-text-primary);
-  --text-color-headings-alt: var(--dark-text-headings-alt);
-  --text-color-dark: var(--dark-text-primary);
-  --text-color-medium: var(--dark-text-secondary);
-  --text-color-light: var(--dark-text-secondary);
-  --text-color-placeholder: #888;
-  --text-color-subtle: #aaa;
-  --text-color-content-dark: var(--dark-text-primary);
-  --text-color-contrast: var(--dark-bg-body); /* Text on light elements in dark mode */
-  --text-color-contrast-alt: var(--dark-text-primary);
-
-  --border-color-light: var(--dark-border-color);
-  --border-color-medium: var(--dark-border-color);
-  --border-color-subtle: rgba(255, 255, 255, 0.1);
-  --border-color-slick-active-bg: var(--rs-primary-300);
-
-  --color-primary-alt: var(--dark-color-primary-alt);
-  --color-accent-green: var(--dark-color-accent-green);
-  --color-accent-red: var(--dark-color-accent-red);
-  --color-primary: var(--rs-primary-400); /* Lighter primary for dark mode */
-
-  --semantic-colors-primary-contrast: var(--dark-bg-container);
+.HeaderContainer { /* Already defined above, ensure consistency or merge */
+  flex: 1; display: flex; justify-content: space-between; align-items: center;
 }
-
-.dark-mode .responsive-sideBar {
-  background-color: #333 !important; /* Specific override if needed */
+.ModalHeader h3 { /* Assuming .ModalHeader is a custom class */
+  color: var(--text-color-dark); font-size: 20px; /* Adjusted size */ font-weight: 600; line-height: 1.3;
 }
+.ModalContainer { padding: 25px; } /* Keep if used for custom modals */
 
-.dark-mode .SlickDot {
-  background-color: var(--dark-border-color);
+.Tittle { /* General .Tittle class, ensure it doesn't conflict */
+  color: var(--text-color-dark); text-align: right; font-size: 24px; font-weight: 700; line-height: 1.4;
+}
+/* .LinkActive { padding: 16px; } - Style based on usage */
+
+.loader { /* Simplified loader */
+  width: 25px; height: 25px; border-radius: 50%; display: inline-block;
+  border: 3px solid rgba(var(--text-color-contrast-rgb, 255,255,255), 0.3); /* Lighter base border */
+  border-top-color: var(--color-accent-orange-loader); /* Use accent color */
+  animation: rotation 0.8s linear infinite;
+}
+@keyframes rotation { to { transform: rotate(360deg); } }
+
+
+.CustomContainer {
+  max-width: 1300px;
+  margin: 34px auto;
+  padding-inline: 15px; /* Add horizontal padding for smaller screens */
 }
 
-.dark-mode .Ended {
-    color: var(--dark-color-accent-blue-status);
-}
-.dark-mode .socialIcon {
-  border-color: var(--dark-border-color); /* Already variable */
-  background-color: #333; /* Specific dark bg for icon container */
-}
-.dark-mode .rs-toggle-checked .rs-toggle-presentation {
-  background-color: var(--color-accent-green-toggle) !important; /* May need a dark-mode specific toggle color */
-}
-.dark-mode .form-check label {
-  color: var(--dark-text-primary);
-}
-.dark-mode .resposive-container { /* Handles the typo too */
-  background-color: var(--dark-bg-container-alt);
-}
-.dark-mode .rs-table-cell {
-  background-color: var(--dark-bg-container-alt);
-  color: var(--dark-text-primary) !important; /* rsuite might be specific */
-  border-color: var(--dark-border-color) !important;
-}
-.dark-mode .rs-table-cell-content {
-  color: var(--dark-text-primary);
-}
-.dark-mode .rs-table-hover .rs-table-cell { /* If there is a specific .rs-table-hover class for row */
-  background-color: #383838 !important; /* Slightly lighter on hover */
-}
-.dark-mode .table-container { /* Custom table wrapper */
-  background-color: var(--dark-bg-container-alt);
-}
-/* Toggle Dark Mode Button - This is an example, actual button might differ */
-.dark-mode-toggle {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  cursor: pointer;
-  z-index: 1000;
-  font-size: 24px;
-  color: var(--text-color-dark); /* Default icon color */
-  background-color: var(--bg-light-accent);
-  padding: 8px;
-  border-radius: 50%;
-}
-.dark-mode .dark-mode-toggle {
-  color: var(--dark-text-primary);
-  background-color: var(--dark-bg-input);
+.MuiSlider-rail { background-color: var(--text-color-placeholder) !important; }
+.MuiSlider-thumb { background-color: var(--bg-container) !important; border: 1px solid var(--text-color-placeholder); }
+
+.loading-container { /* For full page loader */
+  display: flex; justify-content: center; align-items: center;
+  min-height: 100vh; /* Full viewport height */
+  background: rgba(255, 255, 255, 0.8); /* Semi-transparent overlay */
 }
 
-.rowContainer {
-  cursor: pointer;
+.wraper { margin: 0 auto; width: 90%; max-width: 1200px; /* Add max-width */ }
+.asider {
+  background: var(--bg-asider);
+  width: 250px; /* Fixed width for sidebar */
+  padding: 1em;
+  position: sticky; top: 3em; height: calc(100vh - 3em); overflow-y: auto;
 }
-.ToggleContainer h3 {
-  color: var(--text-color-dark);
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 600;
-  line-height: 160%; /* 25.6px */
-}
-.ToggleContainer p {
-  color: var(--text-color-placeholder);
-  font-size: 14px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 160%; /* 22.4px */
-}
-.aboutAcademyLayout {
-  align-items: center;
-  font-family: "Noto Kufi Arabic", sans-serif !important;
-}
+/* .contenter { width: 50%; } - This is very specific, use flex/grid for main content area */
 
-@media (max-width: 768px) {
-  .aboutAcademyLayout .SectionText {
-    margin-top: 20px;
-  }
-}
-@media (max-width: 400px) {
-  .aboutAcademyLayout .SectionText {
-    margin-top: 20px; /* Duplicate, can be removed if 768px covers it */
-  }
-}
+.aboutAcademyLayout { align-items: center; }
 .aboutAcademyLayout .SectionText h2 {
-  color: var(--text-color-base); /* Was #323232 */
-  text-align: right;
-  font-family: "Noto Kufi Arabic", sans-serif !important;
-  font-size: 56px;
-  font-style: normal;
-  font-weight: 800;
-  line-height: 75px;
+  color: var(--text-color-base); text-align: right; font-size: 48px; /* Adjusted */
+  font-weight: 800; line-height: 1.3;
 }
-.aboutAcademyLayout .SectionText h2 span {
-  color: var(--color-primary); /* Was --primary-color, assuming it means brand primary */
-  font-family: "Noto Kufi Arabic", sans-serif !important;
-}
-@media (max-width: 768px) {
-  .aboutAcademyLayout .SectionText h2 {
-    font-size: 42px;
-  }
-}
-@media (max-width: 400px) {
-  .aboutAcademyLayout .SectionText h2 {
-    font-size: 36px;
-    line-height: normal;
-  }
-}
+.aboutAcademyLayout .SectionText h2 span { color: var(--color-primary); }
 .aboutAcademyLayout .SectionText p {
-  font-family: "Noto Kufi Arabic", sans-serif !important; /* Was -serif */
-  color: var(--text-color-subtle);
-  text-align: right;
-  font-size: 18px;
-  font-style: normal;
-  font-weight: 300; /* Keep from user spec */
-  line-height: 180%; /* 27px -> 1.8 if font-size is 18px (18*1.8=32.4), or 150% if 18*1.5=27 */
-  margin-top: 15px;
+  color: var(--text-color-subtle); text-align: right; font-size: 18px;
+  font-weight: 400; /* Changed from 300 for better readability */ line-height: 1.7; /* Adjusted */ margin-top: 15px;
 }
-.aboutAcademyLayout .Btn {
-  display: flex;
-  margin-top: 30px;
-  gap: 14px;
-}
+.aboutAcademyLayout .Btn { display: flex; margin-top: 30px; gap: 14px; }
 .aboutAcademyLayout .Btn .Primary {
-  background-color: var(--color-primary); /* Was --primary-color */
-  padding: 20px 48px;
-  border-radius: 49px;
-  border: 1px solid var(--color-primary); /* Was --primary-color */
-  transition: 0.4s;
-  cursor: pointer;
-  color: var(--text-color-contrast);
-  text-align: center;
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: normal;
+  background-color: var(--color-primary); padding: 16px 40px; /* Adjusted padding */
+  border-radius: 49px; border: 1px solid var(--color-primary);
+  transition: background-color var(--transition-normal), color var(--transition-normal);
+  cursor: pointer; color: var(--text-color-contrast); text-align: center;
+  font-size: 16px; font-weight: 700; line-height: normal;
 }
-.aboutAcademyLayout .Btn .Primary:hover {
-  background-color: var(--bg-container);
-  color: var(--color-primary); /* Was --primary-color */
-}
-@media (max-width: 768px) {
-  .aboutAcademyLayout .Btn .Primary {
-    padding: 10px 23px;
-    display: flex;
-    align-items: center;
-  }
-}
-@media (max-width: 400px) {
-  .aboutAcademyLayout .Btn .Primary {
-    padding: 10px 15px;
-    display: flex;
-    align-items: center;
-  }
-}
+.aboutAcademyLayout .Btn .Primary:hover { background-color: var(--bg-container); color: var(--color-primary); }
 .aboutAcademyLayout .Btn .Secondry {
-  background-color: transparent;
-  padding: 10px 48px;
-  transition: 0.4s;
-  border-radius: 49px;
-  color: var(--color-primary); /* Was --primary-color */
-  font-family: "Noto Kufi Arabic", sans-serif !important;
-  display: flex;
-  font-weight: 700;
-  cursor: pointer;
-  font-size: 16px;
-  gap: 24px;
-  align-items: center;
-  border: 1px solid var(--color-primary); /* Was --primary-color */
+  background-color: transparent; padding: 16px 40px; /* Adjusted padding */
+  transition: background-color var(--transition-normal), color var(--transition-normal);
+  border-radius: 49px; color: var(--color-primary);
+  display: flex; font-weight: 700; cursor: pointer; font-size: 16px;
+  gap: 24px; align-items: center; border: 1px solid var(--color-primary);
 }
-.aboutAcademyLayout .Btn .Secondry path {
-  transition: 0.4s;
-}
-.aboutAcademyLayout .Btn .Secondry:hover {
-  background-color: var(--color-primary); /* Was --primary-color */
-  color: var(--text-color-contrast);
-}
-.aboutAcademyLayout .Btn .Secondry:hover path {
-  fill: var(--text-color-contrast);
-}
-@media (max-width: 768px) {
-  .aboutAcademyLayout .Btn .Secondry {
-    padding: 10px 21px;
-  }
-}
+.aboutAcademyLayout .Btn .Secondry path { transition: fill var(--transition-normal); } /* Target path for fill */
+.aboutAcademyLayout .Btn .Secondry:hover { background-color: var(--color-primary); color: var(--text-color-contrast); }
+.aboutAcademyLayout .Btn .Secondry:hover path { fill: var(--text-color-contrast); }
+.aboutAcademyLayout .SectionImage img { width: 100%; display: block; /* Remove extra space below image */ }
 
-@media (max-width: 768px) {
-  .aboutAcademyLayout .SectionImage {
-    margin-bottom: 20px;
-  }
-}
-.aboutAcademyLayout .SectionImage img {
-  width: 100%;
-}
 .LayoutSectionTitle {
-  color: var(--text-color-content-dark);
-  text-align: right;
-  font-family: "Noto Kufi Arabic", sans-serif !important;
-  font-size: 28px;
-  font-style: normal;
-  font-weight: 800;
-  line-height: normal;
-  margin-bottom: 64px;
+  color: var(--text-color-content-dark); text-align: right;
+  font-size: 28px; font-weight: 800; line-height: normal; margin-bottom: 48px; /* Adjusted margin */
 }
-.LayoutSectionTitle span {
-  color: var(--color-primary); /* Was --primary-color */
-  font-family: "Noto Kufi Arabic", sans-serif !important;
-  font-size: 28px;
-  font-style: normal;
-  font-weight: 800;
-  line-height: normal;
-}
-@media (max-width: 768px) {
-  .swiper-button-next {
-    right: 10px !important;
-    display: none !important;
-  }
-  .swiper-button-prev {
-    left: 10px !important;
-    display: none !important;
-  }
-  .mySwiperContainer {
-    padding-inline: 0px !important;
-  }
-}
+.LayoutSectionTitle span { color: var(--color-primary); font-size: inherit; font-weight: inherit; } /* Inherit from parent */
+
 .Layout2Title {
-  font-family: "Noto Kufi Arabic", sans-serif !important;
-  text-align: center;
-  position: relative;
-  z-index: 2;
-  font-size: 28px;
-  color: var(--text-color-content-dark);
-  font-weight: 800;
+  text-align: center; position: relative; z-index: 2;
+  font-size: 28px; color: var(--text-color-content-dark); font-weight: 800; margin-bottom: 18px; /* Add margin for pseudo */
 }
-.Layout2Title:after {
-  content: "";
-  position: absolute;
-  left: 50%;
-  z-index: 1;
-  transform: translateX(-50%);
-  width: 98px;
-  height: 18px;
-  bottom: 0;
-  background: var(--underline-layout-title);
-}
-.searchBar {
-  border-radius: 49px;
-  border: 1px solid var(--border-color-subtle);
-  background: var(--bg-container);
-  position: relative;
-  padding: 17px 23px;
-}
-.searchBar input {
-  width: 100%;
-  border: none;
-  font-family: "Noto Kufi Arabic", sans-serif; /* Ensure font */
-  background-color: transparent; /* Ensure input bg is transparent */
-}
-.searchBar input:focus {
-  outline: none;
-}
-.searchBar .iconWrapper {
-  position: absolute;
-  left: 23px;
-  top: 50%;
-  transform: translateY(-50%);
-}
-.contactUsCard {
-  border-radius: 20px;
-  background: var(--bg-container);
-  width: 100%;
-  box-shadow: var(--shadow-contact);
-  padding: 32px;
-}
-.contactUsCard input,
-.contactUsCard textarea {
-  width: 100%;
-  border-radius: 16px;
-  background: var(--bg-input-subtle);
-  padding: 17px 30px;
-  border: none;
-  font-family: "Noto Kufi Arabic", sans-serif; /* Ensure font */
-}
-.contactUsCard textarea {
-  min-height: 300px;
-}
-.contactUsCard button {
-  color: var(--color-primary); /* Was --primary-color */
-  text-align: center;
-  font-family: "Noto Kufi Arabic", sans-serif; /* Was Tajawal */
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: normal;
-  border-radius: 49px;
-  border: 1px solid var(--color-primary); /* Was --primary-color */
-  padding: 16px 80px;
-  background-color: transparent;
-  transition: 0.4s;
-}
-.contactUsCard button:hover {
-  background-color: var(--color-primary); /* Was --primary-color */
-  color: var(--text-color-contrast);
+.Layout2Title::after { /* Corrected pseudo-element */
+  content: ""; position: absolute; left: 50%; z-index: -1; /* Behind text */
+  transform: translateX(-50%); width: 98px; height: 12px; /* Adjusted height */
+  bottom: 0px; /* Position under text */ background: var(--underline-layout-title);
 }
 
-.DeleteIcon:hover svg .DeleteTrash {
-  fill: var(--color-accent-red) !important; /* Was #ff0000 */
-  transition: 0.4s;
+.searchBar {
+  border-radius: 49px; border: 1px solid var(--border-color-subtle);
+  background: var(--bg-container); position: relative; padding: 12px 20px; /* Adjusted padding */
 }
-.SuccesModalConainer {
-  padding-right: 0 !important;
+.searchBar input { width: calc(100% - 30px); border: none; background-color: transparent; padding-right: 10px; /* Space for icon */ }
+.searchBar input:focus { outline: none; }
+.searchBar .iconWrapper { position: absolute; left: 20px; top: 50%; transform: translateY(-50%); color: var(--text-color-light); }
+
+.contactUsCard {
+  border-radius: 20px; background: var(--bg-container); width: 100%;
+  box-shadow: var(--shadow-contact); padding: 32px;
 }
-.SuccesModalConainer .modal-dialog {
-  height: 100vh;
-  margin: 0;
-  max-width: 100%;
-  width: 100%;
+.contactUsCard input, .contactUsCard textarea {
+  width: 100%; border-radius: 16px; background: var(--bg-input-subtle);
+  padding: 17px 20px; /* Adjusted padding */ border: 1px solid transparent; /* Add transparent border for focus transition */
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
 }
-.SuccesModalConainer .modal-content {
-  height: 100%;
+.contactUsCard input:focus, .contactUsCard textarea:focus {
+    outline: none; border-color: var(--color-primary);
+    box-shadow: 0 0 0 0.2rem rgba(var(--color-primary-rgb), 0.25);
 }
-.SuccesModalConainer .modal-content img {
-  width: 100%;
-  object-fit: cover;
-  height: 100%;
+.contactUsCard textarea { min-height: 200px; /* Adjusted height */ }
+.contactUsCard button {
+  color: var(--color-primary); text-align: center; font-size: 16px;
+  font-weight: 700; border-radius: 49px; border: 1px solid var(--color-primary);
+  padding: 12px 60px; /* Adjusted padding */ background-color: transparent;
+  transition: background-color var(--transition-normal), color var(--transition-normal);
 }
-.btn-danger {
-  background-color: var(--color-accent-red);
-}
+.contactUsCard button:hover { background-color: var(--color-primary); color: var(--text-color-contrast); }
+
+.DeleteIcon:hover svg .DeleteTrash { fill: var(--color-accent-red) !important; transition: fill var(--transition-fast); } /* Smooth transition */
+
+/* .SuccesModalConainer styles seem very specific, ensure they don't cause layout issues */
+.btn-danger { background-color: var(--color-accent-red); border-color: var(--color-accent-red); } /* Add border color */
+.btn-danger:hover { background-color: #c82333; border-color: #bd2130; } /* Darken on hover */
+
 .FileInputLabel {
-  margin-top: 24px;
-  color: var(--text-color-dark);
-  text-align: right;
-  margin-bottom: 16px;
-  font-size: 16px;
-  font-style: normal;
-  font-weight: 600;
-  line-height: 150%;
-  letter-spacing: -0.32px;
-  display: block;
+  margin-top: 24px; color: var(--text-color-dark); text-align: right; margin-bottom: 8px; /* Reduced margin */
+  font-size: 16px; font-weight: 600; line-height: 1.5; letter-spacing: -0.32px; display: block;
 }
-.FileInput {
-  display: flex;
-  border: 1px solid var(--border-color-light);
-  border-radius: 10px;
-}
-.FileInput input {
-  display: none;
-}
+.FileInput { display: flex; border: 1px solid var(--border-color-light); border-radius: 10px; overflow: hidden; /* For child radius */ }
+.FileInput input { display: none; }
 .FileInput .placeHolder {
-  flex: 1;
-  color: var(--text-color-placeholder);
-  text-align: right;
-  cursor: pointer;
-  font-size: 14px;
-  font-style: normal;
-  font-weight: 500;
-  line-height: 150%; /* 21px */
-  letter-spacing: -0.28px;
+  flex: 1; color: var(--text-color-placeholder); text-align: right; cursor: pointer;
+  font-size: 14px; font-weight: 500; line-height: 1.5; letter-spacing: -0.28px;
   padding: 10px 16px;
 }
 .FileInput .FileInput__Icon {
-  background: var(--bg-file-icon);
-  padding: 10px 12px;
-  color: var(--text-color-light);
-  display: flex;
-  cursor: pointer;
-  align-items: center;
-  font-size: 12px;
+  background: var(--bg-file-icon); padding: 10px 12px; color: var(--text-color-light);
+  display: flex; cursor: pointer; align-items: center; font-size: 12px;
 }
 
-.loader {
-  width: 25px;
-  height: 25px;
-  border-radius: 50%;
-  display: inline-block;
-  position: relative;
-  border: 3px solid;
-  border-color: var(--text-color-contrast) var(--text-color-contrast) transparent;
-  box-sizing: border-box;
-  animation: rotation 1s linear infinite;
+/* Media Queries Consolidation */
+@media (max-width: 1150px) {
+  .responsive-sideBar { display: none; }
+  .responsiveNav { display: block !important; }
+  .resposive-container { display: block; }
 }
-.loader::after {
-  content: "";
-  box-sizing: border-box;
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  margin: auto;
-  border: 3px solid;
-  border-color: transparent var(--color-accent-orange-loader) var(--color-accent-orange-loader);
-  width: 14px;
-  height: 14px;
-  border-radius: 50%;
-  animation: rotationBack 0.5s linear infinite;
-  transform-origin: center center;
+@media (max-width: 900px) {
+  .TablePageHeader { overflow-x: auto; /* Changed from scroll to auto */ }
+  .TablePageHeader .HeaderContainer { min-width: 700px; /* Adjusted min-width */ }
 }
-
-@keyframes rotation {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
-@keyframes rotationBack {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(-360deg);
-  }
-}
-
-.CustomContainer {
-  margin-inline: 100px;
-  max-width: 1300px;
-  margin: 34px auto;
+@media (max-width: 768px) {
+  .aboutAcademyLayout .SectionText,
+  .aboutAcademyLayout .SectionImage { margin-top: 20px; }
+  .aboutAcademyLayout .SectionText h2 { font-size: 36px; line-height: 1.3; } /* Adjusted */
+  .aboutAcademyLayout .Btn .Primary,
+  .aboutAcademyLayout .Btn .Secondry { padding: 12px 24px; /* Adjusted padding */ }
+  .mySwiperContainer { padding-inline: 0px !important; }
+  /* .swiper-button-next, .swiper-button-prev { display: none !important; } - Already defined */
 }
 @media (max-width: 600px) {
-  .CustomContainer {
-    margin-inline: 10px;
-  }
+  .CustomContainer { margin-inline: 10px; }
+  /* .smallText { font-size: 36px; } - This class needs to be applied to an element */
 }
-.MuiSlider-rail {
-  background-color: var(--text-color-placeholder) !important;
-}
-.MuiSlider-thumb {
-  background-color: var(--bg-container) !important;
-  border: 1px solid var(--text-color-placeholder);
-}
-.loading-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  background: rgba(255, 255, 255, 0.9);
-}
-@media (max-width: 600px) {
-  .smallText { /* This class needs to be applied to an element */
-    font-size: 36px;
-  }
-}
+/* @media (max-width: 400px) - Removed as 768px rules might cover or be adjusted */
 
-.wraper {
-  margin: 0 auto;
-  width: 90%;
-}
-.asider {
-  background: var(--bg-asider);
-  float: right;
-  width: 20%;
-  padding: 1em;
-  position: sticky;
-  top: 3em;
-}
-.contenter {
-  width: 50%;
-}
+.rowContainer { cursor: pointer; } /* Keep if used for clickable rows */
+
+.ToggleContainer h3 { color: var(--text-color-dark); font-size: 16px; font-weight: 600; line-height: 1.6; margin:0 0 4px 0;}
+.ToggleContainer p { color: var(--text-color-placeholder); font-size: 14px; font-weight: 400; line-height: 1.6; margin:0;}

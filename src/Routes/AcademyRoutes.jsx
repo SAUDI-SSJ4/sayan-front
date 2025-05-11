@@ -61,11 +61,19 @@ const AcademyRoutes = () => {
   const loginType = Cookies.get("login_type");
 
   const IsAcademyAuthGaurd = ({ children }) => {
+    const location = window.location.pathname;
+    // تحديث التعبير المنتظم ليشمل المسار الكامل
+    const isPublicAcademyPage = /^(\/academy\/\d+|https:\/\/sayan\.pro\/academy\/\d+)/.test(location);
+
+    if (isPublicAcademyPage) {
+      return children;
+    }
+
     console.log(Cookies.get("login_type"));
     if (loginType === "academy") {
       return children;
     } else {
-      toast.error("يرجى تسجيل الدخول");
+      toast.error("يرجى تسجيل الدخول بحساب اكاديمية");
       return <Navigate to="/login" />;
     }
   };
@@ -73,7 +81,6 @@ const AcademyRoutes = () => {
   return (
     <Fragment>
       <LayOut>
-        <IsAcademyAuthGaurd>
           <Routes>
             <Route path="/academy" element={<AcademyDashboard />} />
             <Route path="/academy/Profile" element={<Profile />} />
@@ -264,7 +271,6 @@ const AcademyRoutes = () => {
               element={<AddNewSubscreptionPacksAcademy academy />}
             />
           </Routes>
-        </IsAcademyAuthGaurd>
       </LayOut>
     </Fragment>
   );

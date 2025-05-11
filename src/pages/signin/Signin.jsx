@@ -346,7 +346,7 @@ const Signin = () => {
                 </div>
               </form>
               <p className={`${classes.copyright}`}>
-                © 2023 جميع الحقوق محفوظة لمنصة سيان
+                © 2025 جميع الحقوق محفوظة لمنصة سيان
               </p>
             </div>
           ) : (

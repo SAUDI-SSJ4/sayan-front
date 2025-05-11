@@ -1,12 +1,10 @@
 import React, { useState, useRef, useEffect } from 'react';
 import classes from './CustomVideoPlayer.module.scss';
-import defaultThumbnail from '../../../../assets/images/img.png';
 import { FaExpand, FaPause, FaPlay, FaVolumeMute, FaVolumeUp } from 'react-icons/fa';
 
-const CustomVideoPlayer = ({ 
-  video 
+const VIDEO_URL = "https://www.sayan-server.com/courses/videos/academy//mPMpsr4Lj1roFRKA94Oa.mp4";
 
-}) => {
+const CustomVideoPlayer = () => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [progress, setProgress] = useState(0);
   const [volume, setVolume] = useState(1);
@@ -21,16 +19,11 @@ const CustomVideoPlayer = ({
         const progress = (videoRef.current.currentTime / videoRef.current.duration) * 100;
         setProgress(progress);
         setCurrentTime(formatTime(videoRef.current.currentTime));
-
-        // Update progress bar color
         const progressBar = document.querySelector(`.${classes.progressBar}`);
-        if (progressBar) {
+        if (progressBar)
           progressBar.style.setProperty('--seek-before-width', `${progress}%`);
-        }
-
-        // Update video overlay
         const videoElement = videoRef.current;
-        videoElement.style.setProperty('--video-progress-width', `${100-progress}%`);
+        videoElement.style.setProperty('--video-progress-width', `${100 - progress}%`);
       }
     };
 
@@ -43,6 +36,7 @@ const CustomVideoPlayer = ({
     const currentVideo = videoRef.current;
     currentVideo?.addEventListener('timeupdate', updateProgress);
     currentVideo?.addEventListener('loadedmetadata', updateDuration);
+
     return () => {
       currentVideo?.removeEventListener('timeupdate', updateProgress);
       currentVideo?.removeEventListener('loadedmetadata', updateDuration);
@@ -51,9 +45,8 @@ const CustomVideoPlayer = ({
 
   useEffect(() => {
     const volumeBar = document.querySelector(`.${classes.volumeBar}`);
-    if (volumeBar) {
+    if (volumeBar)
       volumeBar.style.setProperty('--volume-before-width', `${volume * 100}%`);
-    }
   }, []);
 
   const formatTime = (time) => {
@@ -64,15 +57,22 @@ const CustomVideoPlayer = ({
 
   const togglePlayPause = () => {
     if (videoRef.current) {
-      isPlaying ? videoRef.current.pause() : videoRef.current.play();
-      setIsPlaying(!isPlaying);
+      if (isPlaying) {
+        videoRef.current.pause();
+        setIsPlaying(false);
+      } else {
+        videoRef.current.play();
+        setIsPlaying(true);
+      }
     }
   };
 
   const handleProgressChange = (e) => {
-    const newTime = (e.target.value / 100) * videoRef.current.duration;
-    videoRef.current.currentTime = newTime;
-    setProgress(e.target.value);
+    if (videoRef.current) {
+      const newTime = (e.target.value / 100) * videoRef.current.duration;
+      videoRef.current.currentTime = newTime;
+      setProgress(e.target.value);
+    }
   };
 
   const toggleFullScreen = () => {
@@ -92,24 +92,25 @@ const CustomVideoPlayer = ({
   const handleVolumeChange = (e) => {
     const newVolume = parseFloat(e.target.value);
     setVolume(newVolume);
-    videoRef.current.volume = newVolume;
+    if (videoRef.current) videoRef.current.volume = newVolume;
     setIsMuted(newVolume === 0);
-    
-    // Update volume bar color
+
     const volumeBar = e.target;
     volumeBar.style.setProperty('--volume-before-width', `${newVolume * 100}%`);
   };
 
   const toggleMute = () => {
-    const newVolume = isMuted ? volume : 0;
-    videoRef.current.volume = newVolume;
-    setIsMuted(!isMuted);
-    
-    // Update volume bar color
-    const volumeBar = document.querySelector(`.${classes.volumeBar}`);
-    if (volumeBar) {
-      volumeBar.style.setProperty('--volume-before-width', `${newVolume * 100}%`);
+    if (!videoRef.current) return;
+    if (isMuted) {
+      videoRef.current.volume = volume;
+      setIsMuted(false);
+    } else {
+      videoRef.current.volume = 0;
+      setIsMuted(true);
     }
+    const volumeBar = document.querySelector(`.${classes.volumeBar}`);
+    if (volumeBar)
+      volumeBar.style.setProperty('--volume-before-width', `${videoRef.current.volume * 100}%`);
   };
 
   return (
@@ -119,9 +120,9 @@ const CustomVideoPlayer = ({
           ref={videoRef}
           className={classes.videoElement}
           width="100%"
-          src={video?.src}
+          src={VIDEO_URL}
         >
-          <source src={video?.src} type="video/mp4" />
+          <source src={VIDEO_URL} type="video/mp4" />
           المتصفح الخاص بك لا يدعم عرض الفيديو.
         </video>
         <div className={classes.videoControls}>

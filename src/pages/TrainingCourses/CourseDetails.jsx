@@ -23,7 +23,6 @@ import Videotype from "../../assets/icons/videoType.svg?react";
 import Examtype from "../../assets/icons/examType.svg?react";
 import { formatLongText } from "../../utils/helpers";
 import CustomVideoPlayer from "./components/CustomVideoPlayer";
-import sampleVideo from "./components/CustomVideoPlayer/outputp2.mp4";
 
 const CourseDetails = () => {
   const { id } = useParams();
@@ -65,14 +64,26 @@ const CourseDetails = () => {
     ]);
 
     setIsLoading(true);
-    // Placeholder for API call
-    const aiResponse = 'This is a placeholder answer. Implement actual API call here.';
-    setIsLoading(false);
+    
+    // Simulated AI response about learning programming
+    const aiResponse = `لتعلم البرمجة بشكل فعال وسريع، أنصحك باتباع هذه الخطوات:
 
-    setMessages(prevMessages => [
-      ...prevMessages,
-      { type: 'ai', content: aiResponse }
-    ]);
+1. ابدأ بلغة برمجة سهلة مثل Python أو JavaScript
+2. ركز على الأساسيات أولاً (المتغيرات، الشروط، الحلقات)
+3. طبق ما تتعلمه من خلال مشاريع صغيرة
+4. اقضِ ساعتين يومياً على الأقل في الممارسة
+5. استخدم منصات التعلم التفاعلية مثل Codecademy
+6. شارك في مجتمعات المبرمجين وتعلم من خبراتهم
+
+تذكر: التعلم السريع يحتاج إلى ممارسة مستمرة والتركيز على التطبيق العملي أكثر من النظري.`;
+
+    setTimeout(() => {
+      setIsLoading(false);
+      setMessages(prevMessages => [
+        ...prevMessages,
+        { type: 'ai', content: aiResponse }
+      ]);
+    }, 1000);
 
     setQuestion('');
   };
@@ -107,7 +118,7 @@ const CourseDetails = () => {
                     type: "video",
                     content: {
                       title: "ما هي البرمجة؟",
-                      src: sampleVideo,
+                      src: "https://www.sayan-server.com/courses/videos/academy//mPMpsr4Lj1roFRKA94Oa.mp4",
                       description: "مقدمة في عالم البرمجة",
                     },
                   },
@@ -115,7 +126,7 @@ const CourseDetails = () => {
                     type: "video",
                     content: {
                       title: "تاريخ البرمجة",
-                      src: sampleVideo,
+                      src: "https://www.sayan-server.com/courses/videos/academy//mPMpsr4Lj1roFRKA94Oa.mp4",
                       description: "نظرة تاريخية على تطور البرمجة",
                     },
                   },
@@ -172,7 +183,7 @@ const CourseDetails = () => {
                     type: "video",
                     content: {
                       title: "ميزات ES6",
-                      src: sampleVideo,
+                      src: "https://www.sayan-server.com/courses/videos/academy//mPMpsr4Lj1roFRKA94Oa.mp4",
                       description: "تعلم ميزات جافا سكريبت الحديثة",
                     },
                   },
@@ -199,7 +210,7 @@ const CourseDetails = () => {
                     type: "video",
                     content: {
                       title: "نظرة عامة على HTML وCSS",
-                      src: sampleVideo,
+                      src: "https://www.sayan-server.com/courses/videos/academy//mPMpsr4Lj1roFRKA94Oa.mp4",
                       description: "مقدمة في HTML و CSS",
                     },
                   },
@@ -207,7 +218,7 @@ const CourseDetails = () => {
                     type: "video",
                     content: {
                       title: "بناء أول صفحة ويب لك",
-                      src: sampleVideo,
+                      src: "https://www.sayan-server.com/courses/videos/academy//mPMpsr4Lj1roFRKA94Oa.mp4",
                       description:
                         "تعلم كيفية إنشاء صفحة ويب بسيطة باستخدام HTML وCSS",
                     },

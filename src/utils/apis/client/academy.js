@@ -21,8 +21,8 @@ export const postRegister = async (data) => {
   return response;
 };
 
-export const getCourse = async () => {
-  const { data } = await academy_client.get("/courses/all");
+export const getCourse = async (id) => {
+  const { data } = await axios.get(`https://www.sayan-server.com/api/v1/courses/${id}`);
   return data;
 };
 

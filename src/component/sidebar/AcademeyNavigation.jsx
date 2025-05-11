@@ -207,64 +207,28 @@ const AcademeyNavigation = ({ setShow, mobile }) => {
         ].find((path) => location.pathname === path)}
       >
         <div className={classes.Link}>
-          <div
-            className={classes.subIcon}
-            onClick={() => {
-              if (mobile) setShow(false);
-            }}
-          >
+          <div className={classes.subIcon}>
             <div>{ballIcon}</div>
             <span className="title-dash-link">بيانات الطلاب</span>
             <Badge color="failure">قريباً</Badge>
           </div>
         </div>
-        <NavLink
-          className={({ isActive, isPending }) =>
-            isPending
-              ? "pending"
-              : isActive
-              ? classes.activeSubLink
-              : classes.Link
-          }
-          to="/academy/StudentBagExams"
-        >
-          <div
-            className={classes.subIcon}
-            onClick={() => {
-              if (mobile) setShow(false);
-            }}
-          >
+        <div className={classes.Link}>
+          <div className={classes.subIcon}>
             <div>{ballIcon}</div>
             <span className="title-dash-link">الاختبارات </span>
+            <Badge color="failure">قريباً</Badge>
           </div>
-        </NavLink>
-        <NavLink
-          className={({ isActive, isPending }) =>
-            isPending
-              ? "pending"
-              : isActive
-              ? classes.activeSubLink
-              : classes.Link
-          }
-          to="/academy/StudentBagCertifcate"
-        >
-          <div
-            className={classes.subIcon}
-            onClick={() => {
-              if (mobile) setShow(false);
-            }}
-          >
+        </div>
+        <div className={classes.Link}>
+          <div className={classes.subIcon}>
             <div>{ballIcon}</div>
             <span className="title-dash-link">الشهادات </span>
+            <Badge color="failure">قريباً</Badge>
           </div>
-        </NavLink>
+        </div>
         <div className={classes.Link}>
-          <div
-            className={classes.subIcon}
-            onClick={() => {
-              if (mobile) setShow(false);
-            }}
-          >
+          <div className={classes.subIcon}>
             <div>{ballIcon}</div>
             <span className="title-dash-link">التعليقات </span>
             <Badge color="failure">قريباً</Badge>
@@ -402,19 +366,26 @@ const AcademeyNavigation = ({ setShow, mobile }) => {
           </div>
         </NavLink>
       </Collection>
-
-      <div className={classes.mainIcon}>
-        <div>
-          <EmployeeMangment
-            active={["/academy/EmployeeMangment"].find(
-              (path) => location.pathname === path
-            )}
-          />
-          <span className="title-dash-link">ادارة الموظفين </span>
-          <Badge color="failure">قريباً</Badge>
+      <NavLink
+        to="/academy/TrainersManagment"
+        className={({ isActive, isPending }) => {
+          return isPending ? "pending" : isActive ? classes.activeLink : "";
+        }}
+      >
+        <div className={classes.mainIcon}>
+          <div>
+            <EmployeeMangment
+              active={["/academy/TrainersManagment"].find(
+                (path) => location.pathname === path
+              )}
+            />
+            <span className="title-dash-link">ادارة المدربين </span>
+          </div>
         </div>
-      </div>
-      <div className={classes.mainIcon}>
+      </NavLink>
+
+      {/* قسم المنتجات والكوبونات معطل مؤقتاً */}
+      {/* <div className={classes.mainIcon}>
         <div>
           <ProductIcon
             active={["/academy/Products"].find(
@@ -435,7 +406,7 @@ const AcademeyNavigation = ({ setShow, mobile }) => {
           <span className="title-dash-link">الكوبونات</span>
           <Badge color="failure">قريباً</Badge>
         </div>
-      </div>
+      </div> */}
 
       <NavLink
         to="academy/Wallet"

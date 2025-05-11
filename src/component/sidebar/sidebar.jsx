@@ -24,7 +24,7 @@ const SideBar = ({ flag, mobile, setShow, profileData }) => {
     }
   };
 
-  const profileImage = profileData?.image || AcademyImage;
+  const profileImage = profileData?.academy?.image || profileData?.image;
   const profileName = profileData?.name || "أكاديمية ضوء";
 
   const handleProfileSwitch = () => {

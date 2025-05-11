@@ -1,4 +1,3 @@
-import PlayBtn from "../../../component/Icons/PlayBtn";
 import CertificationIcon from "../../../component/Icons/CertificationIcon";
 import GraduateIcon from "../../../component/Icons/GraduateIcon";
 import StudentRateSection from "../../../component/AcadmyLayouts/studentRate/StudentRate";
@@ -244,10 +243,6 @@ const Hero = ({ academyData }) => {
                 >
                   {academyData.slider.second_button_title}
                 </span>
-                <PlayBtn
-                  color={academyData.settings.secondary_color}
-                  iconColor={academyData.settings.secondary_color}
-                />
               </a>
             </div>
           </div>

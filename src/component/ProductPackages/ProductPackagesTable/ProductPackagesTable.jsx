@@ -1,157 +1,178 @@
-import {
-  Table,
-  Popover,
-  Whisper,
-  Dropdown,
-  IconButton,
-  Progress
-} from "rsuite";
+import React, { useEffect, useState } from "react";
+import { Grid, Card, CardMedia, CardContent, Typography, Box, Stack, Chip, IconButton, Divider, Tooltip, Checkbox } from "@mui/material";
+import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
+import BorderColorOutlinedIcon from "@mui/icons-material/BorderColorOutlined";
 import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
-import { mockUsers } from "../ProductPackagesCard/mock";
-import { Checkbox } from "@mui/material";
-import React, { useEffect } from "react";
-import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
-import BorderColorOutlinedIcon from "@mui/icons-material/BorderColorOutlined";
 import { useNavigate } from "react-router-dom";
-import AreaChart from "../../charts/doubleArea";
-
-import AreaChartNormal from "../../charts/AreaChart";
 import { toast } from "react-toastify";
+import AreaChart from "../../charts/doubleArea";
+import AreaChartNormal from "../../charts/AreaChart";
+import { mockUsers } from "../ProductPackagesCard/mock";
 
-const { Column, HeaderCell, Cell } = Table;
-const data = mockUsers(8);
-
-const NameCell = ({ rowData, dataKey, ...props }) => {
-  return (
-    <Cell {...props}>
-      <a>{rowData[dataKey]}</a>
-    </Cell>
-  );
+// اذا أردت إضافة حالة الطلب بشكل جميل:
+const statusMap = {
+  active: { label: "تم السحب", color: "#47FFBB", chip: "success" },
+  not: { label: "قيد الانتظار", color: "#FFC107", chip: "warning" },
+  pending: { label: "قيد التنفيذ", color: "#2196f3", chip: "primary" },
 };
 
-const ImageCell = ({ rowData, dataKey, router, link, ...props }) => (
-  <Cell {...props} style={{ padding: 0, cursor: "pointer" }}>
-    <div
-      style={{
-        minWidth: "170px",
-        gap: "10px",
-        alignItems: "center",
-        position: "relative",
-        display: "flex"
+const CardStatusChip = ({ status }) => {
+  const map = statusMap[status] || statusMap.pending;
+  return <Chip label={map.label} sx={{ bgcolor: map.color + "20", color: map.color, fontWeight: 500, fontSize: 15, px: 1.4 }} />;
+};
+
+const ProductPackageCard = ({
+  item,
+  checked,
+  onCheck,
+  onEdit,
+  onDelete,
+  onCardClick,
+}) => {
+  return (
+    <Card
+      sx={{
+        borderRadius: 3.8,
+        boxShadow: "0 5px 32px 0 rgba(60,96,200,0.06)",
+        background: "linear-gradient(125deg,#fff 85%, #f4f7fb 100%)",
+        overflow: "hidden",
+        p: 0,
+        transition: "box-shadow .14s, transform .13s",
+        display: "flex",
+        flexDirection: "column",
+        minHeight: 420,
+        cursor: "pointer",
+        '&:hover': {
+          boxShadow: "0 15px 50px 0 rgba(40, 80, 150, 0.13)",
+          transform: "translateY(-3px) scale(1.014)",
+        },
       }}
-      onClick={() => {
-        router("/admin/AcadmicMarketing");
-      }}
+      onClick={onCardClick}
     >
-      <img
-        src={rowData.user.image}
-        style={{
-          width: "40px",
-          height: "40px",
-          position: "absolute",
-          right: "0",
-          borderRadius: "50%"
-        }}
-      />
-      <div style={{ width: "40px", height: "40px" }}></div>
-
-      <span style={{ maxWidth: "90px" }}>{rowData.user.name}</span>
-    </div>
-  </Cell>
-);
-
-const CheckCell = ({
-  rowData,
-  onClick,
-  checkedKeys,
-  dataKey,
-  style,
-
-  ...props
-}) => (
-  <Cell {...props} style={{ padding: 0 }}>
-    <div style={style}>
-      <Checkbox
-        value={rowData[dataKey]}
-        inline
-        onClick={() => onClick(rowData, checkedKeys)}
-        checked={checkedKeys.some((item) => item === rowData)}
-      />
-    </div>
-  </Cell>
-);
-
-const renderMenu = ({ onClose, left, top, className }, ref) => {
-  const handleSelect = (eventKey) => {
-    onClose();
-    console.log(eventKey);
-  };
-  return (
-    <Popover ref={ref} className={className} style={{ left, top }} full>
-      <Dropdown.Menu onSelect={handleSelect}>
-        <Dropdown.Item eventKey={1}>Follow</Dropdown.Item>
-        <Dropdown.Item eventKey={2}>Sponsor</Dropdown.Item>
-        <Dropdown.Item eventKey={3}>Add to friends</Dropdown.Item>
-        <Dropdown.Item eventKey={4}>View Profile</Dropdown.Item>
-        <Dropdown.Item eventKey={5}>Block</Dropdown.Item>
-      </Dropdown.Menu>
-    </Popover>
-  );
-};
-
-const ActionCell = ({ rowData, dataKey, setShow, ...props }) => {
-  return (
-    <Cell {...props} className="link-group">
-      <div style={{ display: "flex", gap: "30px", color: "#A3AED0" }}>
-        <BorderColorOutlinedIcon />
-        <DeleteOutlineOutlinedIcon
-          sx={{ cursor: "pointer" }}
-          onClick={() => setShow(true)}
+      {/* Top Area - Image & Checkbox */}
+      <Box sx={{ position: "relative" }}>
+        <CardMedia
+          component="img"
+          alt={item.user?.name}
+          image={item.user?.image || "/images/placeholder-user.png"}
+          sx={{
+            width: "100%",
+            height: 225,
+            objectFit: "cover",
+            borderBottom: "1.9px solid #f2f4fc"
+          }}
         />
-      </div>
-    </Cell>
+        <Checkbox
+          checked={checked}
+          onChange={() => onCheck(item)}
+          sx={{
+            position: "absolute",
+            right: 9,
+            top: 9,
+            bgcolor: "#fff",
+            borderRadius: 2,
+            zIndex: 2,
+            width: 25, height: 25,
+            boxShadow: checked ? "0 2.6px 12px #b7eee4" : "none",
+            '&:hover': { bgcolor: "#eef6ff" }
+          }}
+          onClick={e => e.stopPropagation()}
+        />
+        {/* تعديل & حذف */}
+        <Box sx={{
+          position: "absolute", left: 10, top: 10, zIndex: 2, display: "flex", gap: 0.5
+        }}>
+          <Tooltip title="تعديل">
+            <IconButton size="small" sx={{ color: "#1168c7", bgcolor: "#ecf3ff", "&:hover": { bgcolor: "#d6e6ff" } }} onClick={e => { e.stopPropagation(); onEdit(item); }}>
+              <BorderColorOutlinedIcon sx={{ fontSize: 19 }} />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="حذف">
+            <IconButton size="small" sx={{ color: "#db1749", bgcolor: "#fde9ee", "&:hover": { bgcolor: "#f9b7c7" } }} onClick={e => { e.stopPropagation(); onDelete(item); }}>
+              <DeleteOutlineOutlinedIcon sx={{ fontSize: 19 }} />
+            </IconButton>
+          </Tooltip>
+        </Box>
+      </Box>
+      {/* Content */}
+      <CardContent sx={{
+        display: "flex", flexDirection: "column", gap: 1.1, flexGrow: 1, pt: 2, pb: 1.1, px: 2.1
+      }}>
+        {/* اسم المسوق */}
+        <Stack direction="row" alignItems="center" gap={1.4}>
+          <Typography fontWeight={700} color="primary" fontSize={17} sx={{ flex: 1, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>
+            {item.user?.name}
+          </Typography>
+          <CardStatusChip status={item.isActive} />
+        </Stack>
+        {/* اكاديمية تعليمية */}
+        <Box sx={{ color: "#435", fontWeight: 500, fontSize: 15, my: 0.1 }}>
+          الأكاديمية:{" "}
+          <Typography component="span" color="#1967d2" sx={{ fontWeight: 600 }}>
+            {item.user?.academy || "—"}
+          </Typography>
+        </Box>
+        {/* اعلان ترويجي */}
+        <Box sx={{ color: "#727272" }}>
+          الإعلان: <span style={{ fontWeight: 600, color: "#318bff" }}>/{item.id}/ad</span>
+        </Box>
+
+        {/* المبلغ */}
+        <Box sx={{ color: "#1967d2", fontWeight: 800, fontSize: 17, letterSpacing: 0.2 }}>
+          {item.amount ? `${item.amount} ر.س.` : "بدون مبلغ"}
+        </Box>
+        {/* تاريخ الانضمام */}
+        <Divider sx={{ my: 0.5, borderColor: "#f5f5f5" }} />
+        <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+          <Typography color="#8a8f9a" sx={{ fontSize: 14 }}>
+            انضم: <span style={{ color: "#3d3674" }}>{item.joinedAt || "—"}</span>
+          </Typography>
+        </Box>
+      </CardContent>
+    </Card>
   );
 };
 
-const ProductPackagesTable = ({
+export default function ProductPackagesGrid({
   checkAllHandler,
   checkedKeys,
   setData,
   setCheckedKeys
-}) => {
-  let checked = false;
-  let indeterminate = false;
+}) {
+  const [modal, setModal] = useState({ show: false, targetId: null });
+  const [data, setDataState] = useState([]);
   const router = useNavigate();
 
-  const handleCheck = (value, checkedKeys) => {
-    if (!checkedKeys.some((item) => item === value)) {
-      setCheckedKeys((perv) => [...perv, value]);
-    } else {
-      setCheckedKeys((perv) => perv.filter((item) => item !== value));
-    }
-  };
   useEffect(() => {
-    setData(data);
+    setDataState(mockUsers(8)); // جلب بيانات وهمية/غيّر الداتا حسب الربط
+    setData(mockUsers(8));
   }, []);
-  const [showModal2, setShowModal2] = React.useState(false);
-  // REMOVE AND CALCEL MODAL
-  const successCancel = () => {
-    setShowModal2(false);
 
-    toast.success("تم الالغاء بنجاح");
-  };
-
-  const successRemove = () => {
-    setShowModal2(false);
-
+  // تعامل حذف
+  const handleDelete = (item) => setModal({ show: true, targetId: item.id });
+  const confirmDelete = () => {
+    setModal({ show: false, targetId: null });
     toast.success("تم الحذف بنجاح");
+    setDataState(prev => prev.filter(i => i.id !== modal.targetId));
+    setData(prev => prev.filter(i => i.id !== modal.targetId));
+    setCheckedKeys(prev => prev.filter(i => i.id !== modal.targetId));
   };
+  // تعامل الغاء
+  const cancelDelete = () => setModal({ show: false, targetId: null });
+  // تعامل اختيار الكل
+  const checkedAll = checkedKeys.length === data.length && data.length !== 0;
+  const handleCheck = (item) => {
+    if (!checkedKeys.some((k) => k.id === item.id)) setCheckedKeys((pv) => [...pv, item]);
+    else setCheckedKeys((pv) => pv.filter((k) => k.id !== item.id));
+  };
+
   return (
-    <div style={{ backgroundColor: "white", padding: "20px" }}>
+    <div style={{ backgroundColor: "white", padding: "20px", borderRadius: 18 }}>
+      {/* المؤشرات كما هو */}
       <div className="row mb-3 g-3">
-        {/* <div className="row p-0 w-100">
+        <div className="row p-0 w-100">
           <div className="col-lg-4 ">
             <div className="chartCard">
               <div className="ChartHeader">
@@ -165,23 +186,11 @@ const ProductPackagesTable = ({
               </div>
               <div className="ChartFooter">
                 <div>
-                  <FiberManualRecordIcon
-                    sx={{
-                      color: "       #47FFFF80",
-                      width: "20px",
-                      height: "20px",
-                    }}
-                  />
+                  <FiberManualRecordIcon sx={{ color: "#47FFFF80", width: "20px", height: "20px" }} />
                   90% (راضي)
                 </div>
                 <div>
-                  <FiberManualRecordIcon
-                    sx={{
-                      color: "rgba(255, 71, 170, 0.8)",
-                      width: "20px",
-                      height: "20px",
-                    }}
-                  />
+                  <FiberManualRecordIcon sx={{ color: "rgba(255, 71, 170, 0.8)", width: "20px", height: "20px" }} />
                   10% (غير راضي)
                 </div>
               </div>
@@ -191,18 +200,17 @@ const ProductPackagesTable = ({
             <div className="chartCard">
               <div className="ChartHeader">
                 <div className="ChartText">
-                  <h3>عدد الطلبات أثناء العروض  </h3>
+                  <h3>عدد الطلبات أثناء العروض </h3>
                   <p> 258 طلب</p>
                 </div>
                 <div className="d-flex align-items-center">
-                  <AreaChartNormal color={'rgba(71, 255, 145, 0.1) '} borderColor={'rgba(71, 255, 145, 1)'}/>
+                  <AreaChartNormal color={'rgba(71, 255, 145, 0.1) '} borderColor={'rgba(71, 255, 145, 1)'} />
                 </div>
               </div>
               <div className="ChartFooter">
                 <div>
-                عرض التقرير
+                  عرض التقرير
                 </div>
-                
               </div>
             </div>
           </div>
@@ -214,194 +222,61 @@ const ProductPackagesTable = ({
                   <p>5,302 ر.س.</p>
                 </div>
                 <div className="d-flex align-items-center">
-                  <AreaChartNormal color={'rgba(14, 133, 255, 0.1) '} borderColor={'rgba(14, 133, 255, 1)'}/>
+                  <AreaChartNormal color={'rgba(14, 133, 255, 0.1) '} borderColor={'rgba(14, 133, 255, 1)'} />
                 </div>
               </div>
               <div className="ChartFooter">
                 <div>
-                عرض التقرير
+                  عرض التقرير
                 </div>
-                
               </div>
             </div>
           </div>
-        </div> */}
+        </div>
       </div>
-      <div style={{ overflowX: "auto" }} className="mt-2">
-        <Table
-          height={600}
-          style={{ direction: "rtl" }}
-          headerHeight={60}
-          rowHeight={60}
-          data={data}
-          id="table"
-        >
-          <Column width={100} align="center">
-            <HeaderCell style={{ display: "flex", alignItems: "center" }}>
-              <div style={{ lineHeight: "40px" }}>
-                <Checkbox
-                  inline
-                  checked={checkedKeys.length === data.length}
-                  indeterminate={indeterminate}
-                  onClick={() => {
-                    checkAllHandler();
-                  }}
-                />
-              </div>
-            </HeaderCell>
-            <CheckCell
-              style={{ display: "flex", alignItems: "center" }}
-              dataKey="id"
-              checkedKeys={checkedKeys}
-              onClick={handleCheck}
-            />
-          </Column>
-          <Column minWidth={170} flexGrow={1} align="center">
-            <HeaderCell
-              style={{
-                paddingBlock: "18px",
-                textAlign: "center",
-                fontSize: "14px",
-                color: "#2B3674",
-                fontWeight: "700"
-              }}
-            >
-              المسوّق
-            </HeaderCell>
-            <ImageCell dataKey="user" />
-          </Column>
 
-          <Column minWidth={170} flexGrow={1} align="center">
-            <HeaderCell
-              style={{
-                paddingBlock: "18px",
-                textAlign: "center",
-                fontSize: "14px",
-                color: "#2B3674",
-                fontWeight: "700"
-              }}
-            >
-              الاكاديمية التعليمية
-            </HeaderCell>
-            <ImageCell dataKey="user" router={router} link />
-          </Column>
+      {/* الشبكة */}
+      <Box sx={{ width: "100%", mt: 3 }}>
+        <Stack direction="row" alignItems="center" mb={1.6} gap={2}>
+          <Checkbox
+            checked={checkedAll}
+            indeterminate={!checkedAll && checkedKeys.length > 0}
+            onChange={checkAllHandler}
+            sx={{
+              width: 28, height: 28, borderRadius: 2, bgcolor: "#f6f7ff", ml: 1.5,
+              '&:hover': { bgcolor: "#eef6ff" }
+            }}
+          />
+          <Typography fontSize={16} fontWeight={600} color="#1967d2">
+            تحديد الكل
+          </Typography>
+        </Stack>
+        <Grid container spacing={{ xs: 2, md: 2.7 }}>
+          {data.map((item) => (
+            <Grid item xs={12} sm={6} md={4} lg={3} key={item.id}>
+              <ProductPackageCard
+                item={item}
+                checked={checkedKeys.some((i) => i.id === item.id)}
+                onCheck={handleCheck}
+                onEdit={() => { /* تعديل */ }}
+                onDelete={handleDelete}
+                onCardClick={() => { /* توجيه لصفحة الطلب مثلاً */ }}
+              />
+            </Grid>
+          ))}
+        </Grid>
+      </Box>
 
-          <Column flexGrow={1} minWidth={150}>
-            <HeaderCell
-              style={{
-                paddingBlock: "18px",
-                textAlign: "center",
-                fontSize: "14px",
-                color: "#2B3674",
-                fontWeight: "700"
-              }}
-            >
-              {" "}
-              الاعلان الترويجي
-            </HeaderCell>
-            <Cell
-              style={{
-                padding: "10px 0",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center"
-              }}
-            >
-              /x/ad
-            </Cell>
-          </Column>
-
-          <Column flexGrow={1} minWidth={150}>
-            <HeaderCell
-              style={{
-                paddingBlock: "18px",
-                textAlign: "center",
-                fontSize: "14px",
-                color: "#2B3674",
-                fontWeight: "700"
-              }}
-            >
-              المبلغ
-            </HeaderCell>
-            <Cell>300.00 ر.س.</Cell>
-          </Column>
-
-          <Column flexGrow={1} minWidth={150}>
-            <HeaderCell
-              style={{
-                paddingBlock: "18px",
-                textAlign: "center",
-                fontSize: "14px",
-                color: "#2B3674",
-                fontWeight: "700"
-              }}
-            >
-              حالة الطلب
-            </HeaderCell>
-            <Cell>
-              {(rowData) =>
-                rowData.isActive == "active" ? (
-                  <div className="yesActive"> تم السحب </div>
-                ) : rowData.isActive == "not" ? (
-                  <div className="Ended"> قيد الانتظار </div>
-                ) : (
-                  <div className="ispending"> قيد التنفيذ </div>
-                )
-              }
-            </Cell>
-          </Column>
-          <Column flexGrow={1} minWidth={150}>
-            <HeaderCell
-              style={{
-                paddingBlock: "18px",
-                textAlign: "center",
-                fontSize: "14px",
-                color: "#2B3674",
-                fontWeight: "700"
-              }}
-            >
-              تاريخ الانضمام
-            </HeaderCell>
-            <Cell>Jan.01.2024</Cell>
-          </Column>
-          <Column flexGrow={1} minWidth={150}>
-            <HeaderCell
-              style={{
-                paddingBlock: "18px",
-                textAlign: "center",
-                fontSize: "14px",
-                color: "#2B3674",
-                fontWeight: "700"
-              }}
-            ></HeaderCell>
-            <ActionCell dataKey="id" setShow={setShowModal2} />
-          </Column>
-        </Table>
-      </div>
-      <Modal
-        style={{ direction: "rtl" }}
-        show={showModal2}
-        onHide={() => setShowModal2(false)}
-        className="modal-student"
-      >
+      {/* Modal Bootstrap للحذف */}
+      <Modal style={{ direction: "rtl" }} show={modal.show} onHide={cancelDelete} className="modal-student">
         <Modal.Body>
-          <h2 style={{ color: "#2B3674", fontSize: "22px" }}>
-            {" "}
-            هل تريد حذف هذا النموذج ؟
-          </h2>
+          <h2 style={{ color: "#2B3674", fontSize: "22px" }}> هل تريد حذف هذا الطلب ؟ </h2>
         </Modal.Body>
-
         <Modal.Footer style={{ direction: "rtl" }}>
-          <Button variant="primary" onClick={successCancel}>
-            الغاء
-          </Button>
-          <Button variant="danger" onClick={successRemove}>
-            حذف{" "}
-          </Button>
+          <Button variant="primary" onClick={cancelDelete}> الغاء </Button>
+          <Button variant="danger" onClick={confirmDelete}> حذف </Button>
         </Modal.Footer>
       </Modal>
     </div>
   );
-};
-
-export default ProductPackagesTable;
+}

@@ -187,7 +187,7 @@ const StudentRatesTable = ({
             >
               {(rowData) =>
                 rowData.student_avatar ? (
-                  <Avatar src={rowData.student_avatar} size="lg" circle />
+                  <Avatar src={dataKey="student_avatar"} size="lg" circle />
                 ) : (
                   "N/A"
                 )

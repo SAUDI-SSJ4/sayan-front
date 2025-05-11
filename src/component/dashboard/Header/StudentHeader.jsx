@@ -5,67 +5,76 @@ import widgedbg from "../../../assets/images/widgetbg.svg";
 import checkk from "../../../assets/icons/BillCheck.svg";
 import { useNavigate } from "react-router-dom";
 
-const StudentDashboardHeader = ({ academy, StudentData }) => {
+const StudentDashboardHeader = ({ academy = false, StudentData = {} }) => {
   const router = useNavigate();
 
   return (
-    <div className="row" style={{ marginTop: "25px" }}>
+    <div className="row mt-4">
+      {/* الدورات التدريبية */}
       <div className="col-lg-3 mt-2">
         <div
           className={`d-flex ${classes.Widget} ${classes.users}`}
           style={{ backgroundColor: "rgba(0, 98, 255, 0.06)" }}
           onClick={() => router("/student/TrainingCourses")}
         >
-          <div className={`${classes.icon}`}>
-            <img src={user} />
+          <div className={classes.icon}>
+            <img src={user} alt="الدورات" />
           </div>
           <div>
             <h2>الدورات التدريبية</h2>
-            <span>{StudentData?.courses}</span>
+            <span>{StudentData.courses ?? 0}</span>
           </div>
         </div>
       </div>
+
+      {/* المشتريات */}
       <div className="col-lg-3 mt-2">
         <div
           className={`d-flex ${classes.Widget} ${classes.documentt}`}
           style={{ backgroundColor: "rgba(30, 2, 170, 0.06)" }}
           onClick={() => router("/student/pruchases")}
         >
-          <div className={`${classes.icon}`}>
-            <img src={documentt} />
+          <div className={classes.icon}>
+            <img src={documentt} alt="المشتريات" />
           </div>
           <div>
             <h2>المشتريات</h2>
-            <span>{StudentData?.latest_courses?.length}</span>
+            <span>{StudentData.latest_courses?.length ?? 0}</span>
           </div>
         </div>
       </div>
+
+      {/* المفضلة */}
       <div className="col-lg-3 mt-2">
         <div
           className={`d-flex ${classes.Widget} ${classes.checkk}`}
           style={{ backgroundColor: "rgba(255, 192, 71, 0.06)" }}
           onClick={() => router("/student/Favorate")}
         >
-          <div className={`${classes.icon}`}>
-            <img src={checkk} />
+          <div className={classes.icon}>
+            <img src={checkk} alt="المفضلة" />
           </div>
           <div>
             <h2>المفضلة</h2>
-            <span>{StudentData?.faved}</span>
+            <span>{StudentData.faved ?? 0}</span>
           </div>
         </div>
       </div>
+
+      {/* المبيعات */}
       <div className="col-lg-3 mt-2">
         <div
-          className={`d-flex ${classes.Widget} ${academy ? classes.lastAcademy : classes.last} `}
+          className={`d-flex ${classes.Widget} ${
+            academy ? classes.lastAcademy : classes.last
+          }`}
           onClick={() => router("/student/Wallet")}
         >
           <div>
-            <p>المبيعات </p>
+            <p>المبيعات</p>
             <h2>70,600 ر.س.</h2>
-            <span> 10% منذ اخر شهر</span>
+            <span>10% منذ آخر شهر</span>
           </div>
-          <img src={widgedbg} className={classes.widgedbg} />
+          <img src={widgedbg} alt="المبيعات" className={classes.widgedbg} />
         </div>
       </div>
     </div>

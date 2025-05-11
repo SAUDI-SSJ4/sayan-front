@@ -122,34 +122,31 @@ const StudentNavigation = ({ setShow, mobile }) => {
             <Badge color="failure">قريباً</Badge>
           </div>
         </div>
-
-
       </Collection>
 
-
-      <Collection
+      {/* قسم المحفظة معطل مؤقتاً */}
+      {/* <Collection
         mainIcon={<WalletIcon sx={{ width: "30px", height: "30px" }} />}
         mainTitle={"المحفظة"}
         acitve={STUDENT_BAG_NAVIGATOR_TWO.find((path) => location.pathname === path)}
       >
-
-        <SubLinkOnMenu path="/student/Wallet">
+        <div path="/student/Wallet">
           <div className={classes.subIcon} onClick={(e) => (mobile ? setShow(false) : null)}>
             <div>
               <FiberManualRecordIcon sx={{ color: "#7E8799", width: "10px", height: "10px" }} />
             </div>
             <span className="title-dash-link"> عرض المحفظة </span>
           </div>
-        </SubLinkOnMenu>
-        <SubLinkOnMenu path="/student/Transactions">
+        </div>
+        <div path="/student/Transactions">
           <div className={classes.subIcon} onClick={(e) => (mobile ? setShow(false) : null)}>
             <div>
               <FiberManualRecordIcon sx={{ color: "#7E8799", width: "10px", height: "10px" }} />
             </div>
             <span className="title-dash-link">المعاملات المالية </span>
           </div>
-        </SubLinkOnMenu>
-      </Collection>
+        </div>
+      </Collection> */}
 
     </>
   );

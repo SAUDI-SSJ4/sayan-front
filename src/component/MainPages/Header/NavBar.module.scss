@@ -1,141 +1,208 @@
+/* ==========================================================================
+   Navbar Styles - Glassmorphism Effect
+   ========================================================================== */
+
+// متغيرات ألوان رئيسية (يمكن وضعها في ملف متغيرات عام)
+$primary-blue: #0062ff;
+$secondary-blue: #009aff;
+$text-color-navbar: #2c3e50; // لون نص داكن للتباين الجيد
+$navbar-active-link-color: $primary-blue; // لون الرابط النشط (سيكون دائمًا أزرق)
+$navbar-link-color: #3e638a; // لون أزرق داكن قليلاً للروابط غير النشطة، لكنه لا يزال أزرق
+
 .NavBarContainer {
-  background-color: white;
-  padding: 18px 24px;
-  box-shadow: 0px 0px 20px 0px rgba(0, 0, 0, 0.05);
-  margin-inline: 100px;
+  // --- Glassmorphism Effect ---
+  background-color: rgba(245, 250, 252, 0.911); // شفافية أعلى قليلاً للخلفية
+  backdrop-filter: blur(12px); // زيادة قيمة الضبابية
+  -webkit-backdrop-filter: blur(12px); // لدعم Safari
+
+  padding: 16px 30px; // تعديل padding قليلاً
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1); // ظل أنعم وأكثر انتشارًا
+  border: 1px solid rgba(255, 255, 255, 0.2); // حدود بيضاء شبه شفافة
+
+  margin: 20px auto; // هامش علوي وسفلي وتوسيط أفقي
   display: flex;
   justify-content: space-between;
-  border-radius: 21px;
   align-items: center;
-  width: 1300px;
-  margin: auto;
+  border-radius: 18px; // تقليل حدة الدوران قليلاً
+  width: calc(100% - 80px); // لجعله متجاوبًا مع ترك مسافة من الجانبين
+  max-width: 1350px; // تحديد عرض أقصى
+  position: sticky; // لجعله يثبت في الأعلى عند التمرير
+  top: 20px;      // المسافة من الأعلى عند التثبيت
+  z-index: 999;   // لضمان ظهوره فوق العناصر الأخرى
 
-  @media (max-width: 600px) {
-    margin-inline: 10px !important;
+  @media (max-width: 1200px) {
+    width: calc(100% - 40px); // تقليل الهامش الجانبي للشاشات الأصغر
+  }
+
+  @media (max-width: 768px) { // تعديل نقطة التوقف لتكون أكثر شيوعًا
+    margin-inline: 15px;
+    width: calc(100% - 30px);
+    padding: 12px 20px;
   }
 
   .NavBarRoutes {
     display: flex;
-    gap: 50px;
+    align-items: center;
+    gap: 40px; // تقليل المسافة قليلاً
+
+    .logo {
+      img {
+        width: 90px !important; // تعديل بسيط للحجم
+        height: auto !important; // الحفاظ على نسبة العرض إلى الارتفاع
+        display: block; // لإزالة أي مسافات إضافية
+      }
+    }
+
     .Routes {
+      display: flex;
+      align-items: center;
       @media (max-width: 991px) {
         display: none;
       }
-      display: flex;
-      align-items: center;
+
       ul {
         display: flex !important;
-        gap: 20px;
+        gap: 25px; // تعديل المسافة
         list-style: none;
-        padding: 0px;
-        margin: 0px;
+        padding: 0;
+        margin: 0;
+
         li {
-          font-size: 17px;
-          font-style: normal;
-          font-weight: 500;
+          a { // تطبيق الأنماط مباشرة على الرابط داخل li
+            font-size: 16px; // توحيد حجم الخط
+            font-weight: 500;
+            color: $navbar-link-color; // لون أزرق داكن للروابط
+            text-decoration: none;
+            padding: 8px 0; // إضافة padding رأسي بسيط للمنطقة القابلة للنقر
+            position: relative;
+            transition: color 0.25s ease;
+
+            &:hover {
+              color: $primary-blue; // لون أزرق أفتح عند المرور
+            }
+          }
         }
       }
     }
-    .logo {
-      img {
-        width: 99px !important;
-        height: 46px !important;
+  }
+
+  .NavBarBtns, .NavBarBtnss { // تجميع الأنماط المشتركة لأزرار الهيدر والـ Offcanvas
+    display: flex;
+    gap: 12px; // تقليل المسافة
+    align-items: center;
+
+    .Secondry {
+      font-weight: 600;
+      font-size: 15px; // تعديل حجم الخط
+      color: $secondary-blue; // لون أزرق ثانوي
+      cursor: pointer;
+      padding: 8px 12px; // إضافة padding لجعله يبدو كزر
+      border-radius: 8px;
+      transition: background-color 0.2s ease, color 0.2s ease;
+
+      &:hover {
+        background-color: rgba($secondary-blue, 0.1);
       }
     }
+
+    .Primary {
+      cursor: pointer;
+      background-color: $primary-blue;
+      color: white;
+      padding: 9px 22px; // تعديل padding
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 15px; // تعديل حجم الخط
+      border: 1px solid $primary-blue;
+      transition: background-color 0.25s ease, border-color 0.25s ease, color 0.25s ease, box-shadow 0.25s ease;
+      box-shadow: 0 2px 5px rgba($primary-blue, 0.2);
+
+      &:hover {
+        background-color: darken($primary-blue, 8%);
+        border-color: darken($primary-blue, 8%);
+        box-shadow: 0 4px 10px rgba($primary-blue, 0.3);
+      }
+      // &:focus لا تحتاج لتغيير كبير، يمكن تركها أو تبسيطها
+    }
   }
-  .NavBarBtns {
-    display: flex;
-    gap: 15px;
+
+  .NavBarBtns { // الأنماط الخاصة بـ NavBarBtns التي تظهر على الشاشات الكبيرة
     @media (max-width: 991px) {
       display: none;
     }
-    align-items: center;
-    .Secondry {
-      font-weight: 600;
-      font-size: 16px;
-      color: #009aff;
-      cursor: pointer;
-    }
-    .Primary {
-      color: white !important;
-      cursor: pointer;
-      background-color: #0062ff;
-      padding: 8px 20px;
-      border-radius: 8px;
-      font-weight: 600;
-      font-size: 16px;
-      border: 1px solid #0062ff;
-      transition: 0.4s;
-      &:hover {
-        background-color: #0146b4;
-        border: 1px solid #0146b4;
-        color: #0062ff;
-      }
-      &:focus {
-        background-color: #5a98fc;
-        border: 1px solid #478eff;
-      }
-    }
   }
+
   .MobileMenu {
     display: none;
-    font-size: 30px;
+    font-size: 28px; // تعديل حجم أيقونة القائمة
+    color: $primary-blue; // جعل أيقونة القائمة زرقاء
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 8px;
+    &:hover {
+      background-color: rgba($primary-blue, 0.1);
+    }
     @media (max-width: 991px) {
       display: block;
     }
   }
 }
 
+// هذا الكلاس يجب أن يضاف إلى عنصر الرابط النشط (<a>) بواسطة JavaScript (مثل NavLink من react-router-dom)
 .NavActive {
-  color: #0062ff !important;
-  transition: 0.4s;
+  color: $primary-blue !important; // اللون الأزرق الرئيسي للرابط النشط
+  font-weight: 700 !important; // جعله أثقل قليلاً
 }
-.NavBarBtnss {
-  display: flex;
-  gap: 20px;
 
-  align-items: center;
-  .Secondry {
-    font-weight: 600;
-    font-size: 16px;
-    color: #009aff;
-    cursor: pointer;
-  }
-  .Primary {
-    color: white;
-    cursor: pointer;
-    background-color: #0062ff;
-    padding: 8px 20px;
-    border-radius: 8px;
-    font-weight: 600;
-    font-size: 16px;
-    border: 1px solid #0062ff;
-    transition: 0.4s;
+// أنماط Offcanvas (إذا كنت تستخدمها لعرض القائمة على الموبايل)
+.Offcanvas { // افترض أن هذا هو الـ class name للحاوية داخل الـ Offcanvas
+  display: flex;
+  flex-direction: column;
+  gap: 15px; // تقليل المسافة
+  padding: 20px; // إضافة padding
+  
+  li, a { // تطبيق الأنماط على الروابط داخل الـ Offcanvas
+    font-size: 17px;
+    font-weight: 500;
+    color: $navbar-link-color; // لون أزرق للروابط
+    text-decoration: none;
+    padding: 10px 0;
+    display: block;
+    border-bottom: 1px solid #f0f2f5; // فاصل خفيف
+
+    &:last-child {
+      border-bottom: none;
+    }
+
     &:hover {
-      background-color: white;
-      color: #0062ff;
+      color: $primary-blue;
+    }
+    &.NavActive { // للرابط النشط داخل الـ Offcanvas
+       color: $primary-blue !important;
+       font-weight: 700 !important;
+       background-color: rgba($primary-blue, 0.05);
+       border-radius: 6px;
+       padding-left: 10px;
+       padding-right: 10px;
     }
   }
 }
-.Offcanvas {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  font-size: 18px;
-  list-style: none;
-  margin-bottom: 50px;
+
+.NavBarBtnss { // أنماط الأزرار داخل الـ Offcanvas
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid #e0e0e0;
+  // الأنماط المشتركة مع .NavBarBtns تم تجميعها أعلاه
+  .Secondrym { // إذا كان هذا كلاس خاص بـ Offcanvas
+    color: $secondary-blue !important; // التأكيد على اللون
+    // بقية الأنماط موروثة من .Secondry
+  }
 }
 
-.avatarImage {
-  width: 50px;
-  height: 50px;
+.avatarImage { // أنماط صورة المستخدم (إذا كانت مستخدمة في الـ Offcanvas أو الهيدر)
+  width: 45px; // تعديل الحجم
+  height: 45px;
   border-radius: 50%;
-}
-
-.Secondrym {
-  color: #fff !important;
-  font-weight: 600;
-  font-size: 16px;
-  color: #009aff;
-  cursor: pointer;
+  object-fit: cover;
+  border: 2px solid $primary-blue; // حدود زرقاء
 }

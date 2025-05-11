@@ -7,8 +7,6 @@ import chroma from "chroma-js";
 import Select from "react-select";
 import { useMutation } from "@tanstack/react-query";
 import { createCourseAPI } from "../../../../utils/apis/client/academy";
-import { useNavigate } from "react-router-dom";
-import { ButtonSpinner } from "../../../../component/UI/Buttons/ButtonSpinner";
 import { isCourseFieldComplete, populateFormData } from "../../../../utils/helpers";
 import { useToast } from "../../../../utils/hooks/useToast";
 import { storage } from "../../../../utils/storage";
@@ -177,16 +175,16 @@ export const CourseForm = forwardRef(({ setStepper, categories, trainers }, ref)
       </div>
       <div className="col-lg-6 col-md-12 justify-content-center">
         <div className="row g-3 button-content--1 m-auto justify-content-center">
-          <video
-            src={formik.values.short_video && URL.createObjectURL(formik.values.short_video)}
-            width="300px"
-            height="199px"
-            controls
-            style={{ objectFit: "contain", marginTop: "10px" }}
-            controlsList="nodownload"
-          >
-            Your browser does not support the video tag.
-          </video>
+        <div>
+  <video
+    src={formik.values.short_video && URL.createObjectURL(formik.values.short_video)}
+    controls
+    style={{ objectFit: "full", width: "600px", height: "200px", overflow: "hidden", borderRadius: "12px"  }}
+    controlsList="nodownload"
+  >
+    Your browser does not support the video tag.
+  </video>
+</div>
           <div className="d-flex justify-content-center">
             <input
               type="file"
@@ -197,7 +195,7 @@ export const CourseForm = forwardRef(({ setStepper, categories, trainers }, ref)
             />
             <div style={{
               background: "white",
-              marginTop: "20px",
+              marginTop: "15px",
               marginBottom: "30px",
             }}
               className="updateBtn"
@@ -284,9 +282,8 @@ export const CourseForm = forwardRef(({ setStepper, categories, trainers }, ref)
 
       <div className="col-lg-3 col-md-6">
         <div className="CustomFormControl">
-          <label htmlFor="price">السعر</label>
+          <label htmlFor="price">السعر - ريال</label>
           <input
-            type="number"
             placeholder="ادخل السعر هنا"
             id="price"
             name="price"

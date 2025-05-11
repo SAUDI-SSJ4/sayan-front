@@ -7,7 +7,8 @@ import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
-} from "../../../component/MainPages/FAQ/Accordion";
+}
+from "../../../component/MainPages/FAQ/Accordion";
 import classNames from "classnames";
 
 const MotionCard = ({ children, title, additionalClasses = "" }) => (
@@ -24,8 +25,6 @@ const MotionCard = ({ children, title, additionalClasses = "" }) => (
 );
 
 export const CourseInfo = ({ courseData, active, expanded, handleChange }) => {
-
-
   const renderContent = () => {
     switch (active) {
       case 0:

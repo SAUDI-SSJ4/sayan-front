@@ -43,14 +43,6 @@ const Favorate = () => {
           </div>
         </div>
       </div>
-
-      {/* <SessionsCardContainer
-          setData={studentFavourites}
-          checkedKeys={checkedKeys}
-          setCheckedKeys={setCheckedKeys}
-          notAdmin
-        /> */}
-
       <SessionsTable
         checkedKeys={checkedKeys}
         setCheckedKeys={setCheckedKeys}

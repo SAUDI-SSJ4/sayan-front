@@ -3,8 +3,8 @@ import { Modal, Button } from "react-bootstrap"; // Ensure you have react-bootst
 
 const AcademyDeleteModal = ({ show, onClose, onConfirm }) => {
   return (
-    <Modal show={show} onHide={onClose}>
-      <Modal.Header closeButton>
+    <Modal show={show}>
+      <Modal.Header>
         <Modal.Title>تأكيد الحذف</Modal.Title>
       </Modal.Header>
       <Modal.Body>هل أنت متأكد أنك تريد حذف هذا العنصر؟</Modal.Body>

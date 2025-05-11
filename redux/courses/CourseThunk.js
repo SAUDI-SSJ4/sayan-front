@@ -33,15 +33,18 @@ export const deleteLessonItemThunk = createAsyncThunk(
 
 export const getAcademyCoursesThunk = createAsyncThunk(
     "fetchCourses/getAcademyCourses",
-    async (_, { rejectWithValue }) => {
+    async (academy_id, { rejectWithValue }) => {
         try {
-          const response = await getCourse();
+          console.log('Fetching courses for academy:', academy_id);
+          const response = await getCourse(academy_id);
+          console.log('API Response:', response);
           return response.data
         } catch (error) {
-          return rejectWithValue(error.response?.data || "Failed to fetch trainers");
+          console.error('Error fetching courses:', error);
+          return rejectWithValue(error.response?.data || "Failed to fetch courses");
         }
-      }
-  );
+    }
+);
 
   export const deleteCourseByIdThunk = createAsyncThunk(
     "deleteCourses/deleteCourseById",
