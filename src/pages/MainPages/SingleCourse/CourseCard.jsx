@@ -33,14 +33,22 @@ export const CourseCard = ({
     return <MainSpinner />;
   }
 
+  // حماية الوصول لجميع الكائنات المطلوبة
+  const course = isObject(courseData?.course) ? courseData.course : null;
+  const academy = course?.academy && isObject(course.academy) ? course.academy : null;
+
   const handleAddToCart = () => {
-    const course = {
-      id: courseData.course.id,
-      title: courseData.course.title,
-      price: courseData.course.price,
-      image: courseData.course.image,
+    if (!course) {
+      toast.error("بيانات الدورة ناقصة");
+      return;
+    }
+    const courseItem = {
+      id: course.id,
+      title: course.title,
+      price: course.price,
+      image: course.image,
     };
-    addToCart(course);
+    addToCart(courseItem);
     toast.success("تمت إضافة الدورة إلى عربة التسوق");
   };
 
@@ -48,29 +56,28 @@ export const CourseCard = ({
     <React.Fragment>
       <div className={Style.CourseTitle}>
         <h2 className="p-0 m-0">
-          {isObject(courseData?.course) && courseData.course.title}
+          {course?.title || "اسم الدورة غير متوفر"}
         </h2>
         <h4>
-          {isObject(courseData?.course) &&
-            handleRateStare(courseData.course.rated)}
+          {handleRateStare(course?.rated)}
         </h4>
       </div>
       {showBuyCourses && (
         <BuyACourse
-          courseId={isObject(courseData?.course) && courseData.course.id}
+          courseId={course?.id}
           setshowBuyCourses={setshowBuyCourses}
         />
       )}
       <div className="row flex">
         <div className="col-lg-9 col-md-12 col-12 mt-3">
           <div className={Style.Course}>
-            {isObject(courseData?.course) && courseData.course.short_video ? (
+            {course?.short_video ? (
               <video width="100%" controls controlsList="nodownload">
-                <source src={courseData.course.short_video} type="video/mp4" />
+                <source src={course.short_video} type="video/mp4" />
                 Your browser does not support the video tag.
               </video>
             ) : (
-              <p>Video not available</p>
+              <p>الفيديو التعريفي غير متوفر</p>
             )}
 
             <div className={`${Style.Tabs} flex-wrap`}>
@@ -109,7 +116,7 @@ export const CourseCard = ({
         <div className="col-lg-3 col-md-12 col-12 mt-3 ">
           <div className={Style.detials}>
             <div className={Style.Price}>
-              {isObject(courseData?.course) && courseData.course.price} ر.س.
+              {Number.isFinite(course?.price) ? `${course.price} ر.س.` : '---'}
             </div>
             <div className={Style.JoinBtn} onClick={handleAddToCart}>
               اضافة الى العربة <ShoppingCart />
@@ -117,41 +124,44 @@ export const CourseCard = ({
             <div className="mt-4">
               <div className={Style.Line}>
                 <img src={fi_4626794} alt="Level" />
-                {isObject(courseData?.course) &&
-                  handleLevels(courseData.course.level)}
+                {handleLevels(course?.level)}
               </div>
               <div className={Style.Line}>
                 <img src={fi_860780} alt="Lessons" />
-                {isObject(courseData?.course) &&
-                  courseData.course.lessons_count}{" "}
-                دروس تعليمية
+                {course?.lessons_count ?? 0} دروس تعليمية
               </div>
             </div>
           </div>
           <div className={`${Style.detials} mt-3 text-center`}>
             <Link
               className="mt-4 d-flex justify-content-evenly align-items-center text-decoration-none"
-              to={`/acdemy/${
-                isObject(courseData?.course) && courseData.course.academy.id
-              }`}
+              to={
+                academy?.id
+                  ? `/acdemy/${academy.id}`
+                  : "#"
+              }
+              tabIndex={academy?.id ? 0 : -1}
+              style={academy?.id ? {} : { pointerEvents: "none", color: "#bbb" }}
             >
               <img
-                src={
-                  isObject(courseData?.course) &&
-                  courseData.course.academy.image
-                }
+                src={academy?.image}
                 alt="Academy"
                 style={{
                   width: "50px",
                   height: "50px",
                   borderRadius: "50%",
+                  objectFit: "cover",
                 }}
               />
               <h4>
-                {isObject(courseData?.course) && courseData.course.academy.name}
+                {academy?.name || "اسم الأكاديمية غير متوفر"}
               </h4>
             </Link>
-            <span>Jan.01.2024</span>
+            <span>
+              {course?.created_at
+                ? new Date(course.created_at).toLocaleDateString("ar-EG", { month: "short", day: "2-digit", year: "numeric" })
+                : "تاريخ غير متوفر"}
+            </span>
           </div>
         </div>
       </div>

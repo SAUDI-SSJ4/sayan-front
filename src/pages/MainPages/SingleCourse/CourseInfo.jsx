@@ -13,9 +13,9 @@ import classNames from "classnames";
 
 const MotionCard = ({ children, title, additionalClasses = "" }) => (
   <motion.div
-    initial={{ y: 100, opacity: 0 }}
+    initial={{ y: 0, opacity: 0 }}
     animate={{ y: 0, opacity: 1 }}
-    exit={{ y: 100, opacity: 0 }}
+    exit={{ y: 0, opacity: 0 }}
     transition={{ duration: 1 }}
     className={classNames(Style.Card, additionalClasses)}
   >
@@ -29,7 +29,7 @@ export const CourseInfo = ({ courseData, active, expanded, handleChange }) => {
     switch (active) {
       case 0:
         return (
-          <MotionCard title="نظرة عامة:" additionalClasses="overview">
+          <MotionCard title="نظرة عامة:" additionalClasses="">
             <p>{courseData?.course?.content} </p>
           </MotionCard>
         );

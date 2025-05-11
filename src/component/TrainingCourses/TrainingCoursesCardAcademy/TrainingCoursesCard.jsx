@@ -36,23 +36,6 @@ const TrainingCoursesCardAcademy = ({
       {open && <ConfirmDeleteCourse open={open} setOpen={setOpen} courseId={courseId}/>}
       <div className={classes.CardImage}>
         <img src={course.image || defaultProduct} />
-        {/* {notAdmin ? null : (
-          <div className={`${classes.CardCheck} ${checked && classes.Checked}`} onClick={onCheck}>
-            <AnimatePresence>
-              {checked && (
-                <motion.div
-                  className={classes.CardMotion}
-                  initial={{ scale: 0, opacity: 0 }}
-                  animate={{ scale: 1, opacity: 1 }}
-                  exit={{ y: 0, opacity: 0 }}
-                  transition={{ duration: 0.2 }}
-                >
-                  <CheckOutlinedIcon sx={{ width: "100%", height: "100%" }} />
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
-        )} */}
       </div>
       <div className={classes.CardBody}>
         <div className={classes.CardTitleContainer}>

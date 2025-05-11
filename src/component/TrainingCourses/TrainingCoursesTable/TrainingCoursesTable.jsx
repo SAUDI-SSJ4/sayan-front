@@ -6,13 +6,7 @@ import {
   IconButton,
   Progress,
 } from "rsuite";
-import Button from "react-bootstrap/Button";
-import Modal from "react-bootstrap/Modal";
-import FiberManualRecordIcon from "@mui/icons-material/FiberManualRecord";
-
 import Lottie, { useLottie } from "lottie-react";
-
-import { Checkbox } from "@mui/material";
 import React, { useEffect } from "react";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 import BorderColorOutlinedIcon from "@mui/icons-material/BorderColorOutlined";

@@ -4,7 +4,6 @@ import React, {
   useEffect,
   forwardRef,
   useImperativeHandle,
-  useState,
 } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -157,7 +156,7 @@ export const CourseForm = forwardRef(
     return (
       <form
         onSubmit={formik.handleSubmit}
-        className="row g-3 w-80 justify-content-center m-auto"
+        className="row g-3 justify-content-center m-0%"
       >
         <div className="col-lg-6 col-md-12 justify-content-center">
           <div className=" row g-3 button-content--1 m-auto justify-content-center">
@@ -435,4 +434,3 @@ export const CourseForm = forwardRef(
     );
   }
 );
-/* eslint-enable react/display-name */

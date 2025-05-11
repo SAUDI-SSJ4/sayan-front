@@ -302,29 +302,3 @@ a {
   &:hover { background-color: rgba(230, 60, 60, 0.1); color: #e63c3c; }
   // &:active { transform: scale(0.98); } // يمكن إزالته
 }
-
-/* ============== UTILITIES & HELPERS ============== */
-.btnSoon { /* ... كما هو، لا يعتمد على انيميشن ... */ }
-.profileVisible { /* ... كما هو، يعتمد على انتقال بسيط ... */ }
-
-/* ============== ANIMATIONS (REMOVED or KEPT MINIMAL) ============== */
-// @keyframes pulse { ... } // تم الحذف
-// @keyframes ripple { ... } // تم الحذف
-
-/* ============== RESPONSIVE ADJUSTMENTS ============== */
-@media (max-width: 992px) {
-  .sideBar {
-    /* ... كما هو، transition: transform 0.3s ease; ضروري لفتح/إغلاق القائمة الجانبية */
-    width: 100%; position: fixed; top: 0; right: 0;
-    z-index: 1000; transform: translateX(100%);
-    transition: transform 0.3s ease-in-out; // أبقِ على هذا الانتقال
-    &.open { transform: translateX(0); }
-  }
-  
-  .sidebarCollapsed { // تم تغيير اسم الكلاس
-    width: 70px !important;
-    .sidebarHeader { padding: 10px; }
-  }
-}
-
-@media (max-width: 576px) { /* ... كما هو ... */ }
