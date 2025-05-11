@@ -28,12 +28,14 @@ const AcadmeyTrainingCourses = () => {
   const [sortOrder, setSortOrder] = useState("DESC");
 
   const { user } = useAuth();
+  const academyId = user?.academy?.id;
+
   const { academyCourses } = useSelector((state) => state.course);
 
   useEffect(() => {
     setisLoading(true);
     if (academyCourses.length == 0) {
-      dispatch(getAcademyCoursesThunk()).unwrap();
+      dispatch(getAcademyCoursesThunk(academyId)).unwrap();
     }
     setisLoading(false);
   }, []);
@@ -176,7 +178,7 @@ const AcadmeyTrainingCourses = () => {
           ))}
         </FlexboxGrid>
       ) : (
-        <CoursesDataTaple CoursesData={sortedCourses} />
+        <CoursesDataTaple CoursesData={sortedCourses} academyId={academyId} />
       )}
     </>
   );

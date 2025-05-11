@@ -8,7 +8,6 @@
 
 // function CoursesDataTaple({ CoursesData: rowData }) {
 
-
 //   const imageData = (params) => {
 //     return (
 //       <img
@@ -138,7 +137,7 @@
 
 //   const handleEdit  =(value) => {
 //     console.log(value);
-    
+
 //   }
 
 //   const colDefs = useMemo(
@@ -230,7 +229,7 @@
 //         flex: 3,
 //         cellStyle: { textAlign: "center" },
 //       },
-      
+
 //     ],
 //     [rowData]
 //   );
@@ -252,17 +251,16 @@
 
 // export default CoursesDataTaple;
 
-
-
-
-
 import React from "react";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
-import axiosInstance from "../../../../axios";
 import Cookies from "js-cookie";
+import axios from "axios";
+import { useDispatch } from "react-redux";
+import { getAcademyCoursesThunk } from "../../../../redux/courses/CourseThunk";
 
-function CoursesDataTable({ CoursesData }) {
+function CoursesDataTable({ CoursesData, academyId }) {
+  const dispatch = useDispatch();
   const handleDelete = (courseId) => {
     Swal.fire({
       title: "حذف الدورة",
@@ -275,13 +273,18 @@ function CoursesDataTable({ CoursesData }) {
       cancelButtonText: "إلغاء",
     }).then((result) => {
       if (result.isConfirmed) {
-        axiosInstance
-          .delete(`/courses/${courseId}`, {
+        const baseUrl = new URL(import.meta.env.VITE_SERVER_DEV).origin;
+
+        axios
+          .delete(`${baseUrl}/api/v1/academies/courses/${courseId}`, {
             headers: {
-              Authorization: `Bearer ${Cookies.get("token")}`,
+              Authorization: `Bearer ${Cookies.get("academy_token")}`,
             },
           })
-          .then(() => Swal.fire("تم الحذف!", "تم حذف الدورة بنجاح", "success"))
+          .then(() => {
+            Swal.fire("تم الحذف!", "تم حذف الدورة بنجاح", "success");
+            dispatch(getAcademyCoursesThunk(academyId)).unwrap();
+          })
           .catch(() => Swal.fire("خطأ", "حدث خطأ أثناء الحذف", "error"));
       }
     });
@@ -341,7 +344,9 @@ function CoursesDataTable({ CoursesData }) {
                   : course.level}
               </td>
               <td className="p-2 border border-gray-300">{course.trainer}</td>
-              <td className="p-2 border border-gray-300">ريال {course.price.toLocaleString()}</td>
+              <td className="p-2 border border-gray-300">
+                ريال {course.price.toLocaleString()}
+              </td>
               <td className="p-2 border border-gray-300">{course.title}</td>
             </tr>
           ))}

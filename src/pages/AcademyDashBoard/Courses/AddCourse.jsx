@@ -13,7 +13,7 @@ import { isEmpty } from "../../../utils/helpers";
 import { fetchCategoriesThunk } from "../../../../redux/CategorySlice";
 import { fetchTrainerThunk } from "../../../../redux/TrainerSlice";
 import { storage } from "../../../utils/storage";
-import Spinner from 'react-bootstrap/Spinner';
+import Spinner from "react-bootstrap/Spinner";
 import { getAcademyCoursesThunk } from "../../../../redux/courses/CourseThunk";
 
 const AddCourse = () => {
@@ -21,31 +21,35 @@ const AddCourse = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [stepper, setStepper] = useState(0);
-  const { isDisabled, isCreateCourseLoading } = useSelector((state) => state.course);
+  const { isDisabled, isCreateCourseLoading } = useSelector(
+    (state) => state.course
+  );
 
   const handleContinue = () => {
     if (isDisabled) return;
 
-    if (formRef.current)
-      formRef.current.submitForm();
-
+    if (formRef.current) formRef.current.submitForm();
   };
 
   const handleFinishCreateCourse = async () => {
-    await dispatch(getAcademyCoursesThunk()).unwrap()
+    await dispatch(getAcademyCoursesThunk()).unwrap();
     localStorage.setItem("__courseStepper", 0);
-    storage.delete("cahrst1x7teq")
-    storage.delete("chapky89wsgnae")
-    storage.delete("cousjvqpkbr3m")
-    storage.delete("leuhqzrsyh5e")
-    navigate("/academy/training-courses")
-  }
+    storage.delete("cahrst1x7teq");
+    storage.delete("chapky89wsgnae");
+    storage.delete("cousjvqpkbr3m");
+    storage.delete("leuhqzrsyh5e");
+    navigate("/academy/training-courses");
+  };
 
-  const { trainers, isLoading: isTrainersLoading, error } = useSelector((state) => state.trainers);
+  const {
+    trainers,
+    isLoading: isTrainersLoading,
+    error,
+  } = useSelector((state) => state.trainers);
 
-  const { categories, isLoading: isCategoriesLoading } = useSelector((state) => state.categories);
-
-
+  const { categories, isLoading: isCategoriesLoading } = useSelector(
+    (state) => state.categories
+  );
 
   useEffect(() => {
     if (!isCategoriesLoading && (categories === null || isEmpty(categories))) {
@@ -58,9 +62,6 @@ const AddCourse = () => {
       dispatch(fetchTrainerThunk());
     }
   }, [dispatch]);
-
-
-
 
   return (
     <div>
@@ -96,9 +97,14 @@ const AddCourse = () => {
               <ContinueButton
                 bgColor={isDisabled ? "#7E8799" : "#0062ff"}
                 disabled={isDisabled}
-                onClick={handleContinue}>
-                <span style={{ marginLeft: '15px' }}>استمرار</span>
-                <span>{isCreateCourseLoading && <Spinner animation="border" size="sm" />}</span>
+                onClick={handleContinue}
+              >
+                <span style={{ marginLeft: "15px" }}>استمرار</span>
+                <span>
+                  {isCreateCourseLoading && (
+                    <Spinner animation="border" size="sm" />
+                  )}
+                </span>
               </ContinueButton>
             </div>
             <CourseForm
@@ -124,21 +130,19 @@ const AddCourse = () => {
                   <span>اطلاق الدورة</span>
                 </div>
               </div>
-              <ContinueButton bgColor="#0062ff" onClick={handleFinishCreateCourse}>
+              <ContinueButton
+                bgColor="#0062ff"
+                onClick={handleFinishCreateCourse}
+              >
                 اتمام
               </ContinueButton>
             </div>
-            <CourseFeatuers
-
-              categories={categories}
-              trainers={trainers}
-            />
+            <CourseFeatuers categories={categories} trainers={trainers} />
           </div>
         </div>
       )}
     </div>
   );
-}
+};
 
 export default AddCourse;
-
