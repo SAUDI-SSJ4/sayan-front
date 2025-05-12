@@ -1,23 +1,21 @@
 import React from 'react';
 import { useCart } from '../../../context/CartContext';
 import classes from './ShoppingCart.module.scss';
-import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
 import DeleteIcon from '@mui/icons-material/Delete';
-import FavoriteIcon from '@mui/icons-material/Favorite';
 import { useNavigate } from 'react-router-dom';
 import { RemoveShoppingCartRounded, ShoppingCartRounded } from '@mui/icons-material';
+import CircularProgress from '@mui/material/CircularProgress';
 
 const ShoppingCart = () => {
-  const { cartItems, removeFromCart, updateQuantity, clearCart } = useCart();
+  const { cartItems, removeFromCart, getCartTotal, loading } = useCart();
   const navigate = useNavigate();
-  console.log(cartItems)
 
   const calculateSubtotal = () => {
-    return cartItems.reduce((total, item) => total + item.price, 0);
+    return getCartTotal();
   };
 
   const calculateDiscount = () => {
-    // This can be updated based on your discount logic
+    // يمكن تحديث هذا بناءً على منطق الخصم الخاص بك
     return 0;
   };
 
@@ -25,7 +23,16 @@ const ShoppingCart = () => {
     return calculateSubtotal() - calculateDiscount();
   };
 
-  if (cartItems.length === 0) {
+  if (loading) {
+    return (
+      <div className={classes.loadingContainer}>
+        <CircularProgress />
+        <p>جاري تحميل محتويات السلة...</p>
+      </div>
+    );
+  }
+
+  if (!cartItems || cartItems.length === 0) {
     return (
       <div className={classes.emptyCart}>
         <ShoppingCartRounded
@@ -49,93 +56,72 @@ const ShoppingCart = () => {
   }
 
   return (
-    <div>
-      <div className="TablePageHeader">
-        <div className="HeaderContainer">
-          <div className="d-flex align-items-center name">
-            <div className="icon">
-              <PeopleAltIcon sx={{ color: "#A3AED0" }} />
-            </div>
-            <div style={{ color: "#7E8799" }}> عربة التسوق </div>
-          </div>
-        </div>
-      </div>
-
-      <div className="pt-0 info-details--1">
-        <div className="row gx-3 gy-4">
-          <div className="col-lg-8">
-            <div className={classes.Card}>
-              {cartItems.map((item) => (
-                <div key={item.id} className={classes.cartItem}>
-                  <div className={classes.itemContent}>
-                    <div className={classes.itemInfo}>
-                      <img src={item.image} alt={item.title} className={classes.productImage} />
-                      <div className={classes.itemDetails}>
-                        <h3>{item.title}</h3>
-                      </div>
-                    </div>
-                    
-                    <div className={classes.itemPrice}>
-                      {item.price.toFixed(2)} ر.س.
-                    </div>
-                  </div>
-
-                  <div className={classes.itemActions}>
-                    <button
-                      className={classes.actionButton}
-                      onClick={() => {/* Add to favorites logic */}}
-                    >
-                      <FavoriteIcon /> اضافة الى قائمة المفضلة
-                    </button>
-                    <button
-                      className={`${classes.actionButton} ${classes.removeButton}`}
-                      onClick={() => removeFromCart(item.id)}
-                    >
-                      <DeleteIcon /> ازالة
-                    </button>
+    <div className={classes.shoppingCartContainer}>
+      <h2 className={classes.pageTitle}>سلة التسوق</h2>
+      
+      <div className={classes.cartContent}>
+        <div className={classes.cartItems}>
+          {cartItems.map((item) => (
+            <div key={item.cart_id} className={classes.cartItem}>
+              <div className={classes.itemContent}>
+                <div className={classes.itemInfo}>
+                  <img 
+                    src={item.image} 
+                    alt={item.title} 
+                    className={classes.productImage} 
+                  />
+                  <div className={classes.itemDetails}>
+                    <h3>{item.title}</h3>
+                    <p className={classes.itemPrice}>{item.price} ر.س.</p>
+                    {item.quantity > 1 && (
+                      <p className={classes.itemQuantity}>الكمية: {item.quantity}</p>
+                    )}
                   </div>
                 </div>
-              ))}
-
-              <div className={classes.clearCart}>
-                <button
-                  className={classes.clearButton}
-                  onClick={clearCart}
-                >
-                  ازالة الكل
-                </button>
+                <div className={classes.itemActions}>
+                  <button 
+                    className={classes.deleteButton}
+                    onClick={() => removeFromCart(item.cart_id)}
+                  >
+                    <DeleteIcon />
+                    حذف
+                  </button>
+                </div>
               </div>
             </div>
+          ))}
+        </div>
+        
+        <div className={classes.cartSummary}>
+          <div className={classes.Card}>
+            <h3>ملخص الطلب</h3>
+            <div className={classes.summaryRow}>
+              <span>المجموع الفرعي</span>
+              <span>{calculateSubtotal()} ر.س.</span>
+            </div>
+            {calculateDiscount() > 0 && (
+              <div className={classes.summaryRow}>
+                <span>الخصم</span>
+                <span>-{calculateDiscount()} ر.س.</span>
+              </div>
+            )}
+            <div className={`${classes.summaryRow} ${classes.total}`}>
+              <span>المجموع الكلي</span>
+              <span>{calculateTotal()} ر.س.</span>
+            </div>
+            <button 
+              className={classes.checkoutButton}
+              onClick={() => navigate('/student/Checkout')}
+            >
+              إتمام الشراء
+            </button>
           </div>
-
-          <div className="col-lg-4">
-            <div className={classes.Card}>
-              <h3 className="mb-3">لديك كوبون خصم؟</h3>
-              <div className={classes.Input}>
-                <input type="text" placeholder="ادخل كود الخصم" />
-                <div>تطبيق</div>
-              </div>
-            </div>
-
-            <div className={`${classes.Card} ${classes.summary}`}>
-              <div className={classes.summaryRow}>
-                <p>المجموع</p>
-                <p>{calculateSubtotal().toFixed(2)} ر.س.</p>
-              </div>
-              <div className={classes.summaryRow}>
-                <p>الخصم</p>
-                <p className={classes.discount}>{calculateDiscount().toFixed(2)} ر.س.</p>
-              </div>
-              <div className={`${classes.summaryRow} ${classes.total}`}>
-                <h3>المجموع</h3>
-                <h3>{calculateTotal().toFixed(2)} ر.س.</h3>
-              </div>
-              <button 
-                className={classes.checkoutButton}
-                onClick={() => navigate('/student/checkout')}
-              >
-                متابعة وشراء
-              </button>
+          
+          <div className={classes.Card}>
+            <h3>هل لديك كود خصم؟</h3>
+            <div className={classes.Input}>
+              <input type="text" placeholder="أدخل كود الخصم" />
+              <div>تطبيق</div>
             </div>
           </div>
         </div>
