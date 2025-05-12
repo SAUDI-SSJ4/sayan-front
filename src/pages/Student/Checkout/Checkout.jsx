@@ -28,9 +28,8 @@ const Checkout = () => {
   // حساب إجماليات الطلب
   const calculateSubtotal = () =>
     cartItems.reduce((total, item) => total + item.price, 0);
-  const calculateTax = () => calculateSubtotal() * 0.15;
   const calculateTotal = () =>
-    calculateSubtotal() + calculateTax() - discountAmount;
+    calculateSubtotal() +  - discountAmount;
 
   useEffect(() => {
     // التأكد من وجود عناصر في السلة
@@ -127,6 +126,7 @@ const Checkout = () => {
           headers: {
             Accept: "application/json",
             Authorization: `Bearer ${Cookies.get("student_token")}`,
+            TheCookie: Cookies.get("cart_id"),
           },
         }
       );
@@ -290,22 +290,23 @@ const Checkout = () => {
                 <p>{calculateSubtotal().toFixed(2)} ر.س.</p>
               </div>
 
-              <div className={classes.summaryRow}>
-                <p>الضريبة (15%)</p>
-                <p>{calculateTax().toFixed(2)} ر.س.</p>
-              </div>
+            
 
               {discountAmount > 0 && (
+                <>  
                 <div className={`${classes.summaryRow} ${classes.discount}`}>
                   <p>الخصم</p>
                   <p>- {discountAmount.toFixed(2)} ر.س.</p>
                 </div>
-              )}
 
               <div className={`${classes.summaryRow} ${classes.total}`}>
                 <p>المجموع النهائي</p>
                 <p>{calculateTotal().toFixed(2)} ر.س.</p>
               </div>
+              </>
+
+)}
+
 
               <button
                 className={classes.checkoutButton}

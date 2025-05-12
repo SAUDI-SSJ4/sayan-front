@@ -4,6 +4,7 @@
 }
 
 .cartButton {
+  position: relative;
   display: flex;
   align-items: center;
   gap: 12px;
@@ -26,18 +27,47 @@
   }
 }
 
-.cartIcon {
+.cartIconWrapper {
   position: relative;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 50%;
+  transition: background-color 0.3s;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.3s ease;
-  color: #272727;
 
-  svg {
-    font-size: 24px;
-    transition: transform 0.3s ease;
+  &:hover {
+    background-color: rgba(0, 98, 255, 0.1);
   }
+
+  &.animate {
+    animation: bump 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+    transform: translate3d(0, 0, 0);
+    backface-visibility: hidden;
+    perspective: 1000px;
+  }
+}
+
+.cartIcon {
+  color: #0062ff;
+  font-size: 24px;
+}
+
+.cartCount {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: #ff4757;
+  color: white;
+  font-size: 12px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
 }
 
 .cartInfo {
@@ -79,30 +109,22 @@
 
 .addedPopup {
   position: absolute;
-  top: calc(100% + 10px);
-  right: 50%;
-  transform: translateX(50%);
-  background-color: #4CAF50;
+  top: 100%;
+  right: 0;
+  background-color: #4caf50;
   color: white;
-  padding: 10px 20px;
-  border-radius: 8px;
+  padding: 8px 12px;
+  border-radius: 4px;
   font-size: 14px;
-  font-weight: 600;
-  white-space: nowrap;
-  animation: slideInUp 0.3s ease;
+  margin-top: 8px;
   z-index: 1000;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  white-space: nowrap;
+  animation: fadeIn 0.3s ease-in-out;
+}
 
-  &::before {
-    content: '';
-    position: absolute;
-    top: -6px;
-    right: 50%;
-    transform: translateX(50%);
-    border-left: 6px solid transparent;
-    border-right: 6px solid transparent;
-    border-bottom: 6px solid #4CAF50;
-  }
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 .popoverPaper {
@@ -130,6 +152,19 @@
     text-align: center;
     color: #666;
     padding: 32px 0;
+  }
+}
+
+.loadingContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 0;
+  
+  p {
+    margin-top: 16px;
+    color: #666;
   }
 }
 
@@ -194,6 +229,13 @@
       font-size: 14px;
       color: #0062ff;
       font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .quantity {
+      display: block;
+      font-size: 12px;
+      color: #666;
     }
   }
 
@@ -224,46 +266,38 @@
   .total {
     display: flex;
     justify-content: space-between;
-    align-items: center;
     margin-bottom: 16px;
     font-size: 16px;
-    color: #272727;
     font-weight: 600;
   }
 
-  .viewCartButton,
-  .checkoutButton {
+  .viewCartButton, .checkoutButton {
     width: 100%;
     padding: 12px;
+    border: none;
     border-radius: 8px;
-    font-weight: 600;
+    font-family: "Noto Kufi Arabic";
+    font-weight: 500;
     cursor: pointer;
-    transition: all 0.3s ease;
-    font-size: 14px;
-    margin-bottom: 8px;
-
-    &:hover {
-      transform: translateY(-2px);
-    }
+    transition: all 0.2s ease;
   }
 
   .viewCartButton {
-    background-color: white;
+    background-color: #f8f9fa;
     color: #0062ff;
-    border: 2px solid #0062ff;
+    margin-bottom: 8px;
 
     &:hover {
-      background-color: rgba(0, 98, 255, 0.05);
+      background-color: #e9ecef;
     }
   }
 
   .checkoutButton {
     background-color: #0062ff;
     color: white;
-    border: none;
 
     &:hover {
-      background-color: darken(#0062ff, 10%);
+      background-color: #0056e0;
     }
   }
 }
