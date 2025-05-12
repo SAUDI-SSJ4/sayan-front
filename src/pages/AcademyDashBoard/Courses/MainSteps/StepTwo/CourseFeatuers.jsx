@@ -33,9 +33,13 @@ const CourseFeatures = () => {
   const { courseSummary, isError, isLoading } = useSelector(
     (state) => state.course
   );
-
+  const [currentChapter, setCurrentChapter] = useState(null);
+  useEffect(() => {
+    if (courseSummary?.chapters?.length > 0) {
+      setCurrentChapter(courseSummary?.chapters[0]);
+    }
+  }, [courseSummary?.chapters]);
   // Local state
-  const [chapterId, setChapterId] = useState(null);
   const [flippingCards, setFlippingCards] = useState([]);
   const [hiddenCards, setHiddenCards] = useState([]);
   const [cardData, setCardData] = useState({
@@ -51,11 +55,6 @@ const CourseFeatures = () => {
     () => storage.get("cahrst1x7teq"),
     [categoryId]
   );
-  const storageChapterId = useMemo(
-    () =>
-      storage.get("chapky89wsgnae") || courseSummary?.chapters?.[0]?.id || null,
-    [courseSummary]
-  );
 
   useEffect(() => {
     if (courseId) {
@@ -63,22 +62,16 @@ const CourseFeatures = () => {
     }
   }, [dispatch]);
 
-  useEffect(() => {
-    if (storageChapterId) {
-      setChapterId(storageChapterId);
-    }
-  }, [storageChapterId]);
-
   const renderContent = useCallback(() => {
     const commonProps = {
       categoryId: currentCategoryId,
       courseId,
-      chapterId,
+      chapterId: currentChapter?.id,
     };
 
     switch (navigate) {
       case "chapter":
-        return <AddNewChapter {...commonProps} />;
+        return <AddNewChapter {...commonProps} course={courseSummary} />;
       case "lesson":
         return <AddNewLesson {...commonProps} />;
       case "exam":
@@ -109,8 +102,9 @@ const CourseFeatures = () => {
   }, [
     currentCategoryId,
     courseId,
-    chapterId,
     navigate,
+    courseSummary,
+    currentChapter,
     cardData,
     flippingCards,
     hiddenCards,
@@ -132,12 +126,18 @@ const CourseFeatures = () => {
   return (
     <div className={style.dashboard}>
       <div className={`${style.sidebar} ${style.left} ${style.first}`}>
-        <Sidebar chapterId={chapterId} />
+        <Sidebar />
       </div>
 
       <div className={`${style.sidebar} ${style.left} ${style.second}`}>
         {handleDisableCourse()}
-        <LessonsList course={courseSummary} />
+        {courseSummary && (
+          <LessonsList
+            course={courseSummary}
+            currentChapter={currentChapter}
+            setCurrentChapter={setCurrentChapter}
+          />
+        )}
       </div>
 
       <div>{renderContent()}</div>

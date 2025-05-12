@@ -31,10 +31,10 @@ const AddCourse = () => {
     error: trainersError,
   } = useSelector((state) => state.trainers);
 
-  const { 
-    categories, 
+  const {
+    categories,
     isLoading: isCategoriesLoading,
-    error: categoriesError 
+    error: categoriesError,
   } = useSelector((state) => state.categories);
 
   // تنظيف التخزين المؤقت عند تحميل الصفحة
@@ -42,13 +42,13 @@ const AddCourse = () => {
     // تنظيف التخزين المؤقت من البيانات السابقة
     clearStorageData();
     setIsInitialized(true);
-    
+
     // استرجاع البيانات الأساسية المطلوبة
     loadInitialData();
-    
+
     // تعيين صفحة الخطوة الأولى
     localStorage.setItem("__courseStepper", 0);
-    
+
     // تنظيف عند مغادرة الصفحة
     return () => {
       clearStorageData();
@@ -68,8 +68,12 @@ const AddCourse = () => {
     try {
       // تحميل البيانات الأساسية بشكل متوازي
       await Promise.all([
-        !isEmpty(categories) ? Promise.resolve() : dispatch(fetchCategoriesThunk()).unwrap(),
-        !isEmpty(trainers) ? Promise.resolve() : dispatch(fetchTrainerThunk()).unwrap()
+        !isEmpty(categories)
+          ? Promise.resolve()
+          : dispatch(fetchCategoriesThunk()).unwrap(),
+        !isEmpty(trainers)
+          ? Promise.resolve()
+          : dispatch(fetchTrainerThunk()).unwrap(),
       ]);
     } catch (error) {
       toast.error("حدث خطأ أثناء تحميل البيانات الأساسية");
@@ -103,9 +107,14 @@ const AddCourse = () => {
 
   if (!isInitialized) {
     return (
-      <div className="d-flex justify-content-center align-items-center" style={{ height: "80vh" }}>
+      <div
+        className="d-flex justify-content-center align-items-center"
+        style={{ height: "80vh" }}
+      >
         <Spinner animation="border" style={{ color: "#0fe8e8" }} />
-        <span className="mr-2 fw-bold" style={{ color: "#2b3674" }}>جاري تهيئة صفحة إضافة دورة جديدة...</span>
+        <span className="mr-2 fw-bold" style={{ color: "#2b3674" }}>
+          جاري تهيئة صفحة إضافة دورة جديدة...
+        </span>
       </div>
     );
   }
@@ -120,20 +129,32 @@ const AddCourse = () => {
               <div className="icon border-0" style={{ marginLeft: "12px" }}>
                 <img src={addcourse} alt="Add Course" />
               </div>
-              <div style={{ color: "#2b3674", fontWeight: "600", fontSize: "18px" }}>إضافة دورة تدريبية جديدة</div>
+              <div
+                style={{
+                  color: "#2b3674",
+                  fontWeight: "600",
+                  fontSize: "18px",
+                }}
+              >
+                إضافة دورة تدريبية جديدة
+              </div>
             </div>
-            <Link to="/academy/training-courses" style={{ 
-              border: "1px solid #0fe8e8",
-              color: "#0fe8e8",
-              padding: "10px 15px",
-              fontSize: "16px",
-              borderRadius: "8px",
-              display: "flex",
-              alignItems: "center",
-              textDecoration: "none",
-              transition: "all 0.3s ease"
-            }}>
-              <span style={{ marginLeft: "5px" }}>رجوع</span> <ArrowBack style={{ fontSize: "20px" }} />
+            <Link
+              to="/academy/training-courses"
+              style={{
+                border: "1px solid #0fe8e8",
+                color: "#0fe8e8",
+                padding: "10px 15px",
+                fontSize: "16px",
+                borderRadius: "8px",
+                display: "flex",
+                alignItems: "center",
+                textDecoration: "none",
+                transition: "all 0.3s ease",
+              }}
+            >
+              <span style={{ marginLeft: "5px" }}>رجوع</span>{" "}
+              <ArrowBack style={{ fontSize: "20px" }} />
             </Link>
           </div>
         </div>
@@ -141,8 +162,14 @@ const AddCourse = () => {
 
       {/* Errors Display */}
       {(trainersError || categoriesError) && (
-        <Alert variant="danger" className="mb-4" style={{ borderRadius: "8px" }}>
-          <div className="fw-bold mb-2" style={{ fontSize: "16px" }}>حدث خطأ أثناء تحميل البيانات</div>
+        <Alert
+          variant="danger"
+          className="mb-4"
+          style={{ borderRadius: "8px" }}
+        >
+          <div className="fw-bold mb-2" style={{ fontSize: "16px" }}>
+            حدث خطأ أثناء تحميل البيانات
+          </div>
           <p style={{ fontSize: "14px", margin: 0 }}>
             {trainersError && "تعذر تحميل قائمة المدربين. "}
             {categoriesError && "تعذر تحميل قائمة الفئات. "}
@@ -152,155 +179,95 @@ const AddCourse = () => {
       )}
 
       {/* Stepper 1: Course Info */}
-      {stepper === 0 && (
-        <div className="mb-5 all-info-top-header main-info-top">
-          <div className="CustomCard formCard all-add-notific pb-4 pt-4 flex-column justify-content-center" style={{ 
-            backgroundColor: "#fff", 
-            borderRadius: "12px",
-            boxShadow: "0 2px 10px rgba(0,0,0,0.05)"
-          }}>
-            {/* Progress Indicator */}
-            <div style={{ 
-              borderBottom: "1px solid #eee",
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "flex-start",
-              padding: "35px 70px 5px",
-            }}>
-              <div />
-              <div style={{ 
-                color: "#a3aed0",
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "space-between",
-                marginBottom: "30px",
-              }}>
-                <img src={steper1} alt="Stepper" />
-                <div style={{ 
-                  marginTop: "15px",
-                  padding: "10px 0px",
-                  display: "flex",
-                  justifyContent: "space-between",
-                }}>
-                  <span style={{ fontWeight: "600", color: "#2b3674", marginLeft: "12px", marginRight: "12px" }}>معلومات الدورة</span>
-                  <span style={{ marginLeft: "12px", marginRight: "12px" }}>باني الاقسام</span>
-                  <span style={{ marginLeft: "12px", marginRight: "12px" }}>اطلاق الدورة</span>
-                </div>
-              </div>
-              <button 
-                onClick={handleContinue}
-                disabled={isDisabled || isCreateCourseLoading}
-                style={{
-                  backgroundColor: isDisabled ? "#7E8799" : "#0062ff",
-                  color: "#fff",
-                  border: "none",
-                  padding: "12px 24px",
-                  borderRadius: "8px",
-                  fontWeight: "500",
-                  fontSize: "16px",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  transition: "all 0.3s ease",
-                  cursor: isDisabled ? "not-allowed" : "pointer"
-                }}
-              >
-                <span style={{ marginLeft: "15px" }}>استمرار</span>
-                {isCreateCourseLoading && (
-                  <Spinner animation="border" size="sm" />
-                )}
-              </button>
-            </div>
-
-            {/* Loading Indicators */}
-            {(isCategoriesLoading || isTrainersLoading) && (
-              <div className="d-flex align-items-center justify-content-center" style={{ 
-                padding: "16px", 
-                margin: "16px", 
-                backgroundColor: "rgba(15, 232, 232, 0.1)", 
-                borderRadius: "8px",
-                color: "#2b3674" 
-              }}>
-                <Spinner animation="border" size="sm" style={{ marginLeft: "8px", color: "#0fe8e8" }} />
-                <div style={{ fontSize: "14px", fontWeight: "500" }}>جاري تحميل البيانات الأساسية...</div>
-              </div>
-            )}
-
-            {/* Course Form */}
-            <CourseForm
-              setStepper={setStepper}
-              categories={categories ?? []}
-              trainers={trainers || []}
-              ref={formRef}
-            />
-          </div>
-        </div>
-      )}
 
       {/* Stepper 2: Course Sections */}
-      {stepper === 1 && (
-        <div className="mb-5 all-info-top-header main-info-top">
-          <div className="bg-white border-2 formCard all-add-notific pb-4 pt-4 flex-column justify-content-center" style={{ 
-            backgroundColor: "#fff", 
+      <div className="mb-5 all-info-top-header main-info-top">
+        <div
+          className="bg-white border-2 formCard all-add-notific pb-4 pt-4 flex-column justify-content-center"
+          style={{
+            backgroundColor: "#fff",
             borderRadius: "12px",
-            boxShadow: "0 2px 10px rgba(0,0,0,0.05)"
-          }}>
-            {/* Progress Indicator */}
-            <div style={{ 
+            boxShadow: "0 2px 10px rgba(0,0,0,0.05)",
+          }}
+        >
+          {/* Progress Indicator */}
+          <div
+            style={{
               borderBottom: "1px solid #eee",
               display: "flex",
               justifyContent: "space-between",
               alignItems: "flex-start",
               padding: "35px 70px 5px",
-            }}>
-              <div />
-              <div style={{ 
+            }}
+          >
+            <div />
+            <div
+              style={{
                 color: "#a3aed0",
                 display: "flex",
                 flexDirection: "column",
                 justifyContent: "space-between",
                 marginBottom: "30px",
-              }}>
-                <img src={steper2} alt="Stepper" />
-                <div style={{ 
+              }}
+            >
+              <img src={steper2} alt="Stepper" />
+              <div
+                style={{
                   marginTop: "15px",
                   padding: "10px 0px",
                   display: "flex",
                   justifyContent: "space-between",
-                }}>
-                  <span style={{ marginLeft: "12px", marginRight: "12px" }}>معلومات الدورة</span>
-                  <span style={{ fontWeight: "600", color: "#2b3674", marginLeft: "12px", marginRight: "12px" }}>باني الاقسام</span>
-                  <span style={{ marginLeft: "12px", marginRight: "12px" }}>اطلاق الدورة</span>
-                </div>
-              </div>
-              <button
-                onClick={handleFinishCreateCourse}
-                style={{
-                  backgroundColor: "#0062ff",
-                  color: "#fff",
-                  border: "none",
-                  padding: "12px 24px",
-                  borderRadius: "8px",
-                  fontWeight: "500",
-                  fontSize: "16px",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  transition: "all 0.3s ease"
                 }}
               >
-                <span style={{ marginLeft: isCreateCourseLoading ? "15px" : "0" }}>اتمام</span>
-                {isCreateCourseLoading && (
-                  <Spinner animation="border" size="sm" />
-                )}
-              </button>
+                <span style={{ marginLeft: "12px", marginRight: "12px" }}>
+                  معلومات الدورة
+                </span>
+                <span
+                  style={{
+                    fontWeight: "600",
+                    color: "#2b3674",
+                    marginLeft: "12px",
+                    marginRight: "12px",
+                  }}
+                >
+                  باني الاقسام
+                </span>
+                <span style={{ marginLeft: "12px", marginRight: "12px" }}>
+                  اطلاق الدورة
+                </span>
+              </div>
             </div>
-
-            {/* Course Features */}
-            <CourseFeatuers categories={categories} trainers={trainers} />
+            <button
+              onClick={handleFinishCreateCourse}
+              style={{
+                backgroundColor: "#0062ff",
+                color: "#fff",
+                border: "none",
+                padding: "12px 24px",
+                borderRadius: "8px",
+                fontWeight: "500",
+                fontSize: "16px",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                transition: "all 0.3s ease",
+              }}
+            >
+              <span
+                style={{ marginLeft: isCreateCourseLoading ? "15px" : "0" }}
+              >
+                اتمام
+              </span>
+              {isCreateCourseLoading && (
+                <Spinner animation="border" size="sm" />
+              )}
+            </button>
           </div>
+
+          {/* Course Features */}
+          <CourseFeatuers categories={categories} trainers={trainers} />
         </div>
-      )}
+      </div>
     </div>
   );
 };

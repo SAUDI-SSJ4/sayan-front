@@ -4,7 +4,6 @@ import * as Yup from "yup";
 import style from "../../../AddNewCourse.module.css";
 import Swal from "sweetalert2";
 import { Button } from "rsuite";
-import { useChapterMutation } from "../../../../../../services/mutation";
 import { useToast } from "../../../../../../utils/hooks/useToast";
 import { postChapter } from "../../../../../../utils/apis/client/academy";
 import { useDispatch } from "react-redux";

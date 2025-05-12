@@ -1,8 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useDispatch } from "react-redux";
 import {
-  postChapter,
-  postLesson,
   postLessonExam,
   postLessonTools,
   postUploadLessonVideo,
@@ -17,7 +15,7 @@ export const useChapterMutation = (currentCourseId) => {
   const dispatch = useDispatch();
   const queryClient = useQueryClient();
   const mutation = useMutation({
-    mutationFn: async (params) => postChapter(params),
+    mutationFn: async (params) => {},
     onSuccess: ({ chapter }) => {
       if (storage.exists("chapky89wsgnae"))
         storage.update("chapky89wsgnae", chapter.id);
@@ -49,7 +47,7 @@ export const useLessonMutation = (currentCourseId) => {
   const dispatch = useDispatch();
   const queryClient = useQueryClient();
   const mutation = useMutation({
-    mutationFn: async (params) => postLesson(params),
+    mutationFn: async (params) => {},
     onSuccess: ({ data }) => {
       if (storage.exists("leuhqzrsyh5e"))
         storage.update("leuhqzrsyh5e", data.id);

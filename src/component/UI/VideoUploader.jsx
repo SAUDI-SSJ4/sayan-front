@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
 
-const VideoUploader = ({ setFieldValue }) => {
+const VideoUploader = ({ setFieldValue, getVideoDuration }) => {
   const videoRef = useRef(null);
   const [videoFile, setVideoFile] = useState(null);
   const [videoURL, setVideoURL] = useState(null);
@@ -29,6 +29,17 @@ const VideoUploader = ({ setFieldValue }) => {
 
       // Update Formik state
       setFieldValue("video", file);
+      // Wait for metadata to load and then get duration
+
+      const tempVideo = document.createElement("video");
+      tempVideo.preload = "metadata";
+      tempVideo.src = fileURL;
+
+      tempVideo.onloadedmetadata = () => {
+        const durationInSeconds = tempVideo.duration;
+        getVideoDuration(durationInSeconds / 60); // Pass duration to parent
+        URL.revokeObjectURL(tempVideo.src); // Clean up
+      };
     }
   };
 
@@ -42,7 +53,7 @@ const VideoUploader = ({ setFieldValue }) => {
 
   return (
     <div style={styles.container}>
-      <label >رفع ملف الفيديو</label>
+      <label>رفع ملف الفيديو</label>
       <input
         type="file"
         accept="video/*"
@@ -58,7 +69,11 @@ const VideoUploader = ({ setFieldValue }) => {
             controls
             style={styles.video}
           ></video>
-          <button type="button" onClick={handlePlayPause} style={styles.playPauseButton}>
+          <button
+            type="button"
+            onClick={handlePlayPause}
+            style={styles.playPauseButton}
+          >
             تشغيل / إيقاف مؤقت
           </button>
         </div>

@@ -96,7 +96,6 @@ export const postLessonExam = async (lessonId, params) => {
   );
   return res;
 };
-console.log("user_token", user_token());
 export const createCourseAPI = async (data) => {
   const baseUrl = new URL(import.meta.env.VITE_SERVER_DEV).origin;
   const { data: res } = await axios.post(
@@ -166,19 +165,19 @@ export const getChapterById = async (id) => {
   return data;
 };
 
-export const postLesson = async (params) => {
-  const { data } = await academy_client.post("/lessons", params);
+export const createLesson = async (params, formData) => {
+  const baseURL = new URL(import.meta.env.VITE_SERVER_DEV).origin;
+  const { data } = await axios.post(
+    `${baseURL}/api/v1/academies/courses/${params.courseId}/chapters/${params.chapterId}/lessons`,
+    formData,
+    {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Authorization: `Bearer ${user_token()}`,
+      },
+    }
+  );
   return data;
-};
-
-export const createLesson = async (data) => {
-  const res = await academy_client.post("/lesson", data, {
-    headers: { "Content-Type": "multipart/form-data" },
-    maxContentLength: Infinity,
-    maxBodyLength: Infinity,
-    timeout: 120000,
-  });
-  return res;
 };
 
 export const getAllcategories = async () => {

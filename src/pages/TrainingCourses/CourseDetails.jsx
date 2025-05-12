@@ -37,7 +37,7 @@ const CourseDetails = () => {
   const [answers, setAnswers] = useState({});
   const [errorMessages, setErrorMessages] = useState({});
   const [selectedLesson, setSelectedLesson] = useState(null);
-  const [question, setQuestion] = useState('');
+  const [question, setQuestion] = useState("");
   const [messages, setMessages] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [examStarted, setExamStarted] = useState(false);
@@ -58,13 +58,13 @@ const CourseDetails = () => {
   const handleAskQuestion = async () => {
     if (!question.trim()) return;
 
-    setMessages(prevMessages => [
+    setMessages((prevMessages) => [
       ...prevMessages,
-      { type: 'user', content: question }
+      { type: "user", content: question },
     ]);
 
     setIsLoading(true);
-    
+
     // Simulated AI response about learning programming
     const aiResponse = `لتعلم البرمجة بشكل فعال وسريع، أنصحك باتباع هذه الخطوات:
 
@@ -79,13 +79,13 @@ const CourseDetails = () => {
 
     setTimeout(() => {
       setIsLoading(false);
-      setMessages(prevMessages => [
+      setMessages((prevMessages) => [
         ...prevMessages,
-        { type: 'ai', content: aiResponse }
+        { type: "ai", content: aiResponse },
       ]);
     }, 1000);
 
-    setQuestion('');
+    setQuestion("");
   };
 
   const handleLessonClick = (lesson, category) => {
@@ -141,9 +141,9 @@ const CourseDetails = () => {
                           options: [
                             "عملية كتابة التعليمات للحاسوب",
                             "تصميم واجهات المستخدم",
-                            "إدارة قواعد البيانات"
+                            "إدارة قواعد البيانات",
                           ],
-                          correctAnswer: "عملية كتابة التعليمات للحاسوب"
+                          correctAnswer: "عملية كتابة التعليمات للحاسوب",
                         },
                       ],
                     },
@@ -157,21 +157,21 @@ const CourseDetails = () => {
                           front: "Algorithm",
                           back: "خوارزمية: مجموعة من الخطوات لحل مشكلة معينة",
                           image: "https://placehold.co/400x300?text=Algorithm",
-                          color: "#FFD700"
+                          color: "#FFD700",
                         },
                         {
                           front: "Variable",
                           back: "متغير: وعاء لتخزين البيانات في البرنامج",
                           image: "https://placehold.co/400x300?text=Variable",
-                          color: "#4CAF50"
+                          color: "#4CAF50",
                         },
                         {
                           front: "Function",
                           back: "دالة: مجموعة من التعليمات لأداء مهمة محددة",
                           image: "https://placehold.co/400x300?text=Function",
-                          color: "#2196F3"
-                        }
-                      ]
+                          color: "#2196F3",
+                        },
+                      ],
                     },
                   },
                 ],
@@ -195,8 +195,12 @@ const CourseDetails = () => {
                         {
                           id: 2,
                           question: "ما هي ميزات ES6؟",
-                          options: ["Arrow functions", "let و const", "Destructuring"],
-                          correctAnswer: "Arrow functions"
+                          options: [
+                            "Arrow functions",
+                            "let و const",
+                            "Destructuring",
+                          ],
+                          correctAnswer: "Arrow functions",
                         },
                       ],
                     },
@@ -231,55 +235,69 @@ const CourseDetails = () => {
                         {
                           id: 3,
                           question: "ما هو HTML؟",
-                          options: ["لغة ترميز النص التشعبي", "لغة برمجة", "قاعدة بيانات"],
-                          correctAnswer: "لغة ترميز النص التشعبي"
+                          options: [
+                            "لغة ترميز النص التشعبي",
+                            "لغة برمجة",
+                            "قاعدة بيانات",
+                          ],
+                          correctAnswer: "لغة ترميز النص التشعبي",
                         },
                         {
                           id: 4,
                           question: "ما هو CSS؟",
-                          options: ["لغة ترميز النص التشعبي", "لغة برمجة", "قاعدة بيانات", "لغة التصميم"],
-                          correctAnswer: "لغة التصميم"
+                          options: [
+                            "لغة ترميز النص التشعبي",
+                            "لغة برمجة",
+                            "قاعدة بيانات",
+                            "لغة التصميم",
+                          ],
+                          correctAnswer: "لغة التصميم",
                         },
                       ],
                     },
                   },
-{
-  type: "timeline",
-  content: {
-    title: "تطور تقنيات الويب",
-    cards: [
-      {
-        order: 1,
-        title: "ولادة شبكة الويب العالمية",
-        description: "تم اختراع شبكة الويب العالمية من قبل تيم بيرنرز لي",
-        color: "#FF6B6B",
-        image: "https://via.placeholder.com/150?text=WWW"
-      },
-      {
-        order: 2,
-        title: "إطلاق أول متصفح ويب رسومي",
-        description: "تم إطلاق Mosaic، أول متصفح ويب رسومي شعبي",
-        color: "#4CAF50",
-        image: "https://via.placeholder.com/150?text=Mosaic"
-      },
-      {
-        order: 3,
-        title: "ظهور JavaScript",
-        description: "تم إنشاء JavaScript بواسطة Brendan Eich في Netscape",
-        color: "#2196F3",
-        image: "https://via.placeholder.com/150?text=JavaScript"
-      },
-      {
-        order: 4,
-        title: "ظهور تصميم الويب المتجاوب",
-        description: "بدأ مفهوم تصميم الويب المتجاوب في الانتشار",
-        color: "#9C27B0",
-        image: "https://via.placeholder.com/150?text=Responsive"
-      }
-    ]
-  }
-},
-
+                  {
+                    type: "timeline",
+                    content: {
+                      title: "تطور تقنيات الويب",
+                      cards: [
+                        {
+                          order: 1,
+                          title: "ولادة شبكة الويب العالمية",
+                          description:
+                            "تم اختراع شبكة الويب العالمية من قبل تيم بيرنرز لي",
+                          color: "#FF6B6B",
+                          image: "https://via.placeholder.com/150?text=WWW",
+                        },
+                        {
+                          order: 2,
+                          title: "إطلاق أول متصفح ويب رسومي",
+                          description:
+                            "تم إطلاق Mosaic، أول متصفح ويب رسومي شعبي",
+                          color: "#4CAF50",
+                          image: "https://via.placeholder.com/150?text=Mosaic",
+                        },
+                        {
+                          order: 3,
+                          title: "ظهور JavaScript",
+                          description:
+                            "تم إنشاء JavaScript بواسطة Brendan Eich في Netscape",
+                          color: "#2196F3",
+                          image:
+                            "https://via.placeholder.com/150?text=JavaScript",
+                        },
+                        {
+                          order: 4,
+                          title: "ظهور تصميم الويب المتجاوب",
+                          description:
+                            "بدأ مفهوم تصميم الويب المتجاوب في الانتشار",
+                          color: "#9C27B0",
+                          image:
+                            "https://via.placeholder.com/150?text=Responsive",
+                        },
+                      ],
+                    },
+                  },
                 ],
               },
             ],
@@ -317,9 +335,9 @@ const CourseDetails = () => {
 
   const handleAnswerChange = (questionIndex, answer) => {
     setShowError(false);
-    setExamAnswers(prev => ({
+    setExamAnswers((prev) => ({
       ...prev,
-      [questionIndex]: answer
+      [questionIndex]: answer,
     }));
   };
 
@@ -329,21 +347,28 @@ const CourseDetails = () => {
 
     if (answeredCount < questions.length) {
       setShowError(true);
-      const firstUnanswered = questions.findIndex((_, index) => !examAnswers[index]);
-      document.getElementById(`question-${firstUnanswered}`)?.scrollIntoView({ 
-        behavior: 'smooth', 
-        block: 'center' 
+      const firstUnanswered = questions.findIndex(
+        (_, index) => !examAnswers[index]
+      );
+      document.getElementById(`question-${firstUnanswered}`)?.scrollIntoView({
+        behavior: "smooth",
+        block: "center",
       });
       return;
     }
 
     const results = {
-      correctAnswers: questions.reduce((count, q, index) => 
-        count + (examAnswers[index] === q.correctAnswer ? 1 : 0), 0),
-      totalQuestions: questions.length
+      correctAnswers: questions.reduce(
+        (count, q, index) =>
+          count + (examAnswers[index] === q.correctAnswer ? 1 : 0),
+        0
+      ),
+      totalQuestions: questions.length,
     };
 
-    results.score = Math.round((results.correctAnswers / results.totalQuestions) * 100);
+    results.score = Math.round(
+      (results.correctAnswers / results.totalQuestions) * 100
+    );
     setExamResults(results);
   };
 
@@ -425,7 +450,7 @@ const CourseDetails = () => {
             )}
           />
         </div>
-        <div className={`${classes.content} ${classes.lessonsVideo}`}>
+        {/* <div className={`${classes.content} ${classes.lessonsVideo}`}>
           <div className={classes.title}>
             <h4>{chosenCategory?.title}</h4>
             <div className={classes.lesson}>
@@ -434,14 +459,14 @@ const CourseDetails = () => {
             </div>
           </div>
           {chosenLesson?.type === "exam" ? (
-            <motion.div 
+            <motion.div
               className={classes.examContent}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
             >
               {!examStarted ? (
-                <motion.button 
+                <motion.button
                   className={classes.startExam}
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
@@ -459,17 +484,27 @@ const CourseDetails = () => {
                 >
                   <div className={classes.scoreCard}>
                     <div className={classes.scoreCircle}>
-                      <span className={classes.scoreNumber}>{examResults.score}%</span>
+                      <span className={classes.scoreNumber}>
+                        {examResults.score}%
+                      </span>
                     </div>
-                    <p>لقد أجبت على {examResults.correctAnswers} من أصل {examResults.totalQuestions} أسئلة بشكل صحيح</p>
-                    <p className={examResults.score >= 70 ? classes.successText : classes.errorText}>
-                      {examResults.score >= 70 
-                        ? 'تهانينا! لقد اجتزت الاختبار بنجاح'
-                        : 'حاول مرة أخرى للحصول على درجة أعلى'
+                    <p>
+                      لقد أجبت على {examResults.correctAnswers} من أصل{" "}
+                      {examResults.totalQuestions} أسئلة بشكل صحيح
+                    </p>
+                    <p
+                      className={
+                        examResults.score >= 70
+                          ? classes.successText
+                          : classes.errorText
                       }
+                    >
+                      {examResults.score >= 70
+                        ? "تهانينا! لقد اجتزت الاختبار بنجاح"
+                        : "حاول مرة أخرى للحصول على درجة أعلى"}
                     </p>
                   </div>
-                  <motion.button 
+                  <motion.button
                     className={classes.startExam}
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
@@ -480,17 +515,21 @@ const CourseDetails = () => {
                   </motion.button>
                 </motion.div>
               ) : (
-                <motion.div 
+                <motion.div
                   className={classes.Quastions}
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   transition={{ duration: 0.5 }}
                 >
                   {chosenLesson?.content?.questions?.map((question, index) => (
-                    <motion.div 
-                      key={index} 
+                    <motion.div
+                      key={index}
                       id={`question-${index}`}
-                      className={`${classes.questionBlock} ${showError && !examAnswers[index] ? classes.unanswered : ''}`}
+                      className={`${classes.questionBlock} ${
+                        showError && !examAnswers[index]
+                          ? classes.unanswered
+                          : ""
+                      }`}
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: index * 0.1 }}
@@ -502,8 +541,8 @@ const CourseDetails = () => {
                         )}
                       </h5>
                       {question.options.map((answer, ansIndex) => (
-                        <div 
-                          key={ansIndex} 
+                        <div
+                          key={ansIndex}
                           className={`${classes.chooseQuestionAnswer} }`}
                           onClick={() => handleAnswerChange(index, answer)}
                         >
@@ -514,14 +553,12 @@ const CourseDetails = () => {
                             checked={examAnswers[index] === answer}
                             readOnly
                           />
-                          <label>
-                            {answer}
-                          </label>
+                          <label>{answer}</label>
                         </div>
                       ))}
                     </motion.div>
                   ))}
-                  <motion.button 
+                  <motion.button
                     className={classes.startExam}
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
@@ -533,8 +570,8 @@ const CourseDetails = () => {
                 </motion.div>
               )}
             </motion.div>
-          ):chosenLesson?.type === "flippingCard" ? (
-            <motion.div 
+          ) : chosenLesson?.type === "flippingCard" ? (
+            <motion.div
               className={classes.flippingCardsContainer}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -548,29 +585,34 @@ const CourseDetails = () => {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.1 }}
                 >
-                  <div 
-                    className={`${classes.flipCardInner} ${card.isFlipped ? classes.isFlipped : ''}`}
+                  <div
+                    className={`${classes.flipCardInner} ${
+                      card.isFlipped ? classes.isFlipped : ""
+                    }`}
                     onClick={() => {
                       const updatedCards = [...chosenLesson.content.cards];
-                      updatedCards[index] = { ...card, isFlipped: !card.isFlipped };
-                      setChosenLesson(prev => ({
+                      updatedCards[index] = {
+                        ...card,
+                        isFlipped: !card.isFlipped,
+                      };
+                      setChosenLesson((prev) => ({
                         ...prev,
-                        content: { ...prev.content, cards: updatedCards }
+                        content: { ...prev.content, cards: updatedCards },
                       }));
                     }}
                     style={{
-                      '--card-color': card.color || '#0062ff'
+                      "--card-color": card.color || "#0062ff",
                     }}
                   >
                     <div className={classes.flipCardFront}>
                       <h3>{card.front}</h3>
                       {card.image && (
-                        <img 
-                          src={card.image} 
+                        <img
+                          src={card.image}
                           alt={card.front}
                           onError={(e) => {
                             e.target.onerror = null;
-                            e.target.src = '/images/placeholder.png';
+                            e.target.src = "/images/placeholder.png";
                           }}
                         />
                       )}
@@ -578,12 +620,12 @@ const CourseDetails = () => {
                     <div className={classes.flipCardBack}>
                       <p>{card.back}</p>
                       {card.image && (
-                        <img 
-                          src={card.image} 
+                        <img
+                          src={card.image}
                           alt={card.front}
                           onError={(e) => {
                             e.target.onerror = null;
-                            e.target.src = '/images/placeholder.png';
+                            e.target.src = "/images/placeholder.png";
                           }}
                         />
                       )}
@@ -592,8 +634,8 @@ const CourseDetails = () => {
                 </motion.div>
               ))}
             </motion.div>
-          ):chosenLesson?.type === "timeline" ? (
-            <motion.div 
+          ) : chosenLesson?.type === "timeline" ? (
+            <motion.div
               className={classes.timelineContainer}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -603,13 +645,15 @@ const CourseDetails = () => {
                 {chosenLesson?.content?.cards?.map((card, index) => (
                   <motion.div
                     key={index}
-                    className={`${classes.timelineItem} ${selectedTimelineItem === index ? classes.active : ''}`}
+                    className={`${classes.timelineItem} ${
+                      selectedTimelineItem === index ? classes.active : ""
+                    }`}
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: index * 0.1 }}
                     onClick={() => setSelectedTimelineItem(index)}
                     style={{
-                      '--timeline-color': card.color || '#0062ff'
+                      "--timeline-color": card.color || "#0062ff",
                     }}
                   >
                     <div className={classes.timelineDot} />
@@ -617,20 +661,27 @@ const CourseDetails = () => {
                   </motion.div>
                 ))}
               </div>
-              <motion.div 
-                className={`${classes.timelineDetails} ${selectedTimelineItem !== null ? classes.visible : ''}`}
+              <motion.div
+                className={`${classes.timelineDetails} ${
+                  selectedTimelineItem !== null ? classes.visible : ""
+                }`}
                 initial={false}
-                animate={{ opacity: selectedTimelineItem !== null ? 1 : 0, x: selectedTimelineItem !== null ? 0 : 20 }}
+                animate={{
+                  opacity: selectedTimelineItem !== null ? 1 : 0,
+                  x: selectedTimelineItem !== null ? 0 : 20,
+                }}
                 transition={{ duration: 0.3 }}
               >
                 {selectedTimelineItem !== null && (
-                  <motion.div 
+                  <motion.div
                     className={classes.timelineCard}
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.3 }}
                     style={{
-                      '--timeline-color': chosenLesson?.content?.cards[selectedTimelineItem].color || '#0062ff'
+                      "--timeline-color":
+                        chosenLesson?.content?.cards[selectedTimelineItem]
+                          .color || "#0062ff",
                     }}
                   >
                     <div className={classes.cardYear}>
@@ -640,16 +691,24 @@ const CourseDetails = () => {
                       {chosenLesson?.content?.cards[selectedTimelineItem].title}
                     </div>
                     <div className={classes.cardDescription}>
-                      {chosenLesson?.content?.cards[selectedTimelineItem].description}
+                      {
+                        chosenLesson?.content?.cards[selectedTimelineItem]
+                          .description
+                      }
                     </div>
-                    {chosenLesson?.content?.cards[selectedTimelineItem].image && (
+                    {chosenLesson?.content?.cards[selectedTimelineItem]
+                      .image && (
                       <img
-                        src={chosenLesson.content.cards[selectedTimelineItem].image}
-                        alt={chosenLesson.content.cards[selectedTimelineItem].title}
+                        src={
+                          chosenLesson.content.cards[selectedTimelineItem].image
+                        }
+                        alt={
+                          chosenLesson.content.cards[selectedTimelineItem].title
+                        }
                         className={classes.cardImage}
                         onError={(e) => {
                           e.target.onerror = null;
-                          e.target.src = '/images/placeholder.png';
+                          e.target.src = "/images/placeholder.png";
                         }}
                       />
                     )}
@@ -657,7 +716,7 @@ const CourseDetails = () => {
                 )}
               </motion.div>
             </motion.div>
-          ):(
+          ) : (
             <div className={classes.videoContent}>
               <div className={classes.Course}>
                 <CustomVideoPlayer video={chosenVideo} />
@@ -714,7 +773,7 @@ const CourseDetails = () => {
                                   ease: "easeOut",
                                 }}
                                 className={`${classes.message} ${
-                                  message.type === 'user'
+                                  message.type === "user"
                                     ? classes.userMessage
                                     : classes.aiMessage
                                 }`}
@@ -731,7 +790,7 @@ const CourseDetails = () => {
                               value={question}
                               onChange={(e) => setQuestion(e.target.value)}
                               onKeyPress={(e) => {
-                                if (e.key === 'Enter' && !e.shiftKey) {
+                                if (e.key === "Enter" && !e.shiftKey) {
                                   e.preventDefault();
                                   handleAskQuestion();
                                 }
@@ -748,7 +807,7 @@ const CourseDetails = () => {
                               {isLoading ? (
                                 <Spinner animation="border" size="sm" />
                               ) : (
-                                'إرسال'
+                                "إرسال"
                               )}
                             </motion.button>
                           </div>
@@ -760,7 +819,7 @@ const CourseDetails = () => {
               </div>
             </div>
           )}
-        </div>
+        </div> */}
       </div>
     </div>
   );

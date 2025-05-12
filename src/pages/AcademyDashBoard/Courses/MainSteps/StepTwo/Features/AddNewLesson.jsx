@@ -15,11 +15,10 @@ const validationSchema = Yup.object().shape({
 });
 
 function AddNewLesson({ categoryId, courseId }) {
-
-  const currentCourseId = storage.get("cousjvqpkbr3m")
+  const currentCourseId = storage.get("cousjvqpkbr3m");
 
   const mutation = useLessonMutation(currentCourseId);
-  const chapterId = storage.get("chapky89wsgnae")
+  const chapterId = storage.get("chapky89wsgnae");
 
   const formik = useFormik({
     initialValues: {
@@ -44,21 +43,23 @@ function AddNewLesson({ categoryId, courseId }) {
           return;
         }
         if (result.isConfirmed) {
-          console.log("result.isConfirmed")
-          mutation.mutateAsync({
-            title: values.title,
-            course_id: courseId,
-            category_id: categoryId,
-            chapter_id: chapterId,
-          }).then(() => {
-            Swal.fire({
-              title: "نجاح!",
-              text: "تمت إضافة الدرس بنجاح",
-              icon: "success",
-              confirmButtonText: "موافق",
-            });
-            resetForm();
-          })
+          console.log("result.isConfirmed");
+          mutation
+            .mutateAsync({
+              title: values.title,
+              course_id: courseId,
+              category_id: categoryId,
+              chapter_id: chapterId,
+            })
+            .then(() => {
+              Swal.fire({
+                title: "نجاح!",
+                text: "تمت إضافة الدرس بنجاح",
+                icon: "success",
+                confirmButtonText: "موافق",
+              });
+              resetForm();
+            })
             .catch(() => {
               Swal.fire({
                 title: "فشل",
@@ -74,50 +75,20 @@ function AddNewLesson({ categoryId, courseId }) {
 
   return (
     <>
-      <div className={`${style.content} container text-center `} style={{ padding: "60px 40px" }}>
+      <div
+        className={`${style.content} container text-center `}
+        style={{ padding: "60px 40px" }}
+      >
         <h4 style={{ color: "#2B3674", fontWeight: "600" }}>اضافة درس جديد</h4>
 
-        <form onSubmit={formik.handleSubmit} className="row g-3 w-80 justify-content-center m-auto">
-          <div className="justify-content-center">
-            <div className="col-lg-11 col-md-12">
-              <div className={style.formControl}>
-                <label
-                  htmlFor="title"
-                  className={style.label}
-                >
-                  العنوان
-                </label>
-                <input
-                  type="text"
-                  placeholder="ادخل عنوان الدرس هنا"
-                  id="title"
-                  name="title"
-                  value={formik.values.title}
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  className={style.input}
-                />
-                {formik.touched.title && formik.errors.title && (
-                  <div className={style.error}>{formik.errors.title}</div>
-                )}
-              </div>
-            </div>
-
-
-          </div>
-
-          <div className="col-lg-6 col-md-12" >
-            <Button type="submit"
-              appearance="primary"
-              size="lg"
-              style={{ width: "100%", padding: '15px 0px' }}
-              disabled={mutation.isPending || !formik.values.title}
-            >اضافة</Button>
-          </div>
+        <form
+          onSubmit={formik.handleSubmit}
+          className="row g-3 w-80 justify-content-center m-auto"
+        >
+          <div className="justify-content-center"></div>
         </form>
       </div>
-      <div className={`${style.sidebar} ${style.right}`}>
-      </div>
+      <div className={`${style.sidebar} ${style.right}`}></div>
     </>
   );
 }
