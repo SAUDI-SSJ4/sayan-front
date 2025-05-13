@@ -8,6 +8,7 @@ import Blogs from "../pages/AcademyDashBoard/blogs/blog";
 import AddNewBlogAcademey from "../pages/AcademyDashBoard/blogs/AddNewBlog";
 import ReportsAndStatistics from "../pages/AcademyDashBoard/ReportsAndStatistics/ReportsAndStatistics";
 import AcademeyWallet from "../pages/AcademyDashBoard/Wallet/Wallet";
+import WalletSuccess from "../pages/AcademyDashBoard/Wallet/WalletSuccess";
 import AcademySales from "../pages/AcademyDashBoard/sales/sales";
 import AcadmeyTrainingCourses from "../pages/AcademyDashBoard/TrainingCourses/TrainingCourses";
 import AcademySingleCourse from "../pages/AcademyDashBoard/TrainingCourses/SingleCourse";
@@ -187,7 +188,8 @@ const AcademyRoutes = () => {
               path="/academy/ReportsAndStatistics"
               element={<ReportsAndStatistics />}
             />
-            <Route path="/academy/Wallet" element={<AcademeyWallet />} />
+            <Route path="/academy/wallet" element={<AcademeyWallet />} />
+            <Route path="/academy/wallet/success" element={<WalletSuccess />} />
             <Route path="/academy/sales" element={<AcademySales />} />
             <Route
               path="/academy/training-courses"
