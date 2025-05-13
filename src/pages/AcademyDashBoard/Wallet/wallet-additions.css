@@ -1,0 +1,540 @@
+/* تنسيق أيقونة الريال السعودي */
+.sar-icon {
+  width: 12px;
+  height: 12px;
+  margin-right: 2px;
+  vertical-align: middle;
+}
+
+.visa-card-currency .sar-icon {
+  width: 24px;
+  height: 24px;
+  filter: invert(100%) brightness(100%) contrast(100%);
+  margin-left: 5px;
+  vertical-align: middle;
+}
+
+/* القسم الأيمن - العمليات المالية */
+.financial-operations {
+  background: white;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  width: 380px;
+}
+
+.financial-operations .financial-tabs {
+  display: flex;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.financial-operations .financial-tabs .tab {
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 1rem;
+  position: relative;
+  color: #6b7280;
+}
+
+.financial-operations .financial-tabs .tab.active {
+  color: #3b82f6;
+  font-weight: 600;
+}
+
+.financial-operations .financial-tabs .tab.active:after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background-color: #3b82f6;
+}
+
+.financial-operations .tab-selector {
+  margin-bottom: 20px;
+}
+
+.financial-operations .tab-selector .period-selector {
+  display: flex;
+  gap: 10px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.financial-operations .tab-selector .period-selector .period {
+  padding: 6px 12px;
+  font-size: 0.85rem;
+  color: #6b7280;
+  cursor: pointer;
+  border-radius: 20px;
+}
+
+.financial-operations .tab-selector .period-selector .period.active {
+  background-color: #3b82f6;
+  color: white;
+}
+
+/* إحصائيات الإيرادات */
+.financial-operations .revenue-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.financial-operations .revenue-stats .stats-card {
+  background-color: #f9fafb;
+  border-radius: 10px;
+  padding: 15px;
+  transition: all 0.3s ease;
+}
+
+.financial-operations .revenue-stats .stats-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+}
+
+.financial-operations .revenue-stats .stats-card .stats-header {
+  font-size: 0.75rem;
+  color: #6b7280;
+  margin-bottom: 8px;
+}
+
+.financial-operations .revenue-stats .stats-card .stats-value {
+  display: flex;
+  align-items: center;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #1f2937;
+  margin-bottom: 8px;
+}
+
+.financial-operations .revenue-stats .stats-card .stats-growth {
+  display: flex;
+  flex-direction: column;
+}
+
+.financial-operations .revenue-stats .stats-card .stats-growth .growth-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  width: fit-content;
+}
+
+.financial-operations .revenue-stats .stats-card .stats-growth .growth-badge.positive {
+  background-color: #d1fae5;
+  color: #047857;
+}
+
+.financial-operations .revenue-stats .stats-card .stats-growth .growth-badge.negative {
+  background-color: #fee2e2;
+  color: #b91c1c;
+}
+
+.financial-operations .revenue-stats .stats-card .stats-growth .growth-label {
+  font-size: 0.7rem;
+  color: #6b7280;
+  margin-top: 4px;
+}
+
+.financial-operations .revenue-stats .stats-card .stats-info {
+  margin-top: 10px;
+}
+
+.financial-operations .revenue-stats .stats-card .stats-info .info-label {
+  font-size: 0.75rem;
+  color: #6b7280;
+}
+
+/* بطاقة الفيزا المتحركة */
+.financial-operations .card-visual {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+.financial-operations .card-visual .visa-card-container {
+  width: 100%;
+  perspective: 1000px;
+}
+
+.financial-operations .card-visual .visa-card-container .visa-card {
+  background: linear-gradient(135deg, #8a4bff 0%, #6366f1 100%);
+  border-radius: 16px;
+  padding: 24px;
+  color: white;
+  box-shadow: 0 10px 20px rgba(99, 102, 241, 0.2);
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.3s ease;
+}
+
+.financial-operations .card-visual .visa-card-container .visa-card:hover {
+  transform: rotateY(5deg) translateZ(10px);
+}
+
+.financial-operations .card-visual .visa-card-container .visa-card:hover .visa-card-glow {
+  opacity: 0.8;
+}
+
+.financial-operations .card-visual .visa-card-container .visa-card .visa-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.financial-operations .card-visual .visa-card-container .visa-card .visa-card-header .visa-card-name {
+  font-size: 18px;
+  font-weight: 500;
+  letter-spacing: 1px;
+}
+
+.financial-operations .card-visual .visa-card-container .visa-card .visa-card-header .visa-card-chip {
+  width: 40px;
+  height: 30px;
+  background: linear-gradient(135deg, #e2e2e2 0%, #c9c9c9 100%);
+  border-radius: 5px;
+  position: relative;
+}
+
+.financial-operations .card-visual .visa-card-container .visa-card .visa-card-header .visa-card-chip:before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 25px;
+  height: 15px;
+  background: linear-gradient(135deg, #d4d4d4 0%, #b6b6b6 100%);
+  border-radius: 3px;
+}
+
+.financial-operations .card-visual .visa-card-container .visa-card .visa-card-number {
+  text-align: center;
+  margin-bottom: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.financial-operations .card-visual .visa-card-container .visa-card .visa-card-number .visa-card-balance {
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.financial-operations .card-visual .visa-card-container .visa-card .visa-card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.financial-operations .card-visual .visa-card-container .visa-card .visa-card-footer .visa-card-type {
+  font-size: 20px;
+  font-weight: 700;
+  font-style: italic;
+  letter-spacing: 1px;
+}
+
+.financial-operations .card-visual .visa-card-container .visa-card .visa-card-footer .visa-card-expiry {
+  font-size: 14px;
+  opacity: 0.8;
+}
+
+.financial-operations .card-visual .visa-card-container .visa-card .visa-card-dots {
+  position: absolute;
+  bottom: 24px;
+  left: 24px;
+  font-size: 12px;
+  opacity: 0.7;
+}
+
+.financial-operations .card-visual .visa-card-container .visa-card .visa-card-glow {
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(ellipse at center, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0) 70%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+/* قسم الرسم البياني */
+.financial-operations .chart-section {
+  margin-top: 20px;
+}
+
+.financial-operations .chart-section .chart-title {
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 15px;
+  color: #1f2937;
+}
+
+/* تنسيق جدول المعاملات المالية - تصميم جديد كلياً */
+.transactions-table {
+  width: 100%;
+  overflow-x: auto;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  border-radius: 12px;
+  margin-bottom: 30px;
+  background: white;
+}
+
+.transactions-table table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: 0.95rem;
+  table-layout: fixed; /* ضبط عرض الأعمدة بشكل ثابت */
+}
+
+.transactions-table table th {
+  background-color: #f3f4f6;
+  padding: 16px;
+  font-weight: 600;
+  text-align: center; /* توسيط العناوين */
+  border-bottom: 2px solid #e5e7eb;
+  color: #4b5563;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  white-space: nowrap;
+}
+
+.transactions-table table td {
+  padding: 16px;
+  border-bottom: 1px solid #edf2f7;
+  text-align: center; /* توسيط المحتوى */
+  vertical-align: middle;
+  transition: all 0.2s ease;
+  font-size: 0.9rem;
+}
+
+/* تحديد عرض الأعمدة بشكل دقيق */
+.transactions-table table th:nth-child(1), 
+.transactions-table table td:nth-child(1) {
+  width: 12%; /* التاريخ */
+}
+
+.transactions-table table th:nth-child(2), 
+.transactions-table table td:nth-child(2) {
+  width: 15%; /* نوع المعاملة */
+}
+
+.transactions-table table th:nth-child(3), 
+.transactions-table table td:nth-child(3) {
+  width: 18%; /* المنتج */
+}
+
+.transactions-table table th:nth-child(4), 
+.transactions-table table td:nth-child(4) {
+  width: 15%; /* الطالب */
+}
+
+.transactions-table table th:nth-child(5), 
+.transactions-table table td:nth-child(5) {
+  width: 13%; /* الرصيد قبل */
+}
+
+.transactions-table table th:nth-child(6), 
+.transactions-table table td:nth-child(6) {
+  width: 14%; /* التغيير */
+}
+
+.transactions-table table th:nth-child(7), 
+.transactions-table table td:nth-child(7) {
+  width: 13%; /* الرصيد بعد */
+}
+
+/* خاص بالصفوف */
+.transactions-table table tr {
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.transactions-table table tr:hover {
+  transform: translateY(-2px);
+  position: relative;
+  z-index: 1;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.transactions-table table tr:last-child td {
+  border-bottom: none;
+}
+
+.transactions-table table tr:hover td {
+  background-color: #f9fafb;
+}
+
+/* تنسيق خلايا المبالغ المالية */
+.transactions-table table .amount-cell {
+  display: flex;
+  align-items: center;
+  justify-content: center; /* توسيط المحتوى */
+  white-space: nowrap;
+  padding: 6px 4px;
+  border-radius: 6px;
+  font-weight: 600;
+  height: 40px; /* ارتفاع ثابت */
+  width: calc(100% - 8px); /* عرض ثابت مع هامش */
+  margin: 0 auto; /* توسيط الخلية */
+  position: relative;
+}
+
+.transactions-table table .amount-cell .amount-value {
+  margin: 0 4px;
+  direction: ltr; /* عرض الأرقام من اليسار لليمين */
+  display: inline-block; /* تجنب تقسيم النص */
+}
+
+.transactions-table table .amount-cell .currency-symbol {
+  color: #6b7280;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+/* تنسيق خلية التغيير */
+.transactions-table table .amount-cell.positive-amount {
+  background-color: rgba(4, 120, 87, 0.1);
+  color: #047857;
+  box-shadow: 0 2px 4px rgba(4, 120, 87, 0.1);
+}
+
+.transactions-table table .amount-cell.negative-amount {
+  background-color: rgba(185, 28, 28, 0.1);
+  color: #b91c1c;
+  box-shadow: 0 2px 4px rgba(185, 28, 28, 0.1);
+}
+
+/* أيقونة السهم */
+.arrow-icon {
+  width: 20px;
+  height: 20px;
+  margin: 0 2px;
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+}
+
+.arrow-icon.positive {
+  color: #047857;
+}
+
+.arrow-icon.negative {
+  color: #b91c1c;
+}
+
+/* تحريك السهم عند تمرير الماوس */
+tr:hover .arrow-icon.positive {
+  transform: translateX(3px);
+}
+
+tr:hover .arrow-icon.negative {
+  transform: translateX(-3px);
+}
+
+/* صف بدون بيانات */
+.transactions-table table tr td.text-center {
+  padding: 30px;
+  color: #9ca3af;
+  font-size: 0.95rem;
+  text-align: center;
+}
+
+/* تحسين التجاوب مع الشاشات الصغيرة */
+@media (max-width: 992px) {
+  .transactions-table {
+    overflow-x: auto;
+    width: 100%;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  .transactions-table table {
+    min-width: 800px;
+  }
+  
+  .wallet-page .wallet-content {
+    flex-direction: column;
+  }
+   
+  .wallet-page .wallet-content .financial-operations {
+    width: 100%;
+    margin-top: 20px;
+  }
+}
+
+/* معلومات سحب الرصيد */
+.withdraw-balance-info {
+  background-color: #f9fafb;
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.withdraw-balance-info .available-balance {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.withdraw-balance-info .available-balance .amount-value {
+  order: 1;
+}
+
+.withdraw-balance-info .available-balance .currency-symbol {
+  order: 2;
+  display: flex;
+  align-items: center;
+  color: #3b82f6;
+}
+
+/* نمط لحقل الإدخال مع رمز العملة */
+.input-with-currency {
+  position: relative;
+}
+
+.input-with-currency input {
+  padding-left: 30px; /* مساحة لرمز العملة */
+}
+
+.input-with-currency .currency-symbol {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  color: #3b82f6;
+}
+
+/* تنسيق سبب الرفض في طلبات السحب */
+.request-notes {
+  padding: 8px 12px;
+  background-color: #fee2e2;
+  border-radius: 6px;
+  margin-top: 8px;
+  font-size: 14px;
+  color: #b91c1c;
+  border-right: 3px solid #ef4444;
+}
+
+.notes-label {
+  font-weight: 600;
+  margin-left: 4px;
+}
+
+.notes-text {
+  font-weight: 400;
+} 
