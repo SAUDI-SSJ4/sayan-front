@@ -3,14 +3,23 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import style from "../../../AddNewCourse.module.css";
 import VideoUploader from "../../../../../../component/UI/VideoUploader";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { latestLesson } from "../../../../../../../redux/courses/CourseSlice";
-import { storage } from "../../../../../../utils/storage"
-import { useVideoMutation } from "../../../../../../services/mutation";
-import { formatLongText, hasLessonContent } from "../../../../../../utils/helpers";
+import { storage } from "../../../../../../utils/storage";
+import {
+  useLessonMutation,
+  useVideoMutation,
+} from "../../../../../../services/mutation";
+import {
+  formatLongText,
+  hasLessonContent,
+} from "../../../../../../utils/helpers";
 import { ButtonSpinner } from "../../../../../../component/UI/Buttons/ButtonSpinner";
 import { useToast } from "../../../../../../utils/hooks/useToast";
 import { Text } from "../../../../../../utils/styles";
+import AddNewLesson from "./AddNewLesson";
+import { createLesson } from "../../../../../../utils/apis/client/academy";
+import { fetchCurrentCourseSummaryThunk } from "../../../../../../../redux/courses/CourseThunk";
 
 /**
  * مكون إضافة فيديو جديد للدرس
@@ -25,45 +34,47 @@ import { Text } from "../../../../../../utils/styles";
 const videoUploadSchema = Yup.object().shape({
   title: Yup.string().required("عنوان الفيديو مطلوب"),
   video: Yup.mixed().required("ملف الفيديو مطلوب"),
-  description: Yup.string().required("وصف الفيديو مطلوب"),
+  lessonTitle: Yup.string().required("عنوان الدرس مطلوب"),
 });
 
-const AddNewVideo = () => {
+const AddNewVideo = ({ courseId, chapterId }) => {
+  const dispatch = useDispatch();
   const [uploadSuccess, setUploadSuccess] = useState(false);
+  const [videoDuration, setVideoDuration] = useState(null);
 
-  const { success, error } = useToast()
-
-  const chapterId = storage.get('chapky89wsgnae')
-  const lessonId = storage.get('leuhqzrsyh5e')
-  const getlatestLesson = useSelector((state) => latestLesson(state, chapterId, lessonId));
-
-  const currentCourseId = storage.get("cousjvqpkbr3m")
-
-  const mutation = useVideoMutation(currentCourseId, lessonId)
+  const { success, error } = useToast();
 
   const videoFormik = useFormik({
     initialValues: {
       title: "",
-      description: "",
       video: null,
+      lessonTitle: "",
     },
     validationSchema: videoUploadSchema,
     onSubmit: async (values) => {
+      console.log(values);
       const formData = new FormData();
-      formData.append("title", values.title);
-      formData.append("description", values.description);
+      formData.append("title", values.lessonTitle);
       formData.append("video", values.video);
       formData.append("type", "video");
-
+      formData.append("video_title", values.title);
+      if (videoDuration) {
+        formData.append("duration", Math.round(videoDuration));
+      }
       try {
-        if (hasLessonContent(getlatestLesson, ['video'])) {
-          await mutation.mutateAsync(formData);
+        const res = await createLesson(
+          {
+            courseId,
+            chapterId,
+          },
+          formData
+        );
+        if (res.status) {
           setUploadSuccess(true);
+          success("تم اضافة الدرس بنجاح");
           videoFormik.resetForm();
-        } else {
-          error("قم بأنشاء درس جديد")
+          dispatch(fetchCurrentCourseSummaryThunk(courseId));
         }
-
       } catch (error) {
         console.error("Error uploading video:", error);
       }
@@ -73,20 +84,41 @@ const AddNewVideo = () => {
   return (
     <>
       <div className={`${style.content}`}>
-        <div className={style.addNewVideoContainer}>
-          <Text size="20px" color="#575757" weight="600">
-            <storage>Lesson : </storage>{getlatestLesson && formatLongText(getlatestLesson.title, 15)}</Text>
-          <h5>إضافة فيديو جديد</h5>
+        <div className="col-lg-11 col-md-12">
+          <div className={style.formControl}>
+            <label htmlFor="lessonTitle" className={style.label}>
+              عنوان الدرس
+            </label>
+            <input
+              type="text"
+              placeholder="ادخل عنوان الدرس هنا"
+              id="lessonTitle"
+              name="lessonTitle"
+              className={style.input}
+              value={videoFormik.values.lessonTitle}
+              onChange={videoFormik.handleChange}
+            />
+            {videoFormik.touched.lessonTitle &&
+              videoFormik.errors.lessonTitle && (
+                <div className={style.error}>
+                  {videoFormik.errors.lessonTitle}
+                </div>
+              )}
+          </div>
+        </div>
+        <div>
           {uploadSuccess && (
             <div className="alert alert-success">تم رفع الفيديو بنجاح!</div>
           )}
           <form onSubmit={videoFormik.handleSubmit}>
             <div className="CustomFormControl col-12">
-              <VideoUploader setFieldValue={videoFormik.setFieldValue} />
+              <VideoUploader
+                setFieldValue={videoFormik.setFieldValue}
+                getVideoDuration={(duration) => setVideoDuration(duration)}
+              />
               {videoFormik.touched.video && videoFormik.errors.video && (
                 <div className="text-danger">{videoFormik.errors.video}</div>
               )}
-
             </div>
             <div className="CustomFormControl col-12">
               <label>عنوان الفيديو</label>
@@ -104,30 +136,13 @@ const AddNewVideo = () => {
               )}
             </div>
 
-            <div className="CustomFormControl col-12">
-              <label>وصف الفيديو</label>
-              <textarea
-                placeholder="أدخل وصف الفيديو"
-                name="description"
-                value={videoFormik.values.description}
-                onChange={videoFormik.handleChange}
-                className="form-control"
-                required
-              ></textarea>
-              {videoFormik.touched.description &&
-                videoFormik.errors.description && (
-                  <div className="text-danger">
-                    {videoFormik.errors.description}
-                  </div>
-                )}
-            </div>
-
             <div className="col-12 d-flex justify-content-center mt-3 ">
               <div className="col-lg-6 col-md-12 offset-lg-3 offset-md-0 m-1 text-center w-100">
                 <ButtonSpinner
-                  titel="رفع الفيديو"
-                  isPending={mutation.isPending}
-                  isDisabled={mutation.isLoading} />
+                  titel="انشاء"
+                  isDisabled={videoFormik.isSubmitting}
+                  isLoading={videoFormik.isSubmitting}
+                />
               </div>
             </div>
           </form>

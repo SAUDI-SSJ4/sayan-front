@@ -1,13 +1,11 @@
 import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import { useFormik } from "formik";
-import { useDropzone } from "react-dropzone";
 import * as Yup from "yup";
 import defualt from "../../assets/images/img.png";
 import chroma from "chroma-js";
 import Select from "react-select";
 import { useRef, useState } from "react";
-import TextEditor from "../../component/UI/TextEditor";
 const colourOptions = [
   { value: "ocean", label: "تصنيف", color: "#00B8D9", isFixed: true },
   { value: "blue", label: "تصنيف", color: "#0052CC", isDisabled: true },
@@ -18,7 +16,7 @@ const colourOptions = [
   { value: "green", label: "تصنيف", color: "#36B37E" },
   { value: "forest", label: "تصنيف", color: "#00875A" },
   { value: "slate", label: "تصنيف", color: "#253858" },
-  { value: "silver", label: "تصنيف", color: "#666666" }
+  { value: "silver", label: "تصنيف", color: "#666666" },
 ];
 
 const colourStyles = {
@@ -30,7 +28,7 @@ const colourStyles = {
     border: `1px solid #EDEFF2 `,
     background: "var(--semantic-colors-primary-contrast, #FFF)",
     padding: "5px",
-    boxShadow: "none"
+    boxShadow: "none",
   }),
   option: (styles, { data, isDisabled, isFocused, isSelected }) => {
     const color = chroma(data.color);
@@ -58,29 +56,29 @@ const colourStyles = {
           ? isSelected
             ? data.color
             : color.alpha(0.3).css()
-          : undefined
-      }
+          : undefined,
+      },
     };
   },
   multiValue: (styles, { data }) => {
     const color = chroma(data.color);
     return {
       ...styles,
-      backgroundColor: color.alpha(0.1).css()
+      backgroundColor: color.alpha(0.1).css(),
     };
   },
   multiValueLabel: (styles, { data }) => ({
     ...styles,
-    color: data.color
+    color: data.color,
   }),
   multiValueRemove: (styles, { data }) => ({
     ...styles,
     color: data.color,
     ":hover": {
       backgroundColor: data.color,
-      color: "white"
-    }
-  })
+      color: "white",
+    },
+  }),
 };
 const customStyles = {
   control: (provided, state) => ({
@@ -93,22 +91,22 @@ const customStyles = {
     boxShadow: "none",
     "&:focus": {
       outline: "none",
-      border: "1px solid #0062ff"
-    }
+      border: "1px solid #0062ff",
+    },
   }),
   dropdownIndicator: (provided) => ({
     ...provided,
-    border: "none"
+    border: "none",
   }),
   indicatorSeparator: () => ({
-    border: "none"
-  })
+    border: "none",
+  }),
 };
 
 const options = [
   { value: "option1", label: "Option 1" },
   { value: "option2", label: "Option 2" },
-  { value: "option3", label: "Option 3" }
+  { value: "option3", label: "Option 3" },
 ];
 
 const validationSchema = Yup.object().shape({
@@ -122,7 +120,7 @@ const validationSchema = Yup.object().shape({
   phone: Yup.string().required("Phone number is required"),
   country: Yup.string().required("Country code is required"),
   role: Yup.string().required("Role is required"),
-  file: Yup.mixed().required("File is required")
+  file: Yup.mixed().required("File is required"),
 });
 
 const AddNewVideo = () => {
@@ -146,13 +144,13 @@ const AddNewVideo = () => {
       phone: "",
       country: "+99", // Default country code
       role: "option1", // Default role
-      file: null
+      file: null,
     },
     validationSchema,
     onSubmit: (values) => {
       // Handle form submission here
       console.log(values);
-    }
+    },
   });
 
   const onDrop = (acceptedFiles) => {
@@ -189,7 +187,7 @@ const AddNewVideo = () => {
                   maxWidth: "366px",
                   maxHeight: "212px",
                   objectFit: "contain",
-                  marginTop: "10px"
+                  marginTop: "10px",
                 }}
               />
 
@@ -205,7 +203,7 @@ const AddNewVideo = () => {
                   style={{
                     background: "white",
                     marginTop: "25px",
-                    marginBottom: "30px"
+                    marginBottom: "30px",
                   }}
                   className="updateBtn"
                   onClick={handleButtonClick}

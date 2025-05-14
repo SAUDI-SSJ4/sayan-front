@@ -1,0 +1,122 @@
+.wallet-success-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 80vh;
+  background-color: #f5f7fb;
+  
+  .success-card {
+    background-color: white;
+    border-radius: 16px;
+    padding: 40px;
+    max-width: 500px;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    
+    .success-icon-container {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 24px;
+      
+      .success-icon {
+        width: 100px;
+        height: 100px;
+        animation: scaleIn 0.5s ease-in-out;
+      }
+    }
+    
+    .success-title {
+      color: #3b82f6;
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+    
+    .success-message {
+      color: #4b5563;
+      font-size: 16px;
+      line-height: 1.6;
+      margin-bottom: 24px;
+    }
+    
+    .success-note {
+      background-color: #f9fafb;
+      padding: 16px;
+      border-radius: 8px;
+      text-align: right;
+      margin-bottom: 32px;
+      
+      p {
+        font-weight: 600;
+        color: #1f2937;
+        margin-bottom: 8px;
+      }
+      
+      ul {
+        padding-right: 20px;
+        margin: 0;
+        
+        li {
+          color: #6b7280;
+          margin-bottom: 6px;
+          font-size: 14px;
+          
+          &:last-child {
+            margin-bottom: 0;
+          }
+        }
+      }
+    }
+    
+    .back-button {
+      background-color: #3b82f6;
+      border-color: #3b82f6;
+      padding: 10px 24px;
+      font-weight: 500;
+      transition: all 0.2s ease;
+      
+      &:hover {
+        background-color: #2563eb;
+        border-color: #2563eb;
+      }
+    }
+  }
+}
+
+@keyframes scaleIn {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* تكييفات للشاشات الصغيرة */
+@media (max-width: 768px) {
+  .wallet-success-container {
+    .success-card {
+      padding: 24px;
+      margin: 0 16px;
+      
+      .success-icon {
+        width: 80px;
+        height: 80px;
+      }
+      
+      .success-title {
+        font-size: 22px;
+      }
+      
+      .success-message {
+        font-size: 14px;
+      }
+    }
+  }
+} 
