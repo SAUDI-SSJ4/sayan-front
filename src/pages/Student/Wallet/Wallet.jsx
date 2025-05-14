@@ -17,7 +17,6 @@ import Cookies from "js-cookie";
 import WalletDataTable from "./WalletDataTable";
 import { getStudentWallet } from "../../../utils/apis/client";
 import "./wallet.css";
-import comingSoon from "../../../assets/coming-soon.svg";
 
 const customStyles = {
   control: (provided, state) => ({

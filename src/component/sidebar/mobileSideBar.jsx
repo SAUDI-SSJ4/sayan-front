@@ -6,12 +6,9 @@ import SideBar from "./sidebar";
 import axiosInstance from "../../../axios";
 
 function MobileSideBar({ show, setShow, profileData }) {
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
-
   return (
     <>
-      <Offcanvas show={show} placement={"start"} onHide={handleClose}>
+      <Offcanvas show={show} placement={"start"}>
         <Offcanvas.Body>
           <SideBar mobile setShow={setShow} profileData={profileData} />
         </Offcanvas.Body>

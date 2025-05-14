@@ -12,6 +12,15 @@ import { ButtonSpinner } from "../../../../../../component/UI/Buttons/ButtonSpin
 import { useToast } from "../../../../../../utils/hooks/useToast";
 import { Text } from "../../../../../../utils/styles";
 
+/**
+ * مكون إضافة فيديو جديد للدرس
+ * 
+ * يتيح للمستخدم رفع فيديو تعليمي جديد للدرس المحدد في الدورة التدريبية
+ * ويقوم بإرسال البيانات والملف إلى الخادم عبر API
+ * 
+ * يستخدم مكون VideoUploader لرفع الفيديو ويتطلب وجود درس محدد مسبقاً
+ */
+
 // Validation Schema
 const videoUploadSchema = Yup.object().shape({
   title: Yup.string().required("عنوان الفيديو مطلوب"),

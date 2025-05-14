@@ -90,7 +90,7 @@ const AcademeyWallet = () => {
       const academy_api_client = axios.create({
         baseURL: "https://www.sayan-server.com", // هذا الـ URL من بياناتك
         withCredentials: true,
-        // headers: { 'Authorization': `Bearer ${your_auth_token}` } // أضف التوكن هنا
+         headers: { 'Authorization': `Bearer ${your_auth_token}` }
       });
       const response = await academy_api_client.get("/website/profile-academy");
       

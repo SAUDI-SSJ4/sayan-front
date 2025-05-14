@@ -22,7 +22,9 @@ export const postRegister = async (data) => {
 };
 
 export const getCourse = async (id) => {
-  const { data } = await axios.get(`https://www.sayan-server.com/api/v1/courses/${id}`);
+  const { data } = await axios.get(
+    `https://www.sayan-server.com/api/v1/courses/${id}`
+  );
   return data;
 };
 
@@ -37,7 +39,15 @@ export const deleteCourseById = async (id) => {
 };
 
 export const getCourseSummary = async (id) => {
-  const { data } = await academy_client.get(`/courses/summary/${id}`);
+  const baseUrl = new URL(import.meta.env.VITE_SERVER_DEV).origin;
+  const { data } = await axios.get(
+    `${baseUrl}/api/v1/academies/courses/${id}`,
+    {
+      headers: {
+        Authorization: `Bearer ${user_token()}`,
+      },
+    }
+  );
   return data;
 };
 
@@ -86,13 +96,17 @@ export const postLessonExam = async (lessonId, params) => {
   );
   return res;
 };
-
+console.log("user_token", user_token());
 export const createCourseAPI = async (data) => {
-  const { data: res } = await academy_client.post(
-    "/api/v1/academies/courses",
+  const baseUrl = new URL(import.meta.env.VITE_SERVER_DEV).origin;
+  const { data: res } = await axios.post(
+    `${baseUrl}/api/v1/academies/courses`,
     data,
     {
-      headers: { "Content-Type": "multipart/form-data" },
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Authorization: `Bearer ${user_token()}`,
+      },
       onUploadProgress: (progressEvent) => {
         console.log(
           `${Math.round((progressEvent.loaded / progressEvent.total) * 100)}%`
@@ -121,7 +135,29 @@ export const deleteLessonItem = async (lessonId, params) => {
 };
 
 export const postChapter = async (params) => {
-  const { data } = await academy_client.post("/chapters", params);
+  const baseURL = new URL(import.meta.env.VITE_SERVER_DEV).origin;
+  const { data } = await axios.post(
+    `${baseURL}/api/v1/academies/courses/${params?.courseId}/chapters`,
+    params,
+    {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Authorization: `Bearer ${user_token()}`,
+      },
+    }
+  );
+  return data;
+};
+export const deleteChapter = async (params) => {
+  const baseURL = new URL(import.meta.env.VITE_SERVER_DEV).origin;
+  const { data } = await axios.delete(
+    `${baseURL}/api/v1/academies/courses/${params.courseId}/chapters/${params.chapterId}`,
+    {
+      headers: {
+        Authorization: `Bearer ${user_token()}`,
+      },
+    }
+  );
   return data;
 };
 

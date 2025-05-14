@@ -60,7 +60,7 @@ function BuyACourse({ courseId, setshowBuyCourses }) {
           <h6>لشراء الدورة التدريبية عليك تسجيل الدخول أو إنشاء حساب أولا.</h6>
           <span className={buycourse.lineSep}></span>
           <Link
-            to={"/student/login"}
+            to={"/login"}
             className={`${buycourse.login} btn btn-primary fs-5 mt-3 m-auto d-block`}
           >
             تسجيل الدخول أو إنشاء حساب

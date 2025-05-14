@@ -2,8 +2,7 @@
 import classes from "./AcademyHeaderContainer.module.scss";
 import NavBar from "./NavBar";
 import { useAuth } from "../../../utils/hooks/useAuth";
-import { useEffect, useState } from "react";
-import Cookies from "js-cookie";
+
 
 const MainHeader = ({ children, path, LayOut2, layOut3 }) => {
 

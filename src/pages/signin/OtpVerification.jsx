@@ -1,12 +1,13 @@
-import React, { useState } from "react";
-import Button from "@mui/material/Button";
+import React, { useState, useEffect } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import classes from "./login.module.scss";
-import OtpInput from "./OtpInput";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { postVerify } from "../../utils/apis/client/student";
+import OtpInput from "./OtpInput";
+import styles from "../../styles/auth.module.scss";
+import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
+import CircularProgress from "@mui/material/CircularProgress";
 
 const OtpVerification = ({
   email,
@@ -14,9 +15,44 @@ const OtpVerification = ({
   setResetToken,
   setShowResetPassword,
   setShowSendOtp,
+  onResendOtp,
+  onBack,
 }) => {
   const navigate = useNavigate();
   const [otpValues, setOtpValues] = useState(new Array(6).fill(""));
+  const [timer, setTimer] = useState(60);
+  const [canResend, setCanResend] = useState(false);
+  const [isResending, setIsResending] = useState(false);
+
+  useEffect(() => {
+    let interval;
+    if (timer > 0) {
+      interval = setInterval(() => {
+        setTimer((prevTimer) => prevTimer - 1);
+      }, 1000);
+    } else {
+      setCanResend(true);
+    }
+    return () => clearInterval(interval);
+  }, [timer]);
+
+  const handleResendOtp = async () => {
+    if (!canResend || isResending) return;
+    
+    try {
+      setIsResending(true);
+      if (onResendOtp) {
+        await onResendOtp();
+        toast.success("تم إرسال رمز جديد إلى بريدك الإلكتروني");
+        setTimer(60);
+        setCanResend(false);
+      }
+    } catch (error) {
+      toast.error("حدث خطأ أثناء إرسال الرمز");
+    } finally {
+      setIsResending(false);
+    }
+  };
 
   const formik = useFormik({
     initialValues: {
@@ -27,28 +63,24 @@ const OtpVerification = ({
         .length(6, "الرمز يجب أن يكون مكون من 6 أرقام")
         .required("الرمز مطلوب"),
     }),
-    onSubmit: (values) => {
-      formik.setSubmitting(true);
-      postVerify({ otp: values.otp, email })
-        .then((res) => {
-          if (res.status === 200) {
-            !disableRedirect && navigate("/student/login");
-            if (res.data?.data.reset_token) {
-              setResetToken(res.data?.data.reset_token);
-              setShowResetPassword(true);
-              setShowSendOtp(false);
-            }
-
-            toast.success("تم التأكيد بنجاح");
-            localStorage.clear("otpEmail");
+    onSubmit: async (values) => {
+      try {
+        const response = await postVerify({ otp: values.otp, email });
+        if (response.status === 200) {
+          if (!disableRedirect) {
+            navigate("/login");
           }
-        })
-        .catch((error) => {
-          toast.error(error?.response?.data?.message);
-        })
-        .finally(() => {
-          formik.setSubmitting(false);
-        });
+          if (response.data?.data.reset_token) {
+            setResetToken(response.data?.data.reset_token);
+            setShowResetPassword(true);
+            setShowSendOtp(false);
+          }
+          toast.success("تم التأكيد بنجاح");
+          localStorage.clear("otpEmail");
+        }
+      } catch (error) {
+        toast.error(error?.response?.data?.message || "حدث خطأ في التحقق من الرمز");
+      }
     },
   });
 
@@ -60,53 +92,109 @@ const OtpVerification = ({
   };
 
   const handleBackspace = (index) => {
-    if (index > 0) {
-      const prevInput = document.getElementById(`otp-input-${index - 1}`);
-      if (prevInput) {
-        prevInput.focus();
-      }
+    if (index >= 0) {
+      const newOtpValues = [...otpValues];
+      newOtpValues[index] = "";
+      setOtpValues(newOtpValues);
+      formik.setFieldValue("otp", newOtpValues.join(""));
     }
   };
 
   return (
-    <div className="w-50 d-flex flex-column justify-content-center align-items-start gap-3">
-      <div className={`${classes.line}`}></div>
-      <h3 className="fs-6 fw-bold  title-text--1">تأكيد الرمز</h3>
-      <p>أدخل الرمز الذي أرسلناه إلى بريدك الإلكتروني</p>
+    <div className={styles.formSection}>
+      <div className={styles.formHeader}>
+        <h3 className={styles.formTitle}>تأكيد الرمز</h3>
+        <p className={styles.formSubtitle}>
+          أدخل الرمز المكون من 6 أرقام الذي تم إرساله إلى
+          <br />
+          <strong style={{ color: "#0062FF" }}>{email}</strong>
+        </p>
+      </div>
+
       <form onSubmit={formik.handleSubmit}>
-        <div
-          dir="ltr"
-          className=" d-flex justify-content-center align-items-center"
-        >
-          {otpValues.map((value, index) => (
+        {onBack && (
+          <div 
+            onClick={onBack} 
+            className={styles.backLink} 
+            style={{ 
+              cursor: 'pointer', 
+              marginBottom: '24px',
+              display: 'flex',
+              alignItems: 'center',
+              color: '#0062FF',
+              fontSize: '14px',
+              fontWeight: '500',
+              gap: '4px'
+            }}
+          >
+            <ArrowBackIosIcon sx={{ fontSize: "14px" }} />
+            <span>العودة للصفحة الرئيسية</span>
+          </div>
+        )}
+
+        <div className={styles.otpGroup}>
+          {[...otpValues].reverse().map((value, index) => (
             <OtpInput
               key={index}
               value={value}
-              index={index}
+              index={otpValues.length - 1 - index}
               onChange={handleOtpChange}
               onBackspace={handleBackspace}
             />
           ))}
         </div>
+
         {formik.errors.otp && formik.touched.otp && (
-          <div style={{ color: "red", marginTop: "8px" }}>
-            {formik.errors.otp}
-          </div>
+          <div className={styles.errorText}>{formik.errors.otp}</div>
         )}
-        <Button
+
+        <button
           type="submit"
-          variant="contained"
-          color="primary"
-          className={`${classes.SubmitBtn} mt-2`}
+          className={styles.submitButton}
           disabled={formik.isSubmitting}
           style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
+            backgroundColor: "#0062FF",
+            padding: "12px 24px",
+            borderRadius: "8px",
+            width: "100%",
+            color: "white",
+            border: "none",
+            fontSize: "16px",
+            fontWeight: "600",
+            cursor: "pointer",
+            transition: "background-color 0.3s ease",
+            marginTop: "20px",
+            marginBottom: "20px"
           }}
         >
-          {formik.isSubmitting ? <div className="loader"></div> : "تأكيد"}
-        </Button>
+          {formik.isSubmitting ? <div className="loader"></div> : "تأكيد الرمز"}
+        </button>
+
+        <div className={styles.resendSection}>
+          <button
+            type="button"
+            onClick={handleResendOtp}
+            disabled={!canResend || isResending}
+            className={`${styles.resendButton} ${isResending ? styles.resending : ''}`}
+          >
+            {isResending ? (
+              <CircularProgress size={16} color="inherit" />
+            ) : canResend ? (
+              "إعادة إرسال الرمز"
+            ) : (
+              `إعادة الإرسال بعد ${timer} ثانية`
+            )}
+          </button>
+        </div>
+
+        <div className={styles.copyrightText} style={{ 
+          textAlign: 'center', 
+          marginTop: '20px',
+          color: '#666',
+          fontSize: '14px'
+        }}>
+          © 2025 جميع الحقوق محفوظة لمنصة سيان
+        </div>
       </form>
     </div>
   );

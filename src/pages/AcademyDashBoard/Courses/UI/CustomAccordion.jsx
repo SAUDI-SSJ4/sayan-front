@@ -18,7 +18,7 @@ const CustomAccordion = ({
   };
 
   return (
-    <div style={{ padding: '10px' }}>
+    <div style={{ padding: '100px' }}>
       {data.map((item, index) => (
         <Accordion
           key={index}

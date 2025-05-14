@@ -1,24 +1,26 @@
+import React, { useState, useCallback, useMemo } from "react";
 import Style from "../home.module.scss";
 import Slider from "@mui/material/Slider";
-// import { Accordion } from "react-bootstrap";
 import { Skeleton } from "@mui/material";
-import { useState, useCallback, useMemo } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { motion } from "framer-motion";
 import { getCategories } from "../../../../utils/apis/client";
 import { RadioInput } from "../../../../component/UI/Inputs/RadioInput";
-
 import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import { Form } from "react-bootstrap";
+import TuneIcon from "@mui/icons-material/Tune";
+import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
+import CategoryIcon from "@mui/icons-material/Category";
+import VideoLibraryIcon from "@mui/icons-material/VideoLibrary";
+import Button from "@mui/material/Button";
 
 export const SideBarFilter = ({ filterByCategories, minValue, maxValue }) => {
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [selectedType, setSelectedType] = useState("all");
   const [priceRange, setPriceRange] = useState([minValue, maxValue]);
-  const [expanded, setExpanded] = useState([true, true, true, true]);
+  const [expanded, setExpanded] = useState([true, true, true]);
 
   const { data: categories = [], isLoading } = useQuery({
     queryKey: ["categories"],
@@ -38,214 +40,140 @@ export const SideBarFilter = ({ filterByCategories, minValue, maxValue }) => {
     filterByCategories(priceRange, selectedCategory, selectedType);
   }, [filterByCategories, priceRange, selectedCategory, selectedType]);
 
+  const resetFilters = useCallback(() => {
+    setPriceRange([minValue, maxValue]);
+    setSelectedCategory("all");
+    setSelectedType("all");
+    filterByCategories([minValue, maxValue], "all", "all");
+  }, [filterByCategories, minValue, maxValue]);
+
   const renderCategories = useMemo(
     () =>
       isLoading ? (
         <div className="mt-4">
-          <Skeleton animation="wave" height={20} width="70%" style={{ marginBottom: 6 }} />
-          <Skeleton animation="wave" height={20} width="60%" style={{ marginBottom: 6 }} />
-          <Skeleton animation="wave" height={20} width="50%" style={{ marginBottom: 6 }} />
-          <Skeleton animation="wave" height={20} width="70%" style={{ marginBottom: 6 }} />
-          <Skeleton animation="wave" height={20} width="60%" style={{ marginBottom: 6 }} />
-          <Skeleton animation="wave" height={20} width="50%" style={{ marginBottom: 6 }} />
+          {[...Array(5)].map((_, index) => (
+            <Skeleton key={index} animation="wave" height={30} style={{ marginBottom: 10 }} />
+          ))}
         </div>
       ) : (
-        categories.map((category) => (
-          <motion.div
-            key={category.id}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
+        <div className={Style.CategoryList}>
+          <div
+            className={`${Style.CategoryItem} ${selectedCategory === "all" ? Style.Selected : ""}`}
+            onClick={() => setSelectedCategory("all")}
           >
-            <div className="form-check d-flex align-items-center mt-2">
-              <input
-                className={`form-check-input ${Style.InputRadio}`}
-                type="checkbox"
-                value={category.id}
-                id={`category-${category.id}`}
-                name="category"
-                onChange={() => setSelectedCategory(category.id)}
-                checked={selectedCategory === category.id}
-              />
-              <label
-                htmlFor={`category-${category.id}`}
-                className={
-                  selectedCategory === category.id ? Style.accordionActiveItem : Style.accordionItem
-                }
-              >
-                {category.title}
-              </label>
+            <span className={Style.CategoryName}>جميع الفئات</span>
+            <span className={Style.CategoryCount}>{categories.length}</span>
+          </div>
+          {categories.map((category) => (
+            <div
+              key={category.id}
+              className={`${Style.CategoryItem} ${selectedCategory === category.id ? Style.Selected : ""}`}
+              onClick={() => setSelectedCategory(category.id)}
+            >
+              <span className={Style.CategoryName}>{category.name}</span>
+              <span className={Style.CategoryCount}>{category.courses_count || 0}</span>
             </div>
-          </motion.div>
-        ))
+          ))}
+        </div>
       ),
     [categories, isLoading, selectedCategory]
   );
 
   return (
-    <div className={Style.SideBar}>
-      <h2>التصفية</h2>
-      <div className={Style.Lien} />
-      <Accordion style={{ boxShadow: "none" }}>
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel1-content"
-          id="panel1-header"
-        >
-          <p className={Style.accordionTitle}>المجال</p>
-        </AccordionSummary>
-        <AccordionDetails>
-          <p className={Style.accordionItem}>👩‍⚕️ مجال الاول</p>
-          <p className={Style.accordionItem}>🕵️‍♂️ مجال الثاني</p>
-          <p className={Style.accordionItem}>👜 مجال الثالث</p>
-        </AccordionDetails>
-      </Accordion>
-
-      <Accordion style={{ boxShadow: "none" }}>
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel2-content"
-          id="panel2-header"
-        >
-          <p className={Style.accordionTitle}>التصنيف</p>
-        </AccordionSummary>
-        <AccordionDetails>
-          <div className="form-check d-flex align-items-center mt-2">
-            <input
-              className={`form-check-input ${Style.InputRadio}`}
-              type="checkbox"
-              value="all"
-              id="category-all"
-              name="category"
-              onChange={() => setSelectedCategory("all")}
-              checked={selectedCategory === "all"}
-            />
-            <label
-              htmlFor="category-all"
-              className={
-                selectedCategory === "all" ? Style.accordionActiveItem : Style.accordionItem
-              }
-            >
-              الكل
-            </label>
-          </div>
-          {renderCategories}
-        </AccordionDetails>
-      </Accordion>
-
-      <Accordion style={{ boxShadow: "none" }}>
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel3-content"
-          id="panel3-header"
-        >
-          <p className={Style.accordionTitle}>السعر</p>
-        </AccordionSummary>
-        <AccordionDetails>
-          <Slider
-            getAriaLabel={() => "Price range"}
-            value={priceRange}
-            onChange={handlePriceChange}
-            valueLabelDisplay="auto"
-            min={minValue}
-            max={maxValue}
-          />
-          <div className="d-flex gap-2">
-            <div>
-              <p className={Style.accordionTitle}>من</p>
-              <input
-                type="number"
-                className="form-control"
-                value={priceRange[0]}
-                onChange={(e) => setPriceRange([+e.target.value, priceRange[1]])}
-              />
-            </div>
-            <div>
-              <p className={Style.accordionTitle}>الي</p>
-              <input
-                type="number"
-                className="form-control"
-                value={priceRange[1]}
-                onChange={(e) => setPriceRange([priceRange[0], +e.target.value])}
-              />
-            </div>
-          </div>
-        </AccordionDetails>
-      </Accordion>
-
-      <Accordion style={{ boxShadow: "none" }}>
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel4-content"
-          id="panel4-header"
-        >
-          <p className={Style.accordionTitle}>نوع المادة التعليمية</p>
-        </AccordionSummary>
-        <AccordionDetails>
-          <div className="form-check d-flex align-items-center mt-2">
-            <input
-              className="form-check-input"
-              type="radio"
-              value="all"
-              id="type-all"
-              name="type"
-              onChange={() => setSelectedType("all")}
-              checked={selectedType === "all"}
-            />
-            <label className={Style.accordionItem} htmlFor="type-all">
-              الكل
-            </label>
-          </div>
-          <div className="form-check d-flex align-items-center mt-2">
-            <input
-              className="form-check-input"
-              type="radio"
-              value="recorded"
-              id="type-recorded"
-              name="type"
-              onChange={() => setSelectedType("recorded")}
-              checked={selectedType === "recorded"}
-            />
-            <label className={Style.accordionItem} htmlFor="type-recorded">
-              تفاعلية
-            </label>
-          </div>
-          <div className="form-check d-flex align-items-center mt-2">
-            <input
-              className="form-check-input"
-              type="radio"
-              value="live"
-              id="type-live"
-              name="type"
-              onChange={() => setSelectedType("live")}
-              checked={selectedType === "live"}
-            />
-            <label className={Style.accordionItem} htmlFor="type-live">
-              مباشرة
-            </label>
-          </div>
-          <div className="form-check d-flex align-items-center mt-2">
-            <input
-              className="form-check-input"
-              type="radio"
-              value="attend"
-              id="type-attend"
-              name="type"
-              onChange={() => setSelectedType("attend")}
-              checked={selectedType === "attend"}
-            />
-            <label className={Style.accordionItem} htmlFor="type-attend">
-              حضورية
-            </label>
-          </div>
-        </AccordionDetails>
-      </Accordion>
-
-      <div className="mt-2">
-        <button className={Style.SubmitBtn} onClick={applyFilter}>
-          تطبيق
-        </button>
+    <motion.div
+      className={Style.SidebarFilter}
+      initial={{ opacity: 0, x: -20 }}
+      animate={{ opacity: 1, x: 0 }}
+      transition={{ duration: 0.5 }}
+    >
+      <div className={Style.FilterHeader}>
+        <TuneIcon />
+        <h3>تصفية النتائج</h3>
       </div>
-    </div>
+
+      <Accordion expanded={expanded[0]} onChange={() => handleAccordionToggle(0)}>
+        <AccordionSummary expandIcon={<ExpandMoreIcon />} className={Style.AccordionHeader}>
+          <div className={Style.AccordionTitle}>
+            <AttachMoneyIcon />
+            <span>نطاق السعر</span>
+          </div>
+        </AccordionSummary>
+        <AccordionDetails>
+          <div className={Style.PriceSlider}>
+            <Slider
+              value={priceRange}
+              onChange={handlePriceChange}
+              valueLabelDisplay="auto"
+              min={minValue}
+              max={2500}
+              className={Style.CustomSlider}
+            />
+            <div className={Style.PriceRange}>
+              <span>{priceRange[0]} ر.س</span>
+              <span>{priceRange[1]} ر.س</span>
+            </div>
+          </div>
+        </AccordionDetails>
+      </Accordion>
+
+      <Accordion expanded={expanded[1]} onChange={() => handleAccordionToggle(1)}>
+        <AccordionSummary expandIcon={<ExpandMoreIcon />} className={Style.AccordionHeader}>
+          <div className={Style.AccordionTitle}>
+            <CategoryIcon />
+            <span>الفئات</span>
+          </div>
+        </AccordionSummary>
+        <AccordionDetails>{renderCategories}</AccordionDetails>
+      </Accordion>
+
+      <Accordion expanded={expanded[2]} onChange={() => handleAccordionToggle(2)}>
+        <AccordionSummary expandIcon={<ExpandMoreIcon />} className={Style.AccordionHeader}>
+          <div className={Style.AccordionTitle}>
+            <VideoLibraryIcon />
+            <span>نوع الدورة</span>
+          </div>
+        </AccordionSummary>
+        <AccordionDetails>
+          <div className={Style.TypeOptions}>
+            <RadioInput
+              label="جميع الأنواع"
+              checked={selectedType === "all"}
+              onChange={() => setSelectedType("all")}
+            />
+            <RadioInput
+              label="دورات مسجلة"
+              checked={selectedType === "recorded"}
+              onChange={() => setSelectedType("recorded")}
+            />
+            <RadioInput
+              label="دورات حضورية"
+              checked={selectedType === "attend"}
+              onChange={() => setSelectedType("attend")}
+            />
+          </div>
+        </AccordionDetails>
+      </Accordion>
+
+      <div className={Style.FilterActions}>
+        <Button
+          variant="contained"
+          color="primary"
+          fullWidth
+          onClick={applyFilter}
+          className={Style.ApplyButton}
+        >
+          تطبيق الفلتر
+        </Button>
+        <Button
+          variant="outlined"
+          color="secondary"
+          fullWidth
+          onClick={resetFilters}
+          className={Style.ResetButton}
+        >
+          إعادة ضبط
+        </Button>
+      </div>
+    </motion.div>
   );
 };

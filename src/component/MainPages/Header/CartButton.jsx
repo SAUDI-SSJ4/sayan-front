@@ -2,34 +2,34 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
-import { Popover, IconButton } from '@mui/material';
+import { Popover, IconButton, CircularProgress } from '@mui/material';
 import Style from './CartButton.module.scss';
 import { useCart } from '../../../context/CartContext';
 
 const CartButton = () => {
   const navigate = useNavigate();
-  const { cartItems, removeFromCart, getCartTotal } = useCart();
+  const { cartItems, removeFromCart, getCartTotal, loading } = useCart();
   const [isAnimating, setIsAnimating] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
 
   const cartItemCount = cartItems.length;
 
-  // Watch for changes in cart items to trigger animation
+  // تشغيل الأنيميشن عند تغيير محتويات السلة
   useEffect(() => {
     if (cartItems.length > 0) {
       setIsAnimating(true);
       setShowPopup(true);
       
-      // Hide popup after 2 seconds
+      // إخفاء النافذة المنبثقة بعد ثانيتين
       const popupTimer = setTimeout(() => {
         setShowPopup(false);
       }, 2000);
 
-      // Reset animation after it completes
+      // إعادة تعيين الأنيميشن بعد اكتماله
       const animTimer = setTimeout(() => {
         setIsAnimating(false);
-      }, 820); // 820ms matches the animation duration
+      }, 820); // 820ms تتوافق مع مدة الأنيميشن
 
       return () => {
         clearTimeout(popupTimer);
@@ -49,24 +49,22 @@ const CartButton = () => {
   const open = Boolean(anchorEl);
 
   return (
-    <div className={Style.cartButtonContainer}>
-      {showPopup && cartItems.length > 0 && (
+    <div className={Style.cartButton}>
+      <div
+        className={`${Style.cartIconWrapper} ${isAnimating ? Style.animate : ''}`}
+        onClick={handleClick}
+      >
+        <ShoppingCartOutlinedIcon className={Style.cartIcon} />
+        {cartItemCount > 0 && (
+          <span className={Style.cartCount}>{cartItemCount}</span>
+        )}
+      </div>
+
+      {showPopup && cartItemCount > 0 && (
         <div className={Style.addedPopup}>
-          تم إضافة الدورة إلى السلة
+          تمت الإضافة للسلة
         </div>
       )}
-      <IconButton 
-        className={`${Style.cartButton} ${isAnimating ? Style.bump : ''}`}
-        onClick={handleClick}
-        color="primary"
-      >
-        <div className={Style.cartIcon}>
-          <ShoppingCartOutlinedIcon />
-          {cartItemCount > 0 && (
-            <span className={Style.badge}>{cartItemCount}</span>
-          )}
-        </div>
-      </IconButton>
 
       <Popover
         open={open}
@@ -78,29 +76,37 @@ const CartButton = () => {
         }}
         transformOrigin={{
           vertical: 'top',
-          horizontal: 'right',
+          horizontal: 'left',
         }}
         classes={{
-          paper: Style.popoverPaper
+          paper: Style.popoverPaper,
         }}
       >
         <div className={Style.cartPopover}>
           <h3>عربة التسوق</h3>
-          {cartItems.length === 0 ? (
+          {loading ? (
+            <div className={Style.loadingContainer}>
+              <CircularProgress size={30} />
+              <p>جاري التحميل...</p>
+            </div>
+          ) : cartItems.length === 0 ? (
             <p className={Style.emptyCart}>عربة التسوق فارغة</p>
           ) : (
             <>
               <div className={Style.cartItems}>
                 {cartItems.map((item) => (
-                  <div key={item.id} className={Style.cartItem}>
+                  <div key={item.cart_id} className={Style.cartItem}>
                     <img src={item.image} alt={item.title} />
                     <div className={Style.itemInfo}>
                       <h4>{item.title}</h4>
                       <p>{item.price} ر.س.</p>
+                      {item.quantity > 1 && (
+                        <span className={Style.quantity}>الكمية: {item.quantity}</span>
+                      )}
                     </div>
                     <IconButton
                       className={Style.deleteButton}
-                      onClick={() => removeFromCart(item.id)}
+                      onClick={() => removeFromCart(item.cart_id)}
                       size="small"
                     >
                       <DeleteOutlineIcon />

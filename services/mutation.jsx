@@ -15,8 +15,6 @@ export function handleValidationErrors(errors) {
 }
 
 export const useToggleMutation = () => {
-  const successMessage = "تم إضافة الدورة التعليمية إلى المفضلة";
-  const errorMessage = "حدث خطأ أثناء إضافة الدورة إلى المفضلة";
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: (data) => postToggle(data),
@@ -24,7 +22,7 @@ export const useToggleMutation = () => {
       queryClient.invalidateQueries({ queryKey: ["studentCourses"] });
       queryClient.invalidateQueries({ queryKey: ["studentFavourites"] });
       Swal.fire({
-        title: "🎉 تمت الإضافة",
+        title: "تمت العملية",
         text: successMessage,
         icon: "success",
       });

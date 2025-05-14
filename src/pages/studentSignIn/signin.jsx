@@ -1,18 +1,20 @@
-import classes from "./signin.module.scss";
-import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import { useMutation } from "@tanstack/react-query";
+import { postRegister } from "../../utils/apis/client/student";
+import { useToast } from "../../utils/hooks/useToast";
+import OtpVerification from "../signin/OtpVerification";
+import styles from "../../styles/auth.module.scss";
+
+// Material UI imports
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import InputAdornment from "@mui/material/InputAdornment";
 import IconButton from "@mui/material/IconButton";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import { Link, useNavigate } from "react-router-dom";
-import logo from "../../assets/images/logo.png";
-import { useMutation } from "@tanstack/react-query";
-import { postRegister } from "../../utils/apis/client/student";
-import { useToast } from "../../utils/hooks/useToast";
-import OtpVerification from "../signin/OtpVerification";
+import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
+import PersonIcon from "@mui/icons-material/Person";
 
 const StudentSignIn = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -25,9 +27,7 @@ const StudentSignIn = () => {
     confirmPassword: "",
     image: null,
   });
-  console.log(formData);
   const [errors, setErrors] = useState({});
-  const navigate = useNavigate();
   const { success, error } = useToast();
 
   const validateForm = () => {
@@ -66,20 +66,6 @@ const StudentSignIn = () => {
     }));
   };
 
-  const togglePasswordVisibility = () => {
-    setShowPassword((prev) => !prev);
-  };
-
-  const textFieldProps = {
-    fullWidth: true,
-    InputProps: {
-      style: {
-        borderRadius: "10px",
-        height: "48px",
-      },
-    },
-  };
-
   const mutation = useMutation({
     mutationFn: (data) => {
       const formData = new FormData();
@@ -107,138 +93,149 @@ const StudentSignIn = () => {
   };
 
   return (
-    <div className={`row gx-3 ${classes.LoginContainer}`}>
-      <div
-        className={`${classes.LoginBanner} col-lg-6 col-md-12 bg-login-banner`}
-      >
-        <img src={logo} alt="Logo" className={classes.logo} />
-        <ul className={classes.footerList}>
-          <li>منصة سيان</li>
-          <li>الشروط والأحكام</li>
-          <li>سياسة الخصوصية</li>
-          <li>اطلق اكاديميتك</li>
-        </ul>
-      </div>
-
-      <div className="col-lg-6 col-md-12 d-flex justify-content-center">
-        <div
-          className="login-form--1"
-          style={{ maxWidth: "100%", padding: "20px", paddingBottom: "100px" }}
-        >
-          <div className={classes.goBack}>
-            <Link to="/" className="text-decoration-none">
-              العودة للصفحة الرئيسية <ArrowBackIosIcon />
-            </Link>
-          </div>
+    <div className={styles.authContainer}>
+      <div className={styles.contentWrapper}>
+        <div className={styles.formSection}>
+          <Link to="/" className={styles.backLink}>
+            <ArrowBackIosIcon sx={{ fontSize: "14px" }} />
+            العودة للصفحة الرئيسية
+          </Link>
 
           {!isRegisterDone ? (
-            <div className={classes.LoginForm}>
-              <h2>إنشاء حساب جديد</h2>
-              <p>ادخل المعلومات الخاصة بحسابك</p>
-              <form onSubmit={handleSubmit}>
-                {[
-                  {
-                    id: "name",
-                    label: "اسم الطالب",
-                    placeholder: "ادخل اسم الطالب",
-                  },
-                  {
-                    id: "phone",
-                    label: "رقم الهاتف",
-                    placeholder: "ادخل رقم الهاتف",
-                    type: "tel",
-                  },
-                  {
-                    id: "email",
-                    label: "البريد الإلكتروني",
-                    placeholder: "ادخل البريد الإلكتروني",
-                    type: "email",
-                  },
-                ].map(({ id, label, placeholder, type = "text" }) => (
-                  <div key={id} className={classes.formGroup}>
-                    <label htmlFor={id} className="mb-2">
-                      {label} <span style={{ color: "red" }}>*</span>
-                    </label>
-                    <TextField
-                      {...textFieldProps}
-                      id={id}
-                      name={id}
-                      type={type}
-                      placeholder={placeholder}
-                      value={formData[id]}
-                      onChange={handleChange}
-                      error={!!errors[id]}
-                      helperText={errors[id]}
-                    />
-                  </div>
-                ))}
+            <>
+              <div className={styles.formHeader}>
+                <PersonIcon sx={{ fontSize: 40, color: "#0062FF" }} />
+                <h3 className={styles.formTitle}>تسجيل حساب طالب</h3>
+                <p className={styles.formSubtitle}>
+                  ادخل المعلومات الخاصة بك للتسجيل كطالب
+                </p>
+              </div>
 
-                <div className={classes.formGroup}>
-                  <label htmlFor="password" className="mb-2">
-                    كلمة المرور <span style={{ color: "red" }}>*</span>
+              <form onSubmit={handleSubmit}>
+                <div className={styles.formGroup}>
+                  <label htmlFor="name">
+                    اسم الطالب <span className={styles.required}>*</span>
                   </label>
                   <TextField
-                    {...textFieldProps}
+                    fullWidth
+                    id="name"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleChange}
+                    error={!!errors.name}
+                    helperText={errors.name}
+                    InputProps={{
+                      style: { borderRadius: "12px" },
+                    }}
+                  />
+                </div>
+
+                <div className={styles.formGroup}>
+                  <label htmlFor="phone">
+                    رقم الهاتف <span className={styles.required}>*</span>
+                  </label>
+                  <TextField
+                    fullWidth
+                    id="phone"
+                    name="phone"
+                    type="tel"
+                    value={formData.phone}
+                    onChange={handleChange}
+                    error={!!errors.phone}
+                    helperText={errors.phone}
+                    InputProps={{
+                      style: { borderRadius: "12px" },
+                    }}
+                  />
+                </div>
+
+                <div className={styles.formGroup}>
+                  <label htmlFor="email">
+                    البريد الإلكتروني <span className={styles.required}>*</span>
+                  </label>
+                  <TextField
+                    fullWidth
+                    id="email"
+                    name="email"
+                    type="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    error={!!errors.email}
+                    helperText={errors.email}
+                    InputProps={{
+                      style: { borderRadius: "12px" },
+                    }}
+                  />
+                </div>
+
+                <div className={styles.formGroup}>
+                  <label htmlFor="password">
+                    كلمة المرور <span className={styles.required}>*</span>
+                  </label>
+                  <TextField
+                    fullWidth
                     id="password"
                     name="password"
                     type={showPassword ? "text" : "password"}
-                    placeholder="ادخل كلمة المرور"
                     value={formData.password}
                     onChange={handleChange}
                     error={!!errors.password}
                     helperText={errors.password}
                     InputProps={{
-                      ...textFieldProps.InputProps,
                       endAdornment: (
                         <InputAdornment position="end">
-                          <IconButton onClick={togglePasswordVisibility}>
+                          <IconButton
+                            onClick={() => setShowPassword(!showPassword)}
+                            edge="end"
+                          >
                             {showPassword ? <Visibility /> : <VisibilityOff />}
                           </IconButton>
                         </InputAdornment>
                       ),
+                      style: { borderRadius: "12px" },
                     }}
                   />
                 </div>
 
-                <div className={classes.formGroup}>
-                  <label htmlFor="confirmPassword" className="mb-2">
-                    تأكيد كلمة المرور <span style={{ color: "red" }}>*</span>
+                <div className={styles.formGroup}>
+                  <label htmlFor="confirmPassword">
+                    تأكيد كلمة المرور <span className={styles.required}>*</span>
                   </label>
                   <TextField
-                    {...textFieldProps}
+                    fullWidth
                     id="confirmPassword"
                     name="confirmPassword"
                     type={showPassword ? "text" : "password"}
-                    placeholder="أعد إدخال كلمة المرور"
                     value={formData.confirmPassword}
                     onChange={handleChange}
                     error={!!errors.confirmPassword}
                     helperText={errors.confirmPassword}
                     InputProps={{
-                      ...textFieldProps.InputProps,
                       endAdornment: (
                         <InputAdornment position="end">
-                          <IconButton onClick={togglePasswordVisibility}>
+                          <IconButton
+                            onClick={() => setShowPassword(!showPassword)}
+                            edge="end"
+                          >
                             {showPassword ? <Visibility /> : <VisibilityOff />}
                           </IconButton>
                         </InputAdornment>
                       ),
+                      style: { borderRadius: "12px" },
                     }}
                   />
                 </div>
 
-                <div className={classes.formGroup}>
-                  <label htmlFor="image" className="mb-2">
-                    الصورة الشخصية <span style={{ color: "red" }}>*</span>
+                <div className={styles.formGroup}>
+                  <label htmlFor="image">
+                    الصورة الشخصية <span className={styles.required}>*</span>
                   </label>
                   <TextField
-                    {...textFieldProps}
+                    fullWidth
                     id="image"
                     name="image"
-                    placeholder="اختر صورة شخصية"
                     value={formData.image?.name || ""}
                     InputProps={{
-                      ...textFieldProps.InputProps,
                       readOnly: true,
                       endAdornment: (
                         <InputAdornment position="end">
@@ -263,6 +260,7 @@ const StudentSignIn = () => {
                           </Button>
                         </InputAdornment>
                       ),
+                      style: { borderRadius: "12px" },
                     }}
                     error={!!errors.image}
                     helperText={errors.image}
@@ -271,34 +269,44 @@ const StudentSignIn = () => {
 
                 <button
                   type="submit"
-                  className={`${classes.SubmitBtn} mt-2`}
-                  style={{ display: "flex", justifyContent: "center" }}
+                  className={styles.submitButton}
                   disabled={mutation.isPending}
                 >
                   {mutation.isPending ? (
                     <div className="loader"></div>
                   ) : (
-                    "التسجيل"
+                    "إنشاء حساب طالب"
                   )}
                 </button>
 
-                <div className={`${classes.ddd} mt-3 text-center`}>
-                  <span className={classes.nothaveaccount}>
-                    لديك حساب بالفعل؟
-                  </span>{" "}
-                  <Link to="/login" className={classes.forgotPassword}>
-                    تسجيل الدخول
+                <div className={styles.linkText}>
+                  لديك حساب بالفعل؟{" "}
+                  <Link to="/login">تسجيل الدخول</Link>
+                </div>
+
+                <div className={styles.switchAccountType}>
+                  <p>هل تريد التسجيل كأكاديمية؟</p>
+                  <Link to="/signin" className={styles.switchLink}>
+                    إنشاء حساب أكاديمية
                   </Link>
                 </div>
               </form>
-              <p className={`${classes.copyright}`}>
-                © 2023 جميع الحقوق محفوظة لمنصة سيان
-              </p>
-            </div>
+            </>
           ) : (
-            <div className="d-flex justify-content-center align-items-center">
-              <OtpVerification email={formData.email} />
-            </div>
+            <OtpVerification
+              email={formData.email}
+              onResendOtp={async () => {
+                try {
+                  const resendData = new FormData();
+                  resendData.append("email", formData.email);
+                  await postRegister(resendData);
+                  success("تم إرسال رمز جديد إلى بريدك الإلكتروني");
+                } catch (err) {
+                  error("حدث خطأ أثناء إرسال الرمز");
+                }
+              }}
+              onBack={() => setIsRegisterDone(false)}
+            />
           )}
         </div>
       </div>

@@ -7,6 +7,13 @@ import { useNavigate } from "react-router-dom";
 
 const StudentDashboardHeader = ({ academy = false, StudentData = {} }) => {
   const router = useNavigate();
+  
+  // تعديل طريقة الوصول إلى البيانات
+  // نتحقق من وجود البيانات في عدة مستويات محتملة
+  const data = StudentData?.data?.data || StudentData?.data || StudentData || {};
+  
+  // للتشخيص - يمكن إزالة هذا السطر بعد حل المشكلة
+  console.log("StudentData structure:", StudentData, "Extracted data:", data);
 
   return (
     <div className="row mt-4">
@@ -22,7 +29,7 @@ const StudentDashboardHeader = ({ academy = false, StudentData = {} }) => {
           </div>
           <div>
             <h2>الدورات التدريبية</h2>
-            <span>{StudentData.courses ?? 0}</span>
+            <span>{data.courses ?? 0}</span>
           </div>
         </div>
       </div>
@@ -39,7 +46,7 @@ const StudentDashboardHeader = ({ academy = false, StudentData = {} }) => {
           </div>
           <div>
             <h2>المشتريات</h2>
-            <span>{StudentData.latest_courses?.length ?? 0}</span>
+            <span>{data.latest_courses?.length ?? 0}</span>
           </div>
         </div>
       </div>
@@ -56,7 +63,7 @@ const StudentDashboardHeader = ({ academy = false, StudentData = {} }) => {
           </div>
           <div>
             <h2>المفضلة</h2>
-            <span>{StudentData.faved ?? 0}</span>
+            <span>{data.faved ?? 0}</span>
           </div>
         </div>
       </div>
@@ -67,12 +74,11 @@ const StudentDashboardHeader = ({ academy = false, StudentData = {} }) => {
           className={`d-flex ${classes.Widget} ${
             academy ? classes.lastAcademy : classes.last
           }`}
-          onClick={() => router("/student/Wallet")}
         >
           <div>
             <p>المبيعات</p>
-            <h2>70,600 ر.س.</h2>
-            <span>10% منذ آخر شهر</span>
+            <h2>{data.sales ?? "70,600"} ر.س.</h2>
+            <span>{data.sales_percentage ?? "10"}% منذ آخر شهر</span>
           </div>
           <img src={widgedbg} alt="المبيعات" className={classes.widgedbg} />
         </div>

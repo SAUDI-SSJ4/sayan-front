@@ -4,46 +4,30 @@ import * as Yup from "yup";
 import style from "../../../AddNewCourse.module.css";
 import Swal from "sweetalert2";
 import { Button } from "rsuite";
-import { useMutation } from "@tanstack/react-query";
-import { academy_client } from "../../../../../../utils/apis/client.config";
 import { useChapterMutation } from "../../../../../../services/mutation";
 import { useToast } from "../../../../../../utils/hooks/useToast";
-import { storage } from "../../../../../../utils/storage";
+import { postChapter } from "../../../../../../utils/apis/client/academy";
+import { useDispatch } from "react-redux";
+import { fetchCurrentCourseSummaryThunk } from "../../../../../../../redux/courses/CourseThunk";
+
+/**
+ * مكون إضافة فصل جديد للدورة التدريبية
+ * 
+ * يتيح للمستخدم إضافة فصل جديد للدورة التدريبية الحالية
+ * ويقوم بإرسال البيانات إلى الخادم عبر API
+ * 
+ * @param {Object} props - خصائص المكون
+ * @param {string} props.categoryId - معرف الفئة
+ * @param {string} props.courseId - معرف الدورة التدريبية
+ */
 
 const validationSchema = Yup.object().shape({
   title: Yup.string().required("العنوان مطلوب"),
 });
 
 const AddNewChapter = ({ categoryId, courseId }) => {
-
-  const { error } = useToast()
-
-  // const mutation = useMutation({
-  //   mutationFn: async (data) => {
-  //     const response = await academy_client.post('/academy/chapter', {
-  //       ...data,
-  //       is_published: true
-  //     });
-  //     return response.data;
-  //   },
-  //   onSuccess: () => {
-
-  //     formik.resetForm();
-  //   },
-  //   onError: () => {
-  //     Swal.fire({
-  //       title: "فشل",
-  //       text: "حدث خطأ أثناء محاولة إضافة الفصل. يرجى المحاولة مرة أخرى.",
-  //       icon: "error",
-  //       confirmButtonText: "موافق",
-  //     });
-  //   }
-  // });
-
-  const currentCourseId = storage.get("cousjvqpkbr3m")
-
-  const mutation = useChapterMutation(currentCourseId)
-
+  const { error } = useToast();
+  const dispatch = useDispatch();
   const formik = useFormik({
     initialValues: {
       title: "",
@@ -59,17 +43,21 @@ const AddNewChapter = ({ categoryId, courseId }) => {
         cancelButtonColor: "#d33",
         confirmButtonText: "اضافة",
         cancelButtonText: "لا",
-      }).then((result) => {
+      }).then(async (result) => {
         if (result.isConfirmed) {
           if (!courseId) {
-            error("الرجاء اختيار الدورة")
+            error("الرجاء اختيار الدورة");
             return;
           }
-          mutation.mutateAsync({
+
+          const res = await postChapter({
             title: values.title,
-            course_id: courseId,
-            is_published: true,
-          })
+            courseId: courseId,
+            is_published: 1,
+          });
+          if (res.status) {
+            dispatch(fetchCurrentCourseSummaryThunk(courseId));
+          }
         } else {
           formik.resetForm();
           return;
@@ -80,10 +68,16 @@ const AddNewChapter = ({ categoryId, courseId }) => {
 
   return (
     <>
-      <div className={`${style.content} container text-center `} style={{ padding: "60px 40px" }}>
+      <div
+        className={`${style.content} container text-center `}
+        style={{ padding: "60px 40px" }}
+      >
         <h4 style={{ color: "#2B3674", fontWeight: "600" }}>اضافة فصل جديد</h4>
 
-        <form onSubmit={formik.handleSubmit} className="row g-3 w-80 justify-content-center m-auto">
+        <form
+          onSubmit={formik.handleSubmit}
+          className="row g-3 w-80 justify-content-center m-auto"
+        >
           <div className="justify-content-center">
             <div className="col-lg-11 col-md-12">
               <div className={style.formControl}>
@@ -112,10 +106,10 @@ const AddNewChapter = ({ categoryId, courseId }) => {
               type="submit"
               appearance="primary"
               size="lg"
-              style={{ width: "100%", padding: '15px 0px' }}
-              disabled={mutation.isPending || !formik.values.title}
+              style={{ width: "100%", padding: "15px 0px" }}
+              // disabled={mutation.isPending || !formik.values.title}
             >
-              {mutation.isLoading ? 'جاري الإضافة...' : 'اضافة'}
+              اضافة
             </Button>
           </div>
         </form>

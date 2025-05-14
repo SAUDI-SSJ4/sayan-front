@@ -3,16 +3,11 @@ import { Link, NavLink } from "react-router-dom";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import SearchAndShowBar from "../../../component/UI/SearchAndShowBar/SearchAndShowBar";
 import { useEffect, useMemo, useState } from "react";
-import { Error } from "@mui/icons-material";
 import { Spinner } from "react-bootstrap";
-import { useQuery } from "@tanstack/react-query";
-import { getCourse } from "../../../utils/apis/client/academy";
 import CoursesDataTaple from "./CoursesDataTaple";
 import { Button, Col, FlexboxGrid, Panel, Tag } from "rsuite";
-import styled from "styled-components";
 import TrainingCoursesCardAcademy from "../../../component/TrainingCourses/TrainingCoursesCardAcademy/TrainingCoursesCard";
 import AcademyDeleteModal from "../../../component/UI/DeleteModal/AcademyDeleteModal";
-import { useCourses } from "../../../services/queries";
 import { useDispatch, useSelector } from "react-redux";
 import { getAcademyCoursesThunk } from "../../../../redux/courses/CourseThunk";
 import { useAuth } from "../../../utils/hooks/useAuth";
@@ -28,12 +23,14 @@ const AcadmeyTrainingCourses = () => {
   const [sortOrder, setSortOrder] = useState("DESC");
 
   const { user } = useAuth();
+  const academyId = user?.academy?.id;
+
   const { academyCourses } = useSelector((state) => state.course);
 
   useEffect(() => {
     setisLoading(true);
     if (academyCourses.length == 0) {
-      dispatch(getAcademyCoursesThunk()).unwrap();
+      dispatch(getAcademyCoursesThunk(academyId)).unwrap();
     }
     setisLoading(false);
   }, []);
@@ -107,18 +104,6 @@ const AcadmeyTrainingCourses = () => {
                   >
                     الدورات ({academyCourses?.length || 0})
                   </li>
-                  {/* <li
-                    className={`tablePage ${activeTab === "live" ? "active" : ""}`}
-                    onClick={() => setActiveTab("live")}
-                  >
-                    الدورات المباشرة
-                  </li>
-                  <li
-                    className={`tablePage ${activeTab === "recorded" ? "active" : ""}`}
-                    onClick={() => setActiveTab("recorded")}
-                  >
-                    الدورات غير المباشرة
-                  </li> */}
                 </ul>
               </div>
 
@@ -130,22 +115,6 @@ const AcadmeyTrainingCourses = () => {
           </div>
         </div>
 
-        <SearchAndShowBar
-          checkedKeys={checkedKeys}
-          data={sortedCourses}
-          setCheckedKeys={setCheckedKeys}
-          setTableOrNot={setTableOrNot}
-          checkAllHandler={() => checkAllHandler()}
-          TableOrNot={tableOrNot}
-          isAllSelected={isAllSelected}
-          ShowEditAndDelete={checkedKeys.length > 0}
-          searchQuery={searchQuery}
-          setSearchQuery={setSearchQuery}
-          sortOrder={sortOrder}
-          showDeleteModal={showDeleteModal}
-          setDeleteModal={setShowDeleteModal}
-          setSortOrder={setSortOrder}
-        />
         <AcademyDeleteModal
           show={showDeleteModal}
           onClose={() => setShowDeleteModal(false)}
@@ -176,7 +145,7 @@ const AcadmeyTrainingCourses = () => {
           ))}
         </FlexboxGrid>
       ) : (
-        <CoursesDataTaple CoursesData={sortedCourses} />
+        <CoursesDataTaple CoursesData={sortedCourses} academyId={academyId} />
       )}
     </>
   );
