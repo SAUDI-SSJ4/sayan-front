@@ -55,9 +55,9 @@ const CartButton = () => {
         onClick={handleClick}
       >
         <ShoppingCartOutlinedIcon className={Style.cartIcon} />
-        {cartItemCount > 0 && (
+          {cartItemCount > 0 && (
           <span className={Style.cartCount}>{cartItemCount}</span>
-        )}
+          )}
       </div>
 
       {showPopup && cartItemCount > 0 && (

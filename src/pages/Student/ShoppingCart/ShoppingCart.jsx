@@ -61,39 +61,39 @@ const ShoppingCart = () => {
       
       <div className={classes.cartContent}>
         <div className={classes.cartItems}>
-          {cartItems.map((item) => (
+              {cartItems.map((item) => (
             <div key={item.cart_id} className={classes.cartItem}>
-              <div className={classes.itemContent}>
-                <div className={classes.itemInfo}>
+                  <div className={classes.itemContent}>
+                    <div className={classes.itemInfo}>
                   <img 
                     src={item.image} 
                     alt={item.title} 
                     className={classes.productImage} 
                   />
-                  <div className={classes.itemDetails}>
-                    <h3>{item.title}</h3>
+                      <div className={classes.itemDetails}>
+                        <h3>{item.title}</h3>
                     <p className={classes.itemPrice}>{item.price} ر.س.</p>
                     {item.quantity > 1 && (
                       <p className={classes.itemQuantity}>الكمية: {item.quantity}</p>
                     )}
                   </div>
                 </div>
-                <div className={classes.itemActions}>
-                  <button 
+                  <div className={classes.itemActions}>
+                    <button
                     className={classes.deleteButton}
                     onClick={() => removeFromCart(item.cart_id)}
-                  >
+                    >
                     <DeleteIcon />
                     حذف
-                  </button>
+                    </button>
                 </div>
               </div>
             </div>
           ))}
-        </div>
-        
+          </div>
+
         <div className={classes.cartSummary}>
-          <div className={classes.Card}>
+            <div className={classes.Card}>
             <h3>ملخص الطلب</h3>
             <div className={classes.summaryRow}>
               <span>المجموع الفرعي</span>
@@ -105,16 +105,16 @@ const ShoppingCart = () => {
                 <span>-{calculateDiscount()} ر.س.</span>
               </div>
             )}
-            <div className={`${classes.summaryRow} ${classes.total}`}>
+              <div className={`${classes.summaryRow} ${classes.total}`}>
               <span>المجموع الكلي</span>
               <span>{calculateTotal()} ر.س.</span>
-            </div>
-            <button 
-              className={classes.checkoutButton}
+              </div>
+              <button 
+                className={classes.checkoutButton}
               onClick={() => navigate('/student/Checkout')}
-            >
+              >
               إتمام الشراء
-            </button>
+              </button>
           </div>
           
           <div className={classes.Card}>

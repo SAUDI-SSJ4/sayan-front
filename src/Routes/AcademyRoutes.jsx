@@ -8,6 +8,7 @@ import Blogs from "../pages/AcademyDashBoard/blogs/blog";
 import AddNewBlogAcademey from "../pages/AcademyDashBoard/blogs/AddNewBlog";
 import ReportsAndStatistics from "../pages/AcademyDashBoard/ReportsAndStatistics/ReportsAndStatistics";
 import AcademeyWallet from "../pages/AcademyDashBoard/Wallet/Wallet";
+import WalletSuccess from "../pages/AcademyDashBoard/Wallet/WalletSuccess";
 import AcademySales from "../pages/AcademyDashBoard/sales/sales";
 import AcadmeyTrainingCourses from "../pages/AcademyDashBoard/TrainingCourses/TrainingCourses";
 import AcademySingleCourse from "../pages/AcademyDashBoard/TrainingCourses/SingleCourse";
@@ -116,7 +117,24 @@ const AcademyRoutes = () => {
               element={<EditCourse />}
             />
           </Route>
-
+          <Route
+            path="/academy/DigitalProducts"
+            element={<DigitalProducts />}
+          />
+          <Route
+            path="/academy/DigitalProducts/AddNewProduct/*"
+            element={<AddNewProduct />}
+          />
+          <Route
+            path="/academy/DigitalProducts/AddNewProduct/:slug"
+            element={<AddNewProduct />}
+          />
+          <Route path="/academy/settings/*" element={<AcademySettings />} />
+          <Route
+            path="/academy/settings/slider/edit"
+            element={<EditSlider />}
+          />
+          <Route path="/academy/new-course" element={<AddCourse />} />
           <Route
             path="/academy/new-course/:courseId/:categoryId"
             element={<AddCourse />}
@@ -189,7 +207,8 @@ const AcademyRoutes = () => {
             path="/academy/ReportsAndStatistics"
             element={<ReportsAndStatistics />}
           />
-          <Route path="/academy/Wallet" element={<AcademeyWallet />} />
+          <Route path="/academy/wallet" element={<AcademeyWallet />} />
+          <Route path="/academy/wallet/success" element={<WalletSuccess />} />
           <Route path="/academy/sales" element={<AcademySales />} />
           <Route
             path="/academy/training-courses"
