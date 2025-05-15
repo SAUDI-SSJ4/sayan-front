@@ -118,6 +118,28 @@ export const createCourseAPI = async (data) => {
   );
   return res;
 };
+export const updateCourseAPI = async (courseId, data) => {
+  const baseUrl = new URL(import.meta.env.VITE_SERVER_DEV).origin;
+  const { data: res } = await axios.post(
+    `${baseUrl}/api/v1/academies/courses/${courseId}`,
+    data,
+    {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Authorization: `Bearer ${user_token()}`,
+      },
+      onUploadProgress: (progressEvent) => {
+        console.log(
+          `${Math.round((progressEvent.loaded / progressEvent.total) * 100)}%`
+        );
+      },
+      maxContentLength: Infinity,
+      maxBodyLength: Infinity,
+      timeout: 120000,
+    }
+  );
+  return res;
+};
 export const getAcademyCourses = async (id) => {
   const baseUrl = new URL(import.meta.env.VITE_SERVER_DEV).origin;
 

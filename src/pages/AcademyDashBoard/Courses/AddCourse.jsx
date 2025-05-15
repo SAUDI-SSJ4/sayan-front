@@ -14,12 +14,14 @@ import { storage } from "../../../utils/storage";
 import { getAcademyCoursesThunk } from "../../../../redux/courses/CourseThunk";
 import { Spinner, Alert } from "react-bootstrap";
 import { toast } from "react-toastify";
+import { ContinueButton } from "../../../utils/styles";
+import style from "./AddNewCourse.module.css";
 
 const AddCourse = () => {
   const formRef = useRef(null);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [stepper, setStepper] = useState(0);
+  const [step, setStep] = useState(1);
   const [isInitialized, setIsInitialized] = useState(false);
   const { isDisabled, isCreateCourseLoading } = useSelector(
     (state) => state.course
@@ -40,19 +42,12 @@ const AddCourse = () => {
   // تنظيف التخزين المؤقت عند تحميل الصفحة
   useEffect(() => {
     // تنظيف التخزين المؤقت من البيانات السابقة
-    clearStorageData();
     setIsInitialized(true);
 
     // استرجاع البيانات الأساسية المطلوبة
     loadInitialData();
 
     // تعيين صفحة الخطوة الأولى
-    localStorage.setItem("__courseStepper", 0);
-
-    // تنظيف عند مغادرة الصفحة
-    return () => {
-      clearStorageData();
-    };
   }, []);
 
   const clearStorageData = () => {
@@ -159,7 +154,6 @@ const AddCourse = () => {
           </div>
         </div>
       </div>
-
       {/* Errors Display */}
       {(trainersError || categoriesError) && (
         <Alert
@@ -177,97 +171,132 @@ const AddCourse = () => {
           </p>
         </Alert>
       )}
-
       {/* Stepper 1: Course Info */}
-
+      {step === 1 && (
+        <div className="mb-5 all-info-top-header main-info-top">
+          <div className="CustomCard formCard all-add-notific pb-4 pt-4 flex-column justify-content-center">
+            <div className={style.steperProg}>
+              <div />
+              <div className={style.steperProgImg}>
+                <img src={steper1} alt="Stepper" />
+                <div className={style.steperProgtext}>
+                  <span>معلومات الدورة</span>
+                  <span>باني الاقسام</span>
+                  <span>اطلاق الدورة</span>
+                </div>
+              </div>
+              <ContinueButton
+                bgColor={isDisabled ? "#7E8799" : "#0062ff"}
+                disabled={isDisabled}
+                onClick={handleContinue}
+              >
+                <span style={{ marginLeft: "15px" }}>استمرار</span>
+                <span>
+                  {isCreateCourseLoading && (
+                    <Spinner animation="border" size="sm" />
+                  )}
+                </span>
+              </ContinueButton>
+            </div>
+            <CourseForm
+              setStep={setStep}
+              categories={categories ?? []}
+              trainers={trainers || []}
+              ref={formRef}
+            />
+          </div>
+        </div>
+      )}
       {/* Stepper 2: Course Sections */}
-      <div className="mb-5 all-info-top-header main-info-top">
-        <div
-          className="bg-white border-2 formCard all-add-notific pb-4 pt-4 flex-column justify-content-center"
-          style={{
-            backgroundColor: "#fff",
-            borderRadius: "12px",
-            boxShadow: "0 2px 10px rgba(0,0,0,0.05)",
-          }}
-        >
-          {/* Progress Indicator */}
+      {step === 2 && (
+        <div className="mb-5 all-info-top-header main-info-top">
           <div
+            className="bg-white border-2 formCard all-add-notific pb-4 pt-4 flex-column justify-content-center"
             style={{
-              borderBottom: "1px solid #eee",
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "flex-start",
-              padding: "35px 70px 5px",
+              backgroundColor: "#fff",
+              borderRadius: "12px",
+              boxShadow: "0 2px 10px rgba(0,0,0,0.05)",
             }}
           >
-            <div />
+            {/* Progress Indicator */}
             <div
               style={{
-                color: "#a3aed0",
+                borderBottom: "1px solid #eee",
                 display: "flex",
-                flexDirection: "column",
                 justifyContent: "space-between",
-                marginBottom: "30px",
+                alignItems: "flex-start",
+                padding: "35px 70px 5px",
               }}
             >
-              <img src={steper2} alt="Stepper" />
+              <div />
               <div
                 style={{
-                  marginTop: "15px",
-                  padding: "10px 0px",
+                  color: "#a3aed0",
                   display: "flex",
+                  flexDirection: "column",
                   justifyContent: "space-between",
+                  marginBottom: "30px",
                 }}
               >
-                <span style={{ marginLeft: "12px", marginRight: "12px" }}>
-                  معلومات الدورة
-                </span>
-                <span
+                <img src={steper2} alt="Stepper" />
+                <div
                   style={{
-                    fontWeight: "600",
-                    color: "#2b3674",
-                    marginLeft: "12px",
-                    marginRight: "12px",
+                    marginTop: "15px",
+                    padding: "10px 0px",
+                    display: "flex",
+                    justifyContent: "space-between",
                   }}
                 >
-                  باني الاقسام
-                </span>
-                <span style={{ marginLeft: "12px", marginRight: "12px" }}>
-                  اطلاق الدورة
-                </span>
+                  <span style={{ marginLeft: "12px", marginRight: "12px" }}>
+                    معلومات الدورة
+                  </span>
+                  <span
+                    style={{
+                      fontWeight: "600",
+                      color: "#2b3674",
+                      marginLeft: "12px",
+                      marginRight: "12px",
+                    }}
+                  >
+                    باني الاقسام
+                  </span>
+                  <span style={{ marginLeft: "12px", marginRight: "12px" }}>
+                    اطلاق الدورة
+                  </span>
+                </div>
               </div>
-            </div>
-            <button
-              onClick={handleFinishCreateCourse}
-              style={{
-                backgroundColor: "#0062ff",
-                color: "#fff",
-                border: "none",
-                padding: "12px 24px",
-                borderRadius: "8px",
-                fontWeight: "500",
-                fontSize: "16px",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                transition: "all 0.3s ease",
-              }}
-            >
-              <span
-                style={{ marginLeft: isCreateCourseLoading ? "15px" : "0" }}
+              <button
+                onClick={handleFinishCreateCourse}
+                style={{
+                  backgroundColor: "#0062ff",
+                  color: "#fff",
+                  border: "none",
+                  padding: "12px 24px",
+                  borderRadius: "8px",
+                  fontWeight: "500",
+                  fontSize: "16px",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  transition: "all 0.3s ease",
+                }}
               >
-                اتمام
-              </span>
-              {isCreateCourseLoading && (
-                <Spinner animation="border" size="sm" />
-              )}
-            </button>
-          </div>
+                <span
+                  style={{ marginLeft: isCreateCourseLoading ? "15px" : "0" }}
+                >
+                  اتمام
+                </span>
+                {isCreateCourseLoading && (
+                  <Spinner animation="border" size="sm" />
+                )}
+              </button>
+            </div>
 
-          {/* Course Features */}
-          <CourseFeatuers categories={categories} trainers={trainers} />
+            {/* Course Features */}
+            <CourseFeatuers categories={categories} trainers={trainers} />
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };
