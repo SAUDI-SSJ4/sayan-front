@@ -64,7 +64,7 @@
   .lessonsVideo {
     border: 1px solid #eee;
     padding: 20px 40px;
-  
+
     .Tabs {
       display: flex;
       gap: 20px;
@@ -110,14 +110,13 @@
         padding: 0 5px;
         color: #2b3674;
         font-weight: 600;
-
       }
       .lesson {
         margin-right: 10px;
         display: flex;
         align-items: center;
         h6 {
-        margin-bottom: 0;
+          margin-bottom: 0;
           margin-right: 5px;
           color: #7e8799;
         }
@@ -347,7 +346,7 @@
   .questionBlock {
     background: #2d2d2d;
     border-color: #444;
-    
+
     h5 {
       color: #fff;
     }
@@ -356,12 +355,12 @@
   .chooseQuestionAnswer {
     background: #2d2d2d;
     border-color: #444;
-    
+
     &:hover {
       background: #363636;
       border-color: #0062ff;
     }
-    
+
     &.correct {
       background: #162312;
       border-color: #52c41a;
@@ -371,7 +370,7 @@
       background: #2a1215;
       border-color: #ff4d4f;
     }
-    
+
     label {
       color: #fff;
     }
@@ -380,7 +379,7 @@
   .scoreCard {
     background: #2d2d2d;
     border-color: #444;
-    
+
     p {
       color: #fff;
     }
@@ -467,12 +466,12 @@
 .sidebar {
   padding: 4px;
   outline: 1px solid #edeff2;
-    }
+}
 
 .sidebar.left {
   grid-area: left;
   background-color: #ffffff;
-  }
+}
 
 .content {
   grid-area: content;
@@ -486,7 +485,6 @@
     grid-template-columns: 1fr;
   }
 }
-
 
 .Card {
   padding-top: 20px;
@@ -504,155 +502,155 @@
     font-size: 14px;
     line-height: 1.5;
   }
-.qaSection {
-  .chatContainer {
-    display: flex;
-    flex-direction: column;
-    height: 400px;
-    background: white;
-    border-radius: 16px;
-    border: 1px solid #eee;
-    overflow: hidden;
-  }
-
-  .messagesContainer {
-    flex: 1;
-    overflow-y: auto;
-    padding: 20px;
-    background: #ffffff;
-  
-    &::-webkit-scrollbar {
-      width: 6px;
-    }
-  
-    &::-webkit-scrollbar-track {
-      background: #f1f1f1;
-    }
-  
-    &::-webkit-scrollbar-thumb {
-      background: #c1c1c1;
-      border-radius: 3px;
-    }
-  }
-
-  .message {
-    padding: 12px 16px;
-    margin: 8px 0;
-    border-radius: 12px;
-    max-width: 80%;
-    word-wrap: break-word;
-    line-height: 1.5;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  
-    p {
-      margin: 0;
-      font-size: 16px;
-    }
-  }
-
-  .userMessage {
-    margin-left: auto;
-    background: #0062ff;
-    border-bottom-right-radius: 4px;
-    p {
-      color: white;
-    }
-  }
-
-  .aiMessage {
-    margin-right: auto;
-    background: #f3f5fb;
-    p {
-      color: #2b3674;
-    }
-    border-bottom-left-radius: 4px;
-  }
-
-  .inputContainer {
-    padding: 16px;
-    background: #ffffff;
-    border-top: 1px solid #eee;
-    display: flex;
-    gap: 12px;
-    align-items: flex-end;
-  }
-
-  .questionInput {
-    flex: 1;
-    min-height: 48px;
-    max-height: 120px;
-    padding: 12px;
-    border: 1px solid #e0e0e0;
-    border-radius: 8px;
-    font-size: 16px;
-    resize: none;
-    transition: border-color 0.2s;
-  
-    &:focus {
-      outline: none;
-      border-color: #0062ff;
-    }
-  
-    &::placeholder {
-      color: #a9a9a9;
-    }
-  }
-
-  .sendButton {
-    background: #0062ff;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    padding: 12px 24px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background 0.2s;
-  
-    &:hover {
-      background: #0056e0;
-    }
-  
-    &:disabled {
-      background: #c1c1c1;
-      cursor: not-allowed;
-    }
-  }
-
-  .dark-mode {
+  .qaSection {
     .chatContainer {
-      background: #1a1a1a;
-      border-color: #333;
+      display: flex;
+      flex-direction: column;
+      height: 400px;
+      background: white;
+      border-radius: 16px;
+      border: 1px solid #eee;
+      overflow: hidden;
     }
-  
+
     .messagesContainer {
-      background: #1a1a1a;
-    }
-  
-    .inputContainer {
-      background: #1a1a1a;
-      border-top-color: #333;
-    }
-  
-    .questionInput {
-      background: #2d2d2d;
-      border-color: #444;
-      color: #fff;
-    
-      &::placeholder {
-        color: #888;
+      flex: 1;
+      overflow-y: auto;
+      padding: 20px;
+      background: #ffffff;
+
+      &::-webkit-scrollbar {
+        width: 6px;
       }
-    
+
+      &::-webkit-scrollbar-track {
+        background: #f1f1f1;
+      }
+
+      &::-webkit-scrollbar-thumb {
+        background: #c1c1c1;
+        border-radius: 3px;
+      }
+    }
+
+    .message {
+      padding: 12px 16px;
+      margin: 8px 0;
+      border-radius: 12px;
+      max-width: 80%;
+      word-wrap: break-word;
+      line-height: 1.5;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+      p {
+        margin: 0;
+        font-size: 16px;
+      }
+    }
+
+    .userMessage {
+      margin-left: auto;
+      background: #0062ff;
+      border-bottom-right-radius: 4px;
+      p {
+        color: white;
+      }
+    }
+
+    .aiMessage {
+      margin-right: auto;
+      background: #f3f5fb;
+      p {
+        color: #2b3674;
+      }
+      border-bottom-left-radius: 4px;
+    }
+
+    .inputContainer {
+      padding: 16px;
+      background: #ffffff;
+      border-top: 1px solid #eee;
+      display: flex;
+      gap: 12px;
+      align-items: flex-end;
+    }
+
+    .questionInput {
+      flex: 1;
+      min-height: 48px;
+      max-height: 120px;
+      padding: 12px;
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+      font-size: 16px;
+      resize: none;
+      transition: border-color 0.2s;
+
       &:focus {
+        outline: none;
         border-color: #0062ff;
       }
+
+      &::placeholder {
+        color: #a9a9a9;
+      }
     }
-  
-    .aiMessage {
-      background: #2d2d2d;
-      color: #fff;
+
+    .sendButton {
+      background: #0062ff;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 12px 24px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.2s;
+
+      &:hover {
+        background: #0056e0;
+      }
+
+      &:disabled {
+        background: #c1c1c1;
+        cursor: not-allowed;
+      }
+    }
+
+    .dark-mode {
+      .chatContainer {
+        background: #1a1a1a;
+        border-color: #333;
+      }
+
+      .messagesContainer {
+        background: #1a1a1a;
+      }
+
+      .inputContainer {
+        background: #1a1a1a;
+        border-top-color: #333;
+      }
+
+      .questionInput {
+        background: #2d2d2d;
+        border-color: #444;
+        color: #fff;
+
+        &::placeholder {
+          color: #888;
+        }
+
+        &:focus {
+          border-color: #0062ff;
+        }
+      }
+
+      .aiMessage {
+        background: #2d2d2d;
+        color: #fff;
+      }
     }
   }
-}
 }
 .flippingCardsContainer {
   padding: 32px;
@@ -719,7 +717,7 @@
   }
 
   .flipCardBack {
-    background:var(--card-color);
+    background: var(--card-color);
     color: white;
     transform: rotateY(180deg);
     display: flex;
@@ -763,18 +761,18 @@
   padding-right: 15px;
 
   &::before {
-    content: '';
+    content: "";
     position: absolute;
     right: 0;
     top: 0;
     width: 2px;
     height: 100%;
-    background: linear-gradient(180deg, 
-    rgba(170, 170, 170, 0.2),
+    background: linear-gradient(
+      180deg,
+      rgba(170, 170, 170, 0.2),
       rgba(90, 90, 90, 0.6),
       rgba(170, 170, 170, 0.2)
     );
-    
   }
 }
 
@@ -794,7 +792,7 @@
     background: color-mix(in srgb, var(--timeline-color) 15%, transparent);
 
     &::after {
-      content: '';
+      content: "";
       position: absolute;
       right: -15px;
       top: 50%;

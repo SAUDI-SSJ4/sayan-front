@@ -1,5 +1,5 @@
 import { useFormik } from "formik";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import CourseSteps from "./CourseSteps";
 import { fetchCategoriesThunk } from "../../../../../redux/CategorySlice";
 import { fetchTrainerThunk } from "../../../../../redux/TrainerSlice";
@@ -33,7 +33,6 @@ function getInitialValues(course) {
 }
 
 function CourseForm({ course }) {
-  const [courseStep, setCourseStep] = useState(1);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -94,10 +93,6 @@ function CourseForm({ course }) {
   });
 
   useEffect(() => {
-    localStorage.setItem("course-step", courseStep);
-  }, [courseStep]);
-
-  useEffect(() => {
     const loadInitialData = async () => {
       try {
         await Promise.all([
@@ -141,13 +136,8 @@ function CourseForm({ course }) {
       )}
       {!isLoading && categories && trainers && (
         <form onSubmit={formik.handleSubmit}>
-          <CourseSteps
-            isLoading={isLoading}
-            course={course}
-            setCourseStep={setCourseStep}
-            courseStep={courseStep}
-          />
-          {courseStep === 1 && <AddBasicInfo formik={formik} course={course} />}
+          <CourseSteps isLoading={isLoading} course={course} />
+          <AddBasicInfo formik={formik} course={course} />
         </form>
       )}
     </>

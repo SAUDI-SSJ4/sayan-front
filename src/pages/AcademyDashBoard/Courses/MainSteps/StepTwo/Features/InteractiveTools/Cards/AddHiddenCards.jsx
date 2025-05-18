@@ -1,25 +1,35 @@
-import React, { useState } from 'react';
-import HiddenCard from '../../../../../../../../component/UI/HiddenCard';
-import HiddenCardsSideBar from '../../../../../SideBars/HiddenCardsSideBar';
-import style from '../../../../../AddNewCourse.module.css';
+import React from "react";
+import HiddenCard from "../../../../../../../../component/UI/HiddenCard";
+import HiddenCardsSideBar from "../../../../../SideBars/HiddenCardsSideBar";
 
-const AddHiddenCards = ({ hiddenCards, setHiddenCards, cardData, setCardData }) => {
-
-
+const AddHiddenCards = ({
+  hiddenCards,
+  setHiddenCards,
+  cardData,
+  setCardData,
+  currentLesson,
+  courseId,
+}) => {
   return (
-    <div className={style.container}>
-      <div className={style.content}>
-        <div className='container ' style={{ padding: "60px 40px" }}>
-          <h3 style={{ textAlign: 'center', marginBottom: '2rem', color: '#2b3674' }}>إنشاء بطاقة مخصصة</h3>
-          <div style={{ textAlign: 'center', marginTop: '2rem' }}>
-            <h5 style={{ color: '#2b3674' }}>معاينة البطاقة:</h5>
-            <HiddenCard cardData={cardData} />
-          </div>
-        </div>
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+      <div className="p-4 border-l border-[#EDEFF2]">
+        <h4 style={{ color: "#2B3674", fontWeight: "600" }}>
+          إنشاء بطاقة مخصصة
+        </h4>
+
+        <h5 style={{ color: "#2b3674" }}>معاينة البطاقة:</h5>
+        <HiddenCard cardData={cardData} />
       </div>
 
-      <div className={`${style.sidebar} ${style.right}`}>
-        <HiddenCardsSideBar cardData={cardData} setCardData={setCardData} hiddenCards={hiddenCards} setHiddenCards={setHiddenCards} />
+      <div className="p-4">
+        <HiddenCardsSideBar
+          cardData={cardData}
+          setCardData={setCardData}
+          hiddenCards={hiddenCards}
+          setHiddenCards={setHiddenCards}
+          currentLesson={currentLesson}
+          courseId={courseId}
+        />
       </div>
     </div>
   );

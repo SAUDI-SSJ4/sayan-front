@@ -1,11 +1,14 @@
 import React, { useEffect } from "react";
-import CourseForm from "./components/CourseForm";
+import CourseForm from "../components/CourseForm";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchCurrentCourseSummaryThunk } from "../../../../redux/courses/CourseThunk";
+import { fetchCurrentCourseSummaryThunk } from "../../../../../redux/courses/CourseThunk";
 import { Alert, Spinner } from "react-bootstrap";
+import { useCourseContext } from "../context/CourseContext";
+import CourseFeatures from "../../Courses/MainSteps/StepTwo/CourseFeatuers";
 
 function EditCourse() {
+  const { courseStep } = useCourseContext();
   const { courseId } = useParams();
   const dispatch = useDispatch();
   const { courseSummary, isError, isLoading } = useSelector(
@@ -35,7 +38,12 @@ function EditCourse() {
           </p>
         </Alert>
       )}
-      {!isLoading && courseSummary && <CourseForm course={courseSummary} />}
+      {!isLoading && courseSummary && (
+        <>
+          {courseStep === 1 && <CourseForm course={courseSummary} />}
+          {courseStep === 2 && <CourseFeatures course={courseSummary} />}
+        </>
+      )}
     </main>
   );
 }

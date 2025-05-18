@@ -52,11 +52,15 @@ export const getCourseSummary = async (id) => {
 };
 
 export const postLessonTools = async (lessonId, formData) => {
-  const { data: res } = await academy_client.post(
-    `/lessons/tools/store/${lessonId}`,
+  const baseUrl = new URL(import.meta.env.VITE_SERVER_DEV).origin;
+  const { data } = await axios.post(
+    `${baseUrl}/api/v1/academies/lessons/${lessonId}/tools`,
     formData,
     {
-      headers: { "Content-Type": "multipart/form-data" },
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Authorization: `Bearer ${user_token()}`,
+      },
       onUploadProgress: (progressEvent) => {
         console.log(
           `${Math.round((progressEvent.loaded / progressEvent.total) * 100)}%`
@@ -67,7 +71,7 @@ export const postLessonTools = async (lessonId, formData) => {
       timeout: Infinity,
     }
   );
-  return res;
+  return data;
 };
 
 export const postUploadLessonVideo = async (lessonId, formData) => {

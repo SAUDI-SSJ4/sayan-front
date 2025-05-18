@@ -26,7 +26,7 @@ const Sidebar = () => {
   };
 
   return (
-    <div className={style.sideBarNav}>
+    <div className={`${style.sideBarNav}`}>
       <div
         className={`${style.sideup} d-flex flex-column`}
         style={{ padding: "12px" }}

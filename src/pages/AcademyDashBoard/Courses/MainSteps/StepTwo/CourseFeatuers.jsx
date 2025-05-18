@@ -16,29 +16,18 @@ import {
   changeOpenInteractive,
 } from "../../../../../../redux/CourseSidebarSlice";
 import Sidebar from "./Features/Sidebar";
-import { storage } from "../../../../../utils/storage";
 import { AddNewExam } from "./Features/AddNewExam";
-import Alert from "react-bootstrap/Alert";
-import { fetchCurrentCourseSummaryThunk } from "../../../../../../redux/courses/CourseThunk";
+import CourseSteps from "../../../course/components/CourseSteps";
 
-const CourseFeatures = () => {
-  const courseId = localStorage.getItem("courseId");
-  const { categoryId } = useParams();
+const CourseFeatures = ({ course }) => {
   const dispatch = useDispatch();
 
   // Redux state
   const { navigate, openInteractive } = useSelector(
     (state) => state.courseSidebarSlice
   );
-  const { courseSummary, isError, isLoading } = useSelector(
-    (state) => state.course
-  );
   const [currentChapter, setCurrentChapter] = useState(null);
-  useEffect(() => {
-    if (courseSummary?.chapters?.length > 0) {
-      setCurrentChapter(courseSummary?.chapters[0]);
-    }
-  }, [courseSummary?.chapters]);
+  const [currentLesson, setCurrentLesson] = useState(null);
   // Local state
   const [flippingCards, setFlippingCards] = useState([]);
   const [hiddenCards, setHiddenCards] = useState([]);
@@ -49,29 +38,15 @@ const CourseFeatures = () => {
     description: "محتوى البطاقة يظهر هنا.",
   });
 
-  // Constants
-
-  const currentCategoryId = useMemo(
-    () => storage.get("cahrst1x7teq"),
-    [categoryId]
-  );
-
-  useEffect(() => {
-    if (courseId) {
-      dispatch(fetchCurrentCourseSummaryThunk(courseId));
-    }
-  }, [dispatch]);
-
   const renderContent = useCallback(() => {
     const commonProps = {
-      categoryId: currentCategoryId,
-      courseId,
+      courseId: course.id,
       chapterId: currentChapter?.id,
     };
 
     switch (navigate) {
       case "chapter":
-        return <AddNewChapter {...commonProps} course={courseSummary} />;
+        return <AddNewChapter {...commonProps} course={course} />;
       case "lesson":
         return <AddNewLesson {...commonProps} />;
       case "exam":
@@ -94,60 +69,46 @@ const CourseFeatures = () => {
             cardData={cardData}
             hiddenCards={hiddenCards}
             setHiddenCards={setHiddenCards}
+            currentLesson={currentLesson}
+            courseId={course.id}
           />
         );
       default:
         return <AddNewChapter {...commonProps} />;
     }
   }, [
-    currentCategoryId,
-    courseId,
+    course,
+    currentChapter?.id,
     navigate,
-    courseSummary,
-    currentChapter,
     cardData,
     flippingCards,
     hiddenCards,
+    currentLesson,
   ]);
 
-  const handleDisableCourse = () => {
-    if (isError) return;
-    return isLoading ? (
-      "Loading..."
-    ) : (
-      <Alert variant="info" className="d-none d-lg-block text-center">
-        <strong>Course:</strong>{" "}
-        {courseSummary &&
-          formatLongText(courseSummary?.title || "No Title", 50)}
-      </Alert>
-    );
-  };
-
   return (
-    <div className={style.dashboard}>
-      <div className={`${style.sidebar} ${style.left} ${style.first}`}>
+    <>
+      <CourseSteps course={course} />
+      <div className="flex">
         <Sidebar />
+
+        <LessonsList
+          course={course}
+          currentChapter={currentChapter}
+          setCurrentChapter={setCurrentChapter}
+          setCurrentLesson={setCurrentLesson}
+          currentLesson={currentLesson}
+        />
+
+        <div className="flex-1">{renderContent()}</div>
+
+        <AddNewInteractiveTool
+          open={openInteractive}
+          handleClose={() => dispatch(changeOpenInteractive(false))}
+          changeNavigate={(tool) => dispatch(changeNavigate(tool))}
+        />
       </div>
-
-      <div className={`${style.sidebar} ${style.left} ${style.second}`}>
-        {handleDisableCourse()}
-        {courseSummary && (
-          <LessonsList
-            course={courseSummary}
-            currentChapter={currentChapter}
-            setCurrentChapter={setCurrentChapter}
-          />
-        )}
-      </div>
-
-      <div>{renderContent()}</div>
-
-      <AddNewInteractiveTool
-        open={openInteractive}
-        handleClose={() => dispatch(changeOpenInteractive(false))}
-        changeNavigate={(tool) => dispatch(changeNavigate(tool))}
-      />
-    </div>
+    </>
   );
 };
 

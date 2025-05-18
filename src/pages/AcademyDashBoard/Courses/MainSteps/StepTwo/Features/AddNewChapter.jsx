@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import style from "../../../AddNewCourse.module.css";
@@ -13,7 +13,7 @@ const validationSchema = Yup.object().shape({
   title: Yup.string().required("العنوان مطلوب"),
 });
 
-const AddNewChapter = ({ categoryId, courseId }) => {
+const AddNewChapter = ({ courseId }) => {
   const { error } = useToast();
   const dispatch = useDispatch();
   const formik = useFormik({
@@ -24,7 +24,7 @@ const AddNewChapter = ({ categoryId, courseId }) => {
     onSubmit: (values) => {
       Swal.fire({
         title: "اضافة الفصل الي الدورة",
-        text: "هل تريد اضافة هذا الدرس الي هذا الفصل في هذة الدورة",
+        text: "هل تريد اضافة هذا الفصل",
         icon: "warning",
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
@@ -56,16 +56,10 @@ const AddNewChapter = ({ categoryId, courseId }) => {
 
   return (
     <>
-      <div
-        className={`${style.content} container text-center `}
-        style={{ padding: "60px 40px" }}
-      >
+      <div className={`${style.content} space-y-1 p-4`}>
         <h4 style={{ color: "#2B3674", fontWeight: "600" }}>اضافة فصل جديد</h4>
 
-        <form
-          onSubmit={formik.handleSubmit}
-          className="row g-3 w-80 justify-content-center m-auto"
-        >
+        <form onSubmit={formik.handleSubmit} className="row g-3 w-80">
           <div className="justify-content-center">
             <div className="col-lg-11 col-md-12">
               <div className={style.formControl}>
@@ -95,7 +89,7 @@ const AddNewChapter = ({ categoryId, courseId }) => {
               appearance="primary"
               size="lg"
               style={{ width: "100%", padding: "15px 0px" }}
-              // disabled={mutation.isPending || !formik.values.title}
+              disabled={formik.isSubmitting}
             >
               اضافة
             </Button>

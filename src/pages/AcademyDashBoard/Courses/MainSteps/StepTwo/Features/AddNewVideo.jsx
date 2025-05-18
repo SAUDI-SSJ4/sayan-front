@@ -1,23 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import style from "../../../AddNewCourse.module.css";
 import VideoUploader from "../../../../../../component/UI/VideoUploader";
-import { useDispatch, useSelector } from "react-redux";
-import { latestLesson } from "../../../../../../../redux/courses/CourseSlice";
-import { storage } from "../../../../../../utils/storage";
-import {
-  useLessonMutation,
-  useVideoMutation,
-} from "../../../../../../services/mutation";
-import {
-  formatLongText,
-  hasLessonContent,
-} from "../../../../../../utils/helpers";
+import { useDispatch } from "react-redux";
 import { ButtonSpinner } from "../../../../../../component/UI/Buttons/ButtonSpinner";
 import { useToast } from "../../../../../../utils/hooks/useToast";
-import { Text } from "../../../../../../utils/styles";
-import AddNewLesson from "./AddNewLesson";
+
 import { createLesson } from "../../../../../../utils/apis/client/academy";
 import { fetchCurrentCourseSummaryThunk } from "../../../../../../../redux/courses/CourseThunk";
 
@@ -26,6 +15,7 @@ const videoUploadSchema = Yup.object().shape({
   title: Yup.string().required("عنوان الفيديو مطلوب"),
   video: Yup.mixed().required("ملف الفيديو مطلوب"),
   lessonTitle: Yup.string().required("عنوان الدرس مطلوب"),
+  description: Yup.string().required("وصف الفيديو مطلوب"),
 });
 
 const AddNewVideo = ({ courseId, chapterId }) => {
@@ -49,6 +39,7 @@ const AddNewVideo = ({ courseId, chapterId }) => {
       formData.append("video", values.video);
       formData.append("type", "video");
       formData.append("video_title", values.title);
+      formData.append("description", values.description);
       if (videoDuration) {
         formData.append("duration", Math.round(videoDuration));
       }
@@ -74,7 +65,9 @@ const AddNewVideo = ({ courseId, chapterId }) => {
 
   return (
     <>
-      <div className={`${style.content}`}>
+      <div className={`${style.content} space-y-4 p-4`}>
+        <h4 style={{ color: "#2B3674", fontWeight: "600" }}>اضافة درس جديد</h4>
+
         <div className="col-lg-11 col-md-12">
           <div className={style.formControl}>
             <label htmlFor="lessonTitle" className={style.label}>
@@ -125,6 +118,25 @@ const AddNewVideo = ({ courseId, chapterId }) => {
               {videoFormik.touched.title && videoFormik.errors.title && (
                 <div className="text-danger">{videoFormik.errors.title}</div>
               )}
+            </div>
+            <div className="CustomFormControl col-12">
+              <label htmlFor="description">وصف الفيديو</label>
+              <input
+                type="text"
+                placeholder="أدخل وصف الفيديو"
+                name="description"
+                id="description"
+                value={videoFormik.values.description}
+                onChange={videoFormik.handleChange}
+                className="form-control"
+                required
+              />
+              {videoFormik.touched.description &&
+                videoFormik.errors.description && (
+                  <div className="text-danger">
+                    {videoFormik.errors.description}
+                  </div>
+                )}
             </div>
 
             <div className="col-12 d-flex justify-content-center mt-3 ">

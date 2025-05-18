@@ -450,7 +450,7 @@ const CourseDetails = () => {
             )}
           />
         </div>
-        {/* <div className={`${classes.content} ${classes.lessonsVideo}`}>
+        <div className={`${classes.content} ${classes.lessonsVideo}`}>
           <div className={classes.title}>
             <h4>{chosenCategory?.title}</h4>
             <div className={classes.lesson}>
@@ -819,7 +819,7 @@ const CourseDetails = () => {
               </div>
             </div>
           )}
-        </div> */}
+        </div>
       </div>
     </div>
   );

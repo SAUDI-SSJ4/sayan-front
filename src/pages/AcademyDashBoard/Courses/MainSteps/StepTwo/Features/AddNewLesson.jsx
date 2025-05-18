@@ -75,10 +75,7 @@ function AddNewLesson({ categoryId, courseId }) {
 
   return (
     <>
-      <div
-        className={`${style.content} container text-center `}
-        style={{ padding: "60px 40px" }}
-      >
+      <div className={`${style.content} container text-center `}>
         <h4 style={{ color: "#2B3674", fontWeight: "600" }}>اضافة درس جديد</h4>
 
         <form

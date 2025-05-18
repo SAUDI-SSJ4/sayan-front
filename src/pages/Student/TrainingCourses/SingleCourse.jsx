@@ -2,12 +2,12 @@ import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
+import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
 import { Link } from "react-router-dom";
-import SchoolOutlinedIcon from '@mui/icons-material/SchoolOutlined';
-import TrendingUpOutlinedIcon from '@mui/icons-material/TrendingUpOutlined';
-import AttachMoneyOutlinedIcon from '@mui/icons-material/AttachMoneyOutlined';
-import CalendarTodayOutlinedIcon from '@mui/icons-material/CalendarTodayOutlined';
+import SchoolOutlinedIcon from "@mui/icons-material/SchoolOutlined";
+import TrendingUpOutlinedIcon from "@mui/icons-material/TrendingUpOutlined";
+import AttachMoneyOutlinedIcon from "@mui/icons-material/AttachMoneyOutlined";
+import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined";
 import image from "../../../assets/images/bg.png";
 
 const FAKE_COURSE = {
@@ -24,7 +24,7 @@ const FAKE_COURSE = {
     "تم إعداد الاختبار الذكي بناءً على تحليل محتوى الدورة التدريبية.",
     "منهج متدرج يراعي احتياج المبتدئ والمتقدم.",
     "تمارين عملية مع تغذية راجعة فورية.",
-  ]
+  ],
 };
 
 const SingleCourse = ({ course = FAKE_COURSE }) => {
@@ -71,11 +71,16 @@ const SingleCourse = ({ course = FAKE_COURSE }) => {
                 }}
                 alt="Course main"
               />
-              <div className="absolute top-4 right-5 bg-[#f8fafdcc] px-3 py-1.5 rounded-lg text-[#0b5aaa] font-bold shadow-sm text-base"
-                style={{backdropFilter: "blur(2px)"}}
+              <div
+                className="absolute top-4 right-5 bg-[#f8fafdcc] px-3 py-1.5 rounded-lg text-[#0b5aaa] font-bold shadow-sm text-base"
+                style={{ backdropFilter: "blur(2px)" }}
               >
-                <SchoolOutlinedIcon sx={{ fontSize: 19, color: "#0062ff", mr: 0.8 }} />
-                {course.category && Array.isArray(course.category) ? course.category[0] : "غير محدد"}
+                <SchoolOutlinedIcon
+                  sx={{ fontSize: 19, color: "#0062ff", mr: 0.8 }}
+                />
+                {course.category && Array.isArray(course.category)
+                  ? course.category[0]
+                  : "غير محدد"}
               </div>
             </div>
             <div className="p-7 pr-9">
@@ -121,7 +126,9 @@ const SingleCourse = ({ course = FAKE_COURSE }) => {
                       key={idx}
                       className="flex items-start gap-2 text-[#6b7785] text-[16px] bg-[#f7fcff] p-3 rounded-xl border-l-4 border-[#0fe8e885] font-medium"
                     >
-                      <CheckCircleIcon sx={{ color: "#0FE8E8", fontSize: 22, mt: "1.5px" }} />
+                      <CheckCircleIcon
+                        sx={{ color: "#0FE8E8", fontSize: 22, mt: "1.5px" }}
+                      />
                       <span>{feature}</span>
                     </li>
                   ))}
@@ -129,14 +136,10 @@ const SingleCourse = ({ course = FAKE_COURSE }) => {
               </div>
               {/* CTA's */}
               <div className="flex justify-center gap-4 mb-2 mt-6">
-                <button
-                  className="px-6 py-2.5 bg-gradient-to-l from-[#11e8de] to-[#14a0ff] hover:from-[#2cf0f0] hover:to-[#0062ff] text-white text-lg font-bold rounded-lg shadow transition"
-                >
+                <button className="px-6 py-2.5 bg-gradient-to-l from-[#11e8de] to-[#14a0ff] hover:from-[#2cf0f0] hover:to-[#0062ff] text-white text-lg font-bold rounded-lg shadow transition">
                   تحديث المعلومات
                 </button>
-                <button
-                  className="px-6 py-2.5 bg-[#f8c6c6] text-[#e52323] font-bold text-lg rounded-lg shadow hover:bg-[#ffcfcf] border-2 border-[#eeaaaa] transition"
-                >
+                <button className="px-6 py-2.5 bg-[#f8c6c6] text-[#e52323] font-bold text-lg rounded-lg shadow hover:bg-[#ffcfcf] border-2 border-[#eeaaaa] transition">
                   إزالة الدورة
                 </button>
               </div>
@@ -150,23 +153,29 @@ const SingleCourse = ({ course = FAKE_COURSE }) => {
                 </span>
               </div>
               <div className="flex items-center mb-4 gap-2">
-                <TrendingUpOutlinedIcon sx={{ color: "#0FE8E8", fontSize: 26 }} />
-                <span className="font-medium text-[#5275A6]">مستوى الطالب:</span>
+                <TrendingUpOutlinedIcon
+                  sx={{ color: "#0FE8E8", fontSize: 26 }}
+                />
+                <span className="font-medium text-[#5275A6]">
+                  مستوى الطالب:
+                </span>
                 <span className="ml-1 font-bold text-[#2067b2]">
                   {course.studentLevel}
                 </span>
               </div>
               <div className="flex items-center mb-4 gap-2">
-                <AttachMoneyOutlinedIcon sx={{ color: "#0FE8E8", fontSize: 26 }} />
-                <span className="font-medium text-[#5275A6]">
-                  السعر:
-                </span>
+                <AttachMoneyOutlinedIcon
+                  sx={{ color: "#0FE8E8", fontSize: 26 }}
+                />
+                <span className="font-medium text-[#5275A6]">السعر:</span>
                 <span className="ml-1 font-bold text-[#2067b2]">
                   {course.price}
                 </span>
               </div>
               <div className="flex items-center gap-2">
-                <CalendarTodayOutlinedIcon sx={{ color: "#0FE8E8", fontSize: 26 }} />
+                <CalendarTodayOutlinedIcon
+                  sx={{ color: "#0FE8E8", fontSize: 26 }}
+                />
                 <span className="font-medium text-[#5275A6]">نوع الدورة:</span>
                 <span className="ml-1 font-bold text-[#2067b2]">
                   {course.mode}

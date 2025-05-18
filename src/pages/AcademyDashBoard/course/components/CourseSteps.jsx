@@ -4,8 +4,11 @@ import steper2 from "../../../../assets/icons/steper2.svg";
 
 import { Button } from "react-bootstrap";
 import { ArrowLeft, ArrowRight } from "lucide-react";
+import { useCourseContext } from "../context/CourseContext";
 
-function CourseSteps({ isLoading, course, setCourseStep, courseStep }) {
+function CourseSteps({ isLoading, course }) {
+  const { courseStep, setCourseStep } = useCourseContext();
+
   const getProgressImage = () => {
     switch (courseStep) {
       case 1:
@@ -16,8 +19,9 @@ function CourseSteps({ isLoading, course, setCourseStep, courseStep }) {
         return steper1;
     }
   };
+
   return (
-    <div className="border-b border-gray-200 flex justify-center items-center gap-40 py-5">
+    <div className="border-b border-gray-200 flex flex-wrap items-center justify-evenly gap-4 py-5">
       <div className="text-gray-400 flex flex-col justify-between">
         <img src={getProgressImage()} alt="Stepper" />
         <ul className="mt-4  flex items-center gap-4">
@@ -27,26 +31,30 @@ function CourseSteps({ isLoading, course, setCourseStep, courseStep }) {
         </ul>
       </div>
 
-      <div className="flex items-center gap-4">
-        <Button
-          type="button"
-          variant="outline-info"
-          onClick={() => setCourseStep((prev) => prev + 1)}
-          className="!flex !items-center justify-center gap-2 h-10 w-36"
-        >
-          <ArrowRight />
-          <span>التالي</span>
-        </Button>
-        {courseStep !== 1 && (
-          <Button
-            type="button"
-            variant="outline-info"
-            onClick={() => setCourseStep((prev) => prev - 1)}
-            className="!flex !items-center justify-center gap-2 h-10 w-36"
-          >
-            <span>السابق</span>
-            <ArrowLeft />
-          </Button>
+      <div className="flex items-center flex-wrap gap-4">
+        {course && (
+          <>
+            <Button
+              type="button"
+              variant="outline-info"
+              onClick={() => setCourseStep((prev) => prev + 1)}
+              className="!flex !items-center justify-center gap-2 h-10 w-36"
+            >
+              <ArrowRight />
+              <span>التالي</span>
+            </Button>
+            {courseStep !== 1 && (
+              <Button
+                type="button"
+                variant="outline-info"
+                onClick={() => setCourseStep((prev) => prev - 1)}
+                className="!flex !items-center justify-center gap-2 h-10 w-36"
+              >
+                <span>السابق</span>
+                <ArrowLeft />
+              </Button>
+            )}
+          </>
         )}
 
         <Button type="submit" disabled={isLoading} className="h-10 w-36">

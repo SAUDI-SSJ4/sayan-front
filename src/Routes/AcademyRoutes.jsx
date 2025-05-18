@@ -53,13 +53,12 @@ import Coupons from "../pages/AcademyDashBoard/Copons/Coupons";
 import AddCourse from "../pages/AcademyDashBoard/Courses/AddCourse";
 import EditAcademyProfile from "../pages/AcademyDashBoard/Profile/EditAcademyProfile";
 import toast from "react-hot-toast";
-import HomeAcademy from "../pages/MainPages/AcademyHome/HomeAcademy";
 import MainSettings from "../pages/AcademyDashBoard/AcademySettings/MainSettings";
 import EditStudentOpinion from "../pages/AcademyDashBoard/AcademySettings/EditStudentOpinion";
 import AddStudentOpinion from "../pages/AcademyDashBoard/AcademySettings/AddStudentOpinion";
 import AddFaqs from "../pages/AcademyDashBoard/AcademySettings/AddFaqs";
-import AddNewCourse from "../pages/AcademyDashBoard/course/AddNewCourse";
-import EditCourse from "../pages/AcademyDashBoard/course/EditCourse";
+import AddNewCourse from "../pages/AcademyDashBoard/course/create";
+import EditCourse from "../pages/AcademyDashBoard/course/manage";
 import CourseLayout from "../pages/AcademyDashBoard/course/components/CourseLayout";
 const AcademyRoutes = () => {
   const loginType = Cookies.get("login_type");
