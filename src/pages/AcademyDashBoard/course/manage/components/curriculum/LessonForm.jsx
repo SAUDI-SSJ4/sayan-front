@@ -28,14 +28,18 @@ const LessonForm = ({ lesson, courseId, chapterId }) => {
     validationSchema: getCourseLessonSchema(lesson),
     onSubmit: async (values) => {
       const uploadVideo = videoDuration
-        ? { video: values.video, duration: Math.round(videoDuration) }
+        ? {
+            video: values.video,
+            duration: Math.round(videoDuration),
+          }
         : {};
+      const PUT_REQUEST = lesson ? { _method: "PUT" } : {};
 
       const data = {
         ...values,
         type: "video",
         ...uploadVideo,
-        _method: "PUT",
+        ...PUT_REQUEST,
       };
       try {
         if (lesson) {
