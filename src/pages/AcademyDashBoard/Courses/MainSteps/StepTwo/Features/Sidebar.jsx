@@ -24,6 +24,9 @@ const Sidebar = () => {
 
     dispatch(changeNavigate(type));
   };
+  useEffect(() => {
+    localStorage.setItem("navigate", navigate);
+  }, [navigate]);
 
   return (
     <div className={`${style.sideBarNav}`}>
@@ -32,37 +35,20 @@ const Sidebar = () => {
         style={{ padding: "12px" }}
       >
         <IconTextButton
-          isActive={navigate === "video"}
-          onClick={() => handleNavigate("video")}
-          icon={Vact1}
-          text="اضافة فيديو"
-        />
-        <IconTextButton
-          isActive={["interactive", "flippingCard", "hiddenCards"].includes(
-            navigate
-          )}
-          onClick={() => handleNavigate("interactive")}
-          icon={Vact2}
-          text="اضافة اداة تفاعلية"
-        />
-        <IconTextButton
-          isActive={navigate === "exam"}
-          onClick={() => handleNavigate("exam")}
+          isActive={navigate === "basic-info"}
+          onClick={() => handleNavigate("basic-info")}
           icon={Vact3}
-          text="اضافة اختبار"
+          text="معلومات الدورة"
+        />
+        <IconTextButton
+          isActive={navigate === "curriculum"}
+          onClick={() => dispatch(changeNavigate("curriculum"))}
+          icon={Vact5}
+          text="المقرر"
         />
       </div>
 
       {/* Lower Section */}
-      <div className={style.sidedown} style={{ padding: "12px" }}>
-        <IconTextButton
-          isActive={navigate === "chapter"}
-          onClick={() => dispatch(changeNavigate("chapter"))}
-          icon={Vact5}
-          text="اضافة فصل جديد"
-          isAllwo={true}
-        />
-      </div>
     </div>
   );
 };

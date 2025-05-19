@@ -1,11 +1,10 @@
 import { useFormik } from "formik";
 import React, { useEffect } from "react";
-import CourseSteps from "./CourseSteps";
 import { fetchCategoriesThunk } from "../../../../../redux/CategorySlice";
 import { fetchTrainerThunk } from "../../../../../redux/TrainerSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
-import { Alert, Spinner } from "react-bootstrap";
+import { Alert, Button, Spinner } from "react-bootstrap";
 import { getCourseSchema } from "../../../../validations/academy/course";
 import { useMutation } from "@tanstack/react-query";
 import {
@@ -14,6 +13,7 @@ import {
 } from "../../../../utils/apis/client/academy";
 import { useNavigate } from "react-router-dom";
 import AddBasicInfo from "./AddBasicInfo";
+import Loader from "../../../../components/Loader";
 
 function getInitialValues(course) {
   return {
@@ -107,14 +107,10 @@ function CourseForm({ course }) {
     loadInitialData();
   }, [dispatch]);
 
-  const isLoading =
-    trainersIsLoading ||
-    categoriesIsLoading ||
-    addCourseMutation.isPending ||
-    updateCourseMutation.isPending;
-
+  const isLoading = trainersIsLoading || categoriesIsLoading;
   const isError = trainersError || categoriesError;
-
+  const isPending =
+    addCourseMutation.isPending || updateCourseMutation.isPending;
   return (
     <>
       {isLoading && (
@@ -136,8 +132,20 @@ function CourseForm({ course }) {
       )}
       {!isLoading && categories && trainers && (
         <form onSubmit={formik.handleSubmit}>
-          <CourseSteps isLoading={isLoading} course={course} />
           <AddBasicInfo formik={formik} course={course} />
+          <Button
+            type="submit"
+            className="my-2 mx-auto !flex gap-2 justify-center items-center w-40 h-10"
+            disabled={isPending}
+          >
+            {isPending ? (
+              <Loader className="!w-5 !h-5" />
+            ) : course ? (
+              "تحديث الدورة"
+            ) : (
+              "إضافة دورة"
+            )}
+          </Button>
         </form>
       )}
     </>

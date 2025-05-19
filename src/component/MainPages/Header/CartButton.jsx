@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
-import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
-import { Popover, IconButton, CircularProgress } from '@mui/material';
-import Style from './CartButton.module.scss';
-import { useCart } from '../../../context/CartContext';
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+import { Popover, IconButton, CircularProgress } from "@mui/material";
+import Style from "./CartButton.module.scss";
+import { useCart } from "../../../context/CartContext";
 
 const CartButton = () => {
   const navigate = useNavigate();
@@ -20,7 +20,7 @@ const CartButton = () => {
     if (cartItems.length > 0) {
       setIsAnimating(true);
       setShowPopup(true);
-      
+
       // إخفاء النافذة المنبثقة بعد ثانيتين
       const popupTimer = setTimeout(() => {
         setShowPopup(false);
@@ -51,19 +51,19 @@ const CartButton = () => {
   return (
     <div className={Style.cartButton}>
       <div
-        className={`${Style.cartIconWrapper} ${isAnimating ? Style.animate : ''}`}
+        className={`${Style.cartIconWrapper} ${
+          isAnimating ? Style.animate : ""
+        }`}
         onClick={handleClick}
       >
         <ShoppingCartOutlinedIcon className={Style.cartIcon} />
-          {cartItemCount > 0 && (
+        {cartItemCount > 0 && (
           <span className={Style.cartCount}>{cartItemCount}</span>
-          )}
+        )}
       </div>
 
       {showPopup && cartItemCount > 0 && (
-        <div className={Style.addedPopup}>
-          تمت الإضافة للسلة
-        </div>
+        <div className={Style.addedPopup}>تمت الإضافة للسلة</div>
       )}
 
       <Popover
@@ -71,12 +71,12 @@ const CartButton = () => {
         anchorEl={anchorEl}
         onClose={handleClose}
         anchorOrigin={{
-          vertical: 'bottom',
-          horizontal: 'left',
+          vertical: "bottom",
+          horizontal: "left",
         }}
         transformOrigin={{
-          vertical: 'top',
-          horizontal: 'left',
+          vertical: "top",
+          horizontal: "left",
         }}
         classes={{
           paper: Style.popoverPaper,
@@ -101,7 +101,9 @@ const CartButton = () => {
                       <h4>{item.title}</h4>
                       <p>{item.price} ر.س.</p>
                       {item.quantity > 1 && (
-                        <span className={Style.quantity}>الكمية: {item.quantity}</span>
+                        <span className={Style.quantity}>
+                          الكمية: {item.quantity}
+                        </span>
                       )}
                     </div>
                     <IconButton
@@ -123,7 +125,7 @@ const CartButton = () => {
                   className={Style.viewCartButton}
                   onClick={() => {
                     handleClose();
-                    navigate('/student/ShoppingCart');
+                    navigate("/student/ShoppingCart");
                   }}
                 >
                   عرض العربة
@@ -132,7 +134,7 @@ const CartButton = () => {
                   className={Style.checkoutButton}
                   onClick={() => {
                     handleClose();
-                    navigate('/student/Checkout');
+                    navigate("/student/Checkout");
                   }}
                 >
                   إتمام الشراء

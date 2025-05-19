@@ -159,11 +159,11 @@ export const deleteLessonItem = async (lessonId, params) => {
   return data;
 };
 
-export const postChapter = async (params) => {
+export const postChapter = async (courseId, formData) => {
   const baseURL = new URL(import.meta.env.VITE_SERVER_DEV).origin;
   const { data } = await axios.post(
-    `${baseURL}/api/v1/academies/courses/${params?.courseId}/chapters`,
-    params,
+    `${baseURL}/api/v1/academies/courses/${courseId}/chapters`,
+    formData,
     {
       headers: {
         "Content-Type": "multipart/form-data",
@@ -173,10 +173,25 @@ export const postChapter = async (params) => {
   );
   return data;
 };
-export const deleteChapter = async (params) => {
+export const editChapter = async ({ chapterId, courseId }, formData) => {
+  const baseURL = new URL(import.meta.env.VITE_SERVER_DEV).origin;
+  const { data } = await axios.post(
+    `${baseURL}/api/v1/academies/courses/${courseId}/chapters/${chapterId}`,
+    formData,
+    {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Authorization: `Bearer ${user_token()}`,
+      },
+    }
+  );
+  return data;
+};
+
+export const deleteChapter = async ({ courseId, chapterId }) => {
   const baseURL = new URL(import.meta.env.VITE_SERVER_DEV).origin;
   const { data } = await axios.delete(
-    `${baseURL}/api/v1/academies/courses/${params.courseId}/chapters/${params.chapterId}`,
+    `${baseURL}/api/v1/academies/courses/${courseId}/chapters/${chapterId}`,
     {
       headers: {
         Authorization: `Bearer ${user_token()}`,
@@ -191,10 +206,10 @@ export const getChapterById = async (id) => {
   return data;
 };
 
-export const createLesson = async (params, formData) => {
+export const createLesson = async ({ courseId, chapterId }, formData) => {
   const baseURL = new URL(import.meta.env.VITE_SERVER_DEV).origin;
   const { data } = await axios.post(
-    `${baseURL}/api/v1/academies/courses/${params.courseId}/chapters/${params.chapterId}/lessons`,
+    `${baseURL}/api/v1/academies/courses/${courseId}/chapters/${chapterId}/lessons`,
     formData,
     {
       headers: {
@@ -206,6 +221,36 @@ export const createLesson = async (params, formData) => {
   return data;
 };
 
+export const editLesson = async (
+  { courseId, chapterId, lessonId },
+  formData
+) => {
+  const baseURL = new URL(import.meta.env.VITE_SERVER_DEV).origin;
+  const { data } = await axios.post(
+    `${baseURL}/api/v1/academies/courses/${courseId}/chapters/${chapterId}/lessons/${lessonId}`,
+    formData,
+    {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Authorization: `Bearer ${user_token()}`,
+      },
+    }
+  );
+  return data;
+};
+
+export const deleteLesson = async ({ courseId, chapterId, lessonId }) => {
+  const baseURL = new URL(import.meta.env.VITE_SERVER_DEV).origin;
+  const { data } = await axios.delete(
+    `${baseURL}/api/v1/academies/courses/${courseId}/chapters/${chapterId}/lessons/${lessonId}`,
+    {
+      headers: {
+        Authorization: `Bearer ${user_token()}`,
+      },
+    }
+  );
+  return data;
+};
 export const getAllcategories = async () => {
   const { data } = await academy_client.get("/allcategories");
   return data.data;
