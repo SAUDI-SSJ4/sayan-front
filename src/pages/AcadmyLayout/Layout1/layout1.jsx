@@ -388,7 +388,7 @@ const Footer = ({ academySettings }) => {
             <p className="text-gray-600 text-sm" style={{ direction: "rtl" }}>
               تم التطوير بواسطة{' '}
               <a 
-                href="https://sayan.sa" 
+                href="https://sayan.pro" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 style={{ color: academySettings.primary_color }}

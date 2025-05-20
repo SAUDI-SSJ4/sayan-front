@@ -16,6 +16,13 @@ import { academy_client } from "../../../utils/apis/client.config";
 const ImageDropzone = ({ field, form, setFile, currentImageUrl }) => {
   const [preview, setPreview] = useState(currentImageUrl || null);
 
+  useEffect(() => {
+    // Update preview if currentImageUrl changes
+    if (currentImageUrl) {
+      setPreview(currentImageUrl);
+    }
+  }, [currentImageUrl]);
+
   const onDrop = useCallback(
     (acceptedFiles) => {
       const file = acceptedFiles[0];
@@ -32,7 +39,7 @@ const ImageDropzone = ({ field, form, setFile, currentImageUrl }) => {
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
-    accept: { 'image/jpeg': [], 'image/png': [], 'image/gif': [] },
+    accept: { 'image/jpeg': [], 'image/png': [], 'image/jpg': [], 'image/gif': [] },
     maxSize: 5 * 1024 * 1024,
     multiple: false,
   });
@@ -112,6 +119,7 @@ export default function AddEditTrainers() {
         .get(`/trainer/${id}`)
         .then((response) => {
           const trainerData = response?.data?.data;
+          console.log("Trainer data received:", trainerData);
           setInitialValues({
             name: trainerData?.name || "",
             email: trainerData?.email || "",
@@ -134,16 +142,22 @@ export default function AddEditTrainers() {
       .required("رقم الهاتف مطلوب")
       .matches(/^[\s\d+-]{10,15}$/, "رقم الهاتف غير صالح (يجب أن يكون 10-15 رقمًا)"),
     image: Yup.mixed()
-      .nullable()
+      .test("fileType", "الصورة مطلوبة ويجب أن تكون ملف صورة صالح",
+        (value) => {
+          if (isEditMode && !value) return true; // Allow no file in edit mode
+          if (!isEditMode && !value) return false; // Require file in add mode
+          
+          if (value instanceof File) {
+            return ["image/jpeg", "image/png", "image/jpg", "image/gif"].includes(value.type);
+          }
+          
+          return typeof value === 'string' && value.startsWith('http'); // Valid URL in edit mode
+        })
       .test("fileSize", "حجم الملف كبير جدا (الحد الأقصى 5MB)",
-        (value) => !value || (value && value.size <= 5 * 1024 * 1024))
-      .test("fileType", "نوع الملف غير مدعوم (PNG, JPG, GIF فقط)",
-        (value) => !value || (value && ["image/jpeg", "image/png", "image/gif"].includes(value.type)))
-      .when([], {
-        is: () => !isEditMode,
-        then: (schema) => schema.required("الصورة الشخصية مطلوبة"),
-        otherwise: (schema) => schema.nullable(),
-      }),
+        (value) => {
+          if (!value || typeof value === 'string') return true;
+          return value instanceof File && value.size <= 5 * 1024 * 1024;
+        }),
   });
 
   const handleSubmit = async (values) => {
@@ -152,7 +166,11 @@ export default function AddEditTrainers() {
     formData.append("name", values.name);
     formData.append("email", values.email);
     formData.append("phone", values.phone);
-    if (selectedFile instanceof File) formData.append("image", selectedFile);
+        if (values.image instanceof File) {
+      formData.append("image", values.image);
+    } else if (selectedFile instanceof File) {
+      formData.append("image", selectedFile);
+    }
 
     try {
       if (isEditMode) {
@@ -164,7 +182,9 @@ export default function AddEditTrainers() {
       }
       navigate("/academy/TrainersManagment");
     } catch (error) {
-      toast.error(error?.response?.data?.message || "حدث خطأ ما");
+      const errorMessage = error?.response?.data?.message || "حدث خطأ ما";
+      toast.error(errorMessage);
+      console.error("Submit error:", error?.response?.data);
     } finally {
       setSubmitting(false);
     }
@@ -263,7 +283,7 @@ export default function AddEditTrainers() {
                       </button>
                       <button
                         type="submit"
-                        disabled={submitting || !dirty || !isValid}
+                        disabled={submitting || (isEditMode ? !isValid : (!dirty || !isValid))}
                         className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-lg shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
                       >
                         {submitting ? (
