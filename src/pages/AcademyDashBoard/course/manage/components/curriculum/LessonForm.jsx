@@ -6,7 +6,7 @@ import { useDispatch } from "react-redux";
 import { useToast } from "../../../../../../utils/hooks/useToast";
 import {
   createLesson,
-  editLesson,
+  // editLesson,
 } from "../../../../../../utils/apis/client/academy";
 import { fetchCurrentCourseSummaryThunk } from "../../../../../../../redux/courses/CourseThunk";
 import { Button } from "react-bootstrap";
@@ -78,7 +78,7 @@ const LessonForm = ({ lesson, courseId, chapterId }) => {
   });
 
   return (
-    <div className="space-y-6 bg-white rounded-lg ">
+    <div className="space-y-6 bg-white rounded-lg">
       <h4 className="text-2xl font-semibold text-gray-800">
         {lesson ? "تعديل الدرس" : "اضافة درس جديد"}
       </h4>
@@ -99,7 +99,7 @@ const LessonForm = ({ lesson, courseId, chapterId }) => {
             id="title"
             name="title"
             placeholder="ادخل عنوان الدرس هنا"
-            className="w-full px-2 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="px-2 py-2 w-full rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
             value={videoFormik.values.title}
             onChange={videoFormik.handleChange}
           />
@@ -131,7 +131,7 @@ const LessonForm = ({ lesson, courseId, chapterId }) => {
             id="video_title"
             name="video_title"
             placeholder="أدخل عنوان الفيديو"
-            className="w-full px-2 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="px-2 py-2 w-full rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
             value={videoFormik.values.video_title}
             onChange={videoFormik.handleChange}
           />
@@ -152,7 +152,7 @@ const LessonForm = ({ lesson, courseId, chapterId }) => {
             id="description"
             name="description"
             placeholder="أدخل وصف الفيديو"
-            className="w-full px-2 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="px-2 py-2 w-full rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
             value={videoFormik.values.description}
             onChange={videoFormik.handleChange}
           />
@@ -167,7 +167,7 @@ const LessonForm = ({ lesson, courseId, chapterId }) => {
         <Button
           type="submit"
           disabled={videoFormik.isSubmitting}
-          className="h-10 w-full"
+          className="w-full h-10"
         >
           {lesson ? "تعديل" : "اضف"}
         </Button>
