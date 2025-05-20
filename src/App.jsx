@@ -10,6 +10,7 @@ import AOS from "aos";
 import AdminRoute from "./Routes/adminRoutes";
 import StudentRoute from "./Routes/StudentRoutes";
 import { Route, Routes, useLocation } from "react-router-dom";
+import NotFound from "./component/NotFound/NotFound";
 import Layout1 from "./pages/AcadmyLayout/Layout1/layout1";
 import AllBlogpage from "./component/AcadmyLayouts/Blog/AllBlogpage/AllBlogpage";
 import AllProductsPage from "./component/AcadmyLayouts/AllProductsPage/AllProductsPage";
@@ -114,12 +115,15 @@ function App() {
               element={<ContactUs3 />}
             />
             <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
-            <Route element={<AuthGaurdRoute />}>
-              <Route path="/login" element={<AcademyLogin />} />
-              <Route path="signin" element={<Signin />} />
-              <Route path="/Register" element={<AcademyRegister />} />
-              <Route path="/forget-password" element={<ForgetPassword />} />
-            </Route>
+              <Route element={<AuthGaurdRoute />}>
+                <Route path="/login" element={<AcademyLogin />} />
+                <Route path="signin" element={<Signin />} />
+                <Route path="/Register" element={<AcademyRegister />} />
+                <Route path="/forget-password" element={<ForgetPassword />} />
+              </Route>
+              
+              {/* مسار للصفحات غير الموجودة */}
+              <Route path="*" element={<NotFound />} />
           </Routes>
         </div>
       </CartProvider>

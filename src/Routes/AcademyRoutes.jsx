@@ -8,7 +8,6 @@ import Blogs from "../pages/AcademyDashBoard/blogs/blog";
 import AddNewBlogAcademey from "../pages/AcademyDashBoard/blogs/AddNewBlog";
 import ReportsAndStatistics from "../pages/AcademyDashBoard/ReportsAndStatistics/ReportsAndStatistics";
 import AcademeyWallet from "../pages/AcademyDashBoard/Wallet/Wallet";
-import WalletSuccess from "../pages/AcademyDashBoard/Wallet/WalletSuccess";
 import AcademySales from "../pages/AcademyDashBoard/sales/sales";
 import AcadmeyTrainingCourses from "../pages/AcademyDashBoard/TrainingCourses/TrainingCourses";
 import AcademySingleCourse from "../pages/AcademyDashBoard/TrainingCourses/SingleCourse";
@@ -52,22 +51,19 @@ import AddCoupon from "../pages/AcademyDashBoard/Copons/AddCoupon";
 import Coupons from "../pages/AcademyDashBoard/Copons/Coupons";
 import AddCourse from "../pages/AcademyDashBoard/Courses/AddCourse";
 import EditAcademyProfile from "../pages/AcademyDashBoard/Profile/EditAcademyProfile";
-import toast from "react-hot-toast";
+import { showErrorToast } from "../utils/toast";
+import HomeAcademy from "../pages/MainPages/AcademyHome/HomeAcademy";
 import MainSettings from "../pages/AcademyDashBoard/AcademySettings/MainSettings";
 import EditStudentOpinion from "../pages/AcademyDashBoard/AcademySettings/EditStudentOpinion";
 import AddStudentOpinion from "../pages/AcademyDashBoard/AcademySettings/AddStudentOpinion";
 import AddFaqs from "../pages/AcademyDashBoard/AcademySettings/AddFaqs";
-import AddNewCourse from "../pages/AcademyDashBoard/course/create";
-import EditCourse from "../pages/AcademyDashBoard/course/manage";
-import CourseLayout from "../pages/AcademyDashBoard/course/components/CourseLayout";
 const AcademyRoutes = () => {
   const loginType = Cookies.get("login_type");
 
   const IsAcademyAuthGaurd = ({ children }) => {
     const location = window.location.pathname;
     // تحديث التعبير المنتظم ليشمل المسار الكامل
-    const isPublicAcademyPage =
-      /^(\/academy\/\d+|https:\/\/sayan\.pro\/academy\/\d+)/.test(location);
+    const isPublicAcademyPage = /^(\/academy\/\d+|https:\/\/sayan\.pro\/academy\/\d+)/.test(location);
 
     if (isPublicAcademyPage) {
       return children;
@@ -77,7 +73,7 @@ const AcademyRoutes = () => {
     if (loginType === "academy") {
       return children;
     } else {
-      toast.error("يرجى تسجيل الدخول بحساب اكاديمية");
+      showErrorToast("يرجى تسجيل الدخول بحساب اكاديمية");
       return <Navigate to="/login" />;
     }
   };
@@ -85,203 +81,196 @@ const AcademyRoutes = () => {
   return (
     <Fragment>
       <LayOut>
-        <Routes>
-          <Route path="/academy" element={<AcademyDashboard />} />
-          <Route path="/academy/Profile" element={<Profile />} />
-          <Route
-            path="/academy/Profile/edit"
-            element={<EditAcademyProfile />}
-          />
-          <Route
-            path="/academy/DigitalProducts"
-            element={<DigitalProducts />}
-          />
-          <Route
-            path="/academy/DigitalProducts/AddNewProduct/*"
-            element={<AddNewProduct />}
-          />
-          <Route
-            path="/academy/DigitalProducts/AddNewProduct/:slug"
-            element={<AddNewProduct />}
-          />
-          <Route path="/academy/settings/*" element={<AcademySettings />} />
-          <Route
-            path="/academy/settings/slider/edit"
-            element={<EditSlider />}
-          />
-          <Route element={<CourseLayout />}>
-            <Route path="/academy/course/create" element={<AddNewCourse />} />
+           <Routes>
+            <Route path="/academy" element={<IsAcademyAuthGaurd><AcademyDashboard /></IsAcademyAuthGaurd>} />
+            <Route path="/academy/Profile" element={<IsAcademyAuthGaurd><Profile /></IsAcademyAuthGaurd>} />
             <Route
-              path="/academy/course/:courseId/manage"
-              element={<EditCourse />}
+              path="/academy/Profile/edit"
+              element={<IsAcademyAuthGaurd><EditAcademyProfile /></IsAcademyAuthGaurd>}
             />
-          </Route>
-          <Route
-            path="/academy/DigitalProducts"
-            element={<DigitalProducts />}
-          />
-          <Route
-            path="/academy/DigitalProducts/AddNewProduct/*"
-            element={<AddNewProduct />}
-          />
-          <Route
-            path="/academy/DigitalProducts/AddNewProduct/:slug"
-            element={<AddNewProduct />}
-          />
-          <Route path="/academy/settings/*" element={<AcademySettings />} />
-          <Route
-            path="/academy/settings/slider/edit"
-            element={<EditSlider />}
-          />
-          <Route path="/academy/new-course" element={<AddCourse />} />
-          <Route
-            path="/academy/new-course/:courseId/:categoryId"
-            element={<AddCourse />}
-          />
-          <Route path="/academy/settings/main" element={<MainSettings />} />
-          <Route
-            path="/academy/settings/ratesOfStudents/add"
-            element={<AddStudentOpinion />}
-          />
-          <Route
-            path="/academy/settings/ratesOfStudents/edit/:id"
-            element={<EditStudentOpinion />}
-          />
-          <Route path="/academy/settings/about/edit" element={<EditAbout />} />
-          <Route path="/academy/settings/faq/edit/:id" element={<EditFaqs />} />
-          <Route path="/academy/settings/faq/add" element={<AddFaqs />} />
-          <Route
-            path="/academy/settings/call-to-action/edit/:slug"
-            element={<EditCallToAction />}
-          />
-          <Route
-            path="/academy/settings/call-to-action/add"
-            element={<EditCallToAction />}
-          />
-          <Route
-            path="/academy/settings/footer/edit/:slug"
-            element={<EditFooter />}
-          />
-          <Route path="/academy/settings/footer/add" element={<EditFooter />} />
-          <Route
-            path="/academy/settings/partner/edit"
-            element={<EditPartner />}
-          />
-          <Route
-            path="/academy/settings/partner/add"
-            element={<EditPartner />}
-          />
-          <Route
-            path="/academy/settings/template/edit"
-            element={<EditTemplate />}
-          />
-          <Route path="/academy/Blogs" element={<Blogs />} />
-          <Route path="/academy/Product/add" element={<AddEditProducts />} />
-          <Route
-            path="/academy/Product/edit/:id"
-            element={<AddEditProducts />}
-          />
-          <Route path="/academy/Products" element={<Products />} />
-          <Route
-            path="/academy/TrainersManagment/add"
-            element={<AddEditTrainers />}
-          />
-          <Route
-            path="/academy/TrainersManagment/edit/:id"
-            element={<AddEditTrainers />}
-          />
-          <Route path="/academy/EmployeeMangment" element={<Admins />} />
-          <Route
-            path="/academy/TrainersManagment/add"
-            element={<AddEditTrainers />}
-          />
-          <Route
-            path="/academy/TrainersManagment/edit/:id"
-            element={<AddEditTrainers />}
-          />
-          <Route path="/academy/TrainersManagment" element={<Trainers />} />
-          <Route path="/academy/Blogs/add" element={<AddEditBlog />} />
-          <Route path="/academy/Blogs/edit/:id" element={<AddEditBlog />} />
-          <Route
-            path="/academy/ReportsAndStatistics"
-            element={<ReportsAndStatistics />}
-          />
-          <Route path="/academy/wallet" element={<AcademeyWallet />} />
-          <Route path="/academy/wallet/success" element={<WalletSuccess />} />
-          <Route path="/academy/sales" element={<AcademySales />} />
-          <Route
-            path="/academy/training-courses"
-            element={<AcadmeyTrainingCourses />}
-          />
-          <Route
-            path="/academy/SingleCourse"
-            element={<AcademySingleCourse />}
-          />
-          <Route path="/academy/Certficates" element={<AcademyCertficates />} />
-          <Route
-            path="/academy/AddNewCertficates"
-            element={<AcademyAddNewCertficates />}
-          />
-          <Route path="/academy/Exams/*" element={<Exams />} />
-          <Route
-            path="/academy/SingleExam/*"
-            element={<SingleEaxam academy />}
-          />
-          <Route
-            path="/academy/DigitalProducts/SingleProduct/*"
-            element={<SingleProduct academy />}
-          />
-          <Route path="/academy/Video" element={<AcademyVideos academy />} />
-          <Route
-            path="/academy/SingleVideo/*"
-            element={<SingleVideo academy />}
-          />
-          <Route
-            path="/academy/AddNewVideo"
-            element={<AddNewVideo academy />}
-          />
-          <Route path="/academy/Categories" element={<Categories academy />} />
-          <Route path="/academy/AddNewCate" element={<AddNewCate academy />} />
-          <Route
-            path="/academy/StudentInfo"
-            element={<StudentInfo academy />}
-          />
-          <Route path="/academy/Coupons" element={<Coupons />} />
-          <Route path="/academy/Coupons/add" element={<AddCoupon />} />
-          <Route
-            path="/academy/addNewStudent"
-            element={<AddNewStudnet academy />}
-          />
-          <Route
-            path="/academy/StudentBagExams"
-            element={<StudentBagExams academy />}
-          />
-          <Route
-            path="/academy/StudentBagCertifcate"
-            element={<StudentBagCertifcate academy />}
-          />
-          <Route path="/academy/Comments" element={<Comments academy />} />
-          <Route
-            path="/academy/AffiliateMarketing/*"
-            element={<AffiliateMarketing academy />}
-          />
-          <Route
-            path="/academy/AddJoinFrom/*"
-            element={<AddJoinFrom academy />}
-          />
-          <Route
-            path="/academy/FinancialTransactions/*"
-            element={<FinancialTransactions academy />}
-          />
-          <Route
-            path="/academy/SubscreptionPacks/*"
-            element={<SubscreptionPacks academy />}
-          />
-          <Route
-            path="/academy/AddNewSubscreptionPacks/*"
-            element={<AddNewSubscreptionPacksAcademy academy />}
-          />
-        </Routes>
+            <Route
+              path="/academy/DigitalProducts"
+              element={<IsAcademyAuthGaurd><DigitalProducts /></IsAcademyAuthGaurd>}
+            />
+            <Route
+              path="/academy/DigitalProducts/AddNewProduct/*"
+              element={<IsAcademyAuthGaurd><AddNewProduct /></IsAcademyAuthGaurd>}
+            />
+            <Route
+              path="/academy/DigitalProducts/AddNewProduct/:slug"
+              element={<IsAcademyAuthGaurd><AddNewProduct /></IsAcademyAuthGaurd>}
+            />
+            <Route path="/academy/settings/*" element={<IsAcademyAuthGaurd><AcademySettings /></IsAcademyAuthGaurd>} />
+            <Route
+              path="/academy/settings/slider/edit"
+              element={<IsAcademyAuthGaurd><EditSlider /></IsAcademyAuthGaurd>}
+            />
+            <Route path="/academy/new-course" element={<IsAcademyAuthGaurd><AddCourse /></IsAcademyAuthGaurd>} />
+            <Route
+              path="/academy/new-course/:courseId/:categoryId"
+              element={<IsAcademyAuthGaurd><AddCourse /></IsAcademyAuthGaurd>}
+            />
+            <Route path="/academy/settings/main" element={<IsAcademyAuthGaurd><MainSettings /></IsAcademyAuthGaurd>} />
+            <Route
+              path="/academy/settings/ratesOfStudents/add"
+              element={<IsAcademyAuthGaurd><AddStudentOpinion /></IsAcademyAuthGaurd>}
+            />
+            <Route
+              path="/academy/settings/ratesOfStudents/edit/:id"
+              element={<IsAcademyAuthGaurd><EditStudentOpinion /></IsAcademyAuthGaurd>}
+            />
+            <Route
+              path="/academy/settings/about/edit"
+              element={<IsAcademyAuthGaurd><EditAbout /></IsAcademyAuthGaurd>}
+            />
+            <Route
+              path="/academy/settings/faq/edit/:id"
+              element={<IsAcademyAuthGaurd><EditFaqs /></IsAcademyAuthGaurd>}
+            />
+            <Route path="/academy/settings/faq/add" element={<IsAcademyAuthGaurd><AddFaqs /></IsAcademyAuthGaurd>} />
+            <Route
+              path="/academy/settings/call-to-action/edit/:slug"
+              element={<IsAcademyAuthGaurd><EditCallToAction /></IsAcademyAuthGaurd>}
+            />
+            <Route
+              path="/academy/settings/call-to-action/add"
+              element={<IsAcademyAuthGaurd><EditCallToAction /></IsAcademyAuthGaurd>}
+            />
+            <Route
+              path="/academy/settings/footer/edit/:slug"
+              element={<IsAcademyAuthGaurd><EditFooter /></IsAcademyAuthGaurd>}
+            />
+            <Route
+              path="/academy/settings/footer/add"
+              element={<IsAcademyAuthGaurd><EditFooter /></IsAcademyAuthGaurd>}
+            />
+            <Route
+              path="/academy/settings/partner/edit"
+              element={<IsAcademyAuthGaurd><EditPartner /></IsAcademyAuthGaurd>}
+            />
+            <Route
+              path="/academy/settings/partner/add"
+              element={<IsAcademyAuthGaurd><EditPartner /></IsAcademyAuthGaurd>}
+            />
+            <Route
+              path="/academy/settings/template/edit"
+              element={<IsAcademyAuthGaurd><EditTemplate /></IsAcademyAuthGaurd>}
+            />
+            <Route path="/academy/Blogs" element={<IsAcademyAuthGaurd><Blogs /></IsAcademyAuthGaurd>} />
+            <Route path="/academy/Product/add" element={<IsAcademyAuthGaurd><AddEditProducts /></IsAcademyAuthGaurd>} />
+            <Route
+              path="/academy/Product/edit/:id"
+              element={<IsAcademyAuthGaurd><AddEditProducts /></IsAcademyAuthGaurd>}
+            />
+            <Route path="/academy/Products" element={<IsAcademyAuthGaurd><Products /></IsAcademyAuthGaurd>} />
+            <Route
+              path="/academy/TrainersManagment/add"
+              element={<AddEditTrainers />}
+            />
+            <Route
+              path="/academy/TrainersManagment/edit/:id"
+              element={<AddEditTrainers />}
+            />
+            <Route path="/academy/EmployeeMangment" element={<IsAcademyAuthGaurd><Admins /></IsAcademyAuthGaurd>} />
+            <Route
+              path="/academy/TrainersManagment/add"
+              element={<AddEditTrainers />}
+            />
+            <Route
+              path="/academy/TrainersManagment/edit/:id"
+              element={<AddEditTrainers />}
+            />
+            <Route path="/academy/TrainersManagment" element={<IsAcademyAuthGaurd><Trainers /></IsAcademyAuthGaurd>} />
+            <Route path="/academy/Blogs/add" element={<IsAcademyAuthGaurd><AddEditBlog /></IsAcademyAuthGaurd>} />
+            <Route path="/academy/Blogs/edit/:id" element={<IsAcademyAuthGaurd><AddEditBlog /></IsAcademyAuthGaurd>} />
+            <Route
+              path="/academy/ReportsAndStatistics"
+              element={<IsAcademyAuthGaurd><ReportsAndStatistics /></IsAcademyAuthGaurd>}
+            />
+            <Route path="/academy/Wallet" element={<IsAcademyAuthGaurd><AcademeyWallet /></IsAcademyAuthGaurd>} />
+            <Route path="/academy/sales" element={<IsAcademyAuthGaurd><AcademySales /></IsAcademyAuthGaurd>} />
+            <Route
+              path="/academy/training-courses"
+              element={<IsAcademyAuthGaurd><AcadmeyTrainingCourses /></IsAcademyAuthGaurd>}
+            />
+            <Route
+              path="/academy/SingleCourse"
+              element={<IsAcademyAuthGaurd><AcademySingleCourse /></IsAcademyAuthGaurd>}
+            />
+            <Route
+              path="/academy/Certficates"
+              element={<IsAcademyAuthGaurd><AcademyCertficates /></IsAcademyAuthGaurd>}
+            />
+            <Route
+              path="/academy/AddNewCertficates"
+              element={<IsAcademyAuthGaurd><AcademyAddNewCertficates /></IsAcademyAuthGaurd>}
+            />
+            <Route path="/academy/Exams/*" element={<IsAcademyAuthGaurd><Exams /></IsAcademyAuthGaurd>} />
+            <Route
+              path="/academy/SingleExam/*"
+              element={<IsAcademyAuthGaurd><SingleEaxam academy /></IsAcademyAuthGaurd>}
+            />
+            <Route
+              path="/academy/DigitalProducts/SingleProduct/*"
+              element={<IsAcademyAuthGaurd><SingleProduct academy /></IsAcademyAuthGaurd>}
+            />
+            <Route path="/academy/Video" element={<IsAcademyAuthGaurd><AcademyVideos academy /></IsAcademyAuthGaurd>} />
+            <Route
+              path="/academy/SingleVideo/*"
+              element={<IsAcademyAuthGaurd><SingleVideo academy /></IsAcademyAuthGaurd>}
+            />
+            <Route
+              path="/academy/AddNewVideo"
+              element={<IsAcademyAuthGaurd><AddNewVideo academy /></IsAcademyAuthGaurd>}
+            />
+            <Route
+              path="/academy/Categories"
+              element={<IsAcademyAuthGaurd><Categories academy /></IsAcademyAuthGaurd>}
+            />
+            <Route
+              path="/academy/AddNewCate"
+              element={<IsAcademyAuthGaurd><AddNewCate academy /></IsAcademyAuthGaurd>}
+            />
+            <Route
+              path="/academy/StudentInfo"
+              element={<IsAcademyAuthGaurd><StudentInfo academy /></IsAcademyAuthGaurd>}
+            />
+            <Route path="/academy/Coupons" element={<IsAcademyAuthGaurd><Coupons /></IsAcademyAuthGaurd>} />
+            <Route path="/academy/Coupons/add" element={<IsAcademyAuthGaurd><AddCoupon /></IsAcademyAuthGaurd>} />
+            <Route
+              path="/academy/addNewStudent"
+              element={<IsAcademyAuthGaurd><AddNewStudnet academy /></IsAcademyAuthGaurd>}
+            />
+            <Route
+              path="/academy/StudentBagExams"
+              element={<IsAcademyAuthGaurd><StudentBagExams academy /></IsAcademyAuthGaurd>}
+            />
+            <Route
+              path="/academy/StudentBagCertifcate"
+              element={<IsAcademyAuthGaurd><StudentBagCertifcate academy /></IsAcademyAuthGaurd>}
+            />
+            <Route path="/academy/Comments" element={<IsAcademyAuthGaurd><Comments academy /></IsAcademyAuthGaurd>} />
+            <Route
+              path="/academy/AffiliateMarketing/*"
+              element={<IsAcademyAuthGaurd><AffiliateMarketing academy /></IsAcademyAuthGaurd>}
+            />
+            <Route
+              path="/academy/AddJoinFrom/*"
+              element={<IsAcademyAuthGaurd><AddJoinFrom academy /></IsAcademyAuthGaurd>}
+            />
+            <Route
+              path="/academy/FinancialTransactions/*"
+              element={<IsAcademyAuthGaurd><FinancialTransactions academy /></IsAcademyAuthGaurd>}
+            />
+            <Route
+              path="/academy/SubscreptionPacks/*"
+              element={<IsAcademyAuthGaurd><SubscreptionPacks academy /></IsAcademyAuthGaurd>}
+            />
+            <Route
+              path="/academy/AddNewSubscreptionPacks/*"
+              element={<IsAcademyAuthGaurd><AddNewSubscreptionPacksAcademy academy /></IsAcademyAuthGaurd>}
+            />
+          </Routes>
       </LayOut>
     </Fragment>
   );

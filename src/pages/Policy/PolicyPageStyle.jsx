@@ -4,11 +4,8 @@ import styled from "styled-components";
 export const Wrapper = styled.div`
   background: linear-gradient(135deg, #eaf6fb 0%, #f9fafc 100%);
   min-height: 100vh;
-  padding-top: 4.3rem;
-    padding-left: 1.3rem;
-      padding-right: 1.3rem;
-
-
+  padding: 1.3rem;
+  
 `;
 
 // حاوية وسطية نظيفة وبظل خفيف وتجاوب

@@ -16,6 +16,13 @@ import { academy_client } from "../../../utils/apis/client.config";
 const ImageDropzone = ({ field, form, setFile, currentImageUrl }) => {
   const [preview, setPreview] = useState(currentImageUrl || null);
 
+  useEffect(() => {
+    // Update preview if currentImageUrl changes
+    if (currentImageUrl) {
+      setPreview(currentImageUrl);
+    }
+  }, [currentImageUrl]);
+
   const onDrop = useCallback(
     (acceptedFiles) => {
       const file = acceptedFiles[0];
@@ -32,7 +39,7 @@ const ImageDropzone = ({ field, form, setFile, currentImageUrl }) => {
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
-    accept: { 'image/jpeg': [], 'image/png': [], 'image/gif': [] },
+    accept: { 'image/jpeg': [], 'image/png': [], 'image/jpg': [], 'image/gif': [] },
     maxSize: 5 * 1024 * 1024,
     multiple: false,
   });
@@ -44,38 +51,48 @@ const ImageDropzone = ({ field, form, setFile, currentImageUrl }) => {
   };
 
   return (
-    <div className="form-group">
+    <div className="w-full max-w-xl mx-auto">
       <div
         {...getRootProps()}
-        className={`dropzone p-0 border rounded-3 text-center cursor-pointer bg-light mb-2 position-relative
-          ${isDragActive ? "border-primary bg-primary-light" : "border-dashed border-secondary"}
-          ${preview ? "border-success" : ""}`}
-        style={{ minHeight: "165px", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center"}}
+        className={`relative rounded-lg border-2 border-dashed p-8 text-center transition-all duration-200
+          ${isDragActive ? "border-blue-400 bg-blue-50" : "border-gray-300 hover:border-blue-400"}
+          ${preview ? "border-green-400" : ""}`}
       >
         <input {...getInputProps()} id={field.name} />
         {preview ? (
-          <>
-            <img src={preview} alt="Preview" className="img-thumbnail mb-2" style={{ maxHeight: "120px", objectFit: "cover" }} />
-            <button type="button" className="btn btn-sm btn-outline-danger px-3" onClick={removeFile}>
-              <XCircle size={16} className="ms-1" /> إزالة الصورة
+          <div className="space-y-4">
+            <img 
+              src={preview} 
+              alt="Preview" 
+              className="mx-auto h-40 w-40 rounded-lg object-cover"
+            />
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                removeFile();
+              }}
+              className="inline-flex items-center px-3 py-2 text-sm font-medium text-red-700 bg-red-50 rounded-md hover:bg-red-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+            >
+              <XCircle className="w-4 h-4 ml-2" />
+              إزالة الصورة
             </button>
-          </>
+          </div>
         ) : (
-          <>
-            <UploadCloud size={48} className="mb-2 text-muted" />
-            <p className="mb-1 px-3">
-              اسحب الصورة هنا أو انقر للاختيار
-            </p>
-            <small className="text-muted">(PNG, JPG, GIF حتى 5MB)</small>
-          </>
+          <div className="space-y-2">
+            <UploadCloud className="mx-auto h-12 w-12 text-gray-400" />
+            <div className="text-gray-600">
+              <span className="font-medium text-blue-600">اضغط للرفع</span> أو اسحب وأفلت
+            </div>
+            <p className="text-xs text-gray-500">PNG, JPG, GIF حتى 5MB</p>
+          </div>
         )}
       </div>
-      <div>
-        <button type="button" className="btn btn-outline-primary w-100" onClick={() => document.getElementById(field.name)?.click()}>
-          رفع الصورة الشخصية
-        </button>
-      </div>
-      <ErrorMessage name={field.name} component="div" className="text-danger mt-1" />
+      <ErrorMessage 
+        name={field.name} 
+        component="div" 
+        className="mt-2 text-sm text-red-600" 
+      />
     </div>
   );
 };
@@ -91,18 +108,18 @@ export default function AddEditTrainers() {
     phone: "",
     image: null,
   });
-  const [pageLoading, setPageLoading] = useState(isEditMode);
-  const [formSubmitting, setFormSubmitting] = useState(false);
+  const [loading, setLoading] = useState(isEditMode);
+  const [submitting, setSubmitting] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
 
-  // جلب بيانات الموظف في حالة التعديل
   useEffect(() => {
     if (isEditMode) {
-      setPageLoading(true);
+      setLoading(true);
       academy_client
         .get(`/trainer/${id}`)
         .then((response) => {
           const trainerData = response?.data?.data;
+          console.log("Trainer data received:", trainerData);
           setInitialValues({
             name: trainerData?.name || "",
             email: trainerData?.email || "",
@@ -111,100 +128,103 @@ export default function AddEditTrainers() {
           });
         })
         .catch((error) => {
-          toast.error("فشل في تحميل بيانات المدرب.");
+          toast.error("فشل في تحميل بيانات المدرب");
           navigate("/academy/TrainersManagment");
         })
-        .finally(() => setPageLoading(false));
+        .finally(() => setLoading(false));
     }
   }, [id, isEditMode, navigate]);
 
-  // مخطط التحقق من الصحة
   const validationSchema = Yup.object({
     name: Yup.string().required("الاسم مطلوب").min(3, "الاسم قصير جداً"),
     email: Yup.string().email("البريد الإلكتروني غير صالح").required("البريد الإلكتروني مطلوب"),
-    phone: Yup.string().required("رقم الهاتف مطلوب")
-      .matches(/^[\s\d+-]{10,15}$/, "رقم الهاتف غير صالح (يجب أن يكون 10-15 رقمًا ويمكن أن يحتوي على + أو - أو مسافات)"),
+    phone: Yup.string()
+      .required("رقم الهاتف مطلوب")
+      .matches(/^[\s\d+-]{10,15}$/, "رقم الهاتف غير صالح (يجب أن يكون 10-15 رقمًا)"),
     image: Yup.mixed()
-      .nullable()
+      .test("fileType", "الصورة مطلوبة ويجب أن تكون ملف صورة صالح",
+        (value) => {
+          if (isEditMode && !value) return true; // Allow no file in edit mode
+          if (!isEditMode && !value) return false; // Require file in add mode
+          
+          if (value instanceof File) {
+            return ["image/jpeg", "image/png", "image/jpg", "image/gif"].includes(value.type);
+          }
+          
+          return typeof value === 'string' && value.startsWith('http'); // Valid URL in edit mode
+        })
       .test("fileSize", "حجم الملف كبير جدا (الحد الأقصى 5MB)",
-        (value) => !value || (value && value.size <= 5 * 1024 * 1024))
-      .test("fileType", "نوع الملف غير مدعوم (PNG, JPG, GIF فقط)",
-        (value) => !value || (value && ["image/jpeg", "image/png", "image/gif"].includes(value.type)))
-      .when([], {
-        is: () => !isEditMode,
-        then: (schema) => schema.required("الصورة الشخصية مطلوبة"),
-        otherwise: (schema) => schema.nullable(),
-      }),
+        (value) => {
+          if (!value || typeof value === 'string') return true;
+          return value instanceof File && value.size <= 5 * 1024 * 1024;
+        }),
   });
 
   const handleSubmit = async (values) => {
-    setFormSubmitting(true);
+    setSubmitting(true);
     const formData = new FormData();
     formData.append("name", values.name);
     formData.append("email", values.email);
     formData.append("phone", values.phone);
-    if (selectedFile instanceof File) formData.append("image", selectedFile);
-
-    const requestConfig = { headers: { "Content-Type": "multipart/form-data" } };
+        if (values.image instanceof File) {
+      formData.append("image", values.image);
+    } else if (selectedFile instanceof File) {
+      formData.append("image", selectedFile);
+    }
 
     try {
-      let response;
       if (isEditMode) {
-        response = await academy_client.put(`/trainer/${id}`, formData, requestConfig);
-        toast.success("تم تحديث المدرب بنجاح!");
+        await academy_client.put(`/trainer/${id}`, formData);
+        toast.success("تم تحديث المدرب بنجاح");
       } else {
-        response = await academy_client.post("/trainer", formData, requestConfig);
-        toast.success("تمت إضافة المدرب بنجاح!");
+        await academy_client.post("/trainer", formData);
+        toast.success("تمت إضافة المدرب بنجاح");
       }
       navigate("/academy/TrainersManagment");
     } catch (error) {
-      toast.error(error?.response?.data?.message || error?.message || "حدث خطأ ما. يرجى المحاولة مرة أخرى.");
+      const errorMessage = error?.response?.data?.message || "حدث خطأ ما";
+      toast.error(errorMessage);
+      console.error("Submit error:", error?.response?.data);
     } finally {
-      setFormSubmitting(false);
+      setSubmitting(false);
     }
   };
 
-  // رمز للعنوان
-  const TrainerIcon = () => (
-    <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 28 29" fill="none">
-      <circle opacity="0.5" cx="16.8" cy="8.65547" r="2.8" fill="#7E8799"/>
-      <ellipse opacity="0.5" cx="17.7331" cy="18.9211" rx="4.66667" ry="2.8" fill="#7E8799"/>
-      <circle cx="11.2021" cy="8.65521" r="3.73333" fill="#7E8799"/>
-      <ellipse cx="11.2013" cy="18.9208" rx="6.53333" ry="3.73333" fill="#7E8799"/>
-    </svg>
-  );
-
-  if (pageLoading) {
+  if (loading) {
     return (
-      <div>
-        <HeaderAcademy title="تحميل بيانات المدرب..." icon={<User size={30} />} />
-        <div className="container mt-5 d-flex justify-content-center align-items-center" style={{ minHeight: "50vh" }}>
-          <RSuiteLoader size="lg" content="جاري التحميل..." vertical />
+      <div className="min-h-screen bg-gray-50">
+        <HeaderAcademy title="تحميل..." icon={<User className="w-8 h-8" />} />
+        <div className="flex justify-center items-center min-h-[60vh]">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="pb-5" dir="rtl">
-      <HeaderAcademy
-        title={isEditMode ? "تعديل بيانات المدرب" : "إضافة المدرب جديد"}
-        icon={<TrainerIcon />}
-      />
-      <div className="container mt-4">
-        <div className>
-          <div className="card-body p-4 p-lg-5">
-            <Formik
-              initialValues={initialValues}
-              validationSchema={validationSchema}
-              onSubmit={handleSubmit}
-              enableReinitialize
-            >
-              {({ isSubmitting, dirty, isValid, setFieldValue, values }) => (
-                <Form noValidate>
-                  <div className="row mb-4">
-                    {/* صورة الموظف */}
-                    <div className="col-md-12 d-flex flex-column align-items-center justify-content-center mb-4">
+    <div className="min-h-screen bg-gray-50" dir="rtl">
+      <div className="px-4 sm:px-6 lg:px-8 py-4 w-full max-w-[2000px] mx-auto">
+        <HeaderAcademy
+          title={isEditMode ? "تعديل بيانات المدرب" : "إضافة مدرب جديد"}
+          icon={<User className="w-8 h-8" />}
+        />
+        
+        <div className="mt-6">
+          <div className="bg-white rounded-xl shadow-md overflow-hidden">
+            <div className="p-8">
+              <Formik
+                initialValues={initialValues}
+                validationSchema={validationSchema}
+                onSubmit={handleSubmit}
+                enableReinitialize
+              >
+                {({ isValid, dirty }) => (
+                  <Form className="space-y-8 max-w-5xl mx-auto">
+                    {/* صورة المدرب */}
+                    <div className="space-y-4">
+                      <label className="block text-lg font-medium text-gray-700 text-center">
+                        الصورة الشخصية
+                      </label>
                       <Field
                         name="image"
                         component={ImageDropzone}
@@ -212,63 +232,77 @@ export default function AddEditTrainers() {
                         currentImageUrl={isEditMode ? initialValues.image : null}
                       />
                     </div>
-                  </div>
-                  <div className="row mb-4">
-                    {/* الاسم */}
-                    <div className>
-                      <label htmlFor="name" className="form-label">اسم المدرب</label>
-                      <Field
-                        name="name"
-                        type="text"
-                        className="form-control form-control-lg"
-                        id="name"
-                      />
-                      <ErrorMessage name="name" component="div" className="text-danger mt-1 small" />
+
+                    {/* معلومات المدرب */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                      <div className="space-y-4">
+                        <label htmlFor="name" className="block text-sm font-medium text-gray-700">
+                          اسم المدرب
+                        </label>
+                        <Field
+                          name="name"
+                          type="text"
+                          className="block w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-lg"
+                        />
+                        <ErrorMessage name="name" component="div" className="text-sm text-red-600" />
+                      </div>
+
+                      <div className="space-y-4">
+                        <label htmlFor="email" className="block text-sm font-medium text-gray-700">
+                          البريد الإلكتروني
+                        </label>
+                        <Field
+                          name="email"
+                          type="email"
+                          className="block w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-lg"
+                        />
+                        <ErrorMessage name="email" component="div" className="text-sm text-red-600" />
+                      </div>
+
+                      <div className="space-y-4 md:col-span-2">
+                        <label htmlFor="phone" className="block text-sm font-medium text-gray-700">
+                          رقم الهاتف
+                        </label>
+                        <Field
+                          name="phone"
+                          type="tel"
+                          className="block w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-lg"
+                        />
+                        <ErrorMessage name="phone" component="div" className="text-sm text-red-600" />
+                      </div>
                     </div>
-                  </div>
-                  <div className="row mb-4">
-                    {/* الهاتف */}
-                    <div className="col-md-6 mb-3">
-                      <label htmlFor="phone" className="form-label">رقم الهاتف</label>
-                      <Field
-                        name="phone"
-                        type="tel"
-                        className="form-control form-control-lg"
-                        id="phone"
-                      />
-                      <ErrorMessage name="phone" component="div" className="text-danger mt-1 small" />
+
+                    {/* أزرار الإجراءات */}
+                    <div className="flex justify-end space-x-4 rtl:space-x-reverse pt-6">
+                      <button
+                        type="button"
+                        onClick={() => navigate("/academy/TrainersManagment")}
+                        className="inline-flex items-center px-6 py-3 border border-gray-300 shadow-sm text-base font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                      >
+                        إلغاء
+                      </button>
+                      <button
+                        type="submit"
+                        disabled={submitting || (isEditMode ? !isValid : (!dirty || !isValid))}
+                        className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-lg shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
+                      >
+                        {submitting ? (
+                          <>
+                            <span className="loader ml-2"></span>
+                            جاري الحفظ...
+                          </>
+                        ) : (
+                          <>
+                            <CheckCircle className="ml-2 h-5 w-5" />
+                            {isEditMode ? "تحديث المدرب" : "إضافة المدرب"}
+                          </>
+                        )}
+                      </button>
                     </div>
-                    {/* البريد الإلكتروني */}
-                    <div className="col-md-6 mb-3">
-                      <label htmlFor="email" className="form-label">البريد الالكتروني</label>
-                      <Field
-                        name="email"
-                        type="email"
-                        className="form-control form-control-lg"
-                        id="email"
-                      />
-                      <ErrorMessage name="email" component="div" className="text-danger mt-1 small" />
-                    </div>
-                  </div>
-                  {/* الأكشن */}
-                  <div className="d-flex justify-content-end gap-2 pt-3">
-                    <button
-                      className="btn btn-primary px-4" 
-                      disabled={formSubmitting || !dirty || !isValid}
-                    >
-                      {formSubmitting ? (
-                        <>
-                          <span className="spinner-border spinner-border-sm ms-2" role="status"></span>
-                          جاري الحفظ...
-                        </>
-                      ) : (
-                        isEditMode ? <><CheckCircle size={18} className="ms-1"/> تعديل المدرب</> : <><CheckCircle size={18} className="ms-1"/> إضافة مدرب</>
-                      )}
-                    </button>
-                  </div>
-                </Form>
-              )}
-            </Formik>
+                  </Form>
+                )}
+              </Formik>
+            </div>
           </div>
         </div>
       </div>

@@ -20,7 +20,6 @@ import {
   resetPasswordAPI,
 } from "../../../utils/apis/client";
 import OtpVerification from "../../signin/OtpVerification";
-import logo from "../../../assets/images/logo.png";
 
 const AcademyLogin = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -445,9 +444,6 @@ const AcademyLogin = () => {
                 </div>
               </form>
             )}
-            <p className={classes.copyright}>
-              © 2023 جميع الحقوق محفوظة لمنصة سيان
-            </p>
           </>
         )}
       </div>

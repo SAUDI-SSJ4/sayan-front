@@ -1,10 +1,8 @@
 import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
 import { useEffect, useState } from "react";
-import SessionsCardContainer from "../../../component/Sessions/SessionsCard/SessionsCardContainer";
 import SessionsTable from "../../../component/Sessions/SessionsTable/SessionsTable";
 import { getStudentFavourites } from "../../../utils/apis/client";
 import { useQuery } from "@tanstack/react-query";
-import client from "../../../utils/apis/client/client";
 
 const Favorate = () => {
   const [checkedKeys, setCheckedKeys] = useState([]);

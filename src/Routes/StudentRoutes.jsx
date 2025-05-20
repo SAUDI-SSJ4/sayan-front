@@ -32,12 +32,6 @@ import AddNewNotfication from "../pages/NotifcationSend/AddNewNotfication";
 import SubscreptionPacks from "../pages/SubscreptionPacks/SubscreptionPacks";
 import AddNewSubscreptionPacks from "../pages/SubscreptionPacks/AddNewSubscreptionPacks";
 import SubscreptionInfoPage from "../pages/SubscreptionPacks/subscreptionInfo";
-
-// import PrivacyPolicy from "../pages/PrivacyPolicy/PrivacyPolicy";
-// import EditPrivacy from "../pages/PrivacyPolicy/EditPrivacy";
-
-
-
 import Terms from "../pages/Terms/Terms";
 import EditTerms from "../pages/Terms/EditTerms";
 import ReportsAndStatistics from "../pages/ReportsAndStatistics/ReportsAndStatistics";
@@ -74,89 +68,119 @@ import CourseExam from "../pages/TrainingCourses/Exam";
 import StudentSignIn from "../pages/studentSignIn/signin";
 import Checkout from "../pages/Student/Checkout/Checkout";
 import PaymentSuccess from "../pages/Student/Checkout/PaymentSuccess";
+import Cookies from "js-cookie";
+import { useAuth } from "../utils/hooks/useAuth";
+import { MainSpinner } from "../component/UI/MainSpinner";
+import { showErrorToast } from "../utils/toast";
+import NotFound from "../component/NotFound/NotFound";
 
 const StudentRoute = () => {
+  const loginType = Cookies.get("login_type");
+  
+  // مكون حماية لصفحات الطلاب
+  const StudentAuthGuard = ({ children }) => {
+    // التحقق من نوع تسجيل الدخول
+    if (loginType === "student") {
+      return children;
+    } else {
+      // إذا لم يكن مسجل دخول كطالب، يتم توجيهه إلى صفحة تسجيل الدخول
+      showErrorToast("يرجى تسجيل الدخول كطالب للوصول إلى هذه الصفحة");
+      return <Navigate to="/login" />;
+    }
+  };
+  
+  // صفحات لا تحتاج إلى تسجيل دخول
+  const publicRoutes = ["login", "signin"];
+  
+  // دالة للتحقق ما إذا كانت الصفحة عامة أم لا
+  const isPublicRoute = (path) => {
+    return publicRoutes.some(route => path.includes(route));
+  };
+
+  // دالة مساعدة لتطبيق الحماية على المسارات
+  const renderRoute = (path, element) => {
+    // التحقق ما إذا كان المسار عام أم محمي
+    if (isPublicRoute(path)) {
+      return <Route path={path} element={element} />;
+    } else {
+      // تطبيق الحماية على المسارات المحمية
+      return <Route path={path} element={<StudentAuthGuard>{element}</StudentAuthGuard>} />;
+    }
+  };
 
   return (
     <>
       <LayOut>
         <Routes>
-          <Route path="student/dashboard" element={<StudentDashboard />} />
-          <Route path="student/home/*" element={<Dashboard />} />
-          <Route path="student/login" element={<Login />} />
+          {/* صفحات تسجيل الدخول والتسجيل (عامة) */}
+          <Route path="login" element={<Login />} />
           <Route path="student/signin" element={<StudentSignIn />} />
-          <Route path="student/users/*" element={<Users />} />
-          <Route path="student/profile" element={<Profile />} />
-          <Route path="student/StudentRate" element={<StudentRate />} />
-          <Route path="student/Subscription/*" element={<Subscription />} />
-          <Route path="student/Cart/*" element={<Cart />} />
-          <Route path="student/users/addNewUser" element={<AddNewUser />} />
-          <Route path="student/RolesAndPermession" element={<RolesAndPermession />} />
-          <Route path="student/AddNewRole" element={<AddNewRole />} />
-          <Route path="student/JoiningForms" element={<JoiningForms />} />
-          <Route path="student/ShowJoinForm" element={<ShoJoinForm />} />
-          <Route path="student/FinancialTransactions" element={<FinancialTransactions />} />
-          <Route path="student/AffiliateMarketing/*" element={<AffiliateMarketing />} />
-          <Route path="student/AffiliateMarketingSetting" element={<AffiliateMarketingSetting />} />
-          <Route path="student/AcadmicMarketing/*" element={<AcadmicMarketing />} />
-
-          <Route path="student/Sales/*" element={<Sales />} />
-          <Route path="student/TrainingCourses/*" element={<StudentTrainingCourses />} />
-          <Route path="student/Sessions/*" element={<Sessions />} />
-          <Route path="student/Products/*" element={<StudentProducts />} />
-          <Route path="student/RequestSession/*" element={<NewSessionRequest />} />
-
-          <Route path="student/DigitalProducts" element={<DigitalProducts />} />
-
-          <Route path="student/DigitalProducts/SingleProduct/*" element={<SingleProduct />} />
-          <Route path="/ProductPackages" element={<ProductPackages />} />
-          <Route path="student/ProductPackages/SingleProduct/*" element={<ProductPackagesSingleProduct />} />
-          <Route path="student/Blogs/*" element={<Blogs />} />
-          <Route path="student/AddNewBlog" element={<AddNewBlog />} />
-          <Route path="student/Video" element={<Videos />} />
-          <Route path="student/AddNewVideo" element={<AddNewVideo />} />
-          <Route path="student/SingleVideo/*" element={<SingleVideo />} />
-          <Route path="student/Categories/*" element={<Categories />} />
-          <Route path="student/AddNewCate/*" element={<AddNewCate />} />
-
-          <Route path="student/NotifcationSend/*" element={<NotifcationSend />} />
-          <Route path="student/AddNewNotfication/*" element={<AddNewNotfication />} />
-          <Route path="student/SubscreptionPacks/*" element={<SubscreptionPacks />} />
-          <Route path="student/AddNewSubscreptionPacks/*" element={<AddNewSubscreptionPacks />} />
-
-          <Route path="student/singleSub/*" element={<SubscreptionInfoPage />} />
-
-          {/* <Route path="student/PrivacyPolicy/*" element={<PrivacyPolicy />} /> */}
-          {/* <Route path="student/EditPrivacy/*" element={<EditPrivacy />} /> */}
-
-
-
-          <Route path="student/Terms/*" element={<Terms />} />
-          <Route path="student/EditTerms/*" element={<EditTerms />} />
-          <Route path="student/ReportsAndStatistics/*" element={<ReportsAndStatistics />} />
-          <Route path="student/Subscreptions/*" element={<Subscreptions />} />
-          <Route path="student/Comments/*" element={<Comments />} />
-          <Route path="student/Purchases/*" element={<Purchases />} />
-          <Route path="student/Wallet/*" element={<StudentWallet />} />
-          <Route path="student/Exams/*" element={<ExamContainer />} />
-          <Route path="student/SingleExam/*" element={<SingleEaxam />} />
-          <Route path="student/SingleCourse/*" element={<SingleCourse />} />
-          <Route path="student/courseDetails/:id*" element={<CourseDetails />} />
-          <Route path="student/courseExam/*" element={<CourseExam />} />
-
-          <Route path="student/Certficates/*" element={<StudentCertficates />} />
-          <Route path="student/AddNewCertficates/*" element={<AddNewCertficates />} />
-          <Route path="student/SingleCertificate/*" element={<SingleCertificate />} />
-          <Route path="student/SingleSale/*" element={<SingleSale />} />
-          <Route path="student/AddNewSale/*" element={<AddNewSale />} />
-          <Route path="student/pruchases/*" element={<Pruchases />} />
-          <Route path="student/ShoppingCart/*" element={<ShoppingCart />} />
-          <Route path="student/checkout" element={<Checkout />} />
-          <Route path="student/payment-success" element={<PaymentSuccess />} />
-          <Route path="student/Marketing/*" element={<Marketing />} />
-          <Route path="student/Transactions/*" element={<Transactions />} />
-          <Route path="student/Favorate/*" element={<Favorate />} />
-          <Route path="student/Rates/*" element={<Rates />} />
+          
+          {/* صفحات محمية تتطلب تسجيل دخول */}
+          {renderRoute("student/dashboard", <StudentDashboard />)}
+          {renderRoute("student/home/*", <Dashboard />)}
+          {renderRoute("student/users/*", <Users />)}
+          {renderRoute("student/profile", <Profile />)}
+          {renderRoute("student/StudentRate", <StudentRate />)}
+          {renderRoute("student/Subscription/*", <Subscription />)}
+          {renderRoute("student/Cart/*", <Cart />)}
+          {renderRoute("student/users/addNewUser", <AddNewUser />)}
+          {renderRoute("student/RolesAndPermession", <RolesAndPermession />)}
+          {renderRoute("student/AddNewRole", <AddNewRole />)}
+          {renderRoute("student/JoiningForms", <JoiningForms />)}
+          {renderRoute("student/ShowJoinForm", <ShoJoinForm />)}
+          {renderRoute("student/FinancialTransactions", <FinancialTransactions />)}
+          {renderRoute("student/AffiliateMarketing/*", <AffiliateMarketing />)}
+          {renderRoute("student/AffiliateMarketingSetting", <AffiliateMarketingSetting />)}
+          {renderRoute("student/AcadmicMarketing/*", <AcadmicMarketing />)}
+          {renderRoute("student/Sales/*", <Sales />)}
+          {renderRoute("student/TrainingCourses/*", <StudentTrainingCourses />)}
+          {renderRoute("student/Sessions/*", <Sessions />)}
+          {renderRoute("student/Products/*", <StudentProducts />)}
+          {renderRoute("student/RequestSession/*", <NewSessionRequest />)}
+          {renderRoute("student/DigitalProducts", <DigitalProducts />)}
+          {renderRoute("student/DigitalProducts/SingleProduct/*", <SingleProduct />)}
+          {renderRoute("/ProductPackages", <ProductPackages />)}
+          {renderRoute("student/ProductPackages/SingleProduct/*", <ProductPackagesSingleProduct />)}
+          {renderRoute("student/Blogs/*", <Blogs />)}
+          {renderRoute("student/AddNewBlog", <AddNewBlog />)}
+          {renderRoute("student/Video", <Videos />)}
+          {renderRoute("student/AddNewVideo", <AddNewVideo />)}
+          {renderRoute("student/SingleVideo/*", <SingleVideo />)}
+          {renderRoute("student/Categories/*", <Categories />)}
+          {renderRoute("student/AddNewCate/*", <AddNewCate />)}
+          {renderRoute("student/NotifcationSend/*", <NotifcationSend />)}
+          {renderRoute("student/AddNewNotfication/*", <AddNewNotfication />)}
+          {renderRoute("student/SubscreptionPacks/*", <SubscreptionPacks />)}
+          {renderRoute("student/AddNewSubscreptionPacks/*", <AddNewSubscreptionPacks />)}
+          {renderRoute("student/singleSub/*", <SubscreptionInfoPage />)}
+          {renderRoute("student/Terms/*", <Terms />)}
+          {renderRoute("student/EditTerms/*", <EditTerms />)}
+          {renderRoute("student/ReportsAndStatistics/*", <ReportsAndStatistics />)}
+          {renderRoute("student/Subscreptions/*", <Subscreptions />)}
+          {renderRoute("student/Comments/*", <Comments />)}
+          {renderRoute("student/Purchases/*", <Purchases />)}
+          {renderRoute("student/Wallet/*", <StudentWallet />)}
+          {renderRoute("student/Exams/*", <ExamContainer />)}
+          {renderRoute("student/SingleExam/*", <SingleEaxam />)}
+          {renderRoute("student/SingleCourse/*", <SingleCourse />)}
+          {renderRoute("student/courseDetails/:id*", <CourseDetails />)}
+          {renderRoute("student/courseExam/*", <CourseExam />)}
+          {renderRoute("student/Certficates/*", <StudentCertficates />)}
+          {renderRoute("student/AddNewCertficates/*", <AddNewCertficates />)}
+          {renderRoute("student/SingleCertificate/*", <SingleCertificate />)}
+          {renderRoute("student/SingleSale/*", <SingleSale />)}
+          {renderRoute("student/AddNewSale/*", <AddNewSale />)}
+          {renderRoute("student/pruchases/*", <Pruchases />)}
+          {renderRoute("student/ShoppingCart/*", <ShoppingCart />)}
+          {renderRoute("student/checkout", <Checkout />)}
+          {renderRoute("student/payment-success", <PaymentSuccess />)}
+          {renderRoute("student/Marketing/*", <Marketing />)}
+          {renderRoute("student/Transactions/*", <Transactions />)}
+          {renderRoute("student/Favorate/*", <Favorate />)}
+          {renderRoute("student/Rates/*", <Rates />)}
+          {/* مسار للصفحات غير الموجودة */}
+          <Route path="student/*" element={<NotFound />} />
         </Routes>
       </LayOut>
     </>

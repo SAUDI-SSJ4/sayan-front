@@ -269,14 +269,23 @@ const Profile = () => {
       setLoading(true);
       try {
         const response = await axios.get(
-          'https://www.sayan-server.com/academy/students/37', 
+          'https://www.sayan-server.com/website/profile', 
           {
             headers: {
               Authorization: `Bearer ${token}`,
             },
           }
         );
-        setUser(response.data);
+        
+        // تعديل هنا: التحقق من وجود كائن data في الاستجابة
+        if (response.data && response.data.data) {
+          // استخدام البيانات من داخل كائن data
+          setUser(response.data.data);
+        } else {
+          // إذا كانت البيانات في المستوى الأعلى (للتوافق مع الكود القديم)
+          setUser(response.data);
+        }
+        
         setError(null);
       } catch (error) {
         console.error('Error fetching user data:', error);

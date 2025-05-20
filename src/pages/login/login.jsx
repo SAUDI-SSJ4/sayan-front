@@ -99,34 +99,7 @@ const Login = () => {
   return (
     <div className={`row gx-3 ${classes.LoginContainer}`}>
       <div
-        className={`${classes.LoginBanner} col-lg-6 col-md-12  bg-login-banner`}
       >
-        <img src={logo} className={`${classes.logo}`} />
-        <div>
-          <ul className={` ${classes.footerList}`}>
-            <li></li>
-            <li>
-              <Link to="/" style={{ textDecoration: "none" }}>
-                منصة سيان
-              </Link>
-            </li>
-            <li>
-              <Link to="/terms" style={{ textDecoration: "none" }}>
-                الشروط والأحكام
-              </Link>
-            </li>
-            <li>
-              <Link to="/privacy" style={{ textDecoration: "none" }}>
-                سياسة الخصوصية
-              </Link>
-            </li>
-            <li>
-              <Link to="/signin" style={{ textDecoration: "none" }}>
-                اطلق اكاديميتك
-              </Link>
-            </li>
-          </ul>
-        </div>
       </div>
       <div className="col-lg-6 col-md-12 d-flex  justify-content-center">
         <div
