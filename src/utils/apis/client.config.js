@@ -27,9 +27,27 @@ export const academy_client = axios.create({
   headers: API_HEADERS,
 });
 
+// إضافة معترض للتعامل مع طلبات رفع الملفات تلقائيًا
+academy_client.interceptors.request.use((config) => {
+  // التحقق مما إذا كانت البيانات من نوع FormData، وتعيين نوع المحتوى المناسب
+  if (config.data instanceof FormData) {
+    config.headers['Content-Type'] = 'multipart/form-data';
+  }
+  return config;
+});
+
 export const website_client = axios.create({
   baseURL: config.website,
   headers: API_HEADERS,
+});
+
+// إضافة معترض للتعامل مع طلبات رفع الملفات تلقائيًا للموقع
+website_client.interceptors.request.use((config) => {
+  // التحقق مما إذا كانت البيانات من نوع FormData، وتعيين نوع المحتوى المناسب
+  if (config.data instanceof FormData) {
+    config.headers['Content-Type'] = 'multipart/form-data';
+  }
+  return config;
 });
 
 export const user_token = () => {
