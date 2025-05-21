@@ -6,26 +6,24 @@ import { useCreateExamMutation } from "../../../../services/mutation";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import style from "./AddNewCourse.module.css";
 import { ButtonSpinner } from "../../../component/UI/Buttons/ButtonSpinner";
+import { useToast } from "../../../utils/hooks/useToast";
+import { createExam, createLesson } from "../../../utils/apis/client/academy";
 
-const validationSchema = Yup.object().shape({
-  // Add validation if needed
-});
-
-function AddNewExam({ CategoryID, CourseID }) {
+function AddNewExam({ CategoryID, courseId, chapterId }) {
   const mutation = useCreateExamMutation();
   const questionTypes = ["text", "choose", "boolean"];
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+  const { success } = useToast();
   const formik = useFormik({
     initialValues: {
-      course_id: CourseID,
+      course_id: courseId,
       category_id: CategoryID,
       question_type: ["choose"],
       question: [""],
       answers: [["", "", "", ""]],
       correct_answer: [""],
     },
-    validationSchema,
-    onSubmit: (values) => {
+    onSubmit: async (values) => {
       const formData = new FormData();
       formData.append("course_id", values.course_id);
       formData.append("category_id", values.category_id);
@@ -48,46 +46,24 @@ function AddNewExam({ CategoryID, CourseID }) {
       values.correct_answer.forEach((correctAns, idx) => {
         formData.append(`correct_answer[${idx}]`, correctAns);
       });
-
-      Swal.fire({
-        title: "اضافة الاختبار الي الدورة",
-        text: "هل تريد اضافة هذا الاختبار الي هذا الدرس في هذة الدورة",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonText: "اضافة",
-        cancelButtonText: "لا",
-      }).then((result) => {
-        console.log(values.question.length <= 0)
-        if(values.question.length === 0 || values.question.some((q) => q.trim() === "") ||!values.course_id || !values.category_id){ 
-          Swal.fire({
-            title: "فشل",
-            text: "يجب عليك تعبئة جميع الحقول",
-            icon: "error",
-            confirmButtonText: "موافق",
-          })
-          return ;
+      const resLesson = await createLesson(
+        {
+          chapterId,
+          courseId,
+        },
+        {
+          type: "exam",
+          title: "اختبار",
         }
-        if (result.isConfirmed) {
-          mutation
-            .mutateAsync(formData)
-            .then(() => {
-              Swal.fire({
-                title: "نجاح!",
-                text: "تمت إضافة الاختبار بنجاح",
-                icon: "success",
-                confirmButtonText: "موافق",
-              });
-            })
-            .catch(() => {
-              Swal.fire({
-                title: "فشل",
-                text: "حدث خطأ أثناء محاولة إضافة الاختبار. يرجى المحاولة مرة أخرى.",
-                icon: "error",
-                confirmButtonText: "موافق",
-              });
-            });
-        }
-      });
+      );
+      console.log("formData", values);
+      // if (resLesson.status) {
+      //   const lessonData = resLesson.data;
+      //   const res = await createExam(lessonData.id, formData);
+      //   if (res.status) {
+      //     success("تمت إضافة الاختبار بنجاح");
+      //   }
+      // }
     },
   });
 
@@ -247,7 +223,7 @@ function AddNewExam({ CategoryID, CourseID }) {
               </button>
             )}
             <div className="col-12 py-4 text-center align-content-end">
-            <ButtonSpinner bgColor="#6ada31" isPending={mutation.isPending} />
+              <ButtonSpinner bgColor="#6ada31" isPending={mutation.isPending} />
             </div>
           </div>
         </form>

@@ -78,7 +78,7 @@ const LessonForm = ({ lesson, courseId, chapterId }) => {
   });
 
   return (
-    <div className="space-y-6 bg-white rounded-lg ">
+    <div className="space-y-6">
       <h4 className="text-2xl font-semibold text-gray-800">
         {lesson ? "تعديل الدرس" : "اضافة درس جديد"}
       </h4>

@@ -3,16 +3,23 @@ import { Modal, Button, Stack, Panel, Form, Input, Uploader } from "rsuite";
 import { AiFillEye } from "react-icons/ai";
 import HiddenCard from "../../../../component/UI/HiddenCard";
 import ColorPickerWithPreview from "../../../../component/UI/Inputs/ColorPicker";
-import { useCardMutation } from "../../../../services/mutation";
+import {
+  createLesson,
+  postLessonTools,
+} from "../../../../utils/apis/client/academy";
+import { useToast } from "../../../../utils/hooks/useToast";
+import { useDispatch } from "react-redux";
+import { fetchCurrentCourseSummaryThunk } from "../../../../../redux/courses/CourseThunk";
 
 const HiddenCardsSideBar = ({
   hiddenCards,
   setHiddenCards,
   cardData,
   setCardData,
-  currentLesson,
+  chapterId,
   courseId,
 }) => {
+  const dispatch = useDispatch();
   const [showPreview, setShowPreview] = useState(false);
 
   const handleChange = (field, value) => {
@@ -35,13 +42,30 @@ const HiddenCardsSideBar = ({
     }
   };
 
-  const mutation = useCardMutation(courseId, currentLesson?.id);
-
+  const { succes, error } = useToast();
   const handleSubmit = async () => {
     setHiddenCards([...hiddenCards, cardData]);
     cardData.type = "tool";
 
-    await mutation.mutateAsync(cardData);
+    const resLesson = await createLesson(
+      {
+        courseId,
+        chapterId,
+      },
+      {
+        title: "بطاقة مقلوبة",
+        type: "tool",
+      }
+    );
+    if (resLesson.status) {
+      const resTool = await postLessonTools(resLesson.data.id, cardData);
+      if (resTool.status) {
+        succes("تمت إضافة البطاقة بنجاح");
+        dispatch(fetchCurrentCourseSummaryThunk(courseId));
+      } else {
+        error("فشل في إضافة البطاقة");
+      }
+    }
   };
 
   const toggleModal = () => setShowPreview(!showPreview);

@@ -1,8 +1,8 @@
 import React from "react";
-import AddNewLesson from "./AddNewLesson";
 import { FileIcon } from "lucide-react";
 import EditLesson from "./EditLesson";
 import DeleteLesson from "./DeleteLesson";
+import AddCurriculum from "./AddCurriculum";
 
 function LessonsList({ lessons, chapterId, courseId }) {
   return (
@@ -20,7 +20,7 @@ function LessonsList({ lessons, chapterId, courseId }) {
           ))}
         </ul>
       )}
-      <AddNewLesson chapterId={chapterId} courseId={courseId} />
+      <AddCurriculum chapterId={chapterId} courseId={courseId} />
     </div>
   );
 }

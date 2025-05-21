@@ -220,6 +220,20 @@ export const createLesson = async ({ courseId, chapterId }, formData) => {
   );
   return data;
 };
+export const createExam = async (lessonId, formData) => {
+  const baseURL = new URL(import.meta.env.VITE_SERVER_DEV).origin;
+  const { data } = await axios.post(
+    `${baseURL}/api/v1/academies/lessons/${lessonId}/exams`,
+    formData,
+    {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Authorization: `Bearer ${user_token()}`,
+      },
+    }
+  );
+  return data;
+};
 
 export const editLesson = async (
   { courseId, chapterId, lessonId },

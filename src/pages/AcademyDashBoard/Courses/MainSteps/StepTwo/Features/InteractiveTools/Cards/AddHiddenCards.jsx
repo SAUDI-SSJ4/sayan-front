@@ -7,8 +7,8 @@ const AddHiddenCards = ({
   setHiddenCards,
   cardData,
   setCardData,
-  currentLesson,
   courseId,
+  chapterId,
 }) => {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
@@ -27,8 +27,8 @@ const AddHiddenCards = ({
           setCardData={setCardData}
           hiddenCards={hiddenCards}
           setHiddenCards={setHiddenCards}
-          currentLesson={currentLesson}
           courseId={courseId}
+          chapterId={chapterId}
         />
       </div>
     </div>
