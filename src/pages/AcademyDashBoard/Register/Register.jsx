@@ -75,7 +75,7 @@ const AcademyRegister = () => {
   return (
     <div className={`row g-3 ${classes.LoginContainer}`}>
       <div
-        className={`col-lg-6 col-md-12 ${classes.LoginBanner} bg-login-banner`}
+      
       ></div>
       <div className="col-lg-6 col-md-12 d-flex justify-content-center">
         <div

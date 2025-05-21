@@ -48,64 +48,106 @@ import SingleCertificate from "../pages/Certficates/SingleCertificate";
 import SingleSale from "../pages/sales/SingleSale";
 import AddNewSale from "../pages/sales/AddNewSale";
 import Login from "../pages/login/login";
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import LayOut from "../pages/layout/layout";
 import LoginAdmin from "../pages/LoginAdmin/LoginAdmin";
+import Cookies from "js-cookie";
+import { showErrorToast } from "../utils/toast";
+import NotFound from "../component/NotFound/NotFound";
 
 const AdminRoute = () => {
+  const loginType = Cookies.get("login_type");
+  
+  // مكون حماية لصفحات الإدارة
+  const AdminAuthGuard = ({ children }) => {
+    // التحقق من نوع تسجيل الدخول
+    if (loginType === "admin") {
+      return children;
+    } else {
+      // إذا لم يكن مسجل دخول كمدير، يتم توجيهه إلى صفحة تسجيل الدخول
+      showErrorToast("يرجى تسجيل الدخول كمدير للوصول إلى هذه الصفحة");
+      return <Navigate to="/login" />;
+    }
+  };
+  
+  // صفحات لا تحتاج إلى تسجيل دخول
+  const publicRoutes = ["login"];
+  
+  // دالة للتحقق ما إذا كانت الصفحة عامة أم لا
+  const isPublicRoute = (path) => {
+    return publicRoutes.some(route => path.includes(route));
+  };
+
+  // دالة مساعدة لتطبيق الحماية على المسارات
+  const renderRoute = (path, element) => {
+    // التحقق ما إذا كان المسار عام أم محمي
+    if (isPublicRoute(path)) {
+      return <Route path={path} element={element} />;
+    } else {
+      // تطبيق الحماية على المسارات المحمية
+      return <Route path={path} element={<AdminAuthGuard>{element}</AdminAuthGuard>} />;
+    }
+  };
+
   return (
     <LayOut>
       <Routes>
-        <Route path="admin" element={<Dashboard />} />
+        {/* صفحة تسجيل الدخول (عامة) */}
         <Route path="admin/login" element={<LoginAdmin />} />
-        <Route path="admin/users/*" element={<Users />} />
-        <Route path="admin/profile" element={<Profile />} />
-        <Route path="admin/StudentRate" element={<StudentRate />} />
-        <Route path="admin/Subscription/*" element={<Subscription />} />
-        <Route path="admin/Cart/*" element={<Cart />} />
-        <Route path="admin/users/addNewUser" element={<AddNewUser />} />
-        <Route path="admin/RolesAndPermession" element={<RolesAndPermession />} />
-        <Route path="admin/AddNewRole" element={<AddNewRole />} />
-        <Route path="admin/JoiningForms" element={<JoiningForms />} />
-        <Route path="admin/ShowJoinForm" element={<ShoJoinForm />} />
-        <Route path="admin/FinancialTransactions" element={<FinancialTransactions />} />
-        <Route path="admin/AffiliateMarketing/*" element={<AffiliateMarketing />} />
-        <Route path="admin/AffiliateMarketingSetting" element={<AffiliateMarketingSetting />} />
-        <Route path="admin/AcadmicMarketing/*" element={<AcadmicMarketing />} />
-        <Route path="admin/Sales/*" element={<Sales />} />
-        <Route path="admin/TrainingCourses/*" element={<TrainingCourses />} />
-        <Route path="admin/Sessions/*" element={<Sessions />} />
-        <Route path="admin/DigitalProducts" element={<DigitalProducts />} />
-        <Route path="admin/DigitalProducts/SingleProduct/*" element={<SingleProduct />} />
-        <Route path="admin/ProductPackages" element={<ProductPackages />} />
-        <Route path="admin/ProductPackages/SingleProduct/*" element={<ProductPackagesSingleProduct />}/>
-        <Route path="admin/Blogs/*" element={<Blogs />} />
-        <Route path="admin/AddNewBlog" element={<AddNewBlog />} />
-        <Route path="admin/Video" element={<Videos />} />
-        <Route path="admin/AddNewVideo" element={<AddNewVideo />} />
-        <Route path="admin/SingleVideo/*" element={<SingleVideo />} />
-        <Route path="admin/Categories/*" element={<Categories />} />
-        <Route path="admin/AddNewCate/*" element={<AddNewCate />} />
-        <Route path="admin/NotifcationSend/*" element={<NotifcationSend />} />
-        <Route path="admin/AddNewNotfication/*" element={<AddNewNotfication />} />
-        <Route path="admin/SubscreptionPacks/*" element={<SubscreptionPacks />} />
-        <Route path="admin/AddNewSubscreptionPacks/*" element={<AddNewSubscreptionPacks />} />
-        <Route path="admin/singleSub/*" element={<SubscreptionInfoPage />} />
-        <Route path="admin/Terms/*" element={<Terms />} />
-        <Route path="admin/EditTerms/*" element={<EditTerms />} />
-        <Route path="admin/ReportsAndStatistics/*" element={<ReportsAndStatistics />} />
-        <Route path="admin/Subscreptions/*" element={<Subscreptions />} />
-        <Route path="admin/Comments/*" element={<Comments />} />
-        <Route path="admin/Purchases/*" element={<Purchases />} />
-        <Route path="admin/Wallet/*" element={<Wallet />} />
-        <Route path="admin/Exams/*" element={<Exams />} />
-        <Route path="admin/SingleExam/*" element={<SingleEaxam />} />
-        <Route path="admin/SingleCourse/*" element={<SingleCourse />} />
-        <Route path="admin/Certficates/*" element={<Certficates />} />
-        <Route path="admin/AddNewCertficates/*" element={<AddNewCertficates />} />
-        <Route path="admin/SingleCertificate/*" element={<SingleCertificate />} />
-        <Route path="admin/SingleSale/*" element={<SingleSale />} />
-        <Route path="admin/AddNewSale/*" element={<AddNewSale />} />
+        
+        {/* صفحات محمية تتطلب تسجيل دخول */}
+        {renderRoute("admin", <Dashboard />)}
+        {renderRoute("admin/users/*", <Users />)}
+        {renderRoute("admin/profile", <Profile />)}
+        {renderRoute("admin/StudentRate", <StudentRate />)}
+        {renderRoute("admin/Subscription/*", <Subscription />)}
+        {renderRoute("admin/Cart/*", <Cart />)}
+        {renderRoute("admin/users/addNewUser", <AddNewUser />)}
+        {renderRoute("admin/RolesAndPermession", <RolesAndPermession />)}
+        {renderRoute("admin/AddNewRole", <AddNewRole />)}
+        {renderRoute("admin/JoiningForms", <JoiningForms />)}
+        {renderRoute("admin/ShowJoinForm", <ShoJoinForm />)}
+        {renderRoute("admin/FinancialTransactions", <FinancialTransactions />)}
+        {renderRoute("admin/AffiliateMarketing/*", <AffiliateMarketing />)}
+        {renderRoute("admin/AffiliateMarketingSetting", <AffiliateMarketingSetting />)}
+        {renderRoute("admin/AcadmicMarketing/*", <AcadmicMarketing />)}
+        {renderRoute("admin/Sales/*", <Sales />)}
+        {renderRoute("admin/TrainingCourses/*", <TrainingCourses />)}
+        {renderRoute("admin/Sessions/*", <Sessions />)}
+        {renderRoute("admin/DigitalProducts", <DigitalProducts />)}
+        {renderRoute("admin/DigitalProducts/SingleProduct/*", <SingleProduct />)}
+        {renderRoute("admin/ProductPackages", <ProductPackages />)}
+        {renderRoute("admin/ProductPackages/SingleProduct/*", <ProductPackagesSingleProduct />)}
+        {renderRoute("admin/Blogs/*", <Blogs />)}
+        {renderRoute("admin/AddNewBlog", <AddNewBlog />)}
+        {renderRoute("admin/Video", <Videos />)}
+        {renderRoute("admin/AddNewVideo", <AddNewVideo />)}
+        {renderRoute("admin/SingleVideo/*", <SingleVideo />)}
+        {renderRoute("admin/Categories/*", <Categories />)}
+        {renderRoute("admin/AddNewCate/*", <AddNewCate />)}
+        {renderRoute("admin/NotifcationSend/*", <NotifcationSend />)}
+        {renderRoute("admin/AddNewNotfication/*", <AddNewNotfication />)}
+        {renderRoute("admin/SubscreptionPacks/*", <SubscreptionPacks />)}
+        {renderRoute("admin/AddNewSubscreptionPacks/*", <AddNewSubscreptionPacks />)}
+        {renderRoute("admin/singleSub/*", <SubscreptionInfoPage />)}
+        {renderRoute("admin/Terms/*", <Terms />)}
+        {renderRoute("admin/EditTerms/*", <EditTerms />)}
+        {renderRoute("admin/ReportsAndStatistics/*", <ReportsAndStatistics />)}
+        {renderRoute("admin/Subscreptions/*", <Subscreptions />)}
+        {renderRoute("admin/Comments/*", <Comments />)}
+        {renderRoute("admin/Purchases/*", <Purchases />)}
+        {renderRoute("admin/Wallet/*", <Wallet />)}
+        {renderRoute("admin/Exams/*", <Exams />)}
+        {renderRoute("admin/SingleExam/*", <SingleEaxam />)}
+        {renderRoute("admin/SingleCourse/*", <SingleCourse />)}
+        {renderRoute("admin/Certficates/*", <Certficates />)}
+        {renderRoute("admin/AddNewCertficates/*", <AddNewCertficates />)}
+        {renderRoute("admin/SingleCertificate/*", <SingleCertificate />)}
+        {renderRoute("admin/SingleSale/*", <SingleSale />)}
+          {renderRoute("admin/AddNewSale/*", <AddNewSale />)}
+          
+          {/* مسار للصفحات غير الموجودة */}
+          <Route path="admin/*" element={<NotFound />} />
       </Routes>
     </LayOut>
   );

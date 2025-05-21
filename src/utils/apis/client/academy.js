@@ -52,15 +52,11 @@ export const getCourseSummary = async (id) => {
 };
 
 export const postLessonTools = async (lessonId, formData) => {
-  const baseUrl = new URL(import.meta.env.VITE_SERVER_DEV).origin;
-  const { data } = await axios.post(
-    `${baseUrl}/api/v1/academies/lessons/${lessonId}/tools`,
+  const { data: res } = await academy_client.post(
+    `/lessons/tools/store/${lessonId}`,
     formData,
     {
-      headers: {
-        "Content-Type": "multipart/form-data",
-        Authorization: `Bearer ${user_token()}`,
-      },
+      headers: { "Content-Type": "multipart/form-data" },
       onUploadProgress: (progressEvent) => {
         console.log(
           `${Math.round((progressEvent.loaded / progressEvent.total) * 100)}%`
@@ -71,7 +67,7 @@ export const postLessonTools = async (lessonId, formData) => {
       timeout: Infinity,
     }
   );
-  return data;
+  return res;
 };
 
 export const postUploadLessonVideo = async (lessonId, formData) => {
@@ -100,32 +96,11 @@ export const postLessonExam = async (lessonId, params) => {
   );
   return res;
 };
+console.log("user_token", user_token());
 export const createCourseAPI = async (data) => {
   const baseUrl = new URL(import.meta.env.VITE_SERVER_DEV).origin;
   const { data: res } = await axios.post(
     `${baseUrl}/api/v1/academies/courses`,
-    data,
-    {
-      headers: {
-        "Content-Type": "multipart/form-data",
-        Authorization: `Bearer ${user_token()}`,
-      },
-      onUploadProgress: (progressEvent) => {
-        console.log(
-          `${Math.round((progressEvent.loaded / progressEvent.total) * 100)}%`
-        );
-      },
-      maxContentLength: Infinity,
-      maxBodyLength: Infinity,
-      timeout: 120000,
-    }
-  );
-  return res;
-};
-export const updateCourseAPI = async (courseId, data) => {
-  const baseUrl = new URL(import.meta.env.VITE_SERVER_DEV).origin;
-  const { data: res } = await axios.post(
-    `${baseUrl}/api/v1/academies/courses/${courseId}`,
     data,
     {
       headers: {
@@ -159,11 +134,11 @@ export const deleteLessonItem = async (lessonId, params) => {
   return data;
 };
 
-export const postChapter = async (courseId, formData) => {
+export const postChapter = async (params) => {
   const baseURL = new URL(import.meta.env.VITE_SERVER_DEV).origin;
   const { data } = await axios.post(
-    `${baseURL}/api/v1/academies/courses/${courseId}/chapters`,
-    formData,
+    `${baseURL}/api/v1/academies/courses/${params?.courseId}/chapters`,
+    params,
     {
       headers: {
         "Content-Type": "multipart/form-data",
@@ -173,25 +148,10 @@ export const postChapter = async (courseId, formData) => {
   );
   return data;
 };
-export const editChapter = async ({ chapterId, courseId }, formData) => {
-  const baseURL = new URL(import.meta.env.VITE_SERVER_DEV).origin;
-  const { data } = await axios.post(
-    `${baseURL}/api/v1/academies/courses/${courseId}/chapters/${chapterId}`,
-    formData,
-    {
-      headers: {
-        "Content-Type": "multipart/form-data",
-        Authorization: `Bearer ${user_token()}`,
-      },
-    }
-  );
-  return data;
-};
-
-export const deleteChapter = async ({ courseId, chapterId }) => {
+export const deleteChapter = async (params) => {
   const baseURL = new URL(import.meta.env.VITE_SERVER_DEV).origin;
   const { data } = await axios.delete(
-    `${baseURL}/api/v1/academies/courses/${courseId}/chapters/${chapterId}`,
+    `${baseURL}/api/v1/academies/courses/${params.courseId}/chapters/${params.chapterId}`,
     {
       headers: {
         Authorization: `Bearer ${user_token()}`,
@@ -206,18 +166,8 @@ export const getChapterById = async (id) => {
   return data;
 };
 
-export const createLesson = async ({ courseId, chapterId }, formData) => {
-  const baseURL = new URL(import.meta.env.VITE_SERVER_DEV).origin;
-  const { data } = await axios.post(
-    `${baseURL}/api/v1/academies/courses/${courseId}/chapters/${chapterId}/lessons`,
-    formData,
-    {
-      headers: {
-        "Content-Type": "multipart/form-data",
-        Authorization: `Bearer ${user_token()}`,
-      },
-    }
-  );
+export const postLesson = async (params) => {
+  const { data } = await academy_client.post("/lessons", params);
   return data;
 };
 export const createExam = async (lessonId, formData) => {
@@ -235,36 +185,16 @@ export const createExam = async (lessonId, formData) => {
   return data;
 };
 
-export const editLesson = async (
-  { courseId, chapterId, lessonId },
-  formData
-) => {
-  const baseURL = new URL(import.meta.env.VITE_SERVER_DEV).origin;
-  const { data } = await axios.post(
-    `${baseURL}/api/v1/academies/courses/${courseId}/chapters/${chapterId}/lessons/${lessonId}`,
-    formData,
-    {
-      headers: {
-        "Content-Type": "multipart/form-data",
-        Authorization: `Bearer ${user_token()}`,
-      },
-    }
-  );
-  return data;
+export const createLesson = async (data) => {
+  const res = await academy_client.post("/lesson", data, {
+    headers: { "Content-Type": "multipart/form-data" },
+    maxContentLength: Infinity,
+    maxBodyLength: Infinity,
+    timeout: 120000,
+  });
+  return res;
 };
 
-export const deleteLesson = async ({ courseId, chapterId, lessonId }) => {
-  const baseURL = new URL(import.meta.env.VITE_SERVER_DEV).origin;
-  const { data } = await axios.delete(
-    `${baseURL}/api/v1/academies/courses/${courseId}/chapters/${chapterId}/lessons/${lessonId}`,
-    {
-      headers: {
-        Authorization: `Bearer ${user_token()}`,
-      },
-    }
-  );
-  return data;
-};
 export const getAllcategories = async () => {
   const { data } = await academy_client.get("/allcategories");
   return data.data;

@@ -141,7 +141,7 @@ const FavoriteCard = ({ course, onRemove }) => {
           </Typography>
           <Box sx={{ display: "flex", alignItems: "center", gap: 0.6 }}>
             <Tooltip title="عرض تفاصيل الدورة" arrow>
-              <IconButton component={Link} to={`/student/courseDetails/${course.id}`}
+              <IconButton component={Link} to={`/SingleCourse/${course.id}`}
                 size="small"
                 sx={{
                   bgcolor: "#eaf2ff", color: "primary.main", mx: 0, p: "4.5px",
@@ -172,18 +172,27 @@ const FavoritesGrid = ({ setData = [], isLoading }) => {
   const { mutate: toggleFavorite } = useToggleMutation();
 
   const handleRemove = async (courseId) => {
-    const result = await Swal.fire({
-      title: "إزالة من المفضلة",
-      text: "هل تريد إزالة هذه الدورة من المفضلة؟",
-      icon: "warning",
+    // إضافة رسالة تأكيد قبل الحذف
+    Swal.fire({
+      title: 'هل أنت متأكد؟',
+      text: 'هل تريد حذف هذه الدورة من المفضلة؟',
+      icon: 'warning',
       showCancelButton: true,
-      confirmButtonColor: "#1967d2",
-      cancelButtonColor: "#adb5bd",
-      confirmButtonText: "نعم، قم بالإزالة",
-      cancelButtonText: "إلغاء",
-      reverseButtons: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'نعم، احذفها',
+      cancelButtonText: 'إلغاء'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        toggleFavorite({ course_id: courseId });
+        // إظهار رسالة نجاح بعد الحذف
+        Swal.fire(
+          'تم الحذف!',
+          'تم حذف الدورة من المفضلة بنجاح.',
+          'success'
+        );
+      }
     });
-    if (result.isConfirmed) toggleFavorite({ course_id: courseId });
   };
 
   if (isLoading)

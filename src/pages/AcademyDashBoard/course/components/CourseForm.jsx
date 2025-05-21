@@ -9,7 +9,7 @@ import { getCourseSchema } from "../../../../validations/academy/course";
 import { useMutation } from "@tanstack/react-query";
 import {
   createCourseAPI,
-  updateCourseAPI,
+  // updateCourseAPI,
 } from "../../../../utils/apis/client/academy";
 import { useNavigate } from "react-router-dom";
 import AddBasicInfo from "./AddBasicInfo";
@@ -114,13 +114,13 @@ function CourseForm({ course }) {
   return (
     <>
       {isLoading && (
-        <div className="flex items-center justify-center py-40">
+        <div className="flex justify-center items-center py-40">
           <Spinner />
         </div>
       )}
       {!isLoading && isError && (
         <Alert variant="danger" className="mb-4 rounded-[8px]">
-          <div className="fw-bold mb-2" style={{ fontSize: "16px" }}>
+          <div className="mb-2 fw-bold" style={{ fontSize: "16px" }}>
             حدث خطأ أثناء تحميل البيانات
           </div>
           <p style={{ fontSize: "14px", margin: 0 }}>

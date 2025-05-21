@@ -1,7 +1,7 @@
 import React from "react";
 import { Button } from "react-bootstrap";
 import {
-  editChapter,
+  // editChapter,
   postChapter,
 } from "../../../../../../utils/apis/client/academy";
 import { fetchCurrentCourseSummaryThunk } from "../../../../../../../redux/courses/CourseThunk";
@@ -51,7 +51,7 @@ function ChapterForm({ chapter, courseId }) {
 
   return (
     <>
-      <h4 className="text-2xl font-semibold text-gray-800 mb-4">
+      <h4 className="mb-4 text-2xl font-semibold text-gray-800">
         {chapter ? "تعديل الفصل" : "اضافة فصل جديد"}
       </h4>
       <form onSubmit={formik.handleSubmit} className="space-y-4">
@@ -67,7 +67,7 @@ function ChapterForm({ chapter, courseId }) {
             value={formik.values.title}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            className="block w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="block px-4 py-2 w-full rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
         {formik.touched.title && formik.errors.title && (

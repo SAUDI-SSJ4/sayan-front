@@ -134,21 +134,22 @@ const Home = () => {
               </div>
 
               <div className="col-12 col-md-12 col-lg-9">
-                <div className="row g-2">
+                <div className="row g-2 justify-content-center">
                   {isLoading ? (
-                    <div className="row g-2">
+                    <div className="row g-2 justify-content-center">
                       {[...Array(POSTS_PER_PAGE)].map((_, index) => (
                         <div
                           key={index}
-                          className="col-12 col-md-6 col-lg-6 col-xl-4"
+                          className="col-12 col-sm-8 col-md-6 col-lg-6 col-xl-4"
                         >
                           <Skeleton
                             variant="rectangular"
-                            width={220}
+                            width="100%"
                             height={200}
+                            style={{ maxWidth: '300px', margin: '0 auto' }}
                           />
-                          <Skeleton width="40%" />
-                          <Skeleton width="70%" />
+                          <Skeleton width="40%" style={{ margin: '8px auto' }} />
+                          <Skeleton width="70%" style={{ margin: '8px auto' }} />
                         </div>
                       ))}
                     </div>
@@ -162,7 +163,7 @@ const Home = () => {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.5 }}
-                        className="col-12 col-md-6 col-lg-6 col-xl-4"
+                        className="col-12 col-sm-8 col-md-6 col-lg-6 col-xl-4 d-flex justify-content-center"
                       >
                         <Suspense fallback={<MainSpinner />}>
                           <SubjectCard mainData={course} />

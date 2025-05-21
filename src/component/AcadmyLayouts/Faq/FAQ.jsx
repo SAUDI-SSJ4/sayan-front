@@ -88,7 +88,7 @@ const FAQ = ({ faqs, academySettings }) => {
     <div 
       id="faqs" 
       className="container"
-      style={{ margin: '50px auto 0 auto' }} // 50px من الأعلى فقط
+      style={{ margin: '50px auto 0 auto' }}
     >
       <div 
         className="row g-4" 
@@ -97,7 +97,7 @@ const FAQ = ({ faqs, academySettings }) => {
         <div className="col-lg-4 col-md-12">
           <h1
             style={{
-              fontSize: '48px', // يبقى الحجم ثابت بالجوال
+              fontSize: '48px',
               fontWeight: '800',
               color: '#272727',
               lineHeight: '1.2',

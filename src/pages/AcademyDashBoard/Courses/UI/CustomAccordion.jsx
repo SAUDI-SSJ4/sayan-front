@@ -1,6 +1,7 @@
-import React, { useState } from "react";
-import { Accordion, AccordionSummary, AccordionDetails } from "@mui/material";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import React, { useState } from 'react';
+import { Accordion, AccordionSummary, AccordionDetails } from '@mui/material';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+
 
 const CustomAccordion = ({
   data = [],
@@ -17,7 +18,7 @@ const CustomAccordion = ({
   };
 
   return (
-    <div style={{ padding: "100px" }}>
+    <div style={{ padding: '100px' }}>
       {data.map((item, index) => (
         <Accordion
           key={index}
@@ -29,6 +30,7 @@ const CustomAccordion = ({
             boxShadow: "none",
             marginBottom: "10px",
             borderRadius: "17px",
+
           }}
           sx={{
             boxShadow: "none",
@@ -38,7 +40,9 @@ const CustomAccordion = ({
           }}
         >
           <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
+            expandIcon={
+              <ExpandMoreIcon/>
+            }
             aria-controls={`panel${index}-content`}
             id={`panel${index}-header`}
             style={{

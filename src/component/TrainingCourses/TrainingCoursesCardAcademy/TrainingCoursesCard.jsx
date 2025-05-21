@@ -7,7 +7,6 @@ import styled from "styled-components";
 import { formatLongText } from "../../../utils/helpers";
 import { Text } from "../../../utils/styles";
 import defaultProduct from '../../../assets/images/courses/default-product.png'
-import avatar from '../../../assets/avatars/avatar_1.jpg'
 import DeleteIcon from '@mui/icons-material/Delete';
 import { ConfirmDeleteCourse } from "../../Models/ConfirmDeleteCourse";
 

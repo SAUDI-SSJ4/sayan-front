@@ -2,7 +2,7 @@ import { useDispatch } from "react-redux";
 import Swal from "sweetalert2";
 import {
   deleteChapter,
-  deleteLesson,
+  // deleteLesson,
 } from "../../../../../../utils/apis/client/academy";
 import { fetchCurrentCourseSummaryThunk } from "../../../../../../../redux/courses/CourseThunk";
 import { Trash2 } from "lucide-react";

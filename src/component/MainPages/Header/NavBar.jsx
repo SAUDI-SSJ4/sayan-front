@@ -82,7 +82,7 @@ const UserAuthButtonsMobile = ({ user, loginType, onNavigate }) => {
     }
     return (
       <div className="flex flex-col gap-3 mt-4"> {/* استخدام Tailwind classes كما في الأصل */}
-        <div onClick={() => onNavigate("/student/login")} className="bg-blue-200 w-full px-4 py-2 rounded-md text-center hover:bg-blue-400 border-2 border-blue-400 cursor-pointer">
+        <div onClick={() => onNavigate("/login")} className="bg-blue-200 w-full px-4 py-2 rounded-md text-center hover:bg-blue-400 border-2 border-blue-400 cursor-pointer">
           دخول
         </div>
         <div onClick={() => onNavigate("/student/signin")} className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-400 border-2 hover:border-blue-300 cursor-pointer hover:text-gray-900">

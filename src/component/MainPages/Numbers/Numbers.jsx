@@ -5,7 +5,6 @@ import "swiper/css/scrollbar";
 import classes from "./Numbers.module.scss";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, Scrollbar, A11y, Autoplay } from "swiper/modules";
-import UpStaris from "../../../assets/icons/UpStaris.svg";
 import icon1 from "../../../assets/icons/HeroSectionSwiper/icon1.svg";
 import icon2 from "../../../assets/icons/HeroSectionSwiper/icon2.svg";
 import icon3 from "../../../assets/icons/HeroSectionSwiper/icon3.svg";
@@ -34,17 +33,14 @@ const Numbers = () => {
               575: {
                 slidesPerView: 2,
               },
-
               991: {
                 slidesPerView: 3,
               },
-
               1200: {
                 slidesPerView: 4,
               },
             }}
           >
-
             <SwiperSlide>
               <div className={`${classes.SliderCard} card-style-1`}>
                 <div className={classes.Icon}>

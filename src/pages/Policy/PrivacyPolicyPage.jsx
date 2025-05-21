@@ -10,7 +10,7 @@ const PrivacyPolicyPage = () => {
         <NavBar />
       </div>
       <Container className>
-        <Title>سياسة الخصوصية والنزاهة الأكاديمية</Title>
+        <Title>الشروط والاحكام وسياسة الخصوصية</Title>
         <Subtitle>شروط وأحكام استخدام منصة سيان</Subtitle>
   
         <SectionTitle>مقدمة</SectionTitle>

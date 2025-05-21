@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import classes from "./SubjectCard.module.scss";
 import Image from "../../../assets/images/CourseImage.png";
 import StarIcon from "@mui/icons-material/Star";
@@ -23,6 +23,65 @@ const SubjectCard = ({ mainData, academySettings }) => {
 
   const [isFavorite, setIsFavorite] = useState(is_favorite || false);
   const [isLoading, setIsLoading] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  // تحقق من حالة تسجيل الدخول وتحديث حالة المفضلة عند تحميل المكون
+  useEffect(() => {
+    const token = Cookies.get("student_token");
+    setIsLoggedIn(!!token);
+    
+    // تحديث حالة المفضلة من البيانات المستلمة
+    if (mainData && mainData.is_favorite !== undefined) {
+      setIsFavorite(mainData.is_favorite);
+    }
+    
+    // إذا كان المستخدم مسجل دخول، قم بجلب قائمة المفضلة للتحقق
+    if (token && id) {
+      fetchFavoriteStatus(token, id);
+    }
+  }, [mainData, id]);
+
+  // دالة جديدة لجلب حالة المفضلة من API
+  const fetchFavoriteStatus = async (token, courseId) => {
+    try {
+      const response = await fetch(
+        "https://www.sayan-server.com/website/favourites",
+        {
+          headers: {
+            Accept: "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("فشل في جلب قائمة المفضلة");
+      }
+
+      const data = await response.json();
+      
+      // التحقق من هيكل البيانات
+      const favorites = data.data || data;
+      
+      // البحث عن الدورة الحالية في قائمة المفضلة
+      if (Array.isArray(favorites)) {
+        const isCourseInFavorites = favorites.some(fav => 
+          (fav.id === courseId) || (fav.course_id === courseId)
+        );
+        
+        // تحديث حالة المفضلة بناءً على البيانات من الخادم
+        setIsFavorite(isCourseInFavorites);
+        
+        // تحديث البيانات الأصلية أيضًا للاتساق
+        if (mainData) {
+          mainData.is_favorite = isCourseInFavorites;
+        }
+      }
+    } catch (error) {
+      console.error("Error fetching favorites:", error);
+      // الاحتفاظ بالحالة الحالية في حالة الفشل
+    }
+  };
 
   const courseTypeLabel = useMemo(() => {
     const types = {
@@ -53,7 +112,7 @@ const SubjectCard = ({ mainData, academySettings }) => {
     >
       <FavoriteIcon
         sx={{
-          color: isFavorite ? "#ff3b30" : "#9e9e9e",
+          color: isLoggedIn && isFavorite ? "#ff3b30" : "#9e9e9e",
           fontSize: "24px",
           transition: "color 0.2s ease",
         }}
@@ -68,7 +127,7 @@ const SubjectCard = ({ mainData, academySettings }) => {
     const token = Cookies.get("student_token");
 
     if (!token) {
-      alert("يجب تسجيل الدخول أولاً");
+      showErrorToast("يجب تسجيل الدخول كطالب أولاً");
       return;
     }
 
@@ -95,7 +154,14 @@ const SubjectCard = ({ mainData, academySettings }) => {
         throw new Error(data.message || "Failed to update favorite");
       }
 
-      setIsFavorite(!isFavorite);
+      // تحديث حالة المفضلة
+      const newFavoriteState = !isFavorite;
+      setIsFavorite(newFavoriteState);
+      
+      // تحديث حالة المفضلة في الكائن الأصلي إذا كان متاحًا
+      if (mainData) {
+        mainData.is_favorite = newFavoriteState;
+      }
     } catch (error) {
       console.error("Favorite toggle error:", error);
       alert("حدث خطأ أثناء تحديث المفضلة: " + error.message);

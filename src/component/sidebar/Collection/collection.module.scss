@@ -2,7 +2,7 @@
     max-height: 0px;
     margin-inline-start: 10px;
     padding-inline: 10px;
-    transition: 0.4s ease-in-out;
+    transition: all 0.3s ease-in-out;
     overflow: hidden;
     color: #7E8799;
 }
@@ -32,47 +32,80 @@
     margin-top: 10px;
     cursor: pointer;
     padding: 10px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
     
     div {
         display: flex;
         align-items: center;
-        gap: 5px;
-
-        svg {
-            transition: all 0.3s ease;
-        }
+        gap: 8px;
     }
 
     span {
-        font-size: 18px;
+        font-size: 16px;
         color: #7E8799;
         transition: color 0.3s ease;
     }
 
-    .arrow {
-        transition: 0.4s;
+    svg {
+        transition: all 0.3s ease;
+    }
+
+    &:hover {
+        background-color: rgba(0, 98, 255, 0.05);
     }
 
     &.active {
-        padding: 10px;
-        border-radius: 5px;
-        color: white !important;
-        background-color: #0062FF;
-        
-        .arrow {
-            color: white !important;
-        }
+        background-color: rgba(0, 98, 255, 0.1);
         
         span {
-            font-size: 18px;
-            color: white !important;
+            color: #0062FF;
+        }
+
+        svg {
+            color: #0062FF;
+            filter: brightness(1.2);
+        }
+    }
+
+    &.expanded {
+        background-color: rgba(0, 98, 255, 0.1);
+        
+        span {
+            color: #0062FF;
+        }
+
+        svg {
+            color: #0062FF;
+            filter: brightness(1.2);
         }
     }
 }
-a{
+
+.nested {
+    padding: 12px;
+    font-size: 14px;
+    
+    span {
+        font-size: 14px;
+    }
+}
+
+a {
     text-decoration: none;
 }
-.arrow{
-    position: relative;
-    z-index: 100;
+
+.arrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s ease;
+    
+    svg {
+        transition: all 0.3s ease;
+    }
+}
+
+.expanded .arrow {
+    transform: rotate(-90deg);
 }
