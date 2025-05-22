@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import CourseForm from "../components/CourseForm";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCurrentCourseSummaryThunk } from "../../../../../redux/courses/CourseThunk";
