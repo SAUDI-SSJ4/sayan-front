@@ -1,12 +1,33 @@
 import { ArrowBack } from "@mui/icons-material";
-import React from "react";
+import React, { useState } from "react";
 import addcourse from "../../../../assets/icons/Button.svg";
-import { Button } from "react-bootstrap";
+import { Button, Spinner } from "react-bootstrap";
 import { useNavigate, useParams } from "react-router-dom";
+import { publishCourseDraft } from "../../../../utils/apis/client/academy";
+import { useToast } from "../../../../utils/hooks/useToast";
 
 function CourseHeader() {
   const navigate = useNavigate();
   const { courseId } = useParams();
+  const [isPublishing, setIsPublishing] = useState(false);
+  const { success, error } = useToast();
+
+  const handlePublish = async () => {
+    try {
+      setIsPublishing(true);
+      const response = await publishCourseDraft(courseId);
+      if (response.status) {
+        success("تم نشر الدورة بنجاح");
+      } else {
+        error(response.error || "فشل في نشر الدورة");
+      }
+    } catch (err) {
+      error("حدث خطأ أثناء نشر الدورة");
+    } finally {
+      setIsPublishing(false);
+    }
+  };
+
   return (
     <div className="TablePageHeader" style={{ marginBottom: "24px" }}>
       <div className="HeaderContainer">
@@ -30,8 +51,23 @@ function CourseHeader() {
               <Button
                 type="button"
                 className="!flex !items-center justify-center gap-2 h-10 w-36"
+                onClick={handlePublish}
+                disabled={isPublishing}
               >
-                نشر الدورة
+                {isPublishing ? (
+                  <>
+                    <Spinner
+                      as="span"
+                      animation="border"
+                      size="sm"
+                      role="status"
+                      aria-hidden="true"
+                    />
+                    <span>جاري النشر...</span>
+                  </>
+                ) : (
+                  "نشر الدورة"
+                )}
               </Button>
             )}
             <Button

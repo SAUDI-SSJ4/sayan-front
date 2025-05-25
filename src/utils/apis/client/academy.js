@@ -429,3 +429,28 @@ export const getAllSetting = async (id = null) => {
   const { data } = await academy_client.get(url);
   return data;
 };
+
+export const publishCourseDraft = async (courseId) => {
+  const baseUrl = new URL(import.meta.env.VITE_SERVER_DEV).origin;
+
+  try {
+    const response = await axios(
+      `${baseUrl}/api/v1/academies/courses/${courseId}/publish-draft`,
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${user_token()}`,
+        },
+      }
+    );
+    return {
+      status: true,
+      data: response.data,
+    };
+  } catch (error) {
+    return {
+      status: false,
+      error: error.response?.data || "حدث خطأ أثناء نشر الدورة",
+    };
+  }
+};
