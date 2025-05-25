@@ -1,7 +1,6 @@
 import CertificationIcon from "../../../component/Icons/CertificationIcon";
 import GraduateIcon from "../../../component/Icons/GraduateIcon";
 import StudentRateSection from "../../../component/AcadmyLayouts/studentRate/StudentRate";
-import MouseAnimation from "../../../assets/images/Animation.gif";
 import { Spinner } from "react-bootstrap";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
@@ -16,7 +15,6 @@ import {
   getAcademySettings,
   getSlider,
 } from "../../../utils/apis/client/academy";
-import Facebook from "../../../assets/icons/social-icons/Facebook.svg";
 import Youtube from "../../../assets/icons/social-icons/Youtube.svg";
 import LinkedIn from "../../../assets/icons/social-icons/LinkedIn.svg";
 import Twitter from "../../../assets/icons/social-icons/Twitter.svg";
@@ -29,6 +27,7 @@ import SubjectCard from "../../../component/MainPages/SubjectCard/SubjectCard";
 import { motion } from "framer-motion";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Helmet } from "react-helmet-async";
+import { FaInstagram, FaLinkedinIn, FaTwitter, FaYoutube } from "react-icons/fa";
 
 import "swiper/css";
 import "swiper/css/navigation";
@@ -137,7 +136,7 @@ const Courses = ({ academyData }) => {
   return (
     <div
       id="courses"
-      className="CustomContainer"
+      className="CustomContainer px-4 md:px-0"
       style={{ marginTop: '200px' }}
       data-aos-duration="1000"
     >
@@ -148,10 +147,6 @@ const Courses = ({ academyData }) => {
           </div>
           <Swiper
             pagination={{ clickable: true }}
-            navigation={{
-              nextEl: ".swiper-button-next",
-              prevEl: ".swiper-button-prev",
-            }}
             autoplay={{
               delay: 3000,
               disableOnInteraction: false,
@@ -159,23 +154,46 @@ const Courses = ({ academyData }) => {
             }}
             spaceBetween={10}
             loop
-            modules={[Navigation, Pagination, Autoplay]}
+            modules={[Pagination, Autoplay]}
             breakpoints={{
-              0: { slidesPerView: 1 },
-              768: { slidesPerView: 2 },
-              991: { slidesPerView: 2 },
-              1200: { slidesPerView: 3, pagination: { enabled: true } },
-              1400: { slidesPerView: 4, pagination: { enabled: true } },
+              0: { 
+                slidesPerView: 1,
+                spaceBetween: 0
+              },
+              768: { 
+                slidesPerView: 2,
+                spaceBetween: 10
+              },
+              991: { 
+                slidesPerView: 2,
+                spaceBetween: 10
+              },
+              1200: { 
+                slidesPerView: 3,
+                pagination: { enabled: true },
+                spaceBetween: 10
+              },
+              1400: { 
+                slidesPerView: 4,
+                pagination: { enabled: true },
+                spaceBetween: 10
+              },
             }}
             className="mySwiperContainer pb-5"
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center'
+            }}
           >
             {academyData.courses.map((course) => (
-              <SwiperSlide key={course.id}>
+              <SwiperSlide key={course.id} style={{ display: 'flex', justifyContent: 'center' }}>
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5 }}
-                  className="d-flex justify-content-center"
+                  className="d-flex justify-content-center w-full md:w-auto"
+                  style={{ maxWidth: '100%', margin: '0 auto' }}
                 >
                   <SubjectCard
                     mainData={course}
@@ -186,9 +204,6 @@ const Courses = ({ academyData }) => {
             ))}
             <div className="swiper-pagination" style={{ bottom: "5px" }}></div>
           </Swiper>
-
-          <div className="swiper-button-next animate__animated  animate__shakeY"></div>
-          <div className="swiper-button-prev animate__animated  animate__shakeY"></div>
         </>
       ) : (
         <div className="text-center mt-5">
@@ -248,47 +263,41 @@ const Hero = ({ academyData }) => {
           </div>
         </div>
         <div className="col-lg-6 !pr-10">
-  <div data-aos="fade-right" className="SectionImage">
-    <img
-      src={academyData.slider.image} 
-      alt="Slider"
-      loading="lazy"
-      width="800"
-      height="600"
-      style={{ maxHeight: '600px', width: 'auto', objectFit: 'contain' }}
-    />
-  </div>
-</div>
-      </div>
-      <div className="d-flex justify-content-center cursor-pointer mt-sm-5">
-        <img
-          style={{ width: "54px", cursor: "pointer" }}
-          src={MouseAnimation}
-          alt="Mouse Animation"
-        />
+          <div data-aos="fade-right" className="SectionImage">
+            <img
+              src={academyData.slider.image} 
+              alt="Slider"
+              loading="lazy"
+              width="800"
+              height="600"
+              style={{ maxHeight: '600px', width: 'auto', objectFit: 'contain' }}
+            />
+          </div>
+        </div>
       </div>
     </div>
   );
 };
+
 const About = ({ academyData }) => {
   return (
     <div className="container mt-5">
       <div className="row g-4 aboutAcademyLayout">
         <div className="col-lg-6 order-2 order-lg-1">
-        <div data-aos="fade-up" className="SectionImage !pl-0 lg:!pl-14">
-  <img
-    src={academyData.about.image}
-    alt="About Image"
-    className="w-full h-auto object-cover rounded-lg"
-    style={{
-      width: '100%',
-      maxHeight: '600px',
-      objectFit: 'contain', // أو objectFit: 'contain' إذا أردت الصورة كاملة بدون قص
-      display: 'block',
-      margin: '0 auto'
-    }}
-  />
-</div>
+          <div data-aos="fade-up" className="SectionImage !pl-0 lg:!pl-14">
+            <img
+              src={academyData.about.image}
+              alt="About Image"
+              className="w-full h-auto object-cover rounded-lg"
+              style={{
+                width: '100%',
+                maxHeight: '600px',
+                objectFit: 'contain',
+                display: 'block',
+                margin: '0 auto'
+              }}
+            />
+          </div>
         </div>
         <div className="col-lg-6 order-1 order-lg-2">
           <div className="SectionText px-4 lg:px-0">
@@ -320,80 +329,90 @@ const About = ({ academyData }) => {
     </div>
   );
 };
+
 const Footer = ({ academySettings }) => {
   const navigate = useNavigate();
 
   const socialLinks = [
     {
-      icon: Instagram,
+      icon: <FaInstagram />,
       url: "https://www.instagram.com/sayan_edtech",
     },
     {
-      icon: LinkedIn,
+      icon: <FaLinkedinIn />,
       url: "https://www.linkedin.com/in/sayan-edtech/",
     },
     {
-      icon: Twitter,
+      icon: <FaTwitter />,
       url: "https://x.com/sayan_edtech",
     },
     {
-      icon: Youtube,
-      url: "https://www.tiktok.com/@sayan_edtech",
+      icon: <FaYoutube />,
+      url: "https://www.youtube.com/@sayan_edtech",
     },
   ];
+
+  const handleRedirect = (url) => {
+    window.open(url, "_blank");
+  };
+
   return (
-    <footer id="contact" className="bg-gray-100 py-8 mt-10">
-      <div className="container mx-auto px-4 flex flex-col md:flex-row justify-between items-center">
-        {/* Mobile Apps */}
-        <div className="flex gap-2 items-center mt-6 md:mt-0">
-          <a href="#">
-            <div className="flex items-center bg-black px-4 py-2 gap-2 rounded-md text-white text-center">
-              <div>
-                <img
-                  src="https://labayh.net/wp-content/uploads/2022/06/google-app.svg"
-                  alt="App Store"
-                  className="h-8"
-                />
-              </div>
+    <footer className="bg-gradient-to-r from-gray-50 to-gray-100 pt-14 pb-8 border-t border-gray-200">
+      <div className="container mx-auto px-6">
+        {/* Main Content */}
+        <div className="flex flex-col md:flex-row justify-between items-center md:items-start mb-12">
+          {/* Social Icons - Right Side */}
+          <div className="flex flex-col items-center md:items-start order-2 md:order-1 mt-8 md:mt-0">
+            <h3 className="text-gray-800 font-bold mb-6 text-lg">تابعنا على وسائل التواصل</h3>
+            <div className="flex gap-4 justify-center md:justify-start">
+              {socialLinks.map((link, index) => (
+                <button 
+                  key={index}
+                  onClick={() => handleRedirect(link.url)}
+                  style={{ backgroundColor: academySettings.primary_color }}
+                  className="w-10 h-10 rounded-[8px] text-white flex items-center justify-center transition-all duration-300 hover:opacity-90"
+                >
+                  {link.icon}
+                </button>
+              ))}
             </div>
-          </a>
-        </div>
+          </div>
 
-        {/* Security & Certification */}
-        <div className="flex flex-col items-center mt-6 md:mt-0">
-          <img src={ssl} alt="Secure SSL" className="h-8" />
-        </div>
-
-        {/* Social Icons */}
-        <ul className="flex items-center gap-4 ">
-          {socialLinks.map((link, index) => (
-            <li
-              key={index}
-              style={{
-                background: academySettings.primary_color,
-              }}
-              className="rounded-[7px] w-8 h-8 flex items-center justify-center cursor-pointer transition duration-300 ease-in-out hover:scale-105"
-            >
-              <a href={link.url} target="_blank" rel="noreferrer">
-                <img src={link.icon} alt="Social Icon" className="h-4 w-4" />
+          {/* Brand & Logo - Left Side */}
+          <div className="flex flex-col items-start order-1 md:order-2">
+            <img 
+              src={academySettings.logo}
+              className="h-14 mb-4" 
+              alt={academySettings.name}
+            />
+            <p className="text-gray-600 text-sm" style={{ direction: "rtl" }}>
+              تم التطوير بواسطة{' '}
+              <a 
+                href="https://sayan.pro" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                style={{ color: academySettings.primary_color }}
+                className="hover:opacity-90"
+              >
+                منصة سيان
               </a>
-            </li>
-          ))}
-        </ul>
-      </div>
+            </p>
+          </div>
+        </div>
 
-      {/* Copyright & Legal */}
-      <div className="text-center mt-6 text-gray-500 text-sm">
-        <p>
-          جميع الحقوق محفوظة لمنصة سيان © 2025 |
-          <span
-            style={{ color: academySettings.primary_color }}
-            className="cursor-pointer hover:underline"
-            onClick={() => navigate("/privacy-policy")}
-          >
-            الشروط والأحكام | سياسة الخصوصية
-          </span>
-        </p>
+        {/* Bottom Section - Copyright & Legal */}
+        <div className="text-center border-t border-gray-200 pt-8">
+          <p className="text-gray-500 text-sm">
+            جميع الحقوق محفوظة © {new Date().getFullYear()}
+            <button 
+              onClick={() => navigate("/privacy-policy")}
+              style={{ color: academySettings.primary_color }}
+              className="hover:opacity-90 text-sm font-medium mr-2 transition-colors"
+            >
+              الشروط والأحكام
+            </button>
+          </p>
+        </div>
       </div>
     </footer>
   );

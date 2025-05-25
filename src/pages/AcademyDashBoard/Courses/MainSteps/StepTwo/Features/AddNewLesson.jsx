@@ -9,6 +9,18 @@ import { Button } from "rsuite";
 import { useLessonMutation } from "../../../../../../services/mutation";
 import { storage } from "../../../../../../utils/storage";
 
+/**
+ * مكون إضافة درس جديد للفصل
+ * 
+ * يتيح للمستخدم إضافة درس جديد للفصل المحدد في الدورة التدريبية
+ * ويقوم بإرسال البيانات إلى الخادم عبر API
+ * 
+ * @param {Object} props - خصائص المكون
+ * @param {string} props.categoryId - معرف الفئة
+ * @param {string} props.courseId - معرف الدورة التدريبية
+ * @param {string} props.chapterId - معرف الفصل الذي سيتم إضافة الدرس إليه
+ */
+
 // Validation schema using Yup
 const validationSchema = Yup.object().shape({
   title: Yup.string().required("العنوان مطلوب"),

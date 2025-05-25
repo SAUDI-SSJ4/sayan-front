@@ -1,13 +1,5 @@
-import VideoImage from "./../../assets/images/VideoImage.png";
-import playBtn from "./../../assets/icons/PlayButton.svg";
 import imageAcadmy from "./../../assets/images/Ellipse.png";
-import icon from "./../../assets/icons/isd.svg";
-import icon1 from "./../../assets/icons/icon-1.svg";
-import icon2 from "./../../assets/icons/icon-2.svg";
-import icon3 from "./../../assets/icons/icon-3.svg";
-import icon4 from "./../../assets/icons/icon-4.svg";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import icon5 from "./../../assets/icons/icon-5.svg";
 import cer from "../../assets/images/certification.png";
 import { useNavigate } from "react-router-dom";
 const SingleCertificateComponent = ({ classes }) => {
