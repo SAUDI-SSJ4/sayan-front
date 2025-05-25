@@ -1,5 +1,14 @@
 import React, { useState } from "react";
-import { Modal, Button, Stack, Panel, Form, Input, Uploader } from "rsuite";
+import {
+  Modal,
+  Button,
+  Stack,
+  Panel,
+  Form,
+  Input,
+  Uploader,
+  Loader,
+} from "rsuite";
 import { AiFillEye } from "react-icons/ai";
 import HiddenCard from "../../../../component/UI/HiddenCard";
 import ColorPickerWithPreview from "../../../../component/UI/Inputs/ColorPicker";
@@ -21,6 +30,7 @@ const HiddenCardsSideBar = ({
 }) => {
   const dispatch = useDispatch();
   const [showPreview, setShowPreview] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = (field, value) => {
     if (field === "order") {
@@ -42,29 +52,40 @@ const HiddenCardsSideBar = ({
     }
   };
 
-  const { succes, error } = useToast();
+  const { success, error } = useToast();
   const handleSubmit = async () => {
-    setHiddenCards([...hiddenCards, cardData]);
-    cardData.type = "tool";
-
-    const resLesson = await createLesson(
-      {
-        courseId,
-        chapterId,
-      },
-      {
-        title: "بطاقة مقلوبة",
+    try {
+      setIsLoading(true);
+      const cardToAdd = {
+        ...cardData,
         type: "tool",
+        description: cardData.description || "محتوى البطاقة يظهر هنا.",
+      };
+      setHiddenCards([...hiddenCards, cardToAdd]);
+
+      const resLesson = await createLesson(
+        {
+          courseId,
+          chapterId,
+        },
+        {
+          title: cardToAdd.title,
+          type: "tool",
+        }
+      );
+      if (resLesson.status) {
+        const resTool = await postLessonTools(resLesson.data.id, cardToAdd);
+        if (resTool.status) {
+          success("تمت إضافة البطاقة بنجاح");
+          dispatch(fetchCurrentCourseSummaryThunk(courseId));
+        } else {
+          error("فشل في إضافة البطاقة");
+        }
       }
-    );
-    if (resLesson.status) {
-      const resTool = await postLessonTools(resLesson.data.id, cardData);
-      if (resTool.status) {
-        succes("تمت إضافة البطاقة بنجاح");
-        dispatch(fetchCurrentCourseSummaryThunk(courseId));
-      } else {
-        error("فشل في إضافة البطاقة");
-      }
+    } catch (err) {
+      error("حدث خطأ أثناء إضافة البطاقة");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -140,8 +161,18 @@ const HiddenCardsSideBar = ({
               />
             </Form.Group>
             <div className="d-flex justify-content-center">
-              <Button className="btn btn-primary" onClick={handleSubmit}>
-                انشاء البطاقة
+              <Button
+                className="btn btn-primary"
+                onClick={handleSubmit}
+                disabled={isLoading}
+              >
+                {isLoading ? (
+                  <>
+                    <Loader size="xs" /> جاري الإنشاء...
+                  </>
+                ) : (
+                  "انشاء البطاقة"
+                )}
               </Button>
             </div>
           </Form>

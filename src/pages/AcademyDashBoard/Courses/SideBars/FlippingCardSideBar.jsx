@@ -1,14 +1,10 @@
 import React, { useState } from "react";
-import { Modal, Button, Form, Input, Dropdown } from "rsuite";
+import { Modal, Button, Form, Input, Loader } from "rsuite";
 import { AiFillEye } from "react-icons/ai";
 import FlippingCard from "../../../../component/UI/FlippingCard";
 import ColorPickerWithPreview from "../../../../component/UI/Inputs/ColorPicker";
 import { Delete } from "@mui/icons-material";
-import { useCardMutation } from "../../../../services/mutation";
-import { storage } from "../../../../utils/storage";
-import { hasLessonContent } from "../../../../utils/helpers";
-import { latestLesson } from "../../../../../redux/courses/CourseSlice";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useToast } from "../../../../utils/hooks/useToast";
 import {
   createLesson,
@@ -28,6 +24,7 @@ const FlippingCardSideBar = ({
   const [showPreview, setShowPreview] = useState(false);
   const [showPreview1, setShowPreview1] = useState(false);
   const [selectedCardIndex, setSelectedCardIndex] = useState(-1);
+  const [isLoading, setIsLoading] = useState(false);
 
   const toggleModal = () => setShowPreview(!showPreview);
 
@@ -38,7 +35,7 @@ const FlippingCardSideBar = ({
     }));
   };
 
-  const { succes, error } = useToast();
+  const { success, error } = useToast();
   const handleSubmit = async () => {
     setFlippingCards([...flippingCards, cardData]);
 
@@ -46,24 +43,30 @@ const FlippingCardSideBar = ({
 
     cardData.order = 1;
     cardData.type = "tool";
+    setIsLoading(true);
     const resLesson = await createLesson(
       {
         courseId,
         chapterId,
       },
       {
-        title: "بطاقة مقلوبة",
+        title: cardData.title,
         type: "tool",
       }
     );
     if (resLesson.status) {
       const resTool = await postLessonTools(resLesson.data.id, cardData);
       if (resTool.status) {
-        succes("تمت إضافة البطاقة بنجاح");
+        setIsLoading(false);
+        success("تمت إضافة البطاقة بنجاح");
         dispatch(fetchCurrentCourseSummaryThunk(courseId));
       } else {
+        setIsLoading(false);
         error("فشل في إضافة البطاقة");
       }
+    } else {
+      setIsLoading(false);
+      error("فشل في إضافة البطاقة");
     }
   };
 
@@ -195,8 +198,18 @@ const FlippingCardSideBar = ({
                   </Button>
                 </>
               ) : (
-                <Button className="btn btn-primary" onClick={handleSubmit}>
-                  انشاء البطاقة
+                <Button
+                  className="btn btn-primary"
+                  disabled={isLoading}
+                  onClick={handleSubmit}
+                >
+                  {isLoading ? (
+                    <>
+                      <Loader size="xs" /> جاري الإنشاء...
+                    </>
+                  ) : (
+                    "انشاء البطاقة"
+                  )}
                 </Button>
               )}
             </div>

@@ -47,7 +47,7 @@ const AddNewExam = ({ courseId, chapterId }) => {
         },
         {
           type: "exam",
-          title: "اختبار",
+          title: values.title,
         }
       );
       if (resLesson.status) {

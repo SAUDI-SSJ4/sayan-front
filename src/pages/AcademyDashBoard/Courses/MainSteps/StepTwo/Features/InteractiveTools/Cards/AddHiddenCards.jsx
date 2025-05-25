@@ -9,6 +9,8 @@ const AddHiddenCards = ({
   setCardData,
   courseId,
   chapterId,
+  isLoading,
+  onSubmit,
 }) => {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
@@ -18,7 +20,11 @@ const AddHiddenCards = ({
         </h4>
 
         <h5 style={{ color: "#2b3674" }}>معاينة البطاقة:</h5>
-        <HiddenCard cardData={cardData} />
+        <HiddenCard
+          cardData={cardData}
+          isLoading={isLoading}
+          onSubmit={onSubmit}
+        />
       </div>
 
       <div className="p-4">

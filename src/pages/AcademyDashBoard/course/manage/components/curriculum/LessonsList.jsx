@@ -40,7 +40,11 @@ const LessonItem = ({ lesson, index, courseId, chapterId }) => {
             chapterId={chapterId}
             courseId={courseId}
           />
-          <DeleteLesson courseId={courseId} chapterId={chapterId} />
+          <DeleteLesson
+            courseId={courseId}
+            chapterId={chapterId}
+            lessonId={lesson.id}
+          />
         </div>
       </div>
     </li>

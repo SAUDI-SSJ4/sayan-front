@@ -1,6 +1,7 @@
 import React, { useState } from "react";
+import { Button, Loader } from "rsuite";
 
-const HiddenCard = ({ cardData }) => {
+const HiddenCard = ({ cardData, isLoading, onSubmit }) => {
   return (
     <div
       style={{
@@ -53,7 +54,25 @@ const HiddenCard = ({ cardData }) => {
                 }}
               />
             )}
-            <p>{cardData.content || "محتوى البطاقة يظهر هنا."}</p>
+            <p>{cardData.description || "محتوى البطاقة يظهر هنا."}</p>
+
+            {onSubmit && (
+              <div style={{ marginTop: "1rem" }}>
+                <Button
+                  appearance="primary"
+                  onClick={onSubmit}
+                  disabled={isLoading}
+                >
+                  {isLoading ? (
+                    <>
+                      <Loader size="xs" /> جاري الحفظ...
+                    </>
+                  ) : (
+                    "حفظ البطاقة"
+                  )}
+                </Button>
+              </div>
+            )}
           </div>
         </div>
       ) : null}
