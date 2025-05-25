@@ -8,21 +8,21 @@ const FAKE_COURSES = [
     title: "أساسيات تطوير المواقع",
     image: "https://i.imgur.com/znpqLnH.png",
     academy: "أكاديمية المبرمج",
-    academy_image: "https://i.imgur.com/0y0y0y0.png"
+    academy_image: "https://i.imgur.com/0y0y0y0.png",
   },
   {
     id: "jj32",
     title: "الذكاء الاصطناعي للمبتدئين",
     image: "https://i.imgur.com/ZFaS4vT.png",
     academy: "مسار التقنية",
-    academy_image: "https://i.imgur.com/WjsGU4G.png"
+    academy_image: "https://i.imgur.com/WjsGU4G.png",
   },
   {
     id: "gg43",
     title: "تجربة المستخدم من الصفر للاحتراف",
     image: "https://i.imgur.com/F0BihN4.png",
     academy: "تصميم بلس",
-    academy_image: "https://i.imgur.com/n1t6mmR.png"
+    academy_image: "https://i.imgur.com/n1t6mmR.png",
   },
 ];
 
@@ -36,7 +36,7 @@ const TrainingCoursesCardContainer = ({ courses, isLoading }) => {
       style={{
         minHeight: 480,
         margin: "0 auto",
-        padding: "0px"
+        padding: "0px",
       }}
       className="w-full"
     >

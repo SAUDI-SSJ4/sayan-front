@@ -107,7 +107,7 @@ const AcadmeyTrainingCourses = () => {
                 </ul>
               </div>
 
-              <Link to={"/academy/new-course"} className="addBtn">
+              <Link to="/academy/course/create" className="addBtn">
                 <AddCircleIcon />
                 إضافة دورة جديدة
               </Link>

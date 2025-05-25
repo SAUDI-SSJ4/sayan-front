@@ -12,20 +12,23 @@ const AddFlippingCard = ({
   setFlippingCards,
   cardData,
   setCardData,
+  courseId,
+  chapterId,
 }) => {
-
-  const chapterId = storage.get('chapky89wsgnae')
-  const lessonId = storage.get('leuhqzrsyh5e')
-  const currentCourseId = storage.get("cousjvqpkbr3m")
-  const getlatestLesson = useSelector((state) => latestLesson(state, chapterId, lessonId));
-
   return (
     <div className={style.container}>
       <div className={style.content}>
         <div className="container">
           <Text size="20px" color="#575757" weight="600">
-            <storage>Lesson : </storage>{getlatestLesson && formatLongText(getlatestLesson.title, 15)}</Text>
-          <h4 style={{ textAlign: "center", marginBottom: "2rem", color: "#2b3674" }}>
+            <storage>Lesson : </storage>
+          </Text>
+          <h4
+            style={{
+              textAlign: "center",
+              marginBottom: "2rem",
+              color: "#2b3674",
+            }}
+          >
             إنشاء بطاقة مخصصة
           </h4>
 
@@ -41,7 +44,8 @@ const AddFlippingCard = ({
           setCardData={setCardData}
           flippingCards={flippingCards}
           setFlippingCards={setFlippingCards}
-          latestLessonId={getlatestLesson.id || null}
+          courseId={courseId}
+          chapterId={chapterId}
         />
       </div>
     </div>

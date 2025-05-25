@@ -1,17 +1,74 @@
 import React, { useState, useRef, useEffect } from 'react';
 import classes from './CustomVideoPlayer.module.scss';
 import { FaExpand, FaPause, FaPlay, FaVolumeMute, FaVolumeUp } from 'react-icons/fa';
+import Cookies from 'js-cookie';
+import { apiCall } from '../../../../utils/auth';
 
-const VIDEO_URL = "https://www.sayan-server.com/courses/videos/academy//mPMpsr4Lj1roFRKA94Oa.mp4";
+const BASE_URL = "https://www.sayan-server.com";
 
-const CustomVideoPlayer = () => {
+const CustomVideoPlayer = ({ video }) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [progress, setProgress] = useState(0);
   const [volume, setVolume] = useState(1);
   const [isMuted, setIsMuted] = useState(false);
   const [currentTime, setCurrentTime] = useState('0:00');
   const [duration, setDuration] = useState('0:00');
+  const [loading, setLoading] = useState(false);
   const videoRef = useRef(null);
+
+  // Load video with authentication
+  useEffect(() => {
+    const loadVideo = async () => {
+      console.log('CustomVideoPlayer: video prop received:', video);
+      if (!video) {
+        console.log('CustomVideoPlayer: No video ID provided');
+        return;
+      }
+      
+      const token = Cookies.get("student_token");
+      console.log('CustomVideoPlayer: Token found:', !!token);
+      if (!token) {
+        console.error('No authentication token found');
+        return;
+      }
+
+      setLoading(true);
+      console.log('CustomVideoPlayer: Starting video load for ID:', video);
+      
+      try {
+        const videoUrl = `${BASE_URL}/website/videos/${video}/stream`;
+        console.log('CustomVideoPlayer: Checking video URL:', videoUrl);
+        
+        // استخدام apiCall للتحقق من الوصول للفيديو
+        const response = await apiCall(videoUrl, {
+          method: 'HEAD'
+        });
+
+        console.log('CustomVideoPlayer: HEAD response status:', response.status);
+
+        if (response.ok) {
+          // Use token as query parameter for video streaming
+          const authenticatedUrl = `${videoUrl}?token=${encodeURIComponent(token)}`;
+          console.log('CustomVideoPlayer: Setting video src to:', authenticatedUrl);
+          
+          if (videoRef.current) {
+            videoRef.current.src = authenticatedUrl;
+            console.log('CustomVideoPlayer: Video src set successfully');
+          } else {
+            console.error('CustomVideoPlayer: videoRef.current is null');
+          }
+        } else {
+          console.error('Failed to access video:', response.status, response.statusText);
+        }
+      } catch (error) {
+        console.error('Error loading video:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadVideo();
+  }, [video]);
 
   useEffect(() => {
     const updateProgress = () => {
@@ -33,15 +90,38 @@ const CustomVideoPlayer = () => {
       }
     };
 
+    const handleVideoError = (e) => {
+      console.error('Video error:', e);
+      console.error('Video error details:', e.target.error);
+      setLoading(false);
+    };
+
+    const handleVideoLoaded = () => {
+      console.log('Video loaded successfully');
+      setLoading(false);
+    };
+
     const currentVideo = videoRef.current;
-    currentVideo?.addEventListener('timeupdate', updateProgress);
-    currentVideo?.addEventListener('loadedmetadata', updateDuration);
+    if (currentVideo) {
+      currentVideo.addEventListener('timeupdate', updateProgress);
+      currentVideo.addEventListener('loadedmetadata', updateDuration);
+      currentVideo.addEventListener('error', handleVideoError);
+      currentVideo.addEventListener('loadeddata', handleVideoLoaded);
+      currentVideo.addEventListener('play', () => setIsPlaying(true));
+      currentVideo.addEventListener('pause', () => setIsPlaying(false));
+    }
 
     return () => {
-      currentVideo?.removeEventListener('timeupdate', updateProgress);
-      currentVideo?.removeEventListener('loadedmetadata', updateDuration);
+      if (currentVideo) {
+        currentVideo.removeEventListener('timeupdate', updateProgress);
+        currentVideo.removeEventListener('loadedmetadata', updateDuration);
+        currentVideo.removeEventListener('error', handleVideoError);
+        currentVideo.removeEventListener('loadeddata', handleVideoLoaded);
+        currentVideo.removeEventListener('play', () => setIsPlaying(true));
+        currentVideo.removeEventListener('pause', () => setIsPlaying(false));
+      }
     };
-  }, []);
+  }, [video]);
 
   useEffect(() => {
     const volumeBar = document.querySelector(`.${classes.volumeBar}`);
@@ -50,6 +130,7 @@ const CustomVideoPlayer = () => {
   }, []);
 
   const formatTime = (time) => {
+    if (isNaN(time)) return '0:00';
     const minutes = Math.floor(time / 60);
     const seconds = Math.floor(time % 60);
     return `${minutes}:${seconds.toString().padStart(2, '0')}`;
@@ -59,10 +140,8 @@ const CustomVideoPlayer = () => {
     if (videoRef.current) {
       if (isPlaying) {
         videoRef.current.pause();
-        setIsPlaying(false);
       } else {
         videoRef.current.play();
-        setIsPlaying(true);
       }
     }
   };
@@ -113,20 +192,29 @@ const CustomVideoPlayer = () => {
       volumeBar.style.setProperty('--volume-before-width', `${videoRef.current.volume * 100}%`);
   };
 
+  if (!video) {
+    return <div className="text-center p-4">لا يتوفر فيديو لهذا الدرس.</div>;
+  }
+
   return (
     <div className={classes.videoWrapper} dir="rtl">
       <div className={classes.customVideoPlayer}>
+        {loading && (
+          <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center z-10">
+            <div className="text-white">جاري تحميل الفيديو...</div>
+          </div>
+        )}
         <video
           ref={videoRef}
           className={classes.videoElement}
           width="100%"
-          src={VIDEO_URL}
+          preload="metadata"
+          crossOrigin="anonymous"
         >
-          <source src={VIDEO_URL} type="video/mp4" />
           المتصفح الخاص بك لا يدعم عرض الفيديو.
         </video>
         <div className={classes.videoControls}>
-          <button className={classes.playPauseBtn} onClick={togglePlayPause}>
+          <button className={classes.playPauseBtn} onClick={togglePlayPause} disabled={loading}>
             {isPlaying ? <FaPause /> : <FaPlay />}
           </button>
           <div className={classes.progressContainer}>
@@ -137,6 +225,7 @@ const CustomVideoPlayer = () => {
               onChange={handleProgressChange}
               min="0"
               max="100"
+              disabled={loading}
             />
             <span className={classes.timeDisplay}>{currentTime} / {duration}</span>
           </div>
@@ -163,4 +252,4 @@ const CustomVideoPlayer = () => {
   );
 };
 
-export default CustomVideoPlayer;
+export default CustomVideoPlayer; 

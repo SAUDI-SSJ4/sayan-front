@@ -206,3 +206,11 @@ $navbar-link-color: #3e638a; // لون أزرق داكن قليلاً للروا
   object-fit: cover;
   border: 2px solid $primary-blue; // حدود زرقاء
 }
+
+// Custom class for user avatar image size
+.userAvatar {
+  width: 40px !important;
+  height: 40px !important;
+  object-fit: cover;
+  border-radius: 50%;
+}

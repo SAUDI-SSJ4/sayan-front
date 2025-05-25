@@ -97,81 +97,99 @@ const HomeAcademy = () => {
 
   return (
     <div className="header-bg" style={{ backgroundColor: "white" }}>
+      {/* Add Helmet for meta tags */}
+      {/* 
+      <Helmet>
+        <title>أكاديمية سيان - الصفحة الرئيسية</title>
+        <meta name="description" content="استكشف الدورات التدريبية والأدوات التفاعلية في أكاديمية سيان." />
+        {/* Add other relevant meta tags */}
+      {/* </Helmet> */}
+
       <HomeMainHeader />
 
-      <div className="container">
-        <Suspense fallback={<MainSpinner />}>
-          <Numbers />
-        </Suspense>
-      </div>
+      {/* Use <main> for the primary content */}
+      <main>
+        {/* Section for Numbers */}
+        <section className="container">
+          <Suspense fallback={<MainSpinner />}>
+            <Numbers />
+          </Suspense>
+        </section>
 
-      <Suspense fallback={<MainSpinner />}>
-        <SubjectSlider />
-      </Suspense>
+        {/* Section for Subject Slider */}
+        <section>
+          <Suspense fallback={<MainSpinner />}>
+            <SubjectSlider />
+          </Suspense>
+        </section>
 
-      <div className={Style.AllSubject}>
-        <div className="CustomContainer">
-          <SubjectHeader filterByCourseTitle={filterByCourseTitle} />
+        {/* Section for All Subjects/Courses Listing */}
+        <section className={Style.AllSubject}> {/* Consider a more semantic class name if possible */}
+          <div className="CustomContainer">
+            {/* Assuming SubjectHeader contains a relevant heading (e.g., h2 or h3) */}
+            <SubjectHeader filterByCourseTitle={filterByCourseTitle} />
 
-          <div className="row g-3">
-            <div className="col-12 col-md-12 col-lg-3">
-              <SideBarFilter
-                minValue={minPrice}
-                maxValue={maxPrice}
-                filterByCategories={filterByCategories}
-              />
-            </div>
-
-            <div className="col-12 col-md-12 col-lg-9">
-              <div className="row g-2">
-                {isLoadingCourses ? (
-                  <div className="row g-2">
-                    {[...Array(POSTS_PER_PAGE)].map((_, index) => (
-                      <div
-                        key={index}
-                        className="col-12 col-md-6 col-lg-6 col-xl-4"
-                      >
-                        <Skeleton
-                          variant="rectangular"
-                          width={220}
-                          height={200}
-                        />
-                        <Skeleton width="40%" />
-                        <Skeleton width="70%" />
-                      </div>
-                    ))}
-                  </div>
-                ) : errorsCourses ? (
-                  <div>Error loading courses</div>
-                ) : (
-                  currentCourses &&
-                  currentCourses.map((course, index) => (
-                    <motion.div
-                      key={index}
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.5 }}
-                      className="col-12 col-md-6 col-lg-6 col-xl-4"
-                    >
-                      <Suspense fallback={<MainSpinner />}>
-                        <SubjectCard mainData={course} />
-                      </Suspense>
-                    </motion.div>
-                  ))
-                )}
+            <div className="row g-3">
+              <div className="col-12 col-md-12 col-lg-3">
+                <SideBarFilter
+                  minValue={minPrice}
+                  maxValue={maxPrice}
+                  filterByCategories={filterByCategories}
+                />
               </div>
 
-              <div className="d-flex justify-content-center mt-4">
-                <Pagination
-                  count={Math.ceil(filteredData?.length / POSTS_PER_PAGE)}
-                  color="primary"
-                  onChange={handlePageChange}
-                />
+              <div className="col-12 col-md-12 col-lg-9">
+                <div className="row g-2">
+                  {isLoadingCourses ? (
+                    <div className="row g-2">
+                      {[...Array(POSTS_PER_PAGE)].map((_, index) => (
+                        <div
+                          key={index}
+                          className="col-12 col-md-6 col-lg-6 col-xl-4"
+                        >
+                          <Skeleton
+                            variant="rectangular"
+                            width={220}
+                            height={200}
+                          />
+                          <Skeleton width="40%" />
+                          <Skeleton width="70%" />
+                        </div>
+                      ))}
+                    </div>
+                  ) : errorsCourses ? (
+                    <div>Error loading courses</div>
+                  ) : (
+                    currentCourses &&
+                    currentCourses.map((course, index) => (
+                      <motion.div
+                        key={index}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.5 }}
+                        className="col-12 col-md-6 col-lg-6 col-xl-4"
+                      >
+                        {/* Ensure SubjectCard uses semantic tags and alt text for images */}
+                        <Suspense fallback={<MainSpinner />}>
+                          <SubjectCard mainData={course} />
+                        </Suspense>
+                      </motion.div>
+                    ))
+                  )}
+                </div>
+
+                <div className="d-flex justify-content-center mt-4">
+                  <Pagination
+                    count={Math.ceil(filteredData?.length / POSTS_PER_PAGE)}
+                    color="primary"
+                    onChange={handlePageChange}
+                  />
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </div>
+        </section>
+      </main>
 
       <Suspense fallback={<MainSpinner />}>
         <Footer />

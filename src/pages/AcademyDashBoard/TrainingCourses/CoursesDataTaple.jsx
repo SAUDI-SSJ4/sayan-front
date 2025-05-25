@@ -10,18 +10,18 @@ import { FiEdit2, FiTrash2 } from "react-icons/fi";
 const typeTranslations = {
   live: "مباشرة",
   recorded: "تفاعلية",
-  attend: "حضورية"
+  attend: "حضورية",
 };
 
 const levelTranslations = {
   intermediate: "متوسط",
   advanced: "متقدم",
-  beginner: "مبتدئ"
+  beginner: "مبتدئ",
 };
 
 function CoursesDataTable({ CoursesData, academyId }) {
   const dispatch = useDispatch();
-  
+
   const handleDelete = (courseId) => {
     Swal.fire({
       title: "حذف الدورة",
@@ -69,20 +69,25 @@ function CoursesDataTable({ CoursesData, academyId }) {
           </thead>
           <tbody className="divide-y divide-gray-100">
             {CoursesData.map((course) => (
-              <tr 
-                key={course.id} 
+              <tr
+                key={course.id}
                 className="hover:bg-blue-50 transition-colors duration-200"
               >
                 <td className="p-3">
                   <div className="w-16 h-16 overflow-hidden rounded-lg mr-0">
-                    <img 
-                      src={course.image || `https://source.unsplash.com/random/200x200?${course.category}`} 
+                    <img
+                      src={
+                        course.image ||
+                        `https://source.unsplash.com/random/200x200?${course.category}`
+                      }
                       alt={course.title}
                       className="w-full h-full object-cover"
                     />
                   </div>
                 </td>
-                <td className="p-3 font-medium text-gray-900">{course.title}</td>
+                <td className="p-3 font-medium text-gray-900">
+                  {course.title}
+                </td>
                 <td className="p-3 text-gray-700">{course.category}</td>
                 <td className="p-3">
                   <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-800">
@@ -101,7 +106,7 @@ function CoursesDataTable({ CoursesData, academyId }) {
                 <td className="p-3">
                   <div className="flex items-center justify-center gap-2">
                     <div className="relative group">
-                      <Link to={`/academy/new-course/${course.id}`}>
+                      <Link to={`/academy/course/${course.id}/manage`}>
                         <button className="p-1.5 rounded-full bg-blue-50 text-blue-600 hover:bg-blue-100 transition-colors">
                           <FiEdit2 size={16} />
                         </button>

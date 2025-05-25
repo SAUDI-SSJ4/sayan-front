@@ -75,15 +75,15 @@ const AcademyLogin = () => {
 
   const handleAccountNavgation = ({ type, access_token }) => {
     if (type === "academy") {
-      Cookies.set("academy_token", access_token, { expires: 4 });
-      Cookies.set("is_login", true, { expires: 4 });
-      Cookies.set("login_type", "academy", { expires: 4 });
+      Cookies.set("academy_token", access_token, { expires: 7 });
+      Cookies.set("is_login", true, { expires: 7 });
+      Cookies.set("login_type", "academy", { expires: 7 });
       toast.success("تم تسجيل الدخول بنجاح 🎉");
       location.replace("/academy");
     } else {
-      Cookies.set("student_token", access_token, { expires: 4 });
-      Cookies.set("is_login", true, { expires: 4 });
-      Cookies.set("login_type", "student", { expires: 4 });
+      Cookies.set("student_token", access_token, { expires: 7 });
+      Cookies.set("is_login", true, { expires: 7 });
+      Cookies.set("login_type", "student", { expires: 7 });
       toast.success("تم تسجيل الدخول بنجاح 🎉");
       location.replace("/student/dashboard");
     }

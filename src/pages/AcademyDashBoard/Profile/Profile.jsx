@@ -13,17 +13,14 @@ import Insta from "../../../assets/icons/Insta.svg";
 
 const Profile = () => {
   const [isLoading, setIsLoading] = useState(true);
-  // const [showSocialTooltip, setShowSocialTooltip] = useState(false); // تم التعليق - غير ضروري بدون انيميشن
   const navigate = useNavigate();
 
   const profileInfo = useSelector((state) => state.academyUser.academy);
   const { user = {}, academy = {} } = profileInfo || {};
-
   const { 
     name: userName, 
     email: userEmail, 
     phone: userPhone, 
-    // image: userImage // غير مستخدم مباشرة في العرض، academyImage تستخدم للصورة الرئيسية
   } = user || {};
 
   const {
@@ -37,7 +34,7 @@ const Profile = () => {
     cover,
     address,
     about,
-    phone: academyPhone,
+    support_phone: academyPhone,
   } = academy || {};
 
   useEffect(() => {
@@ -288,9 +285,7 @@ const Profile = () => {
                 alt="غلاف الأكاديمية"
                 style={styles.coverImage}
               />
-              <div style={styles.coverOverlay}>
-                <span>يمكنك تحديث الغلاف من خلال تحديث المعلومات</span>
-              </div>
+
             </>
           )}
         </div>
@@ -367,7 +362,7 @@ const Profile = () => {
                   <div style={styles.infoRow}>
                     <div style={styles.infoLabel}>الاسم</div>
                     <div style={styles.infoValue}>
-                      {userName || academyName || "غير متوفر"}
+                      {academyName || userName || "غير متوفر"}
                     </div>
                   </div>
                   <div style={styles.infoRow}>
@@ -379,7 +374,7 @@ const Profile = () => {
                   {(userPhone || academyPhone) && (
                     <div style={styles.infoRow}>
                       <div style={styles.infoLabel}><FaPhone size={14} style={{marginRight: '6px'}}/>رقم الهاتف</div>
-                      <div style={styles.infoValue}>{userPhone || academyPhone}</div>
+                      <div style={styles.infoValue}>{academyPhone || userPhone}</div>
                     </div>
                   )}
                   {address && (

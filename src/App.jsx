@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useEffect, useState, lazy, Suspense } from "react";
 import "./App.scss";
 import "bootstrap/dist/css/bootstrap.rtl.min.css";
 import "quill/dist/quill.snow.css";
@@ -7,36 +7,40 @@ import "ag-grid-community/styles/ag-theme-alpine.css";
 import "animate.css";
 import "aos/dist/aos.css";
 import AOS from "aos";
-import AdminRoute from "./Routes/adminRoutes";
-import StudentRoute from "./Routes/StudentRoutes";
 import { Route, Routes, useLocation } from "react-router-dom";
-import NotFound from "./component/NotFound/NotFound";
-import Layout1 from "./pages/AcadmyLayout/Layout1/layout1";
-import AllBlogpage from "./component/AcadmyLayouts/Blog/AllBlogpage/AllBlogpage";
-import AllProductsPage from "./component/AcadmyLayouts/AllProductsPage/AllProductsPage";
-import AllCoursesPage from "./component/AcadmyLayouts/AllCoursesPage/AllCoursesPage";
-import ContactUs3 from "./component/AcadmyLayouts/ContactUs3/ContactUs3";
-import AcademyRoutes from "./Routes/AcademyRoutes";
-import Home from "./pages/MainPages/Home/Home";
-import LaunchYourAcademy from "./pages/MainPages/LaunchYourAcademy/LaunchYourAcademy";
-import EmployeeTrainning from "./pages/MainPages/EmployeeTrainning/EmployeeTrainning";
-import Ai from "./pages/MainPages/Ai/Ai";
-import MainBlog from "./pages/MainPages/Blog/MainBlog";
-import SingleCourse from "./pages/MainPages/SingleCourse/SingleCourse";
-import Signin from "./pages/signin/Signin";
-import AcademyLogin from "./pages/AcademyDashBoard/Login/AcademyLogin";
-import ForgetPassword from "./pages/signin/ForgetPassword";
-import AcademyRegister from "./pages/AcademyDashBoard/Register/Register";
 import AuthGaurdRoute from "./Routes/AuthGaurdRoute";
-import HomeAcademy from "./pages/MainPages/AcademyHome/HomeAcademy";
-import PrivacyPolicyPage from "./pages/Policy/PrivacyPolicyPage";
-import TestPage from "./TestPage";
-import CartPage from "./pages/Cart/CartPage";
 import { CartProvider } from "./context/CartContext";
 import { NotificationProvider } from "./context/NotificationContext";
-import NewLayout from "./pages/AcadmyLayout/NewLayout/NewLayout";
+import { Toaster } from 'react-hot-toast';
 
 import { Banner, BannerCollapseButton } from "flowbite-react";
+
+// Lazy loaded components
+const NotFound = lazy(() => import("./component/NotFound/NotFound"));
+const Layout1 = lazy(() => import("./pages/AcadmyLayout/Layout1/layout1"));
+const AllBlogpage = lazy(() => import("./component/AcadmyLayouts/Blog/AllBlogpage/AllBlogpage"));
+const AllProductsPage = lazy(() => import("./component/AcadmyLayouts/AllProductsPage/AllProductsPage"));
+const AllCoursesPage = lazy(() => import("./component/AcadmyLayouts/AllCoursesPage/AllCoursesPage"));
+const ContactUs3 = lazy(() => import("./component/AcadmyLayouts/ContactUs3/ContactUs3"));
+const Home = lazy(() => import("./pages/MainPages/Home/Home"));
+const LaunchYourAcademy = lazy(() => import("./pages/MainPages/LaunchYourAcademy/LaunchYourAcademy"));
+const EmployeeTrainning = lazy(() => import("./pages/MainPages/EmployeeTrainning/EmployeeTrainning"));
+const Ai = lazy(() => import("./pages/MainPages/Ai/Ai"));
+const MainBlog = lazy(() => import("./pages/MainPages/Blog/MainBlog"));
+const SingleCourse = lazy(() => import("./pages/MainPages/SingleCourse/SingleCourse"));
+const Signin = lazy(() => import("./pages/signin/Signin"));
+const AcademyLogin = lazy(() => import("./pages/AcademyDashBoard/Login/AcademyLogin"));
+const ForgetPassword = lazy(() => import("./pages/signin/ForgetPassword"));
+const AcademyRegister = lazy(() => import("./pages/AcademyDashBoard/Register/Register"));
+const HomeAcademy = lazy(() => import("./pages/MainPages/AcademyHome/HomeAcademy"));
+const PrivacyPolicyPage = lazy(() => import("./pages/Policy/PrivacyPolicyPage"));
+const TestPage = lazy(() => import("./TestPage"));
+const CartPage = lazy(() => import("./pages/Cart/CartPage"));
+const NewLayout = lazy(() => import("./pages/AcadmyLayout/NewLayout/NewLayout"));
+const AcademySingleCourse = lazy(() => import("./pages/AcadmyLayout/Layout1/AcademySingleCourse"));
+const AdminRoute = lazy(() => import("./Routes/adminRoutes"));
+const StudentRoute = lazy(() => import("./Routes/StudentRoutes"));
+const AcademyRoutes = lazy(() => import("./Routes/AcademyRoutes"));
 
 function App() {
   const { pathname } = useLocation();
@@ -48,6 +52,7 @@ function App() {
   return (
     <NotificationProvider>
       <CartProvider>
+        <Toaster />
         <div
           id="sticky-banner"
           tabIndex="-1"
@@ -76,45 +81,47 @@ function App() {
         </div>
 
         <div dir="rtl">
-          {pathname.includes("/admin") ? (
-            <AdminRoute />
-          ) : pathname.includes("/student") ? (
-            <StudentRoute />
-          ) : pathname.includes("/academy") ? (
-            <AcademyRoutes />
-          ) : null}
-          <Routes>
-            {/* <Route path="/myacademy/:name/:id/:slug" element={<HomeAcademy />} /> */}
+          <Suspense fallback={<div>Loading...</div>}>
+            {pathname.includes("/admin") ? (
+              <AdminRoute />
+            ) : pathname.includes("/student") ? (
+              <StudentRoute />
+            ) : pathname.includes("/academy") ? (
+              <AcademyRoutes />
+            ) : null}
+            <Routes>
+              {/* <Route path="/myacademy/:name/:id/:slug" element={<HomeAcademy />} /> */}
 
-            {/* <Route path="/acdemy/:id" element={<Layout1 />} /> */}
-            <Route path="/acdemy/:id" element={<Layout1 />} />
+              {/* <Route path="/acdemy/:id" element={<Layout1 />} /> */}
+              <Route path="/acdemy/:id" element={<Layout1 />} />
 
-            <Route index path="/" element={<Home />} />
-            <Route path="/cart" element={<CartPage />} />
-            <Route index path="/test" element={<TestPage />} />
+              <Route index path="/" element={<Home />} />
+              <Route path="/cart" element={<CartPage />} />
+              <Route index path="/test" element={<TestPage />} />
 
-            <Route path="/LaunchYourAcademy" element={<LaunchYourAcademy />} />
-            <Route path="/EmployeeTrainning" element={<EmployeeTrainning />} />
-            <Route path="/Ai" element={<Ai />} />
-            {/* <Route path="/Blogs" element={<MainBlog />} /> */}
-            <Route path="/SingleCourse/:courseId" element={<SingleCourse />} />
+              <Route path="/LaunchYourAcademy" element={<LaunchYourAcademy />} />
+              <Route path="/EmployeeTrainning" element={<EmployeeTrainning />} />
+              <Route path="/Ai" element={<Ai />} />
+              {/* <Route path="/Blogs" element={<MainBlog />} /> */}
+              <Route path="/SingleCourse/:courseId" element={<SingleCourse />} />
+              <Route path="/acdemy/:academyId/SingleCourse/:courseId" element={<AcademySingleCourse />} />
 
-            {/* <Route path="/acdemy/:acdemyId" element={<Layout1 />} /> */}
+              {/* <Route path="/acdemy/:acdemyId" element={<Layout1 />} /> */}
 
-            {/* <Route path="/acdemy/:acdemyId/allBlogs" element={<AllBlogpage />} /> */}
-            <Route
-              path="/acdemy/:acdemyId/AllProductsPage"
-              element={<AllProductsPage />}
-            />
-            <Route
-              path="/acdemy/:acdemyId/AllCoursesPage"
-              element={<AllCoursesPage />}
-            />
-            <Route
-              path="/acdemy/:acdemyId/ContactUs"
-              element={<ContactUs3 />}
-            />
-            <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
+              {/* <Route path="/acdemy/:acdemyId/allBlogs" element={<AllBlogpage />} /> */}
+              <Route
+                path="/acdemy/:acdemyId/AllProductsPage"
+                element={<AllProductsPage />}
+              />
+              <Route
+                path="/acdemy/:acdemyId/AllCoursesPage"
+                element={<AllCoursesPage />}
+              />
+              <Route
+                path="/acdemy/:acdemyId/ContactUs"
+                element={<ContactUs3 />}
+              />
+              <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
               <Route element={<AuthGaurdRoute />}>
                 <Route path="/login" element={<AcademyLogin />} />
                 <Route path="signin" element={<Signin />} />
@@ -124,7 +131,8 @@ function App() {
               
               {/* مسار للصفحات غير الموجودة */}
               <Route path="*" element={<NotFound />} />
-          </Routes>
+            </Routes>
+          </Suspense>
         </div>
       </CartProvider>
     </NotificationProvider>

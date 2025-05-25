@@ -17,8 +17,8 @@ const authSlice = createSlice({
       state.isAuthenticated = true;
       state.token = action.payload.access_token;
       state.type = action.payload.user.type;
-      Cookies.set("student_token", action.payload.access_token, { expires: 1 / 24 });
-      Cookies.set("type", action.payload.user.type, { expires: 1 / 24 });
+      Cookies.set("student_token", action.payload.access_token, { expires: 7 });
+      Cookies.set("type", action.payload.user.type, { expires: 7 });
     },
     logout: (state) => {
       state.isAuthenticated = false;

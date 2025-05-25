@@ -1,0 +1,18 @@
+# Allow all web crawlers
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://sayan.sa/sitemap.xml
+
+# Disallow admin and private routes
+Disallow: /admin/
+Disallow: /private/
+Disallow: /api/
+Disallow: /dashboard/
+
+# Allow specific paths
+Allow: /courses/
+Allow: /academy/
+Allow: /about/
+Allow: /contact/ 

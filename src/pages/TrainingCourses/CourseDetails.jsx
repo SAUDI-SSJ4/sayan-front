@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import { Spinner } from "react-bootstrap";
 import Cookies from "js-cookie";
+import { apiCall } from "../../utils/auth";
 import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
 import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
@@ -23,16 +24,19 @@ import Videotype from "../../assets/icons/videoType.svg?react";
 import Examtype from "../../assets/icons/examType.svg?react";
 import { formatLongText } from "../../utils/helpers";
 import CustomVideoPlayer from "./components/CustomVideoPlayer";
+import toast from "react-hot-toast";
+
+const baseUrl = "https://www.sayan-server.com"; // Moved outside the function
 
 const CourseDetails = () => {
-  const { id } = useParams();
+  const { id: courseId } = useParams();
   const [courseData, setCourseData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [active, setActive] = useState(0);
   const [expanded, setExpanded] = useState(false);
   const [chosenCategory, setChosenCategory] = useState(null);
   const [chosenLesson, setChosenLesson] = useState(null);
-  const [chosenVideo, setChosenVideo] = useState(null);
+  // const [chosenVideo, setChosenVideo] = useState(null); // No longer needed - using chosenLesson.content.videoId
   const [chosenExam, setChosenExam] = useState(null);
   const [answers, setAnswers] = useState({});
   const [errorMessages, setErrorMessages] = useState({});
@@ -88,246 +92,177 @@ const CourseDetails = () => {
     setQuestion("");
   };
 
-  const handleLessonClick = (lesson, category) => {
+  const handleLessonClick = (lesson, chapter) => {
     setSelectedLesson(lesson);
+    setChosenLesson(lesson);
+    setChosenCategory(chapter);
+
+    // Determine content type and set chosen video/exam
     if (lesson.type === "video") {
-      setChosenVideo(lesson.video);
+      // setChosenVideo(lesson.content?.videoId); // No longer needed - using chosenLesson.content.videoId directly
       setChosenExam(null);
     } else if (lesson.type === "exam") {
-      setChosenVideo(null);
-      setChosenExam(lesson.video);
+      // setChosenVideo(null); // No longer needed
+      setChosenExam(lesson.content); // Assuming lesson.content contains exam details
+          } else if (lesson.type === "flippingCard") {
+        // setChosenVideo(null); // No longer needed
+        setChosenExam(null);
+      // Update chosenLesson content to include isFlipped state if needed for flipping cards
+      setChosenLesson(prev => ({ ...prev, content: { ...lesson.content, cards: lesson.content.cards.map(card => ({ ...card, isFlipped: false })) } }));
+          } else if (lesson.type === "timeline") {
+        // setChosenVideo(null); // No longer needed
+        setChosenExam(null);
+      setSelectedTimelineItem(null); // Reset timeline selection on lesson change
     }
-    setChosenLesson(lesson);
-    setChosenCategory(category);
   };
 
   useEffect(() => {
-    const fetchTempCourse = async () => {
+    const fetchCourseDetails = async () => {
+      setLoading(true);
       try {
-        await new Promise((resolve) => setTimeout(resolve, 1000));
-        const tempCourseData = {
-          id: id,
-          title: "دورة البرمجة الشاملة",
-          description: "دورة شاملة في أساسيات البرمجة وتطوير الويب",
-          data: {
-            categories: [
-              {
-                title: "مقدمة في البرمجة",
+        const apiUrl = `${baseUrl}/website/mycourse/${courseId}`;
+
+        // استخدام apiCall بدلاً من fetch مباشرة - سيتم التحقق من التوكن تلقائياً
+        const response = await apiCall(apiUrl, {
+          method: 'GET'
+        });
+
+        const result = await response.json();
+        const fetchedData = result.data; // Adjust based on your API response structure
+
+        // Initialize the first chapter and lesson using 'chapters' array
+        if (fetchedData && fetchedData.chapters) {
+          const updatedChapters = fetchedData.chapters.map(chapter => {
+            // Check if chapter has lessons, if not, add dummy lessons
+            if (!chapter.lessons || chapter.lessons.length === 0) {
+              return {
+                ...chapter,
                 lessons: [
                   {
-                    type: "video",
-                    content: {
-                      title: "ما هي البرمجة؟",
-                      src: "https://www.sayan-server.com/courses/videos/academy//mPMpsr4Lj1roFRKA94Oa.mp4",
-                      description: "مقدمة في عالم البرمجة",
-                    },
-                  },
-                  {
-                    type: "video",
-                    content: {
-                      title: "تاريخ البرمجة",
-                      src: "https://www.sayan-server.com/courses/videos/academy//mPMpsr4Lj1roFRKA94Oa.mp4",
-                      description: "نظرة تاريخية على تطور البرمجة",
-                    },
-                  },
-                  {
-                    type: "exam",
-                    content: {
-                      title: "اختبار أساسيات البرمجة",
+                    id: 'dummy-exam-hard-' + chapter.id, // Unique ID for dummy lesson
+                    title: 'اختبار صعب جداً - ' + chapter.title, // Dummy title
+                    type: 'exam',
+                    content: { // Dummy hard exam content (10 questions)
+                      title: 'اختبار صعب على ' + chapter.title,
+                      description: 'هذا اختبار تجريبي صعب للفصل.',
                       questions: [
-                        {
-                          id: 1,
-                          question: "ما هو مفهوم البرمجة؟",
-                          options: [
-                            "عملية كتابة التعليمات للحاسوب",
-                            "تصميم واجهات المستخدم",
-                            "إدارة قواعد البيانات",
-                          ],
-                          correctAnswer: "عملية كتابة التعليمات للحاسوب",
-                        },
+                        { question: 'من اكتشف الجاذبية؟', options: ['نيوتن', 'أينشتاين', 'جاليليو', 'تيسلا'], correctAnswer: 'نيوتن' },
+                        { question: 'ما هي عاصمة اليابان؟', options: ['سيول', 'بكين', 'طوكيو', 'بانكوك'], correctAnswer: 'طوكيو' },
+                        { question: 'في أي عام انتهت الحرب العالمية الثانية؟', options: ['1939', '1945', '1918', '1950'], correctAnswer: '1945' },
+                        { question: 'ما هو العنصر الكيميائي رمزه Au؟', options: ['فضة', 'نحاس', 'ذهب', 'حديد'], correctAnswer: 'ذهب' },
+                        { question: 'أطول نهر في العالم هو؟', options: ['الأمازون', 'النيل', 'المسيسيبي', 'يانغتسي'], correctAnswer: 'الأمازون' },
+                        { question: 'كم عدد الكواكب في نظامنا الشمسي؟', options: ['8', '9', '10', '7'], correctAnswer: '8' },
+                        { question: 'من كتب مسرحية هاملت؟', options: ['شكسبير', 'موزارت', 'بيتهوفن', 'دا فينشي'], correctAnswer: 'شكسبير' },
+                        { question: 'ما هي أعلى قمة جبلية في العالم؟', options: ['كي2', 'كانتشنجونغا', 'لوم', 'إفرست'], correctAnswer: 'إفرست' },
+                        { question: 'ما هو أسرع حيوان بري؟', options: ['الأسد', 'الفهد', 'الغزال', 'الحصان'], correctAnswer: 'الفهد' },
+                        { question: 'ما هو لون الدم في الأخطبوط؟', options: ['أحمر', 'أزرق', 'شفاف', 'أخضر'], correctAnswer: 'أزرق' },
                       ],
                     },
                   },
                   {
-                    type: "flippingCard",
-                    content: {
-                      title: "مصطلحات البرمجة",
+                    id: 'dummy-flipping-card-detailed-' + chapter.id, // Unique ID
+                    title: 'بطاقات تفاعلية مفصلة - ' + chapter.title, // Dummy title
+                    type: 'flippingCard',
+                    content: { // Dummy detailed flipping card content
+                      title: 'تعلم المفاهيم الهامة',
                       cards: [
-                        {
-                          front: "Algorithm",
-                          back: "خوارزمية: مجموعة من الخطوات لحل مشكلة معينة",
-                          image: "https://placehold.co/400x300?text=Algorithm",
-                          color: "#FFD700",
-                        },
-                        {
-                          front: "Variable",
-                          back: "متغير: وعاء لتخزين البيانات في البرنامج",
-                          image: "https://placehold.co/400x300?text=Variable",
-                          color: "#4CAF50",
-                        },
-                        {
-                          front: "Function",
-                          back: "دالة: مجموعة من التعليمات لأداء مهمة محددة",
-                          image: "https://placehold.co/400x300?text=Function",
-                          color: "#2196F3",
-                        },
-                      ],
-                    },
-                  },
-                ],
-              },
-              {
-                title: "جافا سكريبت المتقدمة",
-                lessons: [
-                  {
-                    type: "video",
-                    content: {
-                      title: "ميزات ES6",
-                      src: "https://www.sayan-server.com/courses/videos/academy//mPMpsr4Lj1roFRKA94Oa.mp4",
-                      description: "تعلم ميزات جافا سكريبت الحديثة",
-                    },
-                  },
-                  {
-                    type: "exam",
-                    content: {
-                      title: "اختبار ممارسة جافا سكريبت",
-                      questions: [
-                        {
-                          id: 2,
-                          question: "ما هي ميزات ES6؟",
-                          options: [
-                            "Arrow functions",
-                            "let و const",
-                            "Destructuring",
-                          ],
-                          correctAnswer: "Arrow functions",
-                        },
-                      ],
-                    },
-                  },
-                ],
-              },
-              {
-                title: "أساسيات تطوير الويب",
-                lessons: [
-                  {
-                    type: "video",
-                    content: {
-                      title: "نظرة عامة على HTML وCSS",
-                      src: "https://www.sayan-server.com/courses/videos/academy//mPMpsr4Lj1roFRKA94Oa.mp4",
-                      description: "مقدمة في HTML و CSS",
-                    },
-                  },
-                  {
-                    type: "video",
-                    content: {
-                      title: "بناء أول صفحة ويب لك",
-                      src: "https://www.sayan-server.com/courses/videos/academy//mPMpsr4Lj1roFRKA94Oa.mp4",
-                      description:
-                        "تعلم كيفية إنشاء صفحة ويب بسيطة باستخدام HTML وCSS",
-                    },
-                  },
-                  {
-                    type: "exam",
-                    content: {
-                      title: "اختبار HTML/CSS",
-                      questions: [
-                        {
-                          id: 3,
-                          question: "ما هو HTML؟",
-                          options: [
-                            "لغة ترميز النص التشعبي",
-                            "لغة برمجة",
-                            "قاعدة بيانات",
-                          ],
-                          correctAnswer: "لغة ترميز النص التشعبي",
-                        },
-                        {
-                          id: 4,
-                          question: "ما هو CSS؟",
-                          options: [
-                            "لغة ترميز النص التشعبي",
-                            "لغة برمجة",
-                            "قاعدة بيانات",
-                            "لغة التصميم",
-                          ],
-                          correctAnswer: "لغة التصميم",
-                        },
+                        { front: 'ما هو الرياكت؟', back: 'مكتبة جافاسكريبت لبناء واجهات المستخدم.', description: 'وصف تفصيلي للرياكت.', image: 'https://i.ibb.co/Zzr165m4/Chat-GPT-Image-8-2025-04-06-00.png', color: '#61DAFB' },
+                        { front: 'ما هو النود جي اس؟', back: 'بيئة تشغيل جافاسكريبت خارج المتصفح.', description: 'وصف تفصيلي للنود جي اس.', image: 'https://i.ibb.co/Zzr165m4/Chat-GPT-Image-8-2025-04-06-00.png', color: '#339933' },
+                        { front: 'ما هي قاعدة البيانات؟', back: 'مجموعة منظمة من البيانات.', description: 'وصف تفصيلي لقواعد البيانات.', image: 'https://i.ibb.co/Zzr165m4/Chat-GPT-Image-8-2025-04-06-00.png', color: '#FF7000' },
                       ],
                     },
                   },
                   {
-                    type: "timeline",
-                    content: {
-                      title: "تطور تقنيات الويب",
+                    id: 'dummy-timeline-events-' + chapter.id, // Unique ID
+                    title: 'خط زمني للأحداث الرئيسية - ' + chapter.title, // Dummy title
+                    type: 'timeline',
+                    content: { // Dummy timeline content with more events
+                      title: 'أحداث تاريخية رئيسية',
                       cards: [
-                        {
-                          order: 1,
-                          title: "ولادة شبكة الويب العالمية",
-                          description:
-                            "تم اختراع شبكة الويب العالمية من قبل تيم بيرنرز لي",
-                          color: "#FF6B6B",
-                          image: "https://via.placeholder.com/150?text=WWW",
-                        },
-                        {
-                          order: 2,
-                          title: "إطلاق أول متصفح ويب رسومي",
-                          description:
-                            "تم إطلاق Mosaic، أول متصفح ويب رسومي شعبي",
-                          color: "#4CAF50",
-                          image: "https://via.placeholder.com/150?text=Mosaic",
-                        },
-                        {
-                          order: 3,
-                          title: "ظهور JavaScript",
-                          description:
-                            "تم إنشاء JavaScript بواسطة Brendan Eich في Netscape",
-                          color: "#2196F3",
-                          image:
-                            "https://via.placeholder.com/150?text=JavaScript",
-                        },
-                        {
-                          order: 4,
-                          title: "ظهور تصميم الويب المتجاوب",
-                          description:
-                            "بدأ مفهوم تصميم الويب المتجاوب في الانتشار",
-                          color: "#9C27B0",
-                          image:
-                            "https://via.placeholder.com/150?text=Responsive",
-                        },
+                        { title: 'تأسيس روما', description: 'أسطورة تأسيس مدينة روما.', color: '#DB4437' },
+                        { title: 'سقوط الإمبراطورية الرومانية الغربية', description: 'نهاية الحكم الروماني في الغرب.', color: '#0F9D58' },
+                        { title: 'عصر النهضة يبدأ في إيطاليا', description: 'فترة من التغير الثقافي والفني والعلمي.', color: '#F4B400'},
+                         { title: 'الثورة الفرنسية', description: 'فترة تحول سياسي واجتماعي كبير في فرنسا.', color: '#42A5F5'},
+                         { title: 'اختراع الإنترنت', description: 'نقطة تحول في تاريخ الاتصالات والمعلومات.', color: '#7E57C2'},
                       ],
                     },
                   },
                 ],
-              },
-            ],
-          },
-        };
-        setCourseData(tempCourseData);
-        // Set initial states
-        const firstCategory = tempCourseData.data.categories[0];
-        const firstLesson = firstCategory.lessons[0];
-        setChosenCategory(firstCategory);
+              };
+            }
+            return chapter;
+          });
+          fetchedData.chapters = updatedChapters; // Update chapters with dummy lessons
+        }
+
+        setCourseData(fetchedData);
+
+        // Initialize the first chapter and lesson using 'chapters' array
+        if (fetchedData && fetchedData.chapters && fetchedData.chapters.length > 0) {
+          const firstChapter = fetchedData.chapters[0];
+          if (firstChapter.lessons && firstChapter.lessons.length > 0) {
+            const firstLesson = firstChapter.lessons[0];
+             setChosenCategory(firstChapter);
         setChosenLesson(firstLesson);
         setSelectedLesson(firstLesson);
+
+             // Set initial video/exam based on the first lesson type
         if (firstLesson.type === "video") {
-          setChosenVideo(firstLesson.video);
+                // setChosenVideo(firstLesson.content?.videoId); // No longer needed - using chosenLesson.content.videoId directly
+             } else if (firstLesson.type === "exam") {
+                setChosenExam(firstLesson.content); // Assuming lesson.content has exam data
+             } else if (firstLesson.type === "flippingCard") {
+               // Initialize flipping card state
+                setChosenLesson(prev => ({ ...prev, content: { ...firstLesson.content, cards: firstLesson.content.cards.map(card => ({ ...card, isFlipped: false })) } }));
+             } else if (firstLesson.type === "timeline") {
+                // Initialize timeline state if needed
+                 // setSelectedTimelineItem(null); // Already reset on lesson change
+             }
+          } else {
+             setChosenCategory(firstChapter);
+             // Handle case with chapter but no lessons - dummy lessons added above will be used
+             console.warn(`Chapter '${firstChapter.title}' had no lessons, dummy lessons added.`);
+             // Optionally select the first dummy lesson
+             if(firstChapter.lessons && firstChapter.lessons.length > 0) {
+                 const firstDummyLesson = firstChapter.lessons[0];
+                 setChosenLesson(firstDummyLesson);
+                 setSelectedLesson(firstDummyLesson);
+                  if (firstDummyLesson.type === "exam") {
+                    setChosenExam(firstDummyLesson.content);
+                 } else if (firstDummyLesson.type === "flippingCard") {
+                    setChosenLesson(prev => ({ ...prev, content: { ...firstDummyLesson.content, cards: firstDummyLesson.content.cards.map(card => ({ ...card, isFlipped: false })) } }));
+                 } else if (firstDummyLesson.type === "timeline") {
+                    // No specific state needed on initial load for timeline beyond setting chosenLesson/selectedLesson
+                 }
+             }
+          }
+        } else {
+           // Handle case with no chapters or data
+           console.warn("No chapters or data found for this course.");
+           toast.info("لا توجد محتويات لهذه الدورة حالياً.");
         }
-        setLoading(false);
+
       } catch (error) {
-        console.error("Error setting up temporary course:", error);
+        console.error("Error fetching course details:", error);
+        toast.error("فشل في تحميل تفاصيل الدورة: " + error.message);
+        // Optionally clear course data on error: setCourseData(null);
+      } finally {
         setLoading(false);
       }
     };
-    fetchTempCourse();
-  }, [id]);
+
+    if (courseId) {
+       fetchCourseDetails();
+    }
+
+  }, [courseId]); // Rerun effect if courseId changes
 
   useEffect(() => {
     setExamStarted(false);
     setExamAnswers({});
     setExamResults(null);
     setShowError(false);
-  }, [chosenLesson]);
+  }, [chosenLesson]); // Reset exam state when chosenLesson changes
 
   const handleAccordionChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : null);
@@ -377,10 +312,28 @@ const CourseDetails = () => {
     setExamAnswers({});
     setExamResults(null);
     setShowError(false);
+    setChosenLesson(prevLesson => {
+      return { ...prevLesson, content: { ...prevLesson.content, cards: prevLesson.content.cards.map(card => ({ ...card, isFlipped: false })) } };
+    });
+  };
+
+  const handleFlipCard = (cardIndex) => {
+     if (!chosenLesson || chosenLesson.type !== 'flippingCard' || !chosenLesson.content || !chosenLesson.content.cards) return;
+
+     setChosenLesson(prevLesson => {
+        const updatedCards = prevLesson.content.cards.map((card, index) => {
+           if(index === cardIndex) {
+              return { ...card, isFlipped: !card.isFlipped };
+           }
+           return card;
+        });
+        return { ...prevLesson, content: { ...prevLesson.content, cards: updatedCards } };
+     });
   };
 
   if (loading) return <Spinner animation="border" />;
-  if (!courseData) return <div>Error loading course data</div>;
+  if (!courseData) return <div>تعذر تحميل بيانات الدورة.</div>;
+  if (!courseData.chapters || courseData.chapters.length === 0) return <div>لا توجد محتويات لهذه الدورة حالياً.</div>;
 
   return (
     <div className="all-info-top-header main-info-top mb-5 acadmy-single-course">
@@ -399,66 +352,158 @@ const CourseDetails = () => {
       </div>
 
       <div
-        className={`${classes.dashboard} ${classes.lessonsListandCategoryParent}`}
+        className={`${classes.dashboard} ${classes.chapters}`}
       >
         <div className={`${classes.sidebar} ${classes.left}`}>
           <CustomAccordion
-            data={courseData.data.categories}
+            data={courseData.chapters}
             defaultExpanded={expanded}
             onPanelChange={handleAccordionChange}
-            renderSummary={(category, i) => (
+            renderSummary={(chapter, i) => (
               <p className={classes.accordionSummary}>
-                {formatLongText(category.title, 15)}
+                {formatLongText(chapter.title, 50)}
                 <span className={classes.lessonCount}>
-                  ({i + 1}/{category.lessons.length})
+                  ({chapter.lessons.length})
                 </span>
               </p>
             )}
-            renderDetails={(category) => (
+            renderDetails={(chapter) => (
               <div className={classes.accordionDetails}>
-                {category.lessons.map((lesson, index) => (
+                {chapter.lessons.map((lesson, index) => (
                   <div
                     key={index}
-                    onClick={() => handleLessonClick(lesson, category)}
-                    className={`${classes.lessonItem} ${
-                      selectedLesson === lesson ? classes.selectedLesson : ""
-                    }`}
+                    onClick={() => handleLessonClick(lesson, chapter)}
+                    className={`${classes.lessonItem} ${ selectedLesson === lesson ? classes.selectedLesson : "" }`}
                   >
-                    {lesson.type === "video" ? (
-                      <Videotype
-                        alt="lesson type"
-                        className={`${classes.lessonType} ${
-                          selectedLesson === lesson
-                            ? classes.lessonTypeActive
-                            : ""
-                        }`}
-                      />
-                    ) : (
-                      <Examtype
-                        alt="lesson type"
-                        className={`${classes.lessonType} ${
-                          selectedLesson === lesson
-                            ? classes.lessonTypeActive
-                            : ""
-                        }`}
-                      />
-                    )}
-                    <span>{lesson?.content?.title}</span>
+                    {lesson.type === "video" && <Videotype alt="lesson type" className={`${classes.lessonType} ${ selectedLesson === lesson ? classes.lessonTypeActive : "" }`} />}
+                    {lesson.type === "exam" && <Examtype alt="lesson type" className={`${classes.lessonType} ${ selectedLesson === lesson ? classes.lessonTypeActive : "" }`} />}
+                    {lesson.type === "flippingCard" && <span>🃏</span>}
+                    {lesson.type === "timeline" && <span>⏳</span>}
+
+                    <span>{lesson?.content?.title || lesson?.title}</span>
                   </div>
                 ))}
               </div>
             )}
           />
         </div>
-        {/* <div className={`${classes.content} ${classes.lessonsVideo}`}>
+        <div className={`${classes.content} ${classes.lessonsVideo}`}>
+          {chosenLesson ? (
+            <>
           <div className={classes.title}>
             <h4>{chosenCategory?.title}</h4>
             <div className={classes.lesson}>
               <img src={dooot} alt="" />
-              <h6>{chosenLesson?.content?.title}</h6>
+                  <h6>{chosenLesson?.content?.title || chosenLesson?.title}</h6>
+                </div>
+              </div>
+              
+              {chosenLesson.type === "video" && (chosenLesson?.content?.videoId || chosenLesson?.video) ? (
+                <div className={classes.videoContent}>
+                  <div className={classes.Course}>
+                    <CustomVideoPlayer video={chosenLesson?.content?.videoId || chosenLesson?.video} />
+                    {/* DEBUG: Log video data */}
+                    {console.log('CourseDetails: chosenLesson:', chosenLesson)}
+                    {console.log('CourseDetails: videoId being passed:', chosenLesson?.content?.videoId || chosenLesson?.video)}
+
+                    <div className={`${classes.Tabs}`}>
+                      <div
+                        className={active === 0 ? classes.Active : ""}
+                        onClick={() => setActive(0)}
+                      >
+                        <AboutCourse active={active === 0} />
+                        مؤقت
+                      </div>
+                      <div
+                        className={active === 1 ? classes.Active : ""}
+                        onClick={() => setActive(1)}
+                      >
+                        <ContentCourse active={active === 1} />
+                        أسئلة واجوبة
+                      </div>
+                    </div>
+                    <AnimatePresence mode="sync">
+                      {active === 0 && (
+                        <motion.div
+                          initial={{ y: 100, opacity: 0 }}
+                          animate={{ y: 0, opacity: 1 }}
+                          exit={{ y: 100, opacity: 0 }}
+                          transition={{ duration: 1 }}
+                          className={classes.Card}
+                        >
+                          <h2>نظرة عامة:</h2>
+                          <p>{chosenLesson?.content?.description}</p>
+                        </motion.div>
+                      )}
+                      {active === 1 && (
+                        <motion.div
+                          initial={{ y: 100, opacity: 0 }}
+                          animate={{ y: 0, opacity: 1 }}
+                          exit={{ y: 100, opacity: 0 }}
+                          transition={{ duration: 0.5 }}
+                          className={classes.Card}
+                        >
+                          <h2 className={classes.qaTitle}>الأسئلة والأجوبة</h2>
+                          <div className={classes.qaSection}>
+                            <div className={classes.chatContainer}>
+                              <div className={classes.messagesContainer}>
+                                {messages.map((message, index) => (
+                                  <motion.div
+                                    key={index}
+                                    initial={{ opacity: 0, y: 20 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{
+                                      duration: 0.3,
+                                      delay: index * 0.1,
+                                      ease: "easeOut",
+                                    }}
+                                    className={`${classes.message} ${
+                                      message.type === "user"
+                                        ? classes.userMessage
+                                        : classes.aiMessage
+                                    }`}
+                                  >
+                                    <p>{message.content}</p>
+                                  </motion.div>
+                                ))}
+                                <div ref={messagesEndRef} />
+                              </div>
+                              <div className={classes.inputContainer}>
+                                <textarea
+                                  className={classes.questionInput}
+                                  placeholder="اكتب سؤالك هنا..."
+                                  value={question}
+                                  onChange={(e) => setQuestion(e.target.value)}
+                                  onKeyPress={(e) => {
+                                    if (e.key === "Enter" && !e.shiftKey) {
+                                      e.preventDefault();
+                                      handleAskQuestion();
+                                    }
+                                  }}
+                                  rows="1"
+                                />
+                                <motion.button
+                                  className={classes.sendButton}
+                                  onClick={handleAskQuestion}
+                                  disabled={!question.trim() || isLoading}
+                                  whileHover={{ scale: 1.05 }}
+                                  whileTap={{ scale: 0.95 }}
+                                >
+                                  {isLoading ? (
+                                    <Spinner animation="border" size="sm" />
+                                  ) : (
+                                    "إرسال"
+                                  )}
+                                </motion.button>
+                              </div>
+                            </div>
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
             </div>
           </div>
-          {chosenLesson?.type === "exam" ? (
+              ) : chosenLesson.type === "exam" && chosenExam ? (
             <motion.div
               className={classes.examContent}
               initial={{ opacity: 0, y: 20 }}
@@ -570,56 +615,39 @@ const CourseDetails = () => {
                 </motion.div>
               )}
             </motion.div>
-          ) : chosenLesson?.type === "flippingCard" ? (
+              ) : chosenLesson.type === "flippingCard" && chosenLesson.content?.cards ? (
             <motion.div
               className={classes.flippingCardsContainer}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.5 }}
             >
-              {chosenLesson?.content?.cards?.map((card, index) => (
+                    {chosenLesson.content.cards.map((card, index) => (
                 <motion.div
                   key={index}
                   className={classes.flipCard}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.1 }}
+                         onClick={() => handleFlipCard(index)}
+                        style={{
+                          "--card-color": card.color || "#0062ff",
+                        }}
                 >
                   <div
-                    className={`${classes.flipCardInner} ${
-                      card.isFlipped ? classes.isFlipped : ""
-                    }`}
-                    onClick={() => {
-                      const updatedCards = [...chosenLesson.content.cards];
-                      updatedCards[index] = {
-                        ...card,
-                        isFlipped: !card.isFlipped,
-                      };
-                      setChosenLesson((prev) => ({
-                        ...prev,
-                        content: { ...prev.content, cards: updatedCards },
-                      }));
-                    }}
+                          className={`${classes.flipCardInner} ${ card.isFlipped ? classes.isFlipped : "" }`}
+                          
                     style={{
                       "--card-color": card.color || "#0062ff",
                     }}
                   >
                     <div className={classes.flipCardFront}>
                       <h3>{card.front}</h3>
-                      {card.image && (
-                        <img
-                          src={card.image}
-                          alt={card.front}
-                          onError={(e) => {
-                            e.target.onerror = null;
-                            e.target.src = "/images/placeholder.png";
-                          }}
-                        />
-                      )}
+                      {/* Removed image from front */}
                     </div>
                     <div className={classes.flipCardBack}>
                       <p>{card.back}</p>
-                      {card.image && (
+                      {card.image && ( /* Display image only on back */
                         <img
                           src={card.image}
                           alt={card.front}
@@ -634,7 +662,7 @@ const CourseDetails = () => {
                 </motion.div>
               ))}
             </motion.div>
-          ) : chosenLesson?.type === "timeline" ? (
+              ) : chosenLesson.type === "timeline" && chosenLesson.content?.cards ? (
             <motion.div
               className={classes.timelineContainer}
               initial={{ opacity: 0 }}
@@ -642,7 +670,7 @@ const CourseDetails = () => {
               transition={{ duration: 0.5 }}
             >
               <div className={classes.timelineList}>
-                {chosenLesson?.content?.cards?.map((card, index) => (
+                      {chosenLesson.content.cards.map((card, index) => (
                   <motion.div
                     key={index}
                     className={`${classes.timelineItem} ${
@@ -672,7 +700,7 @@ const CourseDetails = () => {
                 }}
                 transition={{ duration: 0.3 }}
               >
-                {selectedTimelineItem !== null && (
+                      {selectedTimelineItem !== null && chosenLesson.content.cards[selectedTimelineItem] && (
                   <motion.div
                     className={classes.timelineCard}
                     initial={{ opacity: 0, y: 20 }}
@@ -680,23 +708,20 @@ const CourseDetails = () => {
                     transition={{ duration: 0.3 }}
                     style={{
                       "--timeline-color":
-                        chosenLesson?.content?.cards[selectedTimelineItem]
+                              chosenLesson.content.cards[selectedTimelineItem]
                           .color || "#0062ff",
                     }}
                   >
-                    <div className={classes.cardYear}>
-                      {chosenLesson?.content?.cards[selectedTimelineItem].year}
-                    </div>
                     <div className={classes.cardTitle}>
-                      {chosenLesson?.content?.cards[selectedTimelineItem].title}
+                            {chosenLesson.content.cards[selectedTimelineItem].title}
                     </div>
                     <div className={classes.cardDescription}>
                       {
-                        chosenLesson?.content?.cards[selectedTimelineItem]
+                              chosenLesson.content.cards[selectedTimelineItem]
                           .description
                       }
                     </div>
-                    {chosenLesson?.content?.cards[selectedTimelineItem]
+                          {chosenLesson.content.cards[selectedTimelineItem]
                       .image && (
                       <img
                         src={
@@ -717,109 +742,14 @@ const CourseDetails = () => {
               </motion.div>
             </motion.div>
           ) : (
-            <div className={classes.videoContent}>
-              <div className={classes.Course}>
-                <CustomVideoPlayer video={chosenVideo} />
+                 <div className="text-center p-4">الرجاء اختيار درس من القائمة الجانبية.</div>
+              )}
 
-                <div className={`${classes.Tabs} flex-wrap`}>
-                  <div
-                    className={active === 0 ? classes.Active : ""}
-                    onClick={() => setActive(0)}
-                  >
-                    <AboutCourse active={active === 0} />
-                    نبذة
-                  </div>
-                  <div
-                    className={active === 1 ? classes.Active : ""}
-                    onClick={() => setActive(1)}
-                  >
-                    <ContentCourse active={active === 1} />
-                    أسئلة واجوبة
-                  </div>
-                </div>
-                <AnimatePresence mode="sync">
-                  {active === 0 && (
-                    <motion.div
-                      initial={{ y: 100, opacity: 0 }}
-                      animate={{ y: 0, opacity: 1 }}
-                      exit={{ y: 100, opacity: 0 }}
-                      transition={{ duration: 1 }}
-                      className={classes.Card}
-                    >
-                      <h2>نظرة عامة:</h2>
-                      <p>{chosenLesson?.content?.description}</p>
-                    </motion.div>
-                  )}
-                  {active === 1 && (
-                    <motion.div
-                      initial={{ y: 100, opacity: 0 }}
-                      animate={{ y: 0, opacity: 1 }}
-                      exit={{ y: 100, opacity: 0 }}
-                      transition={{ duration: 0.5 }}
-                      className={classes.Card}
-                    >
-                      <h2 className={classes.qaTitle}>الأسئلة والأجوبة</h2>
-                      <div className={classes.qaSection}>
-                        <div className={classes.chatContainer}>
-                          <div className={classes.messagesContainer}>
-                            {messages.map((message, index) => (
-                              <motion.div
-                                key={index}
-                                initial={{ opacity: 0, y: 20 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{
-                                  duration: 0.3,
-                                  delay: index * 0.1,
-                                  ease: "easeOut",
-                                }}
-                                className={`${classes.message} ${
-                                  message.type === "user"
-                                    ? classes.userMessage
-                                    : classes.aiMessage
-                                }`}
-                              >
-                                <p>{message.content}</p>
-                              </motion.div>
-                            ))}
-                            <div ref={messagesEndRef} />
-                          </div>
-                          <div className={classes.inputContainer}>
-                            <textarea
-                              className={classes.questionInput}
-                              placeholder="اكتب سؤالك هنا..."
-                              value={question}
-                              onChange={(e) => setQuestion(e.target.value)}
-                              onKeyPress={(e) => {
-                                if (e.key === "Enter" && !e.shiftKey) {
-                                  e.preventDefault();
-                                  handleAskQuestion();
-                                }
-                              }}
-                              rows="1"
-                            />
-                            <motion.button
-                              className={classes.sendButton}
-                              onClick={handleAskQuestion}
-                              disabled={!question.trim() || isLoading}
-                              whileHover={{ scale: 1.05 }}
-                              whileTap={{ scale: 0.95 }}
-                            >
-                              {isLoading ? (
-                                <Spinner animation="border" size="sm" />
-                              ) : (
-                                "إرسال"
-                              )}
-                            </motion.button>
-                          </div>
-                        </div>
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
-            </div>
+            </>
+          ) : (
+            <div className="text-center p-4">الرجاء اختيار درس من القائمة الجانبية لبدء العرض.</div>
           )}
-        </div> */}
+        </div>
       </div>
     </div>
   );

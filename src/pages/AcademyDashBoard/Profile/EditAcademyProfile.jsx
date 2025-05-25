@@ -1,107 +1,75 @@
-// تصحيح استيراد ملف النمط
-import classes from './EditAcademyProfile.module.scss';
 import React, { useState, useRef } from "react";
-import { useFormik, Field, ErrorMessage, FormikProvider, Form } from "formik";
+import { useFormik, FormikProvider, Form } from "formik";
 import * as Yup from "yup";
 import { toast } from "react-toastify";
 import HeaderAcademy from "../../../component/HeaderAcademy/HeaderAcademy";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { academy_client } from "../../../utils/apis/client.config";
+
 const EditAcademyProfile = () => {
   const profileInfo = useSelector((state) => state.academyUser.academy);
-  const academy = profileInfo.academy ?? {};
+  const academy = profileInfo?.academy ?? {};
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [imagePreview, setImagePreview] = useState(academy.image || "");
   const [coverPreview, setCoverPreview] = useState(academy.cover || "");
-  const [licencePreview, setLicencePreview] = useState(academy.licence || "");
   const navigate = useNavigate();
 
   const imageInputRef = useRef(null);
   const coverInputRef = useRef(null);
-  const licenceInputRef = useRef(null);
 
   const formik = useFormik({
     initialValues: {
       name: academy.name || "",
       email: academy.email || "",
       user_name: academy.user_name || "",
-      phone: academy.phone || "",
-      support_phone: academy.support_phone || "",
+      phone: academy.support_phone || "",
       about: academy.about || "",
       address: academy.address || "",
       facebook: academy.facebook || "",
       twitter: academy.twitter || "",
-      linkedin: academy.linkedin || "",
+      snapchat: academy.snapchat || "",
       instagram: academy.instagram || "",
       image: null,
       cover: null,
-      licence: null,
     },
     validationSchema: Yup.object({
       name: Yup.string().required("اسم الأكاديمية مطلوب"),
       email: Yup.string().email("البريد الإلكتروني غير صالح").nullable(),
       user_name: Yup.string().nullable(),
-      phone: Yup.string().nullable(),
-      support_phone: Yup.string().nullable(),
-      about: Yup.string().nullable(),
+      phone: Yup.string().matches(/^[0-9+-\s()]*$/, "رقم الهاتف غير صالح").nullable(),
+      about: Yup.string().required("نبذة عن الأكاديمية مطلوبة"),
       address: Yup.string().nullable(),
       facebook: Yup.string().nullable(),
       twitter: Yup.string().nullable(),
-      linkedin: Yup.string().nullable(),
+      snapchat: Yup.string().nullable(),
       instagram: Yup.string().nullable(),
-      image: Yup.mixed()
-        .nullable()
-        .test(
-          "fileSize",
-          "حجم الصورة كبير جدًا",
-          (value) => !value || (value && value.size <= 2 * 1024 * 1024)
-        ), // 2MB
-      cover: Yup.mixed()
-        .nullable()
-        .test(
-          "fileSize",
-          "حجم الصورة كبير جدًا",
-          (value) => !value || (value && value.size <= 2 * 1024 * 1024)
-        ), // 2MB
-      licence: Yup.mixed()
-        .nullable()
-        .test(
-          "fileSize",
-          "حجم الصورة كبير جدًا",
-          (value) => !value || (value && value.size <= 2 * 1024 * 1024)
-        ),
+      image: Yup.mixed().nullable()
+        .test("fileSize", "حجم الصورة يجب أن يكون أقل من 2 ميجا", (value) => !value || (value && value.size <= 2 * 1024 * 1024))
+        .test("fileType", "نوع الملف غير مدعوم", (value) => !value || (value && ["image/jpeg", "image/png", "image/gif", "image/webp"].includes(value.type))),
+      cover: Yup.mixed().nullable()
+        .test("fileSize", "حجم صورة الغلاف يجب أن يكون أقل من 2 ميجا", (value) => !value || (value && value.size <= 2 * 1024 * 1024))
+        .test("fileType", "نوع الملف غير مدعوم", (value) => !value || (value && ["image/jpeg", "image/png", "image/gif", "image/webp"].includes(value.type))),
     }),
     onSubmit: async (values) => {
       setIsSubmitting(true);
-
       const formData = new FormData();
-      formData.append("name", values.name);
-      formData.append("email", values.email);
-      formData.append("user_name", values.user_name);
-      formData.append("phone", values.phone);
-      formData.append("support_phone", values.support_phone);
-      formData.append("about", values.about);
-      formData.append("address", values.address);
-      formData.append("facebook", values.facebook);
-      formData.append("twitter", values.twitter);
-      formData.append("linkedin", values.linkedin);
-      formData.append("instagram", values.instagram);
-      formData.append("gender", "male");
-
-      if (values.image) formData.append("image", values.image);
-      if (values.cover) formData.append("cover", values.cover);
-      if (values.licence) formData.append("licence", values.licence);
+      Object.keys(values).forEach(key => {
+        if (values[key] !== null && values[key] !== '' || values[key] instanceof File) {
+          formData.append(key, values[key]);
+        }
+      });
 
       try {
         await academy_client.post("/settings", formData, {
           headers: { "Content-Type": "multipart/form-data" },
         });
-        toast.success("تم تحديث المعلومات بنجاح");
+        toast.success("تم تحديث معلومات الأكاديمية بنجاح!");
         navigate("/academy/Profile");
       } catch (error) {
-        toast.error(error.response?.data?.message || "حدث خطأ أثناء التحديث");
+        const errorMessage = error.response?.data?.message || "حدث خطأ ما أثناء تحديث المعلومات.";
+        toast.error(errorMessage);
       } finally {
         setIsSubmitting(false);
       }
@@ -109,284 +77,157 @@ const EditAcademyProfile = () => {
     enableReinitialize: true,
   });
 
-  // handlers
-  const handleImageChange = (event) => {
+  const handleFileChange = (event, fieldName, setPreview) => {
     const file = event.currentTarget.files[0];
     if (file) {
-      setImagePreview(URL.createObjectURL(file));
-      formik.setFieldValue("image", file);
+      if (file.size > 2 * 1024 * 1024) {
+        formik.setFieldError(fieldName, "حجم الملف يجب أن يكون أقل من 2 ميجا");
+        return;
+      }
+      if (!["image/jpeg", "image/png", "image/gif", "image/webp"].includes(file.type)) {
+        formik.setFieldError(fieldName, "نوع الملف غير مدعوم");
+        return;
+      }
+      setPreview(URL.createObjectURL(file));
+      formik.setFieldValue(fieldName, file);
+      formik.setFieldTouched(fieldName, true, false);
     }
   };
 
-  const handleCoverChange = (event) => {
-    const file = event.currentTarget.files[0];
-    if (file) {
-      setCoverPreview(URL.createObjectURL(file));
-      formik.setFieldValue("cover", file);
-    }
-  };
+  const FormField = ({ name, label, type = "text", placeholder, as = "input", rows }) => (
+    <div className="mb-4">
+      <label htmlFor={name} className="block text-sm font-medium text-gray-700 mb-1">{label}</label>
+      {as === "textarea" ? (
+        <textarea
+          id={name}
+          name={name}
+          placeholder={placeholder}
+          rows={rows}
+          value={formik.values[name]}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
+            formik.touched[name] && formik.errors[name] ? 'border-red-500' : 'border-gray-300'
+          }`}
+        />
+      ) : (
+        <input
+          id={name}
+          type={type}
+          name={name}
+          placeholder={placeholder}
+          value={formik.values[name]}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          className={`w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 ${
+            formik.touched[name] && formik.errors[name] ? 'border-red-500' : 'border-gray-300'
+          }`}
+        />
+      )}
+      {formik.touched[name] && formik.errors[name] && (
+        <p className="mt-1 text-xs text-red-600">{formik.errors[name]}</p>
+      )}
+    </div>
+  );
 
-  const handleLicenceChange = (event) => {
-    const file = event.currentTarget.files[0];
-    if (file) {
-      setLicencePreview(URL.createObjectURL(file));
-      formik.setFieldValue("licence", file);
-    }
-  };
+  const ImageField = ({ name, label, preview, inputRef, setPreview }) => (
+    <div className="mb-6">
+      <label className="block text-sm font-medium text-gray-700 mb-1">{label}</label>
+      <div className="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-md">
+        <div className="space-y-1 text-center">
+          {preview ? (
+            <img src={preview} alt={label} className="mx-auto h-32 w-auto rounded-md object-contain mb-2" />
+          ) : (
+            <svg className="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true">
+              <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          )}
+          <div className="flex text-sm text-gray-600">
+            <label
+              htmlFor={name}
+              className="relative cursor-pointer bg-white rounded-md font-medium text-blue-600 hover:text-blue-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-blue-500"
+            >
+              <span>ارفع ملف</span>
+              <input
+                id={name}
+                name={name}
+                type="file"
+                className="sr-only"
+                ref={inputRef}
+                accept="image/*"
+                onChange={(e) => handleFileChange(e, name, setPreview)}
+              />
+            </label>
+            <p className="pl-1">أو اسحب وأفلت</p>
+          </div>
+          <p className="text-xs text-gray-500">PNG, JPG, GIF, WEBP حتى 2 ميجا</p>
+        </div>
+      </div>
+      {formik.touched[name] && formik.errors[name] && (
+        <p className="mt-1 text-xs text-red-600">{formik.errors[name]}</p>
+      )}
+    </div>
+  );
+
 
   return (
-    <div>
-      <HeaderAcademy title="تحديث المعلومات" />
-      <div className="mt-5 bg-white p-4 rounded">
-        <FormikProvider value={formik}>
-          <Form onSubmit={formik.handleSubmit}>
-            <div className="row">
-              {/* الاسم */}
-              <div className="col-6">
-                <div className={classes.CustomFormControl}>
-                  <label htmlFor="name">اسم الأكاديمية</label>
-                  <input
-                    type="text"
-                    id="name"
-                    name="name"
-                    placeholder="ادخل اسم الأكاديمية"
-                    value={formik.values.name}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                  />
-                  {formik.touched.name && formik.errors.name && (
-                    <p className="text-red-500">{formik.errors.name}</p>
-                  )}
-                </div>
+    <div className="min-h-screen bg-white">
+      <HeaderAcademy title="تعديل ملف الأكاديمية" />
+      <div className="container mx-auto px-4 py-8 max-w-3xl">
+        
+          <FormikProvider value={formik}>
+            <Form onSubmit={formik.handleSubmit}>
+              <h2 className="text-xl font-semibold text-blue-600 border-b border-blue-200 pb-3 mb-6">الصور التعريفية</h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <ImageField name="image" label="شعار الأكاديمية" preview={imagePreview} inputRef={imageInputRef} setPreview={setImagePreview} />
+                <ImageField name="cover" label="صورة الغلاف" preview={coverPreview} inputRef={coverInputRef} setPreview={setCoverPreview} />
               </div>
-              {/* البريد */}
-              <div className="col-6">
-                <div className={classes.CustomFormControl}>
-                  <label htmlFor="email">البريد الإلكتروني</label>
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    placeholder="ادخل البريد الإلكتروني"
-                    value={formik.values.email}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                  />
-                  {formik.touched.email && formik.errors.email && (
-                    <p className="text-red-500">{formik.errors.email}</p>
-                  )}
-                </div>
+
+              <h2 className="text-xl font-semibold text-blue-600 border-b border-blue-200 pb-3 mb-6 mt-8">المعلومات الأساسية</h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6">
+                <FormField name="name" label="اسم الأكاديمية" placeholder="اسم الأكاديمية" />
+                <FormField name="email" label="البريد الإلكتروني" type="email" placeholder="contact@academy.com" />
+                <FormField name="phone" label="رقم الهاتف" placeholder="05xxxxxxxxx" />
+                <FormField name="address" label="العنوان" placeholder="المدينة، الحي، الشارع" />
               </div>
-              {/* الهاتف */}
-              <div className="col-6">
-                <div className={classes.CustomFormControl}>
-                  <label htmlFor="phone">رقم الهاتف</label>
-                  <input
-                    type="text"
-                    id="phone"
-                    name="phone"
-                    placeholder="ادخل رقم الهاتف"
-                    value={formik.values.phone}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                  />
-                  {formik.touched.phone && formik.errors.phone && (
-                    <p className="text-red-500">{formik.errors.phone}</p>
-                  )}
-                </div>
+
+              <h2 className="text-xl font-semibold text-blue-600 border-b border-blue-200 pb-3 mb-6 mt-8">نبذة عن الأكاديمية</h2>
+              <FormField name="about" label="وصف الأكاديمية" as="textarea" rows={4} placeholder="اكتب هنا نبذة تعريفية..." />
+
+              <h2 className="text-xl font-semibold text-blue-600 border-b border-blue-200 pb-3 mb-6 mt-8">روابط التواصل الاجتماعي</h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6">
+                <FormField name="facebook" label="فيسبوك" placeholder="https://facebook.com/youracademy" />
+                <FormField name="twitter" label="تويتر" placeholder="https://twitter.com/youracademy" />
+                <FormField name="instagram" label="إنستغرام" placeholder="https://instagram.com/youracademy" />
+                <FormField name="snapchat" label="سناب شات" placeholder="https://snapchat.com/add/youracademy" />
               </div>
-              {/* العنوان */}
-              <div className="col-6">
-                <div className={classes.CustomFormControl}>
-                  <label htmlFor="address">العنوان</label>
-                  <input
-                    type="text"
-                    id="address"
-                    name="address"
-                    placeholder="ادخل العنوان"
-                    value={formik.values.address}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                  />
-                  {formik.touched.address && formik.errors.address && (
-                    <p className="text-red-500">{formik.errors.address}</p>
-                  )}
-                </div>
-              </div>
-              {/* فيسبوك */}
-              <div className="col-6">
-                <div className={classes.CustomFormControl}>
-                  <label htmlFor="facebook">فيسبوك</label>
-                  <input
-                    type="text"
-                    id="facebook"
-                    name="facebook"
-                    placeholder="رابط صفحة الفيسبوك"
-                    value={formik.values.facebook}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                  />
-                  {formik.touched.facebook && formik.errors.facebook && (
-                    <p className="text-red-500">{formik.errors.facebook}</p>
-                  )}
-                </div>
-              </div>
-              {/* تويتر */}
-              <div className="col-6">
-                <div className={classes.CustomFormControl}>
-                  <label htmlFor="twitter">تويتر</label>
-                  <input
-                    type="text"
-                    id="twitter"
-                    name="twitter"
-                    placeholder="رابط حساب تويتر"
-                    value={formik.values.twitter}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                  />
-                  {formik.touched.twitter && formik.errors.twitter && (
-                    <p className="text-red-500">{formik.errors.twitter}</p>
-                  )}
-                </div>
-              </div>
-              {/* لينكدإن */}
-              <div className="col-6">
-                <div className={classes.CustomFormControl}>
-                  <label htmlFor="linkedin">لينكد إن</label>
-                  <input
-                    type="text"
-                    id="linkedin"
-                    name="linkedin"
-                    placeholder="رابط حساب لينكد إن"
-                    value={formik.values.linkedin}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                  />
-                  {formik.touched.linkedin && formik.errors.linkedin && (
-                    <p className="text-red-500">{formik.errors.linkedin}</p>
-                  )}
-                </div>
-              </div>
-              {/* انستغرام */}
-              <div className="col-6">
-                <div className={classes.CustomFormControl}>
-                  <label htmlFor="instagram">إنستغرام</label>
-                  <input
-                    type="text"
-                    id="instagram"
-                    name="instagram"
-                    placeholder="رابط حساب إنستغرام"
-                    value={formik.values.instagram}
-                    onChange={formik.handleChange}
-                    onBlur={formik.handleBlur}
-                  />
-                  {formik.touched.instagram && formik.errors.instagram && (
-                    <p className="text-red-500">{formik.errors.instagram}</p>
-                  )}
-                </div>
-              </div>
-              {/* الصور */}
-              <div className="col-12">
-                <div className="row">
-                  {/* صورة الأكاديمية */}
-                  <div className="col-12 col-md-4 mb-3">
-                    <div className={classes.imageUploadContainer}>
-                      {imagePreview && (
-                        <img src={imagePreview} alt="صورة الأكاديمية" />
-                      )}
-                      <ErrorMessage
-                        name="image"
-                        component="div"
-                        className="text-danger"
-                      />
-                      <div className="d-flex justify-content-center mt-2">
-                        <input
-                          type="file"
-                          name="image"
-                          ref={imageInputRef}
-                          style={{ display: "none" }}
-                          onChange={handleImageChange}
-                        />
-                        <div
-                          className={classes.uploadButton}
-                          onClick={() => imageInputRef.current.click()}
-                        >
-                          رفع صورة الأكاديمية
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  {/* صورة الغلاف */}
-                  <div className="col-12 col-md-4 mb-3">
-                    <div className={classes.imageUploadContainer}>
-                      {coverPreview && (
-                        <img src={coverPreview} alt="صورة الغلاف" />
-                      )}
-                      <ErrorMessage
-                        name="cover"
-                        component="div"
-                        className="text-danger"
-                      />
-                      <div className="d-flex justify-content-center mt-2">
-                        <input
-                          type="file"
-                          name="cover"
-                          ref={coverInputRef}
-                          style={{ display: "none" }}
-                          onChange={handleCoverChange}
-                        />
-                        <div
-                          className={classes.uploadButton}
-                          onClick={() => coverInputRef.current.click()}
-                        >
-                          رفع صورة الغلاف
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  {/* صورة الرخصة */}
-                  <div className="col-12 col-md-4 mb-3">
-                    <div className={classes.imageUploadContainer}>
-                      {licencePreview && (
-                        <img src={licencePreview} alt="صورة الرخصة" />
-                      )}
-                      <ErrorMessage
-                        name="licence"
-                        component="div"
-                        className="text-danger"
-                      />
-                      <div className="d-flex justify-content-center mt-2">
-                        <input
-                          type="file"
-                          name="licence"
-                          ref={licenceInputRef}
-                          style={{ display: "none" }}
-                          onChange={handleLicenceChange}
-                        />
-                        <div
-                          className={classes.uploadButton}
-                          onClick={() => licenceInputRef.current.click()}
-                        >
-                          رفع الرخصة
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              {/* زر الحفظ */}
-              <div className="col-12 mb-3">
+
+              <div className="mt-10 pt-6 border-t border-gray-200 flex justify-end">
                 <button
                   type="submit"
-                  className="btn btn-primary"
                   disabled={isSubmitting}
+                  className={`px-6 py-2.5 text-sm font-medium text-white rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 transition-colors duration-150
+                    ${isSubmitting
+                      ? 'bg-gray-400 cursor-not-allowed'
+                      : 'bg-blue-600 hover:bg-blue-700 focus:ring-blue-500'
+                    }`}
                 >
-                  {isSubmitting ? "جاري التحديث..." : "تحديث"}
+                  {isSubmitting ? (
+                    <span className="flex items-center">
+                      <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                      </svg>
+                      جاري الحفظ...
+                    </span>
+                  ) : (
+                    'حفظ التغييرات'
+                  )}
                 </button>
               </div>
-            </div>
-          </Form>
-        </FormikProvider>
+            </Form>
+          </FormikProvider>
+        
       </div>
     </div>
   );

@@ -1,260 +1,106 @@
-import React, { useEffect, useState } from "react";
-import CustomAccordion from "../../UI/CustomAccordion";
-import DeleteButton from "../../UI/DeleteButton";
+import React from "react";
 import Videotype from "../../../../../assets/icons/videoType.svg?react";
 import Examtype from "../../../../../assets/icons/examType.svg?react";
-import { formatLongText } from "../../../../../utils/helpers";
-import style from "../../AddNewCourse.module.css";
-import { useToast } from "../../../../../utils/hooks/useToast";
-import { ChapterTitle } from "../../../../../utils/styles";
-import { ConfirmDeleteCourseItem } from "../../../../../component/Models/ConfirmDeleteCourseItem";
-import CheckCircleOutlinedIcon from "@mui/icons-material/CheckCircleOutlined";
-import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-
-import { storage } from "../../../../../utils/storage";
-import {
-  latestLesson,
-  updateLatestLesson,
-} from "../../../../../../redux/courses/CourseSlice";
-import { useDispatch, useSelector } from "react-redux";
-import { Trash } from "lucide-react";
+import { useDispatch } from "react-redux";
+import { ChevronDownIcon, Trash2 } from "lucide-react";
 import { deleteChapter } from "../../../../../utils/apis/client/academy";
 import { fetchCurrentCourseSummaryThunk } from "../../../../../../redux/courses/CourseThunk";
-
-export const LessonsList = ({ course }) => {
-  const dispatch = useDispatch();
-  const [expanded, setExpanded] = useState(false);
-  const [open, setOpen] = useState(false);
-  const [courseItem, setCourseItem] = useState({});
-  const [currentChapterId, setCurrentChapterId] = useState(
-    storage.get("chapky89wsgnae")
-  );
-  const [currentLessonId, setCurrentLessonId] = useState(
-    storage.get("leuhqzrsyh5e")
-  );
-
-  const [selectedLessonContent, setSelectedLessonContent] = useState(null);
-
-  const handleAccordionChange = (panel, isExpanded) => {
-    setExpanded(isExpanded ? panel : null);
-  };
-
-  const handleLessonClick = (content) => {
-    setSelectedLessonContent(content);
-  };
-
-  const handleChangeLesson = (chapterId, lessonId) => {
-    storage.update("chapky89wsgnae", chapterId);
-    storage.update("leuhqzrsyh5e", lessonId);
-    setCurrentChapterId(chapterId);
-    setCurrentLessonId(lessonId);
-    dispatch(updateLatestLesson({ chapterId, lessonId }));
-  };
-
-  useEffect(() => {
-    // Sync state with storage in case it changes elsewhere
-    const syncState = () => {
-      setCurrentChapterId(storage.get("chapky89wsgnae"));
-      setCurrentLessonId(storage.get("leuhqzrsyh5e"));
-    };
-    window.addEventListener("storage", syncState);
-    return () => window.removeEventListener("storage", syncState);
-  }, []);
-
-  const countLessonContent = (lesson) => {
-    if (lesson.type === "video") {
-      return lesson?.video?.length;
-    }
-
-    if (lesson.type === "exam") {
-      return lesson?.exam?.length;
-    }
-
-    if (lesson.type === "tool") {
-      return lesson?.tool?.length;
-    }
-  };
-
-  const LessonDetails = ({
-    chapterId,
-    lesson,
-    selectedLessonContent,
-    handleLessonClick,
-    type,
-  }) => {
-    let items = [];
-
-    if (type === "video") {
-      items = lesson?.video;
-    }
-
-    if (type === "exam") {
-      items = lesson?.exam;
-    }
-
-    if (type === "tool") {
-      items = lesson?.tool;
-    }
-
-    const handleDelete = (lessonId, itemId, type) => {
-      setOpen(true);
-      setCourseItem({
-        chapterId: chapterId,
-        lessonId: lessonId,
-        itemId: itemId,
-        type: type,
-      });
-    };
-    return (
-      <>
-        {items?.map((item, index) => (
-          <div
-            key={index}
-            style={{
-              fontSize: "14px",
-              color: "#585C61",
-              fontWeight: "600",
-              padding: "0px",
-              margin: "10px",
-            }}
-          >
-            <div
-              onClick={() => handleLessonClick(item)}
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: "10px",
-                padding: "15px",
-                marginBottom: "5px",
-                cursor: "pointer",
-                backgroundColor:
-                  selectedLessonContent === item ? "#007bff" : "#fff",
-                color: selectedLessonContent === item ? "#fff" : "#2b3674",
-                border:
-                  selectedLessonContent === item
-                    ? "2px solid #007bff"
-                    : "1px solid #ddd",
-                borderRadius: "15px",
-              }}
-              className="lesson-item"
-            >
-              {selectedLessonContent === item && (
-                <DeleteButton
-                  onClick={() => handleDelete(item.lesson_id, item.id, type)}
+import Accordion from "@mui/material/Accordion";
+import AccordionSummary from "@mui/material/AccordionSummary";
+import AccordionDetails from "@mui/material/AccordionDetails";
+import Typography from "@mui/material/Typography";
+import Swal from "sweetalert2";
+export const LessonsList = ({
+  course,
+  currentChapter,
+  setCurrentChapter,
+  currentLesson,
+  setCurrentLesson,
+}) => {
+  return (
+    <ul className="border-x border-[#EDEFF2] p-3 flex flex-col gap-4 m-0">
+      {course.chapters.map((chapter) => (
+        <li key={chapter.id} onClick={() => setCurrentChapter(chapter)}>
+          <Accordion className="shadow-none">
+            <AccordionSummary
+              expandIcon={
+                <ChevronDownIcon
+                  size={24}
+                  className="bg-[#0062FF] p-1 rounded-full text-white"
                 />
-              )}
-              <>
-                {type === "video" ? (
-                  <Videotype
-                    alt="lesson type"
-                    className={`${style.lessonType} ${
-                      selectedLessonContent === item
-                        ? style.lessonTypeActive
-                        : ""
-                    }`}
-                  />
-                ) : (
-                  <Examtype
-                    alt="lesson type"
-                    className={`${style.lessonType} ${
-                      selectedLessonContent === item
-                        ? style.lessonTypeActive
-                        : ""
-                    }`}
-                  />
-                )}
-                <span>{item?.title || "No title available"}</span>
-              </>
-            </div>
-          </div>
-        ))}
+              }
+              className={`!flex !gap-10 !bg-white border border-[#EDEFF2] hover:!bg-[#EAEFF4] !rounded-[10px]  transition-colors duration-200 ${
+                chapter.id === currentChapter?.id ? "!bg-[#EAEFF4]" : ""
+              }`}
+            >
+              <Typography
+                component="span"
+                className="flex items-center gap-2 flex-1"
+              >
+                <DeleteChapter courseId={course.id} chapterId={chapter.id} />
+                <h4 className="m-0 truncate max-w-20 text-[#2B3674] text-base">
+                  {chapter.title}
+                </h4>
+                <strong className="text-[#5A6A85]">(1:2)</strong>
+              </Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              <ul className="flex flex-col gap-2 m-0 p-0">
+                {chapter.lessons.map((lesson, index) => (
+                  <li key={index}>
+                    <button
+                      type="button"
+                      className={`flex items-center gap-2 h-10 w-full hover:bg-[#EAEFF4] px-2 border border-[#EDEFF2] rounded-md transition-colors duration-200 ${
+                        currentLesson?.id === lesson.id ? "bg-[#EAEFF4]" : ""
+                      }`}
+                      onClick={() => setCurrentLesson(lesson)}
+                    >
+                      {lesson.type === "video" ? (
+                        <Videotype alt="lesson type" />
+                      ) : (
+                        <Examtype alt="lesson type" />
+                      )}
+                      <span>{lesson.title}</span>
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </AccordionDetails>
+          </Accordion>
+        </li>
+      ))}
+    </ul>
+  );
+};
 
-        {open && (
-          <ConfirmDeleteCourseItem
-            open={open}
-            setOpen={setOpen}
-            courseItem={courseItem}
-          />
-        )}
-      </>
-    );
-  };
+const DeleteChapter = ({ courseId, chapterId }) => {
+  const dispatch = useDispatch();
 
   const handleDeleteChapter = async (chapterId) => {
-    const res = await deleteChapter({
-      courseId: course?.id,
-      chapterId: chapterId,
+    Swal.fire({
+      title: "حذف الفصل",
+      text: "هل تريد حذف هذا الفصل",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "حذف",
+      cancelButtonText: "لا",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        const res = await deleteChapter({
+          courseId,
+          chapterId: chapterId,
+        });
+        if (res.status) {
+          dispatch(fetchCurrentCourseSummaryThunk(courseId));
+        }
+      }
     });
-    if (res.status) {
-      dispatch(fetchCurrentCourseSummaryThunk(course?.id));
-    }
   };
-
-  const handleDisableChapter = (chapter) => {
-    if (!chapter) return;
-    return (
-      <div className="flex items-center gap-4">
-        <ChapterTitle onClick={() => alert(chapter.id)}>
-          <strong>Chapter:</strong>{" "}
-          {formatLongText(chapter?.title || "No Title", 50)}
-        </ChapterTitle>
-        <button onClick={() => handleDeleteChapter(chapter.id)}>
-          <Trash />
-        </button>
-      </div>
-    );
-  };
-
   return (
-    <>
-      {course &&
-        course.chapters?.map((chapter, chapterIndex) => (
-          <div key={chapter.id || chapterIndex}>
-            {handleDisableChapter(chapter)}
-            {chapter.lessons?.map((lesson, lessonIndex) => (
-              <CustomAccordion
-                key={lesson.id || lessonIndex}
-                data={[lesson]}
-                defaultExpanded={expanded}
-                onPanelChange={handleAccordionChange}
-                renderSummary={() => (
-                  <p className={style.LessonCard}>
-                    <span>
-                      {currentLessonId !== lesson.id ? (
-                        <CheckCircleOutlinedIcon
-                          className={style.title}
-                          onClick={() =>
-                            handleChangeLesson(chapter.id, lesson.id)
-                          }
-                        />
-                      ) : (
-                        <CheckCircleIcon
-                          className={style.title}
-                          style={{ color: "#00951b" }}
-                        />
-                      )}
-
-                      {selectedLessonContent === lesson && <DeleteButton />}
-                      {formatLongText(lesson.title, 15)}
-                    </span>
-                    <span className={style.count}>
-                      ({lessonIndex + 1}/{countLessonContent(lesson)})
-                    </span>
-                  </p>
-                )}
-                renderDetails={() => (
-                  <LessonDetails
-                    chapterId={chapter.id}
-                    lesson={lesson}
-                    selectedLessonContent={selectedLessonContent}
-                    handleLessonClick={handleLessonClick}
-                    type={lesson.type}
-                  />
-                )}
-              />
-            ))}
-          </div>
-        ))}
-    </>
+    <button onClick={() => handleDeleteChapter(chapterId)}>
+      <Trash2 className="w-4 h-4 text-red-500" />
+    </button>
   );
 };

@@ -38,7 +38,7 @@ const UserAuthButtons = ({ user, loginType, onNavigate }) => {
           circle
           src={userDisplayImage}
           alt={user.name || "User Avatar"}
-          size="sm" // أو أي حجم مناسب
+          className={classes.userAvatar}
           style={{ cursor: 'pointer' }}
           onClick={() => onNavigate(loginType === 'academy' ? '/academy/Profile' : '/student/Profile')} // مثال للانتقال لصفحة البروفايل
         />

@@ -277,7 +277,7 @@ const PaymentSuccess = () => {
             <div className={classes.actionButtons}>
               <button
                 className={classes.primaryButton}
-                onClick={() => navigate('/student/courses')}
+                onClick={() => navigate('/student/TrainingCourses')}
               >
                 عرض دوراتي
               </button>

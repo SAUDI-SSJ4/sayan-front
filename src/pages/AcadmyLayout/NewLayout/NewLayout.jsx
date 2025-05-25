@@ -205,7 +205,7 @@ const NewLayout = () => {
             {/* card */}
             {coursesData?.data?.data?.map((course) => (
               <Link
-                to={`/SingleCourse/${course.id}`}
+                to={`/academy/${course.academy_id}/SingleCourse/${course.id}`}
                 key={course.id}
                 className="bg-white shadow-md w-96 p-3 rounded-lg border hover:scale-105 transition"
               >

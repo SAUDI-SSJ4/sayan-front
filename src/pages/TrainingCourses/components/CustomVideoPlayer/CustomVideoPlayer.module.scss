@@ -9,10 +9,15 @@
     position: relative;
     width: 100%;
     background: #000;
+    max-height: 600px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
     .videoElement {
       width: 100%;
       height: auto;
+      object-fit: contain;
       display: block;
       position: relative;
 

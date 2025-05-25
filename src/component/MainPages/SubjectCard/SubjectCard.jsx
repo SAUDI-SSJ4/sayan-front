@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo, useEffect, memo } from "react";
 import classes from "./SubjectCard.module.scss";
 import Image from "../../../assets/images/CourseImage.png";
 import StarIcon from "@mui/icons-material/Star";
@@ -8,7 +8,8 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import { formatLongText } from "../../../utils/helpers";
 import Cookies from "js-cookie";
 
-const SubjectCard = ({ mainData, academySettings }) => {
+// Wrap the component with React.memo
+const SubjectCard = memo(({ mainData, academySettings }) => {
   const {
     id,
     image,
@@ -172,7 +173,11 @@ const SubjectCard = ({ mainData, academySettings }) => {
 
   return (
     <div className={`${classes.CardContainer}`}>
-      <Link className={classes.routeLink} to={`/SingleCourse/${id}`}>
+      <Link 
+        className={classes.routeLink} 
+        to={academySettings ? `/acdemy/${mainData.academy_id}/SingleCourse/${id}` : `/SingleCourse/${id}`}
+        state={academySettings ? { academySettings } : undefined}
+      >
         <div className="relative">
           <div
             style={{
@@ -247,6 +252,6 @@ const SubjectCard = ({ mainData, academySettings }) => {
       </Link>
     </div>
   );
-};
+}); // End of React.memo wrap
 
 export default SubjectCard;

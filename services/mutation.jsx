@@ -1,8 +1,11 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import Swal from "sweetalert2";
 import { postToggle } from "../src/utils/apis/client";
-import { createCourseAPI , createLesson } from "../src/utils/apis/client/academy";
-import { useCallback } from 'react';
+import {
+  createCourseAPI,
+  createLesson,
+} from "../src/utils/apis/client/academy";
+import { useCallback } from "react";
 
 export function handleValidationErrors(errors) {
   const errorMessages = [];
@@ -45,7 +48,7 @@ export const useCreateCourseMutation = () => {
 
   return useMutation({
     mutationFn: (data) => createCourseAPI(data),
-    onSuccess: ({data}) => {
+    onSuccess: ({ data }) => {
       console.log(data);
       queryClient.invalidateQueries({ queryKey: ["studentCourses"] });
     },
@@ -67,8 +70,7 @@ export const useCreateCourseMutation = () => {
           text: response.data.message || errorMessage,
           icon: "error",
         });
-      } 
-      else {
+      } else {
         Swal.fire({
           title: "خطأ",
           text: errorMessage,
@@ -76,7 +78,6 @@ export const useCreateCourseMutation = () => {
         });
       }
     },
-    
   });
 };
 
@@ -98,9 +99,9 @@ export const useCreateLessonMutation = () => {
     },
     onError: ({ response }) => {
       const err = handleValidationErrors(response.data.errors);
-      const errorList = `<ul style="text-align: left;">${err.map(
-        (error) => `<li style="color: red;">${error}</li>`
-      ).join("")}</ul>`;
+      const errorList = `<ul style="text-align: left;">${err
+        .map((error) => `<li style="color: red;">${error}</li>`)
+        .join("")}</ul>`;
       Swal.fire({
         title: "خطأ",
         html: errorList || errorMessage,
@@ -109,7 +110,6 @@ export const useCreateLessonMutation = () => {
     },
   });
 };
-
 
 export const useCreateExamMutation = () => {
   const successMessage = "تم إضافة الاختبار التعليمية";
@@ -129,9 +129,9 @@ export const useCreateExamMutation = () => {
     },
     onError: ({ response }) => {
       const err = handleValidationErrors(response.data.errors);
-      const errorList = `<ul style="text-align: left;">${err.map(
-        (error) => `<li style="color: red;">${error}</li>`
-      ).join("")}</ul>`;
+      const errorList = `<ul style="text-align: left;">${err
+        .map((error) => `<li style="color: red;">${error}</li>`)
+        .join("")}</ul>`;
       Swal.fire({
         title: "خطأ",
         html: errorList || errorMessage,
@@ -140,7 +140,3 @@ export const useCreateExamMutation = () => {
     },
   });
 };
-
-
-
-
