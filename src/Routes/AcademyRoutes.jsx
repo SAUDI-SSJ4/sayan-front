@@ -109,13 +109,11 @@ const AcademyRoutes = () => {
             path="/academy/settings/slider/edit"
             element={<EditSlider />}
           />
-          <Route element={<CourseLayout />}>
-            <Route path="/academy/course/create" element={<AddNewCourse />} />
-            <Route
-              path="/academy/course/:courseId/manage"
-              element={<EditCourse />}
-            />
-          </Route>
+          <Route path="/academy/course/create" element={<AddNewCourse />} />
+          <Route
+            path="/academy/course/:courseId/manage"
+            element={<EditCourse />}
+          />
           <Route
             path="/academy/DigitalProducts"
             element={<DigitalProducts />}

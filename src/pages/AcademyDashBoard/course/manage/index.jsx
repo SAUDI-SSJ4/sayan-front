@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchCurrentCourseSummaryThunk } from "../../../../../redux/courses/CourseThunk";
 import { Alert, Spinner } from "react-bootstrap";
 import CourseFeatures from "../../Courses/MainSteps/StepTwo/CourseFeatuers";
+import CourseHeader from "../components/CourseHeader";
 
 function EditCourse() {
   const { courseId } = useParams();
@@ -35,7 +36,12 @@ function EditCourse() {
           </p>
         </Alert>
       )}
-      {!isLoading && courseSummary && <CourseFeatures course={courseSummary} />}
+      {!isLoading && courseSummary && (
+        <>
+          <CourseHeader course={courseSummary} />
+          <CourseFeatures course={courseSummary} />
+        </>
+      )}
     </main>
   );
 }
