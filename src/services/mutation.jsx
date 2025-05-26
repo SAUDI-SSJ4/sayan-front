@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { useCallback } from "react";
 import {
   postChapter,
-  postLesson,
+  createLesson,
   postLessonExam,
   postLessonTools,
   postUploadLessonVideo,
@@ -174,7 +174,7 @@ export const useLessonMutation = (currentCourseId) => {
   }, []);
 
   return useMutation({
-    mutationFn: (params) => postLesson(params),
+    mutationFn: (params) => createLesson(params),
     onSuccess: handleSuccess,
     onError: handleError,
     ...QUERY_CONFIG,

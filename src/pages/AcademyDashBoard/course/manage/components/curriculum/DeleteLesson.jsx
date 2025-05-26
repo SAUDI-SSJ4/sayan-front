@@ -37,7 +37,13 @@ export default function DeleteLesson({ chapterId, courseId, lessonId }) {
   return (
     <Button
       variant="text"
-      onClick={() => handleDelete(lessonId)}
+      type="button"
+      form="none"
+      onClick={(e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        handleDelete(lessonId);
+      }}
       className="text-danger !min-w-10"
     >
       <Trash2 size={16} />

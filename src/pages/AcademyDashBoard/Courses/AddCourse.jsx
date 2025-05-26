@@ -4,7 +4,7 @@ import ArrowBack from "@mui/icons-material/ArrowBack";
 import addcourse from "../../../assets/icons/Button.svg";
 import steper1 from "../../../assets/icons/steper1 (1).svg";
 import steper2 from "../../../assets/icons/steper2.svg";
-import { CourseForm } from "./MainSteps/CourseForm";
+import CourseForm from "./MainSteps/CourseForm";
 import CourseFeatuers from "./MainSteps/StepTwo/CourseFeatuers";
 import { useDispatch, useSelector } from "react-redux";
 import { isEmpty } from "../../../utils/helpers";

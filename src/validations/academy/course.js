@@ -26,14 +26,18 @@ export const getCourseSchema = (course) =>
     requirments: Yup.string().required("المتطلبات مطلوبة"),
   });
 
-export const getCourseLessonSchema = (lesson) =>
+export const getCourseLessonSchema = (lesson, isInteractiveTool = false) =>
   Yup.object().shape({
     title: Yup.string().required("عنوان الدرس مطلوب"),
-    video: Yup.mixed().when([], {
-      is: () => !lesson,
-      then: (schema) => schema.required("الفيديو مطلوب"),
-      otherwise: (schema) => schema.notRequired(),
-    }),
-    video_title: Yup.string().required("عنوان الفيديو مطلوب"),
-    description: Yup.string().required("وصف الفيديو مطلوب"),
+    video: isInteractiveTool ? 
+      Yup.mixed().notRequired() : 
+      Yup.mixed().when([], {
+        is: () => !lesson,
+        then: (schema) => schema.required("الفيديو مطلوب"),
+        otherwise: (schema) => schema.notRequired(),
+      }),
+    video_title: isInteractiveTool ? 
+      Yup.string().notRequired() : 
+      Yup.string().required("عنوان الفيديو مطلوب"),
+    description: Yup.string().required(isInteractiveTool ? "وصف الدرس مطلوب" : "وصف الفيديو مطلوب"),
   });

@@ -262,4 +262,4 @@ const FlippingCardSideBar = ({
   );
 };
 
-export default FlippingCardSideBar;
+export default FlippingCardSideBar; 

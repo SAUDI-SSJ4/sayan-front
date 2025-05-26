@@ -74,6 +74,34 @@ export const postLessonTools = async (lessonId, formData) => {
   return data;
 };
 
+export const editLessonTools = async (lessonId, toolId, formData) => {
+  const baseUrl = new URL(import.meta.env.VITE_SERVER_DEV).origin;
+  const { data } = await axios.post(
+    `${baseUrl}/api/v1/academies/lessons/${lessonId}/tools/${toolId}`,
+    formData,
+    {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Authorization: `Bearer ${user_token()}`,
+      },
+    }
+  );
+  return data;
+};
+
+export const deleteLessonTools = async (lessonId, toolId) => {
+  const baseUrl = new URL(import.meta.env.VITE_SERVER_DEV).origin;
+  const { data } = await axios.delete(
+    `${baseUrl}/api/v1/academies/lessons/${lessonId}/tools/${toolId}`,
+    {
+      headers: {
+        Authorization: `Bearer ${user_token()}`,
+      },
+    }
+  );
+  return data;
+};
+
 export const postUploadLessonVideo = async (lessonId, formData) => {
   const { data: res } = await academy_client.post(
     `/lessons/video/${lessonId}`,

@@ -30,6 +30,7 @@ const Sidebar = () => {
 
   return (
     <div className={`${style.sideBarNav}`}>
+      {/* Upper Section */}
       <div
         className={`${style.sideup} d-flex flex-column`}
         style={{ padding: "12px" }}
@@ -44,7 +45,7 @@ const Sidebar = () => {
           isActive={navigate === "curriculum"}
           onClick={() => dispatch(changeNavigate("curriculum"))}
           icon={Vact5}
-          text="المقرر"
+          text="محتوى المادة التعليمية"
         />
       </div>
 

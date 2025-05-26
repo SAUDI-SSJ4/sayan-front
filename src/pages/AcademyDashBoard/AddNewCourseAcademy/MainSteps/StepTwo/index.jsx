@@ -24,7 +24,7 @@ import AddNewInteractiveTool from "./Features/InteractiveTools/AddNewInteractive
 import AddFlippingCard from "./Features/InteractiveTools/Cards/AddFlippingCard";
 import FlippingCardSideBar from "../../SideBars/FlippingCardSideBar";
 import HiddenCardsSideBar from "../../SideBars/HiddenCardsSideBar";
-import AddHiddenCards from "./Features/InteractiveTools/Cards/AddHiddenCards";
+import InteractiveToolForm from "../../course/manage/components/curriculum/InteractiveToolForm";
 import IconTextButton from "../../UI/IconTextButton";
 import CustomAccordion from "../../UI/CustomAccordion";
 import DeleteButton from "../../UI/DeleteButton";
@@ -264,11 +264,15 @@ function AddNewCourseSteperTwo() {
         );
       case "hiddenCards":
         return (
-          <AddHiddenCards
-            setCardData={setCardData}
-            cardData={cardData}
+          <InteractiveToolForm
             hiddenCards={hiddenCards}
             setHiddenCards={setHiddenCards}
+            cardData={cardData}
+            setCardData={setCardData}
+            courseId={course.id}
+            chapterId={currentChapter?.id}
+            lesson={currentLesson}
+            onClose={() => {}}
           />
         );
       default:

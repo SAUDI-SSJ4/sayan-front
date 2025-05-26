@@ -2,8 +2,9 @@ import * as React from "react";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
-import { PlusIcon, XIcon } from "lucide-react";
-import { Button } from "react-bootstrap";
+import { FiPlus, FiX } from "react-icons/fi";
+import { Button as BootButton } from "react-bootstrap";
+import { Button } from "@mui/material";
 import ChapterForm from "./ChapterForm";
 
 const style = {
@@ -11,28 +12,61 @@ const style = {
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 400,
+  width: 600,
   bgcolor: "background.paper",
+  border: "2px solid #000",
   boxShadow: 24,
   p: 4,
+  borderRadius: "8px",
 };
 
-export default function AddNewChapter({ courseId }) {
+export default function AddNewChapter({ courseId, onAddChapter }) { 
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
   return (
     <div>
-      <Button
+      <BootButton
         type="button"
-        variant="outline-info"
-        className="!flex !items-center justify-center gap-2 h-10 w-36"
-        onClick={handleOpen}
+        form="none"
+        onClick={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          handleOpen();
+        }}
+        style={{
+          background: 'linear-gradient(135deg, #0062ff 0%, #4285f4 100%)',
+          color: 'white',
+          padding: '12px 24px',
+          borderRadius: '12px',
+          textTransform: 'none',
+          fontSize: '14px',
+          fontWeight: 600,
+          border: 'none',
+          boxShadow: '0 4px 12px rgba(0, 98, 255, 0.3)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          gap: '8px',
+          transition: 'all 0.3s ease',
+          minWidth: '180px'
+        }}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.background = 'linear-gradient(135deg, #0052cc 0%, #3367d6 100%)';
+          e.currentTarget.style.boxShadow = '0 6px 16px rgba(0, 98, 255, 0.4)';
+          e.currentTarget.style.transform = 'translateY(-1px)';
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.background = 'linear-gradient(135deg, #0062ff 0%, #4285f4 100%)';
+          e.currentTarget.style.boxShadow = '0 4px 12px rgba(0, 98, 255, 0.3)';
+          e.currentTarget.style.transform = 'translateY(0px)';
+        }}
       >
-        <PlusIcon size={16} />
-        <span>اضافة فصل</span>
-      </Button>
+        <FiPlus size={18} />
+        <span>إضافة فصل جديد</span>
+      </BootButton>
+      
       <Modal
         open={open}
         onClose={handleClose}
@@ -42,11 +76,12 @@ export default function AddNewChapter({ courseId }) {
         <Box sx={style}>
           <div className="flex justify-end">
             <Button
-              variant="light"
+              variant="text"
               onClick={handleClose}
               className="!min-w-fit"
+              sx={{ minWidth: 'auto', padding: '8px' }}
             >
-              <XIcon size={16} />
+              <FiX size={16} />
             </Button>
           </div>
           <ChapterForm courseId={courseId} />

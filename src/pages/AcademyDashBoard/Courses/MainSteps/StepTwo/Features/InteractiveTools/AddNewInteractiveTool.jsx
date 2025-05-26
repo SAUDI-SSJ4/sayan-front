@@ -54,4 +54,4 @@ const AddNewInteractiveTool = ({ changeNavigate, open, handleClose }) => {
 };
 
 
-export default AddNewInteractiveTool;
+export default AddNewInteractiveTool; 

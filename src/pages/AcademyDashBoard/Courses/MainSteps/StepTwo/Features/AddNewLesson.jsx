@@ -102,4 +102,4 @@ function AddNewLesson({ categoryId, courseId }) {
   );
 }
 //mutation
-export default AddNewLesson;
+export default AddNewLesson; 

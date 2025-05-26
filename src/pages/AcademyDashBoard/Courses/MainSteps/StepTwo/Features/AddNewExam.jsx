@@ -498,6 +498,4 @@ export const AddNewExam = () => {
       </div>
     </div>
   );
-};
-
-
+}; 
