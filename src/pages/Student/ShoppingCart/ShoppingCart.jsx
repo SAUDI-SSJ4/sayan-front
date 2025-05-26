@@ -44,12 +44,12 @@ const ShoppingCart = () => {
           }}
         />
         <h2>عربة التسوق فارغة</h2>
-        <p>لم تقم بإضافة أي منتجات إلى عربة التسوق بعد</p>
+        <p>لم تقم بإضافة أي مواد تعليمية إلى عربة التسوق بعد</p>
         <div 
           className={classes.shopButton}
-          onClick={() => navigate('/student/Products')}
+          onClick={() => navigate('/')}
         >
-          تصفح المنتجات
+          تصفح المواد التعليمية
         </div>
       </div>
     );

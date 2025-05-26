@@ -12,7 +12,7 @@ import { useQuery } from "@tanstack/react-query";
 
 // Import Swiper styles
 
-const SubjectSlider = ({ LayOut2, Laytout3, courses }) => {
+const SubjectSlider = ({ LayOut2, Laytout3, courses, academySettings }) => {
   const [path, setPath] = useState("");
   const router = useNavigate();
   const location = useLocation();
@@ -122,7 +122,7 @@ const SubjectSlider = ({ LayOut2, Laytout3, courses }) => {
           return (
             <SwiperSlide key={i}>
               <div className="d-flex justify-content-center ">
-                <SubjectCard mainData={e} />
+                <SubjectCard mainData={e} academySettings={academySettings} />
               </div>
             </SwiperSlide>
           );

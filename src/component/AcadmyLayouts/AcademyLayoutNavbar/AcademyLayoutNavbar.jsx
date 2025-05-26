@@ -1,17 +1,18 @@
 import classes from "./AcademyLayoutNavbar.module.scss";
 import MenuIcon from "@mui/icons-material/Menu";
 import { useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useAuth } from "../../../utils/hooks/useAuth";
 import NewOffCanvas from "./NewOffCanvas";
+import CartButton from "../../MainPages/Header/CartButton";
 
 const AcademyLayoutNavbar = ({
   profile,
   academySettings,
   studentOpinions,
   faqs,
+  academyId
 }) => {
-  const { id } = useParams();
   const [show, setShow] = useState(false);
   const { user, isLoading: isLoadingUser } = useAuth();
   
@@ -21,11 +22,19 @@ const AcademyLayoutNavbar = ({
   // Format links for the NewOffCanvas component
   const navigationLinks = [
     { 
-      title: "الرئيسية", 
-      path: "#",
+      title: "البداية", 
+      path: "#hero",
       onClick: (e, path) => {
         e.preventDefault();
-        window.scrollTo({ top: 0, behavior: 'smooth' });
+        document.querySelector(path)?.scrollIntoView({ behavior: 'smooth' });
+      }
+    },
+    { 
+      title: "الانجازات", 
+      path: "#about",
+      onClick: (e, path) => {
+        e.preventDefault();
+        document.querySelector(path)?.scrollIntoView({ behavior: 'smooth' });
       }
     },
     { 
@@ -52,14 +61,7 @@ const AcademyLayoutNavbar = ({
         document.querySelector(path)?.scrollIntoView({ behavior: 'smooth' });
       }
     }] : []),
-    { 
-      title: "تواصل معنا", 
-      path: "#contact",
-      onClick: (e, path) => {
-        e.preventDefault();
-        document.querySelector(path)?.scrollIntoView({ behavior: 'smooth' });
-      }
-    },
+
   ];
 
   const renderUserButtons = () => {
@@ -73,25 +75,25 @@ const AcademyLayoutNavbar = ({
     }
 
     if (user) {
+      // Check if the user object has an 'academy' property to determine if they are an academy owner
+      const isAcademyOwner = !!user.academy;
+      const dashboardPath = isAcademyOwner ? "/academy" : "/student/dashboard";
+      // Use academy image if owner, otherwise use user image
+      const userImage = isAcademyOwner ? user.academy?.image : user.image;
+      const userName = user.name; // Assuming user object has a name property
+
       return (
         <div className={classes.NavBarBtns}>
           <Link
             className={classes.Secondry}
-            to={user.academy?.id === profile.id ? "/academy" : `/student/dashboard`}
+            to={dashboardPath}
           >
             لوحة التحكم
           </Link>
-          {user.academy?.id === profile.id && user.academy.image && (
+          {userImage && (
             <img
-              src={user.academy.image}
-              alt=""
-              className="rounded-full w-10 h-10 object-cover"
-            />
-          )}
-          {user.academy?.id !== profile.id && user.image && (
-            <img
-              src={user.image}
-              alt=""
+              src={userImage}
+              alt={userName || "User Avatar"}
               className="rounded-full w-10 h-10 object-cover"
             />
           )}
@@ -178,7 +180,7 @@ const AcademyLayoutNavbar = ({
     <div data-aos="fade-down" className={`container`}>
       <div className={`${classes.NavBarContainer} all-navbar-layout-1`}>
         <div className={classes.NavBarRoutes}>
-          <Link to={`/acdemy/${id}`} className={classes.logo}>
+          <Link to={`/acdemy/${academyId}`} className={classes.logo}>
             <img
               src={academySettings.logo}
               alt="sayn academy logo"
@@ -203,7 +205,8 @@ const AcademyLayoutNavbar = ({
         </div>
         
         {/* Desktop User Actions */}
-        <div className={classes.desktopActions}>
+        <div className={`${classes.desktopActions} flex items-center gap-4`}>
+          <CartButton />
           {renderUserButtons()}
         </div>
 
@@ -219,7 +222,11 @@ const AcademyLayoutNavbar = ({
         onClose={handleClose}
         logo={academySettings.logo}
         links={navigationLinks}
-        renderUserButtons={renderUserButtons}
+        renderUserButtons={() => (
+          <div className={classes.NavBarBtns}>
+            {renderUserButtons()}
+          </div>
+        )}
         renderUserButtonsMobile={renderUserButtonsMobile}
       />
     </div>

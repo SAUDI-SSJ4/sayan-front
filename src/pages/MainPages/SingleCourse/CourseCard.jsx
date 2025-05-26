@@ -107,13 +107,34 @@ export const CourseCard = ({
 
   return (
     <React.Fragment>
-      <div className={Style.CourseTitle}>
-        <h2 className="p-0 m-0">
-          {course?.title || "اسم الدورة غير متوفر"}
-        </h2>
-        <h4>
-          {handleRateStare(course?.rated)}
-        </h4>
+      {/* قسم عنوان الدورة والتقييم */}
+      <div className="bg-white rounded-lg p-4 mb-4">
+        <div className="flex flex-col gap-2">
+          {/* عنوان الدورة */}
+          <div>
+            <h1 className="text-lg font-bold text-gray-800 leading-tight">
+              {course?.title || "اسم الدورة غير متوفر"}
+            </h1>
+          </div>
+          
+          {/* التقييم */}
+          {course?.stars !== undefined && course?.stars !== null && (
+            <div className="flex items-center">
+              <div className="flex items-center gap-1">
+                {[...Array(5)].map((_, index) => (
+                  <svg
+                    key={index}
+                    className={`w-5 h-5 ${index < Math.floor(course?.stars || 0) ? 'text-yellow-300' : 'text-gray-300'}`}
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                  >
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                  </svg>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
       </div>
       {showBuyCourses && (
         <BuyACourse
@@ -221,7 +242,7 @@ export const CourseCard = ({
           </div>
           <div className={`${Style.detials} mt-3 text-center`}>
             <Link
-              className="mt-4 d-flex justify-content-evenly align-items-center text-decoration-none"
+              className="d-flex flex-column align-items-center text-decoration-none"
               to={
                 academy?.id
                   ? `/acdemy/${academy.id}`
@@ -230,28 +251,31 @@ export const CourseCard = ({
               tabIndex={academy?.id ? 0 : -1}
               style={academy?.id ? {} : { pointerEvents: "none", color: "#bbb" }}
             >
-              <img
-                src={academy?.image}
-                alt="Academy"
-                style={{
-                  width: "50px",
-                  height: "50px",
-                  borderRadius: "50%",
-                  objectFit: "cover",
-                }}
-              />
-              <h4>
-                {academy?.name || "اسم الأكاديمية غير متوفر"}
-              </h4>
+              <div className="mb-3">
+                <img
+                  src={academy?.image}
+                  alt="Academy"
+                  style={{
+                    width: "80px",
+                    height: "80px",
+                    borderRadius: "15px",
+                    objectFit: "cover",
+                    border: "3px #0062ff",
+                    boxShadow: "0 4px 8px rgba(0,0,0,0.1)"
+                  }}
+                />
+              </div>
+              <h1 className>
+                <div className>
+                  <div className="text-center" style={{ fontSize: '22px' }}>
+                    أكاديمية {academy?.name || "اسم الأكاديمية غير متوفر"}
+                  </div>
+                </div>
+              </h1>
             </Link>
-            <span>
-              {course?.created_at
-                ? new Date(course.created_at).toLocaleDateString("ar-EG", { month: "short", day: "2-digit", year: "numeric" })
-                : "تاريخ غير متوفر"}
-            </span>
+          </div>
           </div>
         </div>
-      </div>
     </React.Fragment>
   );
 };

@@ -56,7 +56,7 @@ const FAQ = () => {
     <div className="CustomContainer" style={{ marginTop: "100px" }}>
       <div className="row">
         <div className="col-lg-4 col-md-12">
-          <h3
+          <h1
             style={{
               fontFamily: " Noto Kufi Arabic",
               fontSize: "60px",
@@ -66,7 +66,7 @@ const FAQ = () => {
             }}
           >
             الأسئلة الشائعة <span style={{ color: "#0062FF" }}>؟</span>
-          </h3>
+          </h1>
         </div>
 
         <div data-aos="fade-up" data-aos-delay="100" className="col-lg-8 col-md-12">
@@ -75,21 +75,22 @@ const FAQ = () => {
           ) : (
             isNotEmpty(data) &&
             data.map((faq, index) => (
-              <Accordion
-                key={index}
-                expanded={expanded === `panel${index}`}
-                onChange={handleChange(`panel${index}`)}
-              >
-                <AccordionSummary
-                  aria-controls={`panel${index}-content`}
-                  id={`panel${index}-header`}
+              <article key={index}>
+                <Accordion
+                  expanded={expanded === `panel${index}`}
+                  onChange={handleChange(`panel${index}`)}
                 >
-                  <p className="faq-question">{faq.title}</p>
-                </AccordionSummary>
-                <AccordionDetails>
-                  <p className="faq-answer mbb-0">{faq.content}</p>
-                </AccordionDetails>
-              </Accordion>
+                  <AccordionSummary
+                    aria-controls={`panel${index}-content`}
+                    id={`panel${index}-header`}
+                  >
+                    <p className="faq-question">{faq.title}</p>
+                  </AccordionSummary>
+                  <AccordionDetails>
+                    <p className="faq-answer mbb-0">{faq.content}</p>
+                  </AccordionDetails>
+                </Accordion>
+              </article>
             ))
           )}
         </div>

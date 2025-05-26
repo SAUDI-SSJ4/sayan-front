@@ -38,9 +38,7 @@ const SingleCourse = () => {
     };
 
     window.addEventListener("keydown", handleEscape);
-    return () => {
-      window.removeEventListener("keydown", handleEscape);
-    };
+    return () => window.removeEventListener("keydown", handleEscape);
   }, []);
 
   const handleChange = (panel) => (_, isExpanded) =>
@@ -48,14 +46,14 @@ const SingleCourse = () => {
 
   if (isError) {
     console.log(error);
-    toast.error(error.message || "Something went wrong");
+    toast.error(error.message || "حدث خطأ ما");
     return navigate("/");
   }
 
   return (
-    <Fragment>
+    <div className="min-h-screen bg-gray-50">
       <Header2>
-        <div className={Style.Container} style={{ paddingBottom: "150px" }}>
+        <div className="container mx-auto px-4 py-8 lg:px-8">
           <CourseCard
             active={active}
             setActive={setActive}
@@ -65,7 +63,7 @@ const SingleCourse = () => {
             isLoading={isLoading}
           />
 
-          <div className={Style.cardInfo}>
+          <div className="mt-8">
             <CourseInfo
               courseData={courseData}
               active={active}
@@ -77,7 +75,7 @@ const SingleCourse = () => {
       </Header2>
       <CourseRelated courseData={courseData} />
       <Footer />
-    </Fragment>
+    </div>
   );
 };
 

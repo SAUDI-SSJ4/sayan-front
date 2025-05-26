@@ -98,33 +98,42 @@ const Layout1 = () => {
           />
           {/* No custom font specification - will use system default */}
         </Helmet>
-        <AcademyLayoutNavbar
-          profile={academyData.profile}
-          academySettings={academyData.settings}
-          faqs={academyData.faqs}
-          studentOpinions={academyData.opinions}
-        />
-        <ScrollToHashElement />
-        <Hero academyData={academyData} />
-
-        {/* نبذة عن المعلم */}
-
-        <About academyData={academyData} />
-        <Courses academyData={academyData} />
-        {academyData.opinions.length > 0 && (
-          <div style={{ marginTop: '0px', marginBottom: '150px' }}>
-            <StudentRateSection
-              opinions={academyData.opinions}
-              academySettings={academyData.settings}
-            />
+        <div style={{ backgroundColor: '#F9FAFB' }}>
+          <AcademyLayoutNavbar
+            profile={academyData.profile}
+            academySettings={academyData.settings}
+            faqs={academyData.faqs}
+            studentOpinions={academyData.opinions}
+          />
+          <ScrollToHashElement />
+          <div className="mt-[75px] md:mt-[100px]">
+            <div id="hero">
+              <Hero academyData={academyData} />
+            </div>
           </div>
-        )}
-        {academyData.faqs.length > 0 && (
-          <div className="md:mt-[200px] mt-[50px]">
-            <FAQ faqs={academyData.faqs} academySettings={academyData.settings} />
+
+          {/* نبذة عن المعلم */}
+          <div id="about">
+            <About academyData={academyData} />
           </div>
-        )}
-        <Footer academySettings={academyData.settings} />
+          <div style={{ marginTop: '200px' }}>
+            <Courses academyData={academyData} />
+          </div>
+          {academyData.opinions.length > 0 && (
+            <div style={{ marginBottom: '150px' }}>
+              <StudentRateSection
+                opinions={academyData.opinions}
+                academySettings={academyData.settings}
+              />
+            </div>
+          )}
+          {academyData.faqs.length > 0 && (
+            <div>
+              <FAQ faqs={academyData.faqs} academySettings={academyData.settings} />
+            </div>
+          )}
+          <Footer academySettings={academyData.settings} />
+        </div>
       </>
     )
   );
@@ -133,14 +142,33 @@ const Layout1 = () => {
 export default Layout1;
 
 const Courses = ({ academyData }) => {
+  // Add detailed console logs to debug
+  console.log('Courses Component - Full academyData:', academyData);
+  console.log('Courses Component - Settings:', academyData.settings);
+  console.log('Courses Component - Profile:', academyData.profile);
+  
+  // Filter courses to only show those with status = 1
+  const activeCourses = academyData.courses.filter(course => {
+    console.log('Course details:', {
+      id: course.id,
+      name: course.name,
+      status: course.status,
+      statusType: typeof course.status,
+      rawCourse: course
+    });
+    return course.status == 1; // Using loose equality to handle both string and number
+  });
+  
+  console.log('Active courses after filter:', activeCourses);
+
   return (
     <div
       id="courses"
       className="CustomContainer px-4 md:px-0"
-      style={{ marginTop: '200px' }}
+      style={{ marginTop: '75px' }}
       data-aos-duration="1000"
     >
-      {academyData.courses.length > 0 ? (
+      {activeCourses.length > 0 ? (
         <>
           <div className={`${classes.title} text-center`} style={{ marginBottom: '15px' }}>
             المواد التعليمية 
@@ -186,22 +214,33 @@ const Courses = ({ academyData }) => {
               alignItems: 'center'
             }}
           >
-            {academyData.courses.map((course) => (
-              <SwiperSlide key={course.id} style={{ display: 'flex', justifyContent: 'center' }}>
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5 }}
-                  className="d-flex justify-content-center w-full md:w-auto"
-                  style={{ maxWidth: '100%', margin: '0 auto' }}
-                >
-                  <SubjectCard
-                    mainData={course}
-                    academySettings={academyData.settings}
-                  />
-                </motion.div>
-              </SwiperSlide>
-            ))}
+            {activeCourses.map((course) => {
+              const courseData = {
+                ...course,
+                academy_id: academyData.profile.id
+              };
+              console.log('Passing to SubjectCard:', {
+                courseData,
+                academySettings: academyData.settings
+              });
+              
+              return (
+                <SwiperSlide key={course.id} style={{ display: 'flex', justifyContent: 'center' }}>
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5 }}
+                    className="d-flex justify-content-center w-full md:w-auto"
+                    style={{ maxWidth: '100%', margin: '0 auto' }}
+                  >
+                    <SubjectCard
+                      mainData={courseData}
+                      academySettings={academyData.settings}
+                    />
+                  </motion.div>
+                </SwiperSlide>
+              );
+            })}
             <div className="swiper-pagination" style={{ bottom: "5px" }}></div>
           </Swiper>
         </>
@@ -217,7 +256,7 @@ const Courses = ({ academyData }) => {
 
 const Hero = ({ academyData }) => {
   return (
-    <div className="container" style={{ marginTop: '100px', marginBottom: '150px' }}>
+    <div className="container" style={{marginBottom: '150px' }}>
       <div className="row aboutAcademyLayout g-4">
         <div className="col-lg-6">
           <div data-aos="fade-up" className="SectionText">
@@ -281,7 +320,7 @@ const Hero = ({ academyData }) => {
 
 const About = ({ academyData }) => {
   return (
-    <div className="container mt-5">
+    <div className="container">
       <div className="row g-4 aboutAcademyLayout">
         <div className="col-lg-6 order-2 order-lg-1">
           <div data-aos="fade-up" className="SectionImage !pl-0 lg:!pl-14">
