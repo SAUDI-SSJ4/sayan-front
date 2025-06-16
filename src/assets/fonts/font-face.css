@@ -1,0 +1,60 @@
+/* 
+ * ملف CSS لتحميل خط Fairuz محلياً
+ * ضع ملفات الخط (.ttf, .woff, .woff2) في هذا المجلد
+ * ثم قم بإلغاء التعليق عن الكود أدناه
+ */
+
+/*
+@font-face {
+  font-family: 'Fairuz';
+  src: url('./Fairuz-Regular.woff2') format('woff2'),
+       url('./Fairuz-Regular.woff') format('woff'),
+       url('./Fairuz-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Fairuz';
+  src: url('./Fairuz-Light.woff2') format('woff2'),
+       url('./Fairuz-Light.woff') format('woff'),
+       url('./Fairuz-Light.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Fairuz';
+  src: url('./Fairuz-Medium.woff2') format('woff2'),
+       url('./Fairuz-Medium.woff') format('woff'),
+       url('./Fairuz-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Fairuz';
+  src: url('./Fairuz-Bold.woff2') format('woff2'),
+       url('./Fairuz-Bold.woff') format('woff'),
+       url('./Fairuz-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+*/
+
+/* 
+ * لاستخدام خط Fairuz محلياً:
+ * 1. حمل ملفات خط Fairuz وضعها في هذا المجلد
+ * 2. قم بإلغاء التعليق عن الكود أعلاه
+ * 3. أضف import في index.css:
+ *    @import './assets/fonts/font-face.css';
+ * 4. احذف أو علق على import Google Fonts في index.css
+ * 
+ * خط Fairuz متاح مجاناً من:
+ * - مشاريع الخطوط العربية المفتوحة المصدر
+ * - مجتمعات التصميم العربي
+ */ 

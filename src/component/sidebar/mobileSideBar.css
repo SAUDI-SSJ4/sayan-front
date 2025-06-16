@@ -1,0 +1,88 @@
+/* تنسيقات السايدبار الجوال العصري */
+
+/* خلفية القائمة عند فتحها */
+.mobile-sidebar-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  z-index: 1050;
+}
+
+/* حاوية القائمة الجانبية */
+.mobile-sidebar-container {
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 100vh;
+  width: 300px;
+  max-width: 85vw;
+  background-color: white;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.15);
+  z-index: 1051;
+  display: flex;
+  flex-direction: column;
+}
+
+/* رأس القائمة الجانبية */
+.mobile-sidebar-header {
+  display: flex;
+  justify-content: flex-start;
+  padding: 16px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+/* زر الإغلاق */
+.mobile-sidebar-close-btn {
+  background: transparent;
+  border: none;
+  color: #565656;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.mobile-sidebar-close-btn:hover {
+  background-color: rgba(0, 98, 255, 0.08);
+  color: #0062FF;
+}
+
+/* محتوى القائمة الجانبية */
+.mobile-sidebar-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px 0;
+}
+
+/* تنسيق scrollbar القائمة */
+.mobile-sidebar-body::-webkit-scrollbar {
+  width: 4px;
+}
+
+.mobile-sidebar-body::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+.mobile-sidebar-body::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 4px;
+}
+
+.mobile-sidebar-body::-webkit-scrollbar-thumb:hover {
+  background: #0062FF;
+}
+
+/* تخصيص للأجهزة الصغيرة */
+@media (max-width: 400px) {
+  .mobile-sidebar-container {
+    width: 260px;
+  }
+} 

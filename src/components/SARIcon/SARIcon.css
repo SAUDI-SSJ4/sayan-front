@@ -1,0 +1,84 @@
+.sar-icon {
+  width: 14px;
+  height: 14px;
+  display: inline-block;
+  margin: 0 4px;
+  vertical-align: middle;
+  filter: brightness(0.4) sepia(1) hue-rotate(200deg) saturate(4) contrast(1.2);
+}
+
+/* تنسيق خاص للأيقونة في البطاقات */
+.badge .sar-icon {
+  width: 12px;
+  height: 12px;
+  margin: 0 2px;
+}
+
+/* تنسيق خاص للأيقونة في العناوين الكبيرة */
+h1 .sar-icon,
+h2 .sar-icon {
+  width: 18px;
+  height: 18px;
+  margin: 0 6px;
+}
+
+/* تنسيق خاص للأيقونة في الجداول */
+table .sar-icon {
+  width: 12px;
+  height: 12px;
+  margin: 0 3px;
+}
+
+/* تنسيق للأيقونة في بطاقات الدورات */
+.course-card .sar-icon,
+.card .sar-icon {
+  width: 12px;
+  height: 12px;
+  margin: 0 3px;
+}
+
+/* تنسيق للأيقونة في الأسعار الملونة */
+.text-success .sar-icon {
+  filter: brightness(0.4) sepia(1) hue-rotate(90deg) saturate(3) contrast(1.2);
+}
+
+.text-primary .sar-icon {
+  filter: brightness(0.4) sepia(1) hue-rotate(200deg) saturate(4) contrast(1.2);
+}
+
+/* تنسيق خاص للأيقونة في المحفظة */
+.wallet-page .sar-icon {
+  width: 16px;
+  height: 16px;
+  margin: 0 4px;
+}
+
+/* تنسيق للأيقونة في الأسعار الصغيرة */
+.small-price .sar-icon {
+  width: 10px;
+  height: 10px;
+  margin: 0 2px;
+}
+
+/* تنسيق خاص للأيقونة في عربة التسوق */
+.cartPopover .sar-icon,
+.cart-item .sar-icon {
+  width: 12px;
+  height: 12px;
+  margin: 0 3px;
+  filter: brightness(0.3) sepia(1) hue-rotate(200deg) saturate(5) contrast(1.3);
+}
+
+/* تنسيق للأيقونة في النصوص العادية */
+p .sar-icon {
+  width: 12px;
+  height: 12px;
+  margin: 0 3px;
+}
+
+/* تنسيق للأيقونة في span */
+span .sar-icon {
+  width: 12px;
+  height: 12px;
+  margin: 0 3px;
+} 
