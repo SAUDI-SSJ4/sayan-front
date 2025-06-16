@@ -60,10 +60,7 @@
       }
     }
   }
-  .SayanLogo {
-    cursor: pointer;
-    color: #7E8799;
-  }
+
 
 }
 
@@ -143,5 +140,20 @@
 @media (max-width: 1150px) {
   .forMobile {
     display: block;
+  }
+}
+
+.SayanLogo {
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+  
+  &:hover {
+    opacity: 0.8;
+  }
+  
+  img {
+    width: 120px;
+    height: 120px;
+    object-fit: contain;
   }
 }

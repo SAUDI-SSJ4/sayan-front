@@ -35,8 +35,8 @@ const AddNewChapter = ({ categoryId, courseId }) => {
     validationSchema,
     onSubmit: (values) => {
       Swal.fire({
-        title: "اضافة الفصل الي الدورة",
-        text: "هل تريد اضافة هذا الدرس الي هذا الفصل في هذة الدورة",
+        title: "اضافة الفصل الي المادة",
+        text: "هل تريد اضافة هذا الدرس الي هذا الفصل في هذة المادة",
         icon: "warning",
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
@@ -46,7 +46,7 @@ const AddNewChapter = ({ categoryId, courseId }) => {
       }).then(async (result) => {
         if (result.isConfirmed) {
           if (!courseId) {
-            error("الرجاء اختيار الدورة");
+            error("الرجاء اختيار المادة");
             return;
           }
 
@@ -118,4 +118,4 @@ const AddNewChapter = ({ categoryId, courseId }) => {
   );
 };
 
-export default AddNewChapter;
+export default AddNewChapter; 

@@ -1,5 +1,5 @@
 import Modal from 'react-bootstrap/Modal';
-import SuccesGif from "../../../assets/images/succes.gif"
+import SuccesGif from "../../../assets/images/Animation.gif"
 import { useEffect } from 'react';
 const SuccesModal = ({show,setShow}) => {
     useEffect(() => {

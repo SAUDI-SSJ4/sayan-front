@@ -19,7 +19,7 @@ import AreaChartNormal from "../../../component/charts/AreaChart";
 import AreaChart from "../../../component/charts/doubleArea";
 
 import classes from "./dasahboard.module.scss";
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
 const { Column, HeaderCell, Cell } = Table;
 const data = mockUsers(8);
 

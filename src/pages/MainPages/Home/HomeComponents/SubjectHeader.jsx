@@ -1,7 +1,7 @@
 import SearchIcon from "@mui/icons-material/Search";
 import Style from "../home.module.scss";
 import { useCallback, useEffect, useState } from "react";
-import { debounce } from "lodash"; // Import lodash for debouncing
+import debounce from "lodash/debounce"; // Import specific function to reduce bundle size
 
 export const SubjectHeader = ({ filterByCourseTitle }) => {
   const [active, setActive] = useState(0);

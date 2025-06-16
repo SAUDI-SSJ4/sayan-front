@@ -1,35 +1,9 @@
 import { Link } from "react-router-dom";
 import { MainSpinner } from "../../UI/MainSpinner";
 
-// بيانات افتراضية لو لم يوجد كورسات
-const FAKE_COURSES = [
-  {
-    id: "xx11",
-    title: "أساسيات تطوير المواقع",
-    image: "https://i.imgur.com/znpqLnH.png",
-    academy: "أكاديمية المبرمج",
-    academy_image: "https://i.imgur.com/0y0y0y0.png",
-  },
-  {
-    id: "jj32",
-    title: "الذكاء الاصطناعي للمبتدئين",
-    image: "https://i.imgur.com/ZFaS4vT.png",
-    academy: "مسار التقنية",
-    academy_image: "https://i.imgur.com/WjsGU4G.png",
-  },
-  {
-    id: "gg43",
-    title: "تجربة المستخدم من الصفر للاحتراف",
-    image: "https://i.imgur.com/F0BihN4.png",
-    academy: "تصميم بلس",
-    academy_image: "https://i.imgur.com/n1t6mmR.png",
-  },
-];
-
 const TrainingCoursesCardContainer = ({ courses, isLoading }) => {
-  // استخدم بيانات وهمية إذا لا توجد بيانات
-  const displayCourses =
-    Array.isArray(courses) && courses.length > 0 ? courses : FAKE_COURSES;
+  // التحقق من وجود دورات صالحة
+  const hasValidCourses = Array.isArray(courses) && courses.length > 0;
 
   return (
     <div
@@ -46,7 +20,7 @@ const TrainingCoursesCardContainer = ({ courses, isLoading }) => {
         </div>
       )}
 
-      {!isLoading && (
+      {!isLoading && hasValidCourses && (
         <ul
           className="
             grid gap-7 md:gap-7
@@ -59,15 +33,72 @@ const TrainingCoursesCardContainer = ({ courses, isLoading }) => {
           "
           style={{ direction: "rtl" }}
         >
-          {displayCourses.map((course) => (
+          {courses.map((course) => (
             <CourseCard key={course.id} course={course} />
           ))}
         </ul>
       )}
 
-      {!isLoading && (!courses || courses.length === 0) && (
-        <div className="mt-10 text-center text-slate-600 font-semibold">
-          <h2>لا توجد دورات تدريبية متاحة حالياً</h2>
+      {!isLoading && !hasValidCourses && (
+        <div style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          padding: "60px 20px",
+          textAlign: "center",
+          background: "linear-gradient(135deg, #f0f8ff 0%, #e6f3ff 100%)",
+          borderRadius: "20px",
+          border: "2px dashed #87ceeb",
+          margin: "20px 0"
+        }}>
+          <div style={{
+            width: "80px",
+            height: "80px",
+            background: "linear-gradient(135deg, #4a90e2 0%, #357abd 100%)",
+            borderRadius: "50%",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            marginBottom: "24px",
+            boxShadow: "0 8px 32px rgba(74, 144, 226, 0.3)"
+          }}>
+            <svg width="40" height="40" fill="white" viewBox="0 0 24 24">
+              <path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm5 11h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"/>
+            </svg>
+          </div>
+          <h2 style={{
+            fontSize: "24px",
+            fontWeight: "700",
+            color: "#2c3e50",
+            marginBottom: "12px",
+          }}>
+            📚 لا توجد مواد تعليمية مسجل بها حالياً
+          </h2>
+          <p style={{
+            fontSize: "16px",
+            color: "#64748b",
+            lineHeight: "1.6",
+            marginBottom: "20px",
+            maxWidth: "400px",
+          }}>
+            استكشف المواد التعليمية المتاحة وابدأ رحلة تعلمك! يمكنك تصفح المواد والتسجيل في المواد التعليمية التي تناسب اهتماماتك وأهدافك التعليمية.
+          </p>
+          <div style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "8px",
+            padding: "12px 24px",
+            background: "rgba(74, 144, 226, 0.1)",
+            borderRadius: "50px",
+            color: "#4a90e2",
+            fontSize: "14px",
+            fontWeight: "600",
+          }}>
+            <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/>
+            </svg>
+ابحث عن المواد التعليمية المتاحة في المتجر          </div>
         </div>
       )}
     </div>
@@ -97,11 +128,8 @@ const CourseCard = ({ course }) => {
         boxShadow: "0 6px 33px 0 rgba(40, 84, 150, 0.10)",
       }}
     >
-      <Link
-        to={`/student/Coursedetails/${course.id}`}
-        className="flex flex-col h-full"
-      >
-        {/* صورة الدورة */}
+              {/* صورة المادة التعليمية */}
+      <Link to={`/student/Coursedetails/${course.id}`}>
         <div
           className="w-full bg-[#F6FAFE] relative"
           style={{
@@ -114,7 +142,7 @@ const CourseCard = ({ course }) => {
         >
           <img
             src={course.image || "/images/placeholder-course.png"}
-            alt="Course Thumbnail"
+            alt="Material Thumbnail"
             className="
               w-full h-[225px]
               object-cover
@@ -132,8 +160,11 @@ const CourseCard = ({ course }) => {
             }}
           />
         </div>
-        {/* التفاصيل النصية */}
-        <div className="flex flex-col justify-between flex-grow p-4 gap-3">
+      </Link>
+      
+      {/* التفاصيل النصية */}
+      <div className="flex flex-col justify-between flex-grow p-4 gap-3">
+        <Link to={`/student/Coursedetails/${course.id}`}>
           <h3
             className="
               text-lg md:text-xl
@@ -149,25 +180,32 @@ const CourseCard = ({ course }) => {
           >
             {course.title}
           </h3>
-          {/* بادج أو نوع الدورة */}
-          <span
-            className="
-              bg-[#0FE8E819]
-              text-[#0FE8E8]
-              rounded-[15px]
-              px-4 py-2
-              inline-block
-              text-center
-              font-semibold
-              tracking-wide
-              text-sm
-            "
-            style={{ width: 96 }}
+        </Link>
+        
+        {/* بادج أو نوع المادة */}
+        <span
+          className="
+            bg-[#0FE8E819]
+            text-[#0FE8E8]
+            rounded-[15px]
+            px-4 py-2
+            inline-block
+            text-center
+            font-semibold
+            tracking-wide
+            text-sm
+          "
+          style={{ width: 96 }}
+        >
+          تفاعلية
+        </span>
+        
+        {/* الأكاديمية - رابط منفصل */}
+        <div className="flex items-center gap-3 mt-2">
+          <Link 
+            to={`/academy/${course.academy_id || 'default'}`}
+            onClick={(e) => e.stopPropagation()}
           >
-            تفاعلية
-          </span>
-          {/* الأكاديمية */}
-          <div className="flex items-center gap-3 mt-2">
             <img
               src={course.academy_image || "/images/placeholder-academy.png"}
               alt="Academy Logo"
@@ -176,29 +214,39 @@ const CourseCard = ({ course }) => {
                 rounded-full
                 border border-[#e8f1f9]
                 shadow-sm
-                opacity-95 group-hover:opacity-100
+                opacity-95 hover:opacity-100
                 duration-200
                 transition-opacity
+                cursor-pointer
+                hover:border-[#0062ff]
               "
               onError={(e) => {
                 e.target.onerror = null;
                 e.target.src = "/images/placeholder-academy.png";
               }}
             />
+          </Link>
+          <Link 
+            to={`/acdemy/${course.academy_id || 'default'}`}
+            onClick={(e) => e.stopPropagation()}
+            className="no-underline"
+            style={{ textDecoration: 'none' }}
+          >
             <span
               className="
                 text-base
                 text-[#7E8799]
-                group-hover:text-[#0062ff]
+                hover:text-[#0062ff]
                 font-medium
                 transition-colors
+                cursor-pointer
               "
             >
               {course.academy}
             </span>
-          </div>
+          </Link>
         </div>
-      </Link>
+      </div>
     </li>
   );
 };

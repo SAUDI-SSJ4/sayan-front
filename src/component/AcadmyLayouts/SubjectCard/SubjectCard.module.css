@@ -17,7 +17,6 @@
 .CardContainer h2 {
   color: #272727;
   text-align: right;
-  font-family: "Tajawal", sans-serif !important;
   font-size: 24px;
   font-style: normal;
   font-weight: 800;
@@ -28,7 +27,6 @@
   background: #009AFF;
   color: #FFF;
   text-align: right;
-  font-family: "Tajawal", sans-serif !important;
   font-size: 15px;
   font-style: normal;
   padding: 10px 20px;
@@ -44,7 +42,6 @@
 .CardContainer .Rate p {
   color: #636363;
   text-align: right;
-  font-family: "Tajawal", sans-serif !important;
   font-size: 13px;
   font-style: normal;
   font-weight: 500;
@@ -57,7 +54,6 @@
 .CardContainer .Text {
   color: #636363;
   text-align: right;
-  font-family: "Tajawal", sans-serif !important;
   margin-top: 25px;
   font-size: 16px;
   font-style: normal;
@@ -81,7 +77,6 @@
 .CardContainer .Footer .Profile h3 {
   color: #636363;
   text-align: right;
-  font-family: "Tajawal", sans-serif !important;
   font-size: 16px;
   font-style: normal;
   font-weight: 500;
@@ -90,7 +85,6 @@
 .CardContainer .Footer .Profile h4 {
   color: #272727;
   text-align: right;
-  font-family: "Tajawal", sans-serif !important;
   font-size: 16px;
   font-style: normal;
   font-weight: 700;
@@ -99,7 +93,6 @@
 .CardContainer .Footer .h5 {
   text-align: center;
   color: #333;
-  font-family: "Tajawal", sans-serif !important;
   font-size: 24px;
   font-style: normal;
   font-weight: 900;
@@ -108,7 +101,6 @@
 .CardContainer .Footer h6 {
   text-align: center;
   color: rgba(51, 51, 51, 0.58);
-  font-family: "Tajawal", sans-serif !important;
   font-size: 16px;
   font-style: normal;
   font-weight: 700;

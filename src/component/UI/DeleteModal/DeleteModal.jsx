@@ -1,9 +1,9 @@
 import Modal from "react-bootstrap/Modal";
-import SuccesGif from "../../../assets/images/succes.gif";
 import { useEffect } from "react";
 import DeleteConfirmation from "../../../assets/icons/DeleteConfrimation";
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
 import { useDeleteProduct } from "../../../framework/accademy/product";
+
 const DeleteModal = ({ show, setShow, onDeleteHandler, id }) => {
   const OnHide = () => {
     setShow(false);
@@ -52,16 +52,7 @@ const DeleteModal = ({ show, setShow, onDeleteHandler, id }) => {
                 onDeleteHandler();
               } else {
                 deleteDataa();
-                toast.success("   تم حذف العنصر", {
-                  position: "top-left",
-                  autoClose: 3000,
-                  hideProgressBar: true,
-                  closeOnClick: true,
-                  pauseOnHover: true,
-                  draggable: true,
-                  progress: undefined,
-                  theme: "dark",
-                });
+                toast.success("   تم حذف العنصر");
               }
             }}
           >

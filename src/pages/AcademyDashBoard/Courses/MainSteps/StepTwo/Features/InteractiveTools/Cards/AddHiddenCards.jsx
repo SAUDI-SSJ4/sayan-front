@@ -1,32 +1,45 @@
-import React from "react";
-import HiddenCard from "../../../../../../../../component/UI/HiddenCard";
+import React, { useState } from "react";
 import HiddenCardsSideBar from "../../../../../SideBars/HiddenCardsSideBar";
+import style from "../../../../../AddNewCourse.module.css";
+// Placeholder for CardHidden component, please import or define it
+// import CardHidden from "../../../../../../../component/UI/CardHidden";
 
-const AddHiddenCards = ({
-  hiddenCards,
-  setHiddenCards,
-  cardData,
-  setCardData,
-  courseId,
-  chapterId,
-}) => {
+const AddHiddenCards = ({ courseId, chapterId }) => {
+  const [cards, setCards] = useState([]);
+  const [cardData, setCardData] = useState({
+    title: "عنوان البطاقة المخفية",
+    content: "محتوى البطاقة المخفية",
+    image: null, // Or a default image path
+    color: "#3498db",
+  });
+
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-      <div className="p-4 border-l border-[#EDEFF2]">
-        <h4 style={{ color: "#2B3674", fontWeight: "600" }}>
-          إنشاء بطاقة مخصصة
-        </h4>
-
-        <h5 style={{ color: "#2b3674" }}>معاينة البطاقة:</h5>
-        <HiddenCard cardData={cardData} />
+    <div className={style.container}>
+      <div className={style.content}>
+        <div className="container">
+          <h4
+            style={{
+              textAlign: "center",
+              marginBottom: "2rem",
+              color: "#2b3674",
+            }}
+          >
+            إنشاء بطاقات مخفية
+          </h4>
+          <div style={{ textAlign: "center", marginTop: "2rem" }}>
+            <h5 style={{ color: "#2b3674" }}>معاينة البطاقات (مثال):</h5>
+            {/* Placeholder for displaying CardHidden components */}
+            {/* cards.map((card, index) => <CardHidden key={index} cardData={card} />) */}
+            <p>معاينة البطاقة المخفية ستظهر هنا.</p>
+          </div>
+        </div>
       </div>
-
-      <div className="p-4">
+      <div className={`${style.sidebar} ${style.right}`}>
         <HiddenCardsSideBar
           cardData={cardData}
           setCardData={setCardData}
-          hiddenCards={hiddenCards}
-          setHiddenCards={setHiddenCards}
+          cards={cards}
+          setCards={setCards}
           courseId={courseId}
           chapterId={chapterId}
         />
@@ -35,4 +48,4 @@ const AddHiddenCards = ({
   );
 };
 
-export default AddHiddenCards;
+export default AddHiddenCards; 

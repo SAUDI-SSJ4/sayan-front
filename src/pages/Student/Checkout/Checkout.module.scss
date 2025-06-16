@@ -3,8 +3,8 @@
   grid-template-columns: 1fr 1fr 400px;
   gap: 24px;
   padding: 24px;
-  max-width: 1600px;
-  margin: 0 auto;
+  width: 100%;
+  margin: 0;
 
   @media (max-width: 1400px) {
     grid-template-columns: 1fr 1fr;
@@ -17,21 +17,16 @@
 
 .Card {
   border: 1px solid #EDEFF2;
-  border-radius: 16px;
+  border-radius: 8px;
   padding: 24px;
-  background-color: white;
+  background: #ffffff;
   margin-bottom: 24px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-  transition: box-shadow 0.3s ease;
-
-  &:hover {
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  }
 
   h2 {
     color: #2B3674;
     margin-bottom: 24px;
-    font-size: 1.5rem;
+    font-size: 1.4rem;
     font-weight: 600;
     position: relative;
     padding-bottom: 12px;
@@ -43,7 +38,7 @@
       right: 0;
       width: 60px;
       height: 3px;
-      background: linear-gradient(90deg, #0062FF, #0056E0);
+      background: #0062FF;
       border-radius: 2px;
     }
   }
@@ -51,7 +46,6 @@
   h3 {
     color: #2B3674;
     text-align: right;
-    font-feature-settings: 'clig' off, 'liga' off;
     font-family: Readex Pro;
     font-size: 16px;
     font-style: normal;
@@ -63,7 +57,6 @@
   p {
     color: #7E8799;
     text-align: right;
-    font-feature-settings: 'clig' off, 'liga' off;
     font-family: Readex Pro;
     font-size: 14px;
     font-style: normal;
@@ -106,84 +99,29 @@
     align-items: center;
     gap: 16px;
     padding: 16px;
-    border-radius: 12px;
-    transition: all 0.3s ease;
+    border-radius: 8px;
     margin-bottom: 12px;
     background-color: #fff;
     border: 1px solid #EDEFF2;
-    position: relative;
-    overflow: hidden;
     cursor: pointer;
-
-    &:hover,
-    &:focus {
-      border-color: #0062FF;
-      background-color: #f8fbff;
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(0, 98, 255, 0.08);
-    }
-
-    &::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      right: 0;
-      width: 4px;
-      height: 100%;
-      background: linear-gradient(180deg, #0062FF, #0056E0);
-      opacity: 0;
-      transition: opacity 0.3s ease;
-    }
-
-    &:hover::before,
-    &:focus::before {
-      opacity: 1;
-    }
 
     svg {
       width: 48px;
       height: 48px;
-      transition: all 0.3s ease;
     }
 
     span {
       font-size: 1rem;
       color: #2B3674;
       font-weight: 500;
-      transition: color 0.3s ease;
     }
-
-    &:hover span,
-    &:focus span {
-      color: #0062FF;
-    }
-  }
-}
-
-:global(.Mui-checked) + .paymentOption {
-  border-color: #0062FF;
-  background-color: #f8fbff;
-  box-shadow: 0 4px 12px rgba(0, 98, 255, 0.08);
-
-  &:before {
-    opacity: 1;
-  }
-
-  svg {
-    filter: grayscale(0);
-    transform: scale(1.05);
-  }
-
-  span {
-    color: #0062FF;
-    font-weight: 600;
   }
 }
 
 .cardDetails {
   background: #f8f9fa;
   padding: 20px;
-  border-radius: 12px;
+  border-radius: 8px;
   margin: 20px 0;
   border: 1px solid #EDEFF2;
 
@@ -213,12 +151,12 @@
   }
 
   &::-webkit-scrollbar-track {
-    background: #f5f6fa;
+    background: #f8f9fa;
     border-radius: 3px;
   }
 
   &::-webkit-scrollbar-thumb {
-    background: #c1c7d0;
+    background: #0062FF;
     border-radius: 3px;
   }
 }
@@ -228,20 +166,16 @@
   align-items: center;
   gap: 20px;
   padding: 16px;
-  border-bottom: 1px solid #EDEFF2;
-  transition: transform 0.2s ease, background-color 0.2s ease;
-  border-radius: 12px;
-
-  &:hover {
-    background-color: #f8f9ff;
-    transform: translateX(-4px);
-  }
+  border: 1px solid #EDEFF2;
+  border-radius: 8px;
+  margin-bottom: 16px;
+  background: #ffffff;
 
   img {
     width: 90px;
     height: 90px;
     object-fit: cover;
-    border-radius: 12px;
+    border-radius: 8px;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
   }
 
@@ -269,10 +203,10 @@
       font-size: 1.1rem;
       font-weight: 600;
       background: #f0f7ff;
-      padding: 4px 12px;
-      border-radius: 20px;
+      padding: 6px 12px;
+      border-radius: 16px;
       display: inline-block;
-      margin-top: 4px;
+      margin-top: 6px;
     }
   }
 }
@@ -302,7 +236,6 @@
     color: white;
     padding: 10px 20px;
     cursor: pointer;
-    transition: background-color 0.2s;
     font-weight: 500;
 
     &:hover {
@@ -317,33 +250,72 @@
     justify-content: space-between;
     align-items: center;
     margin-bottom: 15px;
+    padding: 8px 0;
+
+    p {
+      font-weight: 500;
+      font-size: 1rem;
+    }
 
     &.total {
-      border-top: 1px solid #EDEFF2;
+      border-top: 2px solid #EDEFF2;
       padding-top: 15px;
       margin-top: 15px;
-    }
-  }
+      background: #f8fbff;
+      border-radius: 8px;
+      padding: 16px;
+      margin-left: -16px;
+      margin-right: -16px;
 
-  .discount {
-    color: #FA3434;
+      p {
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: #2B3674;
+      }
+    }
+
+    &.discount {
+      color: #28a745;
+      background: rgba(40, 167, 69, 0.1);
+      border-radius: 6px;
+      padding: 8px 12px;
+      margin-left: -12px;
+      margin-right: -12px;
+
+      p {
+        font-weight: 600;
+      }
+    }
   }
 }
 
 .checkoutButton {
   width: 100%;
-  padding: 15px;
-  background: #007bff;
+  padding: 16px 20px;
+  background: #0062FF;
   color: white;
   border: none;
   border-radius: 8px;
   font-size: 1rem;
+  font-weight: 600;
   cursor: pointer;
-  transition: background 0.3s;
   margin-top: 20px;
 
   &:hover {
-    background: #0056b3;
+    background: #0056E0;
+  }
+
+  &:disabled {
+    background: #A3AED0;
+    cursor: not-allowed;
+  }
+
+  &.freeButton {
+    background: #28a745;
+
+    &:hover {
+      background: #20c997;
+    }
   }
 }
 
@@ -388,9 +360,8 @@
 
 .checkoutWrapper {
   width: 100%;
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 0 15px;
+  margin: 0;
+  padding: 0 20px;
 }
 
 .paymentNote {
@@ -409,9 +380,10 @@
 
 .termsSection {
   margin: 20px 0 10px;
-  padding: 15px;
+  padding: 16px;
   border-radius: 8px;
-  background-color: #f8f9fa;
+  background: #f8f9fa;
+  border: 1px solid #EDEFF2;
 }
 
 .termsLabel {
@@ -422,16 +394,21 @@
   
   input[type="checkbox"] {
     margin-top: 3px;
+    width: 16px;
+    height: 16px;
+    accent-color: #0062FF;
   }
 
   span {
     font-size: 14px;
     color: #2B3674;
+    line-height: 1.5;
   }
 
   a {
     color: #0062FF;
     text-decoration: none;
+    font-weight: 600;
     
     &:hover {
       text-decoration: underline;
@@ -460,17 +437,193 @@
 .securePayment {
   margin-top: 15px;
   text-align: center;
+  padding: 12px;
+  background: rgba(0, 98, 255, 0.05);
+  border-radius: 8px;
+  border: 1px solid rgba(0, 98, 255, 0.1);
   
   small {
-    color: #7E8799;
-    font-size: 12px;
+    color: #0062FF;
+    font-size: 0.85rem;
+    font-weight: 500;
     display: flex;
     align-items: center;
     justify-content: center;
+    gap: 6px;
     
     &:before {
       content: "🔒";
-      margin-left: 5px;
+      font-size: 0.9rem;
     }
+  }
+}
+
+.creditCardOption {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px;
+  border: 2px solid #0062FF;
+  border-radius: 8px;
+  background: #f8fbff;
+
+  .paymentIcon {
+    font-size: 40px;
+    color: #0062FF;
+    padding: 10px;
+    background: rgba(0, 98, 255, 0.1);
+    border-radius: 8px;
+  }
+
+  .paymentDetails {
+    flex: 1;
+
+    h3 {
+      color: #2B3674;
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin: 0 0 6px;
+    }
+
+    p {
+      color: #7E8799;
+      font-size: 0.9rem;
+      margin: 0 0 10px;
+    }
+
+    .supportedCards {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+
+      svg {
+        width: 36px;
+        height: 24px;
+        opacity: 0.8;
+      }
+
+      span {
+        color: #A3AED0;
+        font-size: 0.8rem;
+        font-weight: 500;
+      }
+    }
+  }
+}
+
+.securityInfo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px;
+  background: #f0f7ff;
+  border-radius: 8px;
+  margin: 16px 0;
+  border-right: 3px solid #0062FF;
+
+  .securityIcon {
+    color: #0062FF;
+    font-size: 20px;
+  }
+
+  span {
+    color: #2B3674;
+    font-size: 0.85rem;
+    font-weight: 500;
+  }
+}
+
+.freeOrderNotice {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px;
+  background: #f0fff4;
+  border: 2px solid #28a745;
+  border-radius: 8px;
+
+  .freeIcon {
+    font-size: 40px;
+    color: #28a745;
+    padding: 10px;
+    background: rgba(40, 167, 69, 0.1);
+    border-radius: 8px;
+  }
+
+  div {
+    flex: 1;
+
+    h3 {
+      color: #2B3674;
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin: 0 0 6px;
+    }
+
+    p {
+      color: #7E8799;
+      font-size: 0.85rem;
+      margin: 0;
+    }
+  }
+}
+
+// تحسينات للاستجابة
+@media (max-width: 768px) {
+  .Card {
+    padding: 16px;
+    border-radius: 6px;
+  }
+
+  .orderItem {
+    flex-direction: column;
+    text-align: center;
+    gap: 12px;
+
+    img {
+      width: 70px;
+      height: 70px;
+    }
+
+    .itemDetails {
+      text-align: center;
+
+      h4 {
+        font-size: 1rem;
+      }
+    }
+  }
+
+  .creditCardOption {
+    flex-direction: column;
+    text-align: center;
+    gap: 12px;
+
+    .paymentDetails {
+      text-align: center;
+
+      .supportedCards {
+        justify-content: center;
+      }
+    }
+  }
+
+  .freeOrderNotice {
+    flex-direction: column;
+    text-align: center;
+    gap: 12px;
+
+    div {
+      text-align: center;
+    }
+  }
+
+  .checkoutButton {
+    font-size: 0.95rem;
+    padding: 14px 18px;
+  }
+
+  .checkoutWrapper {
+    padding: 0 10px;
   }
 }

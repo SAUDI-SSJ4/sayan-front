@@ -54,7 +54,7 @@ const StudentNavigation = ({ setShow, mobile }) => {
             <div>
               <FiberManualRecordIcon sx={{ color: "#7E8799", width: "10px", height: "10px" }} />
             </div>
-            <span className="title-dash-link">الدورات التدريبية</span>
+            <span className="title-dash-link">المواد التعليمية</span>
           </div>
         </SubLinkOnMenu>
 

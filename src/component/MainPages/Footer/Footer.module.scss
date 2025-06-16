@@ -8,17 +8,13 @@
   flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
-  font-family: "Tajawal", sans-serif !important;
   color: white;
   h2 {
-    font-family: "Tajawal", sans-serif !important;
     @media (max-width: 1002px) {
       margin-top: 30px;
     }
   }
-  p {
-    font-family: "Tajawal", sans-serif !important;
-  }
+
 }
 .CopyRight {
   text-align: center;
@@ -27,7 +23,6 @@
   padding-block: 32px;
   text-align: center;
   color: white;
-  font-family: "Tajawal", sans-serif !important;
   cursor: pointer;
 }
 .Socials {

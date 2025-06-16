@@ -139,7 +139,7 @@ const StudentDashboard = () => {
     []
   );
 
-  // إعداد بيانات الرسم البياني للإحصائيات الشهرية للدورات
+          // إعداد بيانات الرسم البياني للإحصائيات الشهرية للمواد التعليمية
   const barChartData = useMemo(() => {
     const studentCourses = displayData?.student_courses || {};
     const monthsInArabic = {
@@ -167,7 +167,7 @@ const StudentDashboard = () => {
       labels: labels.length > 0 ? labels : ["يناير", "فبراير", "مارس", "أبريل", "مايو", "يونيو", "يوليو", "أغسطس"],
       datasets: [
         {
-          label: "الدورات المسجلة",
+          label: "المواد التعليمية المسجلة",
           data: dataPoints.length > 0 ? dataPoints : Array(8).fill(0).map(() => Math.floor(Math.random() * 100)),
           backgroundColor: "#A290FF",
           barBorderRadius: 50,
@@ -184,7 +184,7 @@ const StudentDashboard = () => {
       labels: ['الأحد', 'الاثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة', 'السبت'],
       datasets: [
         {
-          label: 'زيارات للدورات',
+          label: 'زيارات للمواد التعليمية',
           data: Array.from({ length: 7 }, () => Math.floor(Math.random() * 45) + 5),
           borderColor: 'rgb(255, 99, 132)',
           backgroundColor: 'rgba(255, 99, 132, 0.5)',
@@ -238,7 +238,7 @@ const StudentDashboard = () => {
               <img src={prest} alt="presentation icon" />
               <div>
                 <p style={{ margin: 0, fontSize: "18px", color: "#7E8799", marginBottom: "8px" }}>
-                  دورة تدريبية قادمة
+                  مادة تعليمية قادمة
                 </p>
                 <h2 style={{ margin: 0, fontSize: "22px", color: "#2B3674", lineHeight: "1.2" }}>
                   {isLoading ? (
@@ -268,7 +268,7 @@ const StudentDashboard = () => {
             <div className={`${classes.ChartCardHeader} card-detials-chart-info`}>
               <div>
                 <p>احصائيات</p>
-                <h2>إحصائيات الدورات التدريبية</h2>
+                <h2>إحصائيات المواد التعليمية</h2>
               </div>
             </div>
             {isLoading && !isError ? (
@@ -290,7 +290,7 @@ const StudentDashboard = () => {
               style={{ border: "none" }}
             >
               <div>
-                <p style={{ fontSize: "18px" }}>دوراتي</p>
+                <p style={{ fontSize: "18px" }}>موادي التعليمية</p>
                 <h2 className="d-flex align-items-end mt-2">
                   {isLoading ? (
                     <TextSkeleton width="80px" />

@@ -3,8 +3,6 @@ import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
 
 import { Link, NavLink, Route, Routes } from "react-router-dom";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
-import AcadmyTable from "../../component/table/acadmyTable/AcadmeyTabel";
-import EmploeeTable from "../../component/table/EmploeeTable/EmploeeTable";
 import NotifcationSendTable from "../../component/NotifcationSend/NotifcationSendTable";
 
 const NotifcationSend = () => {

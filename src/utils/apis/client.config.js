@@ -27,12 +27,26 @@ export const academy_client = axios.create({
   headers: API_HEADERS,
 });
 
-// إضافة معترض للتعامل مع طلبات رفع الملفات تلقائيًا
+// إضافة معترض للتوثيق
 academy_client.interceptors.request.use((config) => {
+  // إضافة التوثيق
+  const token = user_token();
+  if (token) {
+    config.headers['Authorization'] = `Bearer ${token}`;
+  }
+  
   // التحقق مما إذا كانت البيانات من نوع FormData، وتعيين نوع المحتوى المناسب
   if (config.data instanceof FormData) {
     config.headers['Content-Type'] = 'multipart/form-data';
   }
+  
+  console.log('Academy client request config:', {
+    url: config.url,
+    method: config.method,
+    headers: config.headers,
+    hasToken: !!token
+  });
+  
   return config;
 });
 

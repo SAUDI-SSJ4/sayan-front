@@ -345,7 +345,7 @@ const AcademeyWallet = () => {
       // تحديث البيانات بعد إرسال الطلب
       await getWalletData();
       
-      navigate('/academy/wallet/success');
+      navigate('/academy/wallet');
     } catch (error) {
       console.error("خطأ في إرسال طلب السحب:", error);
       

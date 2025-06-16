@@ -40,7 +40,7 @@ const SingleCourse = ({ course = FAKE_COURSE }) => {
         <div className="flex items-center gap-3">
           <PeopleAltIcon sx={{ color: "#A3AED0", fontSize: 30 }} />
           <span className="text-[#7695b6] text-lg font-semibold tracking-wide">
-            الدورات التدريبية
+            المواد التعليمية
           </span>
         </div>
         <Link

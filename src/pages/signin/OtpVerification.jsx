@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useNavigate, Link } from "react-router-dom";
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
 import { postVerify } from "../../utils/apis/client/student";
 import OtpInput from "./OtpInput";
 import styles from "../../styles/auth.module.scss";

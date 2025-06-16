@@ -43,8 +43,8 @@ const SingleProductDetials = () => {
                 alt="Card image cap"
               />
               <div className="card-body">
-                <span>الدورة التدريبية</span>
-                <h5 className="card-title title-text--1"> عنوان الدورة</h5>
+                <span>المادة التعليمية</span>
+                <h5 className="card-title title-text--1"> عنوان المادة</h5>
                 <div className="d-flex gap-2">
                   <div className="notActive">غير تفاعلية</div>
                   <div className="Ended">مجانية</div>
@@ -61,8 +61,8 @@ const SingleProductDetials = () => {
                 alt="Card image cap"
               />
               <div className="card-body">
-                <span>الدورة التدريبية</span>
-                <h5 className="card-title"> عنوان الدورة</h5>
+                <span>المادة التعليمية</span>
+                <h5 className="card-title"> عنوان المادة</h5>
                 <div className="d-flex gap-2">
                   <div className="notActive">غير تفاعلية</div>
                   <div className="Ended">مجانية</div>
@@ -79,8 +79,8 @@ const SingleProductDetials = () => {
                 alt="Card image cap"
               />
               <div className="card-body">
-                <span>الدورة التدريبية</span>
-                <h5 className="card-title"> عنوان الدورة</h5>
+                <span>المادة التعليمية</span>
+                <h5 className="card-title"> عنوان المادة</h5>
                 <div className="d-flex gap-2">
                   <div className="notActive">غير تفاعلية</div>
                   <div className="Ended">مجانية</div>

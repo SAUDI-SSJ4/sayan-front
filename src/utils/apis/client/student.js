@@ -15,7 +15,7 @@ website_client.interceptors.request.use(
 export const postRegister = async (data) => {
   return await website_client.post(`/register`, data, {
     headers: { "Content-Type": "multipart/form-data" },
-    timeout: 600000,
+    timeout: 900000,
   });
 };
 

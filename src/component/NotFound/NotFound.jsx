@@ -1,100 +1,90 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
-import { showErrorToast } from '../../utils/toast';
+import { useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
-
-// قائمة المسارات المعروفة في التطبيق
-const knownPaths = [
-  '/',
-  '/admin',
-  '/student',
-  '/academy',
-  '/login',
-  '/signin',
-  '/Register',
-  '/forget-password',
-  '/cart',
-  '/LaunchYourAcademy',
-  '/EmployeeTrainning',
-  '/Ai',
-  '/SingleCourse',
-  '/privacy-policy',
-  '/acdemy'
-];
-
-// قائمة أنماط المسارات الديناميكية التي يجب اعتبارها صالحة
-const validPathPatterns = [
-  /^\/acdemy\/[^\/]+\/?$/,
-  /^\/SingleCourse\/[^\/]+\/?$/,
-  /^\/academy\/[^\/]+\/?$/
-];
 
 const NotFound = () => {
   const navigate = useNavigate();
-  const location = useLocation();
-  const [redirected, setRedirected] = useState(false);
-  
-  // التحقق مما إذا كان المسار الحالي صالحًا
-  const isValidPath = () => {
-    // التحقق من المسارات الثابتة
-    const isKnownStaticPath = knownPaths.some(path => 
-      location.pathname === path || 
-      (path !== '/' && location.pathname.startsWith(path + '/'))
-    );
-    
-    if (isKnownStaticPath) return true;
-    
-    // التحقق من أنماط المسارات الديناميكية
-    const isKnownDynamicPath = validPathPatterns.some(pattern => 
-      pattern.test(location.pathname)
-    );
-    
-    return isKnownDynamicPath;
-  };
-  
+  const [countdown, setCountdown] = useState(5); // تقليل مدة الانتظار
+
   useEffect(() => {
-    // تجنب تنفيذ التوجيه إذا تم تنفيذه بالفعل
-    if (redirected) return;
-
-    // التحقق مما إذا كان المسار الحالي غير صالح
-    const isPathInvalid = !isValidPath();
-    
-    if (isPathInvalid) {
-      // عرض التنبيه أعلى الشاشة بشكل واضح
-      showErrorToast("الصفحة غير موجودة");
-      
-      // تعيين حالة التوجيه لتجنب التوجيهات المتكررة
-      setRedirected(true);
-      
-      // تأخير التوجيه للسماح للمستخدم برؤية الرسالة
-      const redirectTimer = setTimeout(() => {
-        // توجيه المستخدم إلى الصفحة الرئيسية المناسبة بناءً على نوع تسجيل الدخول
-        const loginType = Cookies.get('login_type');
-        
-        try {
-          // اختيار وجهة التوجيه بناءً على نوع المستخدم
-          let redirectPath = '/';
-          
-          if (loginType === 'student' || loginType === 'admin' || loginType === 'academy') {
-            // جميع أنواع المستخدمين المسجلين يتم توجيههم إلى الصفحة الرئيسية
-            redirectPath = '/';
-          }
-          
-          // تنفيذ التوجيه
-          navigate(redirectPath, { replace: true });
-          console.log('تم التوجيه بنجاح إلى:', redirectPath);
-        } catch (error) {
-          console.error('خطأ في التوجيه:', error);
+    // توجيه المستخدم تلقائياً بعد فترة
+    const timer = setInterval(() => {
+      setCountdown(prev => {
+        if (prev <= 1) {
+          clearInterval(timer);
+          handleGoHome(); // استدعاء الدالة مباشرة
+          return 0;
         }
-      }, 2000);
-      
-      // تنظيف المؤقت عند إلغاء تحميل المكون
-      return () => clearTimeout(redirectTimer);
-    }
-  }, [navigate, location.pathname, redirected]);
+        return prev - 1;
+      });
+    }, 1000);
 
-  // إذا كان المسار صالحًا، لا نعرض شيئًا لأن هذا المكون لن يتم تحميله
-  return null;
+    // تنظيف المؤقت عند مغادرة الصفحة
+    return () => clearInterval(timer);
+  }, [navigate]);
+
+  const handleGoHome = () => {
+    const loginType = Cookies.get('login_type');
+    let redirectPath = '/';
+    
+    // يمكنك تخصيص مسار التوجيه بناءً على نوع المستخدم إذا أردت
+    // مثال:
+    // if (loginType === 'student') redirectPath = '/student/dashboard';
+    // else if (loginType === 'academy') redirectPath = '/academy';
+    
+    navigate(redirectPath, { replace: true });
+  };
+
+  return (
+    <div className="flex items-center justify-center min-h-screen bg-gray-50 text-center px-4">
+      <div className="max-w-md w-full">
+        
+        <h1 
+          className="
+            text-8xl 
+            font-extrabold 
+            text-transparent 
+            bg-clip-text 
+            bg-gradient-to-r 
+            from-blue-500 
+            to-purple-600
+          "
+        >
+          404
+        </h1>
+
+        <h2 className="mt-4 text-3xl font-bold text-gray-800">
+          الصفحة غير موجودة
+        </h2>
+
+        <p className="mt-2 text-lg text-gray-600">
+          عذراً، لم نتمكن من العثور على الصفحة التي تبحث عنها.
+        </p>
+
+        <button
+          onClick={handleGoHome}
+          className="
+            mt-8 px-8 py-3 
+            bg-blue-600 text-white 
+            font-semibold rounded-lg 
+            shadow-md hover:bg-blue-700 
+            focus:outline-none focus:ring-2 
+            focus:ring-blue-500 focus:ring-opacity-75
+            transition-all duration-300
+          "
+        >
+          العودة إلى الصفحة الرئيسية
+        </button>
+
+        <div className="mt-8 text-sm text-gray-500">
+          <span>سيتم توجيهك تلقائياً خلال</span>
+          <span className="font-bold mx-1">{countdown}</span>
+          <span>ثوانٍ...</span>
+        </div>
+        
+      </div>
+    </div>
+  );
 };
 
 export default NotFound;

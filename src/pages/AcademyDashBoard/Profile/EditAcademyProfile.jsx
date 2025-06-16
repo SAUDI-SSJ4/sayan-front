@@ -11,6 +11,9 @@ const EditAcademyProfile = () => {
   const profileInfo = useSelector((state) => state.academyUser.academy);
   const academy = profileInfo?.academy ?? {};
 
+  // طباعة بيانات الأكاديمية للتحقق
+  console.log("Academy Data for Debug:", academy);
+
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [imagePreview, setImagePreview] = useState(academy.image || "");
   const [coverPreview, setCoverPreview] = useState(academy.cover || "");
@@ -24,12 +27,10 @@ const EditAcademyProfile = () => {
       name: academy.name || "",
       email: academy.email || "",
       user_name: academy.user_name || "",
-      phone: academy.support_phone || "",
-      about: academy.about || "",
+      support_phone: academy.support_phone || academy.phone || "", // استخدام support_phone كحقل أساسي
       address: academy.address || "",
       facebook: academy.facebook || "",
       twitter: academy.twitter || "",
-      snapchat: academy.snapchat || "",
       instagram: academy.instagram || "",
       image: null,
       cover: null,
@@ -38,12 +39,10 @@ const EditAcademyProfile = () => {
       name: Yup.string().required("اسم الأكاديمية مطلوب"),
       email: Yup.string().email("البريد الإلكتروني غير صالح").nullable(),
       user_name: Yup.string().nullable(),
-      phone: Yup.string().matches(/^[0-9+-\s()]*$/, "رقم الهاتف غير صالح").nullable(),
-      about: Yup.string().required("نبذة عن الأكاديمية مطلوبة"),
+      support_phone: Yup.string().matches(/^[0-9+-\s()]*$/, "رقم الهاتف غير صالح").nullable(),
       address: Yup.string().nullable(),
       facebook: Yup.string().nullable(),
       twitter: Yup.string().nullable(),
-      snapchat: Yup.string().nullable(),
       instagram: Yup.string().nullable(),
       image: Yup.mixed().nullable()
         .test("fileSize", "حجم الصورة يجب أن يكون أقل من 2 ميجا", (value) => !value || (value && value.size <= 2 * 1024 * 1024))
@@ -55,19 +54,63 @@ const EditAcademyProfile = () => {
     onSubmit: async (values) => {
       setIsSubmitting(true);
       const formData = new FormData();
+
+      // إضافة جميع الحقول مع مراعاة القيم الفارغة
       Object.keys(values).forEach(key => {
-        if (values[key] !== null && values[key] !== '' || values[key] instanceof File) {
+        // إضافة الملفات
+        if (values[key] instanceof File) {
           formData.append(key, values[key]);
+        } 
+        // الحقول النصية - نرسل حتى القيم الفارغة
+        else if (values[key] !== null && values[key] !== undefined) {
+          formData.append(key, values[key]);
+        }
+        // إضافة قيم فارغة للحقول الاختيارية المفقودة
+        else if (['facebook', 'twitter', 'instagram', 'address', 'email', 'support_phone', 'user_name'].includes(key)) {
+          formData.append(key, '');
         }
       });
 
+      // نسخة للطباعة فقط
+      const formDataForDebug = {};
+      formData.forEach((value, key) => {
+        formDataForDebug[key] = value instanceof File ? `[File: ${value.name}]` : value;
+      });
+      console.log('FormData being sent:', formDataForDebug);
+
       try {
-        await academy_client.post("/settings", formData, {
+        console.log('=== DEBUG: Starting form submission ===');
+        console.log('Form values:', values);
+        console.log('Academy data before update:', academy);
+        
+        const response = await academy_client.post("/settings", formData, {
           headers: { "Content-Type": "multipart/form-data" },
         });
+        
+        console.log('=== DEBUG: Server Response ===');
+        console.log('Response status:', response.status);
+        console.log('Response data:', response.data);
+        console.log('Response headers:', response.headers);
+        
+        // التحقق من البيانات المُحدثة
+        if (response.data) {
+          console.log('Updated academy data from server:', response.data);
+          if (response.data.support_phone) {
+            console.log('✅ support_phone updated to:', response.data.support_phone);
+          } else {
+            console.log('❌ support_phone not found in response');
+          }
+        }
+        
         toast.success("تم تحديث معلومات الأكاديمية بنجاح!");
         navigate("/academy/Profile");
       } catch (error) {
+        console.log('=== DEBUG: Error occurred ===');
+        console.error('Error details:', error);
+        console.error('Error response:', error.response);
+        console.error('Error status:', error.response?.status);
+        console.error('Error data:', error.response?.data);
+        
         const errorMessage = error.response?.data?.message || "حدث خطأ ما أثناء تحديث المعلومات.";
         toast.error(errorMessage);
       } finally {
@@ -187,19 +230,15 @@ const EditAcademyProfile = () => {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6">
                 <FormField name="name" label="اسم الأكاديمية" placeholder="اسم الأكاديمية" />
                 <FormField name="email" label="البريد الإلكتروني" type="email" placeholder="contact@academy.com" />
-                <FormField name="phone" label="رقم الهاتف" placeholder="05xxxxxxxxx" />
+                <FormField name="support_phone" label="رقم الهاتف الرئيسي" placeholder="05xxxxxxxxx" />
                 <FormField name="address" label="العنوان" placeholder="المدينة، الحي، الشارع" />
               </div>
-
-              <h2 className="text-xl font-semibold text-blue-600 border-b border-blue-200 pb-3 mb-6 mt-8">نبذة عن الأكاديمية</h2>
-              <FormField name="about" label="وصف الأكاديمية" as="textarea" rows={4} placeholder="اكتب هنا نبذة تعريفية..." />
 
               <h2 className="text-xl font-semibold text-blue-600 border-b border-blue-200 pb-3 mb-6 mt-8">روابط التواصل الاجتماعي</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6">
                 <FormField name="facebook" label="فيسبوك" placeholder="https://facebook.com/youracademy" />
                 <FormField name="twitter" label="تويتر" placeholder="https://twitter.com/youracademy" />
                 <FormField name="instagram" label="إنستغرام" placeholder="https://instagram.com/youracademy" />
-                <FormField name="snapchat" label="سناب شات" placeholder="https://snapchat.com/add/youracademy" />
               </div>
 
               <div className="mt-10 pt-6 border-t border-gray-200 flex justify-end">

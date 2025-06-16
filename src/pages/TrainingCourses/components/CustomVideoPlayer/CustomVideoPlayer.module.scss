@@ -4,6 +4,7 @@
   margin: 0 auto;
   border-radius: 12px;
   overflow: hidden;
+  position: relative;
 
   .customVideoPlayer {
     position: relative;
@@ -254,3 +255,368 @@
     }
   }
 }
+
+// Mobile specific adjustments
+@media (max-width: 768px) {
+  .videoWrapper {
+    border-radius: 8px;
+    
+    .customVideoPlayer {
+      max-height: 300px;
+      border-radius: 8px;
+      
+      .videoControls {
+        padding: 10px 8px;
+        gap: 6px;
+        background: linear-gradient(transparent, rgba(0, 0, 0, 0.85));
+        opacity: 1 !important;
+        flex-wrap: nowrap;
+        
+        button {
+          min-width: 36px;
+          min-height: 36px;
+          padding: 8px;
+          background: rgba(0, 0, 0, 0.6);
+          border: 1px solid rgba(255, 255, 255, 0.2);
+          backdrop-filter: blur(8px);
+          flex-shrink: 0;
+          
+          &:hover, &:active {
+            background: rgba(0, 0, 0, 0.7);
+            border-color: rgba(255, 255, 255, 0.4);
+            transform: scale(1.02);
+          }
+          
+          svg {
+            width: 18px;
+            height: 18px;
+            filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.5));
+          }
+        }
+        
+        .progressContainer {
+          order: -1;
+          width: 100%;
+          margin-bottom: 8px;
+          padding: 0 2px;
+          
+          .progressBar {
+            height: 6px;
+            border-radius: 3px;
+            background: rgba(255, 255, 255, 0.2);
+            
+            &::-webkit-slider-thumb {
+              width: 16px;
+              height: 16px;
+              margin-top: -5px;
+              background: #fff;
+              box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+              border: 1px solid rgba(0, 123, 255, 0.6);
+            }
+            
+            &::-moz-range-thumb {
+              width: 16px;
+              height: 16px;
+              background: #fff;
+              box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+              border: 1px solid rgba(0, 123, 255, 0.6);
+            }
+            
+            &::before {
+              height: 6px;
+              border-radius: 3px;
+              background: linear-gradient(90deg, #007bff 0%, #0056b3 100%);
+            }
+          }
+          
+          .timeDisplay {
+            font-size: 12px;
+            font-weight: 500;
+            min-width: 70px;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.7);
+            background: rgba(0, 0, 0, 0.4);
+            padding: 2px 6px;
+            border-radius: 4px;
+            flex-shrink: 0;
+          }
+        }
+        
+        .volumeControl {
+          gap: 4px;
+          display: flex;
+          align-items: center;
+          flex-shrink: 0;
+          
+          button {
+            min-width: 32px;
+            min-height: 32px;
+            padding: 6px;
+          }
+          
+          .volumeBar {
+            width: 40px;
+            height: 6px;
+            border-radius: 3px;
+            background: rgba(255, 255, 255, 0.2);
+            
+            &::-webkit-slider-thumb {
+              width: 14px;
+              height: 14px;
+              margin-top: -4px;
+              background: #fff;
+              box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+              border: 1px solid rgba(0, 123, 255, 0.6);
+            }
+            
+            &::-moz-range-thumb {
+              width: 14px;
+              height: 14px;
+              background: #fff;
+              box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+              border: 1px solid rgba(0, 123, 255, 0.6);
+            }
+            
+            &::before {
+              height: 6px;
+              border-radius: 3px;
+              background: linear-gradient(90deg, #007bff 0%, #0056b3 100%);
+            }
+          }
+        }
+      }
+    }
+    
+    .videoInfo {
+      padding: 1rem;
+      
+      .videoTitle {
+        font-size: 1.1rem;
+      }
+      
+      .videoDescription {
+        font-size: 0.85rem;
+      }
+    }
+  }
+}
+
+// Extra small mobile devices
+@media (max-width: 480px) {
+  .videoWrapper {
+    .customVideoPlayer {
+      max-height: 250px;
+      
+      .videoControls {
+        padding: 8px 6px;
+        gap: 4px;
+        
+        button {
+          min-width: 32px;
+          min-height: 32px;
+          padding: 6px;
+          
+          svg {
+            width: 16px;
+            height: 16px;
+          }
+        }
+        
+        .progressContainer {
+          margin-bottom: 6px;
+          
+          .progressBar {
+            height: 5px;
+            
+            &::-webkit-slider-thumb {
+              width: 14px;
+              height: 14px;
+              margin-top: -4px;
+            }
+            
+            &::-moz-range-thumb {
+              width: 14px;
+              height: 14px;
+            }
+            
+            &::before {
+              height: 5px;
+            }
+          }
+          
+          .timeDisplay {
+            font-size: 11px;
+            min-width: 60px;
+            padding: 1px 4px;
+          }
+        }
+        
+        .volumeControl {
+          gap: 3px;
+          
+          button {
+            min-width: 28px;
+            min-height: 28px;
+            padding: 4px;
+          }
+          
+          .volumeBar {
+            width: 30px;
+            height: 5px;
+            
+            &::-webkit-slider-thumb {
+              width: 12px;
+              height: 12px;
+              margin-top: -3px;
+            }
+            
+            &::-moz-range-thumb {
+              width: 12px;
+              height: 12px;
+            }
+            
+            &::before {
+              height: 5px;
+            }
+          }
+        }
+      }
+    }
+    
+    .videoInfo {
+      padding: 0.75rem;
+      
+      .videoTitle {
+        font-size: 1rem;
+      }
+      
+      .videoDescription {
+        font-size: 0.8rem;
+      }
+    }
+  }
+}
+
+// Ultra small mobile devices - hide volume bar if needed
+@media (max-width: 360px) {
+  .videoWrapper {
+    .customVideoPlayer {
+      .videoControls {
+        padding: 6px 4px;
+        gap: 3px;
+        
+        button {
+          min-width: 30px;
+          min-height: 30px;
+          padding: 5px;
+          
+          svg {
+            width: 14px;
+            height: 14px;
+          }
+        }
+        
+        .progressContainer {
+          .timeDisplay {
+            font-size: 10px;
+            min-width: 55px;
+            padding: 1px 3px;
+          }
+        }
+        
+        .volumeControl {
+          .volumeBar {
+            width: 25px;
+          }
+        }
+      }
+    }
+  }
+}
+
+// Tablet specific adjustments
+@media (max-width: 1024px) and (min-width: 769px) {
+  .videoWrapper {
+    .customVideoPlayer {
+      max-height: 500px;
+      
+      .videoControls {
+        padding: 14px 10px;
+        gap: 8px;
+        
+        button {
+          min-width: 42px;
+          min-height: 42px;
+          padding: 10px;
+          background: rgba(255, 255, 255, 0.12);
+          
+          svg {
+            width: 20px;
+            height: 20px;
+          }
+        }
+        
+        .progressContainer {
+          .progressBar {
+            height: 7px;
+            
+            &::-webkit-slider-thumb {
+              width: 18px;
+              height: 18px;
+              margin-top: -5px;
+            }
+            
+            &::-moz-range-thumb {
+              width: 18px;
+              height: 18px;
+            }
+            
+            &::before {
+              height: 7px;
+            }
+          }
+          
+          .timeDisplay {
+            font-size: 14px;
+            min-width: 90px;
+          }
+        }
+        
+        .volumeControl {
+          gap: 6px;
+          
+          .volumeBar {
+            width: 60px;
+            height: 7px;
+            
+            &::-webkit-slider-thumb {
+              width: 18px;
+              height: 18px;
+              margin-top: -5px;
+            }
+            
+            &::-moz-range-thumb {
+              width: 18px;
+              height: 18px;
+            }
+            
+            &::before {
+              height: 7px;
+            }
+          }
+        }
+      }
+    }
+    
+    .videoInfo {
+      padding: 1.25rem;
+      
+      .videoTitle {
+        font-size: 1.15rem;
+      }
+      
+      .videoDescription {
+        font-size: 0.9rem;
+      }
+    }
+  }
+} 

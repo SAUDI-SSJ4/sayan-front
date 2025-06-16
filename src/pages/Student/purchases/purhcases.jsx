@@ -289,7 +289,7 @@ const Purchases = () => {
         <Box sx={{ textAlign: 'center', mt: 5, p:3, backgroundColor: '#fff', borderRadius: '12px', boxShadow: '0 4px 12px rgba(0,0,0,0.05)' }}>
           <BookIcon sx={{ fontSize: 60, color: 'text.disabled', mb: 2 }} />
           <Typography variant="h5" sx={{ color: 'text.secondary' }}>لا توجد مشتريات لعرضها حاليًا.</Typography>
-          <Typography variant="body1" sx={{ color: 'text.disabled', mt:1 }}>ابدأ بتصفح الدورات وإضافتها إلى مشترياتك!</Typography>
+                      <Typography variant="body1" sx={{ color: 'text.disabled', mt:1 }}>ابدأ بتصفح المواد التعليمية وإضافتها إلى مشترياتك!</Typography>
         </Box>
       )}
     </div>

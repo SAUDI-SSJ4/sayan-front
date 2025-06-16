@@ -1,5 +1,6 @@
 import React from 'react'
 import styles from './CourseCard.module.css'
+import SARIcon from "../../../../components/SARIcon/SARIcon";
 
 const CourseCard = ({ course }) => {
   const getStatusClass = () => {
@@ -26,7 +27,10 @@ const CourseCard = ({ course }) => {
       </div>
       <div className={styles.courseDetails}>
         <span>{course.level}</span>
-        <span>{course.price} ريال</span>
+        <span className="d-flex align-items-center">
+          {course.price}
+          <SARIcon />
+        </span>
       </div>
     </a>
   )

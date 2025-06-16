@@ -5,7 +5,7 @@ import { isNotEmpty } from "../../../utils/helpers";
 export const CourseRelated = ({ courseData }) => {
   return (
     <div className="mt-6 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-      <h3 className="text-center text-xl sm:text-2xl lg:text-3xl font-['Noto_Kufi_Arabic'] font-extrabold text-[#1c1c1c] mb-6 sm:mb-8">
+      <h3 className="text-center text-xl sm:text-2xl lg:text-3xl font-extrabold text-[#1c1c1c] mb-6 sm:mb-8">
         مواد تعليمية مناسبة لك
       </h3>
       
@@ -30,7 +30,7 @@ export const CourseRelated = ({ courseData }) => {
           <div className="text-gray-400 text-lg mb-4">
             📚
           </div>
-          <p className="text-gray-600 font-['Noto_Kufi_Arabic'] text-sm sm:text-base">
+          <p className="text-gray-600 text-sm sm:text-base">
             لا توجد مواد تعليمية مناسبة متاحة حالياً
           </p>
         </div>

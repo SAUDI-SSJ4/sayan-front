@@ -1,17 +1,19 @@
+import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
-import { getFooter } from "../../../utils/apis/client/academy";
+import { Spinner } from "react-bootstrap";
 import Logo from "../../../assets/images/logoFooter.png";
+import SayanLogo from "../../../assets/images/SayanLogo.png";
 
 // Social Icons (using modern icons)
 import { FaLinkedinIn, FaInstagram, FaTwitter, FaTiktok, FaYoutube } from "react-icons/fa";
 
-const AcademyFooter = () => {
+const Footer = () => {
   const navigate = useNavigate();
 
-  const { data: footerData } = useQuery({
+  const { data: footerData = { footer: { title: "", content: "", image: "" } }, isLoading = false } = useQuery({
     queryKey: ["Footer"],
-    queryFn: () => getFooter(),
+    queryFn: () => Promise.resolve({ footer: { title: "", content: "", image: "" } }),
     refetchOnWindowFocus: false,
     refetchOnMount: false,
     retry: 2,
@@ -59,7 +61,7 @@ const AcademyFooter = () => {
                 <FaTiktok />
               </button>
               <button 
-                onClick={() => handleRedirect(footerData?.youtube || "#")}
+                onClick={() => handleRedirect(footerData?.footer?.youtube || "#")}
                 className="w-10 h-10 rounded-[8px] bg-blue-600 text-white flex items-center justify-center transition-all duration-300 hover:bg-blue-700"
                 aria-label="YouTube"
               >
@@ -67,24 +69,39 @@ const AcademyFooter = () => {
               </button>
             </div>
             
-            {/* إضافة قسم للتواصل عبر البريد الإلكتروني */}
+            {/* إضافة قسم للتواصل معنا */}
             <div className="mt-6">
-              <h4 className="text-gray-800 font-medium mb-2 text-base">للتواصل معنا عبر الإيميل</h4>
-              <a 
-                href="mailto:sayn@.rp" 
-                className="text-blue-600 hover:text-blue-800 transition-colors text-sm font-medium"
-                style={{ direction: "rtl" }}
-              >
-                sayn@.rp
-              </a>
+              <h4 className="text-gray-800 font-medium mb-3 text-base">للتواصل معنا</h4>
+              <div className="space-y-2">
+                <a 
+                  href="mailto:support@sayan.pro" 
+                  className="flex items-center text-blue-600 hover:text-blue-800 transition-colors text-sm font-medium"
+                  style={{ direction: "rtl" }}
+                >
+                  <svg className="w-4 h-4 ml-2" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+                  </svg>
+                  support@sayan.pro
+                </a>
+                <a 
+                  href="tel:0590406718" 
+                  className="flex items-center text-blue-600 hover:text-blue-800 transition-colors text-sm font-medium"
+                  style={{ direction: "rtl" }}
+                >
+                  <svg className="w-4 h-4 ml-2" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
+                  </svg>
+                  0590406718
+                </a>
+              </div>
             </div>
           </div>
 
           {/* Brand & About - Left Side */}
           <div className="flex flex-col items-start order-1 md:order-2">
             <img 
-              src={footerData?.image || Logo} 
-              className="h-14 mb-6" 
+              src={SayanLogo} 
+              className="h-16 mb-6" 
               alt="سيان" 
             />
             <p className="text-gray-600 md:text-right max-w-xs leading-relaxed text-sm" style={{ direction: "rtl" }}>
@@ -105,6 +122,12 @@ const AcademyFooter = () => {
             >
               الشروط والاحكام
             </button>
+            <button 
+              onClick={() => window.open("/updates", "_blank")}
+              className="text-blue-600 hover:text-blue-800 text-sm font-medium mx-2 transition-colors"
+            >
+              تحديثات المنصة
+            </button>
           </div>
         </div>
       </div>
@@ -112,4 +135,4 @@ const AcademyFooter = () => {
   );
 };
 
-export default AcademyFooter;
+export default Footer;

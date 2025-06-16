@@ -40,7 +40,7 @@ const FAQ = () => {
     },
     {
       title: "هل تقدم المنصة شهادات معتمدة؟",
-      content: "تقدم منصة سيان شهادات حضور للطالب بعد اتمامه كافة متطلبات الدورة",
+      content: "تقدم منصة سيان شهادات حضور للطالب بعد اتمامه كافة متطلبات المادة",
     },
     {
       title: "هل توجد عمولة على مبيعات الدورات؟",
@@ -58,7 +58,6 @@ const FAQ = () => {
         <div className="col-lg-4 col-md-12">
           <h1
             style={{
-              fontFamily: " Noto Kufi Arabic",
               fontSize: "60px",
               fontWeight: 700,
               lineHeight: "72px",

@@ -1,7 +1,7 @@
 import AcademyHeaderContainer from "../../AcademyHeaderContainer/AcademyHeaderContainer";
 
 import SingleBlogImage from "../../../../assets/images/SingleBlogImage.png";
-import AcademyFooter from "../../Footer/Footer";
+import AcademyFooter from "../../../MainPages/Footer/Footer";
 const SingleBlogPage = () => {
   return (
     <div>

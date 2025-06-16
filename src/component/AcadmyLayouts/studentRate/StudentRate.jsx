@@ -12,8 +12,17 @@ import { StarBorderOutlined } from "@mui/icons-material";
 const StudentRateSection = ({ opinions, academySettings }) => {
   return (
     <div id="student-opinions" className={classes.StudentRateContainer}>
-      <div className={classes.SectionTitle}>
-        <span>أراء الطلاب .</span>
+      <div 
+        className={classes.SectionTitle}
+        style={{
+          fontSize: '2.0rem',
+          fontWeight: '800',
+          color: academySettings?.primary_color,
+          textAlign: 'center',
+          marginBottom: '2rem'
+        }}
+      >
+        <span>أراء الطلاب</span>
       </div>
 
       <div className="container" style={{ marginTop: '12px' }}>
@@ -40,7 +49,17 @@ const StudentRateSection = ({ opinions, academySettings }) => {
                       className="w-14 h-14 rounded-full object-cover"
                     />
                     <div>
-                      <p className={classes.RateName}>{opinion.student_name}</p>
+                      <p 
+                        className={classes.RateName}
+                        style={{
+                          fontSize: '1.1rem',
+                          fontWeight: '600',
+                          color: '#1F2937',
+                          marginBottom: '0.5rem'
+                        }}
+                      >
+                        {opinion.student_name}
+                      </p>
 
                       <Rate
                         className={classes.RateStarsCss}
@@ -52,7 +71,15 @@ const StudentRateSection = ({ opinions, academySettings }) => {
                       />
                     </div>
                   </div>
-                  <p className={`${classes.RateParagraph} truncate`}>
+                  <p 
+                    className={`${classes.RateParagraph} truncate`}
+                    style={{
+                      fontSize: '0.95rem',
+                      lineHeight: '1.6',
+                      color: '#6B7280',
+                      marginTop: '1rem'
+                    }}
+                  >
                     {opinion.comment}
                   </p>
                   <div className="d-flex justify-content-end">

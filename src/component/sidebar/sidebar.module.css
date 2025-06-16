@@ -2,7 +2,6 @@
   display: flex;
   justify-content: center;
   padding: 15px;
-  font-family: "Cairo", sans-serif;
   align-items: center;
   margin: 20px 0;
   background: rgba(255, 255, 255, 0.05);
@@ -68,7 +67,6 @@ a {
   direction: rtl;
   color: #7e8799 !important;
   padding: 38px 21px;
-  font-family: "Cairo", sans-serif;
 }
 .body .mainIcon {
   display: flex;

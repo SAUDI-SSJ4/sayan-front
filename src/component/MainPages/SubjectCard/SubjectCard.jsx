@@ -206,6 +206,9 @@ const SubjectCard = memo(({ mainData, academySettings }) => {
               whiteSpace: "nowrap",
               overflow: "hidden",
               textOverflow: "ellipsis",
+              fontSize: "1.25rem",
+              fontWeight: "700",
+              color: "#1F2937"
             }}
           >
             <Tooltip title={title} placement="top">
@@ -216,6 +219,8 @@ const SubjectCard = memo(({ mainData, academySettings }) => {
             className={classes.Badge}
             style={{
               background: academySettings?.primary_color,
+              fontSize: "0.875rem",
+              fontWeight: "600"
             }}
           >
             {courseTypeLabel}
@@ -225,13 +230,29 @@ const SubjectCard = memo(({ mainData, academySettings }) => {
         <div className={`${classes.Rate} mt-3`}>
           <div className="d-flex align-items-center gap-2">
             <StarIcon sx={{ fontSize: "24px", color: "#FFD700" }} />
-            <span style={{ fontSize: "16px", fontWeight: "600" }}>{stars}</span>
+            <span 
+              style={{ 
+                fontSize: "16px", 
+                fontWeight: "600",
+                color: "#374151"
+              }}
+            >
+              {stars}
+            </span>
           </div>
         </div>
 
         {short_content && (
           <div className={classes.Text}>
-            <span>{formatLongText(short_content, 30)}</span>
+            <span 
+              style={{
+                fontSize: "0.95rem",
+                lineHeight: "1.5",
+                color: "#6B7280"
+              }}
+            >
+              {formatLongText(short_content, 30)}
+            </span>
           </div>
         )}
 
@@ -242,7 +263,7 @@ const SubjectCard = memo(({ mainData, academySettings }) => {
               style={{
                 fontSize: "24px",
                 fontWeight: "800",
-                color: "#272727",
+                color: academySettings?.primary_color || "#2563eb",
               }}
             >
               {price ? `${price} ريال` : "مجاني"}

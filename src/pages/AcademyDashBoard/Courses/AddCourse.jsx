@@ -4,7 +4,7 @@ import ArrowBack from "@mui/icons-material/ArrowBack";
 import addcourse from "../../../assets/icons/Button.svg";
 import steper1 from "../../../assets/icons/steper1 (1).svg";
 import steper2 from "../../../assets/icons/steper2.svg";
-import { CourseForm } from "./MainSteps/CourseForm";
+import CourseForm from "./MainSteps/CourseForm";
 import CourseFeatuers from "./MainSteps/StepTwo/CourseFeatuers";
 import { useDispatch, useSelector } from "react-redux";
 import { isEmpty } from "../../../utils/helpers";
@@ -89,13 +89,13 @@ const AddCourse = () => {
 
   const handleFinishCreateCourse = async () => {
     try {
-      toast.info("جاري إنشاء الدورة...");
+      toast.info("جاري إنشاء المادة...");
       await dispatch(getAcademyCoursesThunk()).unwrap();
-      toast.success("تم إنشاء الدورة بنجاح!");
+      toast.success("تم إنشاء المادة بنجاح!");
       clearStorageData();
       navigate("/academy/training-courses");
     } catch (error) {
-      toast.error("حدث خطأ أثناء إنشاء الدورة");
+      toast.error("حدث خطأ أثناء إنشاء المادة");
       console.error("Error creating course:", error);
     }
   };
@@ -180,9 +180,9 @@ const AddCourse = () => {
               <div className={style.steperProgImg}>
                 <img src={steper1} alt="Stepper" />
                 <div className={style.steperProgtext}>
-                  <span>معلومات الدورة</span>
+                  <span>معلومات المادة</span>
                   <span>باني الاقسام</span>
-                  <span>اطلاق الدورة</span>
+                  <span>اطلاق المادة</span>
                 </div>
               </div>
               <ContinueButton
@@ -248,7 +248,7 @@ const AddCourse = () => {
                   }}
                 >
                   <span style={{ marginLeft: "12px", marginRight: "12px" }}>
-                    معلومات الدورة
+                    معلومات المادة
                   </span>
                   <span
                     style={{
@@ -261,7 +261,7 @@ const AddCourse = () => {
                     باني الاقسام
                   </span>
                   <span style={{ marginLeft: "12px", marginRight: "12px" }}>
-                    اطلاق الدورة
+                    اطلاق المادة
                   </span>
                 </div>
               </div>

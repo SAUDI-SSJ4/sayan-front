@@ -1,3 +1,11 @@
+// ----- المتغيرات الأساسية (يمكن وضعها في ملف منفصل) -----
+$text-color-title: #202020;
+$text-color-card-title: #2b3674;
+$text-color-card-paragraph: #4E4E4E;
+$background-card-icon: #f9f9ff;
+$border-color-card-icon: rgba(0, 0, 0, 0.03);
+
+// ----- الحاوية الرئيسية للقسم -----
 .Container {
   border-radius: 21px;
   background: #fff;
@@ -10,58 +18,122 @@
   align-items: center;
   padding: 18px 33px;
 
-  h2 {
-    font-size: 20px;
-    font-weight: 700;
-    font-family: "Noto Kufi Arabic";
-    line-height: 32px;
-    color: #202020;
-    min-width: 183px;
-    text-align: right;
-    margin-bottom: 80px;
+  @media (max-width: 768px) {
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px 15px;
+    text-align: center; // العنوان الرئيسي للقسم يبقى في المنتصف في الجوال
+  }
+
+  @media (max-width: 575px) {
+    padding: 15px 10px;
+    gap: 15px;
   }
 }
+
+// ----- العنوان الرئيسي للقسم -----
+.Title {
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.6;
+  color: $text-color-title;
+  min-width: 183px;
+  text-align: right;
+  margin-bottom: 0;
+
+}
+
+.DesktopTitle {
+  @media (max-width: 768px) {
+    display: none;
+  }
+}
+
+.MobileTitle {
+  display: none;
+  @media (max-width: 768px) {
+    display: block;
+  }
+}
+
+// ----- حاوية السلايدر -----
 .SwieperContainer {
   display: flex;
   flex: 1;
+
+  @media (max-width: 768px) {
+    width: 100% !important;
+  }
+
+  // ----- بطاقة الشريحة -----
   .SliderCard {
-    gap: 20px;
-    padding: 8px;
-    border-radius: 8px;
-    transition: 0.4s;
-    align-items: center;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; // **تعديل: محاذاة العناصر لتبدأ من اليمين (بسبب RTL)**
+    text-align: right;    // **تعديل: محاذاة النص الافتراضية لليمين**
+
+    gap: 10px;
+    padding: 15px 10px;
+    border-radius: 12px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    height: 100%;
+    background-color: #fff;
+
+    @media (max-width: 768px) {
+      // في الجوال، قد ترغب في العودة إلى التوسيط إذا كان الشكل أفضل
+      // align-items: center;
+      // text-align: center;
+      gap: 8px;
+    }
+
+    @media (max-width: 575px) {
+      padding: 12px 8px;
+      gap: 8px;
+    }
+
     .Icon {
       width: 60px;
       height: 61.44px;
-      background-color: #f9f9ff;
+      background-color: $background-card-icon;
       border-radius: 20px;
       display: flex;
       align-items: center;
       justify-content: center;
-      border: 1px solid rgba($color: #000000, $alpha: 0.03);
+      border: 1px solid $border-color-card-icon;
+      margin-bottom: 10px;
+      // align-self: flex-start; // **تأكيد إضافي إذا لزم الأمر لتبقى الأيقونة على اليمين**
+
+      img {
+        max-width: 50%;
+        max-height: 50%;
+        object-fit: contain;
+      }
     }
+
     h2 {
-      font-family: "Noto Kufi Arabic";
       font-weight: 800;
-      color: #2b3674;
-      font-size: 17px;
-      margin: 0px;
-      padding: 10px;
+      color: $text-color-card-title;
+      font-size: 20px;
+      margin: 0;
+      line-height: 1.3;
+      width: 100%; // لجعل text-align: right يعمل بشكل صحيح على العنوان
+      text-align: right; // **تأكيد محاذاة العنوان لليمين**
     }
 
     p {
-      font-family: "Noto Kufi Arabic";
       font-weight: 400;
-      font-size: 16px;
-      color: #4E4E4E;
-      text-align: right;
-      margin: 0px;
+      font-size: 17px;
+      color: $text-color-card-paragraph;
+      text-align: right; // **محاذاة نص الوصف لليمين**
+      margin: 0;
       font-style: normal;
-      line-height: 24px;
+      line-height: 1.6;
+      width: 100%; // لجعل text-align: right يعمل بشكل صحيح
     }
+
     &:hover {
-      background-color: #f9f9ff;
-      padding: 8px;
+      background-color: #f0f0f5;
+      transform: translateY(-2px);
     }
   }
 }

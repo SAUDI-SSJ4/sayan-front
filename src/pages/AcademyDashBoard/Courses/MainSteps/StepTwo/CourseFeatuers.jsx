@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo, useCallback } from "react";
+import React, { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import AddNewInteractiveTool from "./Features/InteractiveTools/AddNewInteractiveTool";
@@ -6,8 +6,15 @@ import {
   changeNavigate,
   changeOpenInteractive,
 } from "../../../../../../redux/CourseSidebarSlice";
+import AddNewChapter from "./Features/AddNewChapter";
+import { AddNewVideo } from "./Features/AddNewVideo";
+import { AddNewExam } from "./Features/AddNewExam";
+import AddNewLesson from "./Features/AddNewLesson";
+import LessonsList from "./LessonsList";
 import Sidebar from "./Features/Sidebar";
 import CourseForm from "../../../course/components/CourseForm";
+import AddFlippingCard from "./Features/InteractiveTools/Cards/AddFlippingCard";
+import AddHiddenCards from "./Features/InteractiveTools/Cards/AddHiddenCards";
 import Curriculum from "../../../course/manage/components/curriculum";
 
 const CourseFeatures = ({ course }) => {
@@ -17,60 +24,30 @@ const CourseFeatures = ({ course }) => {
   const { navigate, openInteractive } = useSelector(
     (state) => state.courseSidebarSlice
   );
-  const [currentChapter, setCurrentChapter] = useState(null);
-  const [currentLesson, setCurrentLesson] = useState(null);
-  // Local state
-  const [flippingCards, setFlippingCards] = useState([]);
-  const [hiddenCards, setHiddenCards] = useState([]);
-  const [cardData, setCardData] = useState({
-    color: "#007bff",
-    image: "https://via.placeholder.com/400x200",
-    title: "عنوان البطاقة",
-    description: "محتوى البطاقة يظهر هنا.",
-  });
-
   const renderContent = useCallback(() => {
-    const commonProps = {
-      courseId: course.id,
-      chapterId: currentChapter?.id,
-    };
-
     switch (navigate) {
       case "basic-info":
         return <CourseForm course={course} />;
+      case "lessons":
+        return <LessonsList courseId={course?.id} />;
+      case "chapters":
+        return <AddNewChapter courseId={course?.id} />;
+      case "video":
+        return <AddNewVideo />;
+      case "exam":
+        return <AddNewExam />;
+      case "lesson":
+        return <AddNewLesson courseId={course?.id} />;
+      case "flippingCard":
+        return <AddFlippingCard courseId={course?.id} />;
+      case "hiddenCards":
+        return <AddHiddenCards courseId={course?.id} />;
       case "curriculum":
         return <Curriculum course={course} />;
-      // case "lesson":
-      //   return <AddNewLesson {...commonProps} />;
-      // case "exam":
-      //   return <AddNewExam {...commonProps} />;
-      // case "video":
-      //   return <AddNewVideo {...commonProps} />;
-      // case "flippingCard":
-      //   return (
-      //     <AddFlippingCard
-      //       setCardData={setCardData}
-      //       cardData={cardData}
-      //       flippingCards={flippingCards}
-      //       setFlippingCards={setFlippingCards}
-      //     />
-      //   );
-      // case "hiddenCards":
-      //   return (
-      //     <AddHiddenCards
-      //       setCardData={setCardData}
-      //       cardData={cardData}
-      //       hiddenCards={hiddenCards}
-      //       setHiddenCards={setHiddenCards}
-      //       currentLesson={currentLesson}
-      //       courseId={course.id}
-      //     />
-      //   );
-
       default:
         return null;
     }
-  }, [course, currentChapter?.id, navigate]);
+  }, [course, navigate]);
 
   return (
     <>

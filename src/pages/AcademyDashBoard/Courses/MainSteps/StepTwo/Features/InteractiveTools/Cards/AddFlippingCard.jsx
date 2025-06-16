@@ -2,11 +2,7 @@ import React from "react";
 import FlippingCard from "../../../../../../../../component/UI/FlippingCard";
 import FlippingCardSideBar from "../../../../../SideBars/FlippingCardSideBar";
 import style from "../../../../../AddNewCourse.module.css";
-import { storage } from "../../../../../../../../utils/storage";
-import { useSelector } from "react-redux";
-import { latestLesson } from "../../../../../../../../../redux/courses/CourseSlice";
 import { Text } from "../../../../../../../../utils/styles";
-import { formatLongText } from "../../../../../../../../utils/helpers";
 const AddFlippingCard = ({
   flippingCards,
   setFlippingCards,
@@ -52,4 +48,4 @@ const AddFlippingCard = ({
   );
 };
 
-export default AddFlippingCard;
+export default AddFlippingCard; 

@@ -30,7 +30,7 @@ const AcademySingleCourse = () => {
         <div className={classes.PageImage}>
           <img src={image} className="h-100 image-bg" />
           <div>
-            <h2 className="fs-4 fw-bold">عنوان الدورة التدريبية</h2>
+            <h2 className="fs-4 fw-bold">عنوان المادة التدريبية</h2>
             <p className="fs-6 fw-medium text-content--1 pt-2">الملخص </p>
           </div>
         </div>
@@ -64,7 +64,7 @@ const AcademySingleCourse = () => {
                 </div>
 
                 <div className="Tittle mt-3 fs-6 fw-medium text-content--1">
-                  سيتعلم الطالب من خلال هذه الدورة التدريبية
+                  سيتعلم الطالب من خلال هذه المادة التدريبية
                 </div>
                 <div
                   className="row g-3"
@@ -84,7 +84,7 @@ const AcademySingleCourse = () => {
                       className="fs-6 fw-medium text-content--1"
                     >
                       <CheckCircleIcon sx={{ color: "#0FE8E8" }} /> تم اعداد هذا
-                      الاختبار الذكي بناءً على تحليل محتوى الدورة التدريبية
+                      الاختبار الذكي بناءً على تحليل محتوى المادة التدريبية
                     </div>{" "}
                   </div>
                   <div className="col-md-6 col-12">
@@ -101,7 +101,7 @@ const AcademySingleCourse = () => {
                       className="fs-6 fw-medium text-content--1"
                     >
                       <CheckCircleIcon sx={{ color: "#0FE8E8" }} /> تم اعداد هذا
-                      الاختبار الذكي بناءً على تحليل محتوى الدورة التدريبية
+                      الاختبار الذكي بناءً على تحليل محتوى المادة التدريبية
                     </div>{" "}
                   </div>
                   <div className="col-md-6 col-12">
@@ -118,13 +118,13 @@ const AcademySingleCourse = () => {
                       className="fs-6 fw-medium text-content--1"
                     >
                       <CheckCircleIcon sx={{ color: "#0FE8E8" }} /> تم اعداد هذا
-                      الاختبار الذكي بناءً على تحليل محتوى الدورة التدريبية
+                      الاختبار الذكي بناءً على تحليل محتوى المادة التدريبية
                     </div>{" "}
                   </div>
                 </div>
                 <div className="d-flex gap-2 button-content--1 flex-wrap justify-content-center mt-5">
                   <div className="addBtn ">تحديث المعلومات</div>
-                  <div className="updateBtn">ازالة الدورة التدريبية</div>
+                  <div className="updateBtn">ازالة المادة التدريبية</div>
                 </div>
               </div>
             </div>
@@ -158,7 +158,7 @@ const AcademySingleCourse = () => {
                   <div className="VideoCardIcon">
                     <AttachMoneyOutlinedIcon sx={{ color: "#0FE8E8" }} />
                     <h4 className="fs-6 fw-medium text-content--1">
-                      سعر الدورة{" "}
+                      سعر المادة{" "}
                     </h4>
                   </div>
                   <h5 className="fs-6 fw-medium text-content--1">
@@ -168,7 +168,7 @@ const AcademySingleCourse = () => {
                 <div className="VideoCard mt-3 h-100">
                   <div className="VideoCardIcon">
                     <CalendarTodayOutlinedIcon sx={{ color: "#0FE8E8" }} />
-                    <h4 className="fs-6 fw-medium text-content--1">الدورة </h4>
+                    <h4 className="fs-6 fw-medium text-content--1">المادة </h4>
                   </div>
                   <h5 className="fs-6 fw-medium text-content--1">
                     مباشرة غير تفاعلية{" "}

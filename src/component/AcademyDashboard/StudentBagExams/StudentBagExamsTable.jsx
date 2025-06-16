@@ -144,6 +144,7 @@ const StudentBagExamsTable = ({ acadmey }) => {
 
   return (
     <div style={{ overflowX: "auto" }}>
+      {data && data.length > 0 ? (
       <Table
         height={600}
         style={{ direction: "rtl" }}
@@ -291,6 +292,18 @@ const StudentBagExamsTable = ({ acadmey }) => {
           <Cell>Jan.01.2024</Cell>
         </Column>
       </Table>
+      ) : (
+        <div className="text-center p-5" style={{ 
+          backgroundColor: '#f8f9fa', 
+          borderRadius: '12px', 
+          border: '2px dashed #dee2e6',
+          margin: '20px 0'
+        }}>
+          <div style={{ fontSize: '48px', color: '#6c757d', marginBottom: '16px' }}>📝</div>
+          <h4 style={{ color: '#495057', marginBottom: '8px' }}>لا توجد اختبارات حالياً</h4>
+          <p style={{ color: '#6c757d', marginBottom: '0' }}>لم يقم أي طالب بحل اختبار بعد. سيظهر هنا سجل الاختبارات عند توفرها.</p>
+        </div>
+      )}
 
       <Modal
         style={{ direction: "rtl" }}

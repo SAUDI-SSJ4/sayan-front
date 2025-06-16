@@ -1,85 +1,15 @@
 import { useState, useEffect } from "react";
 import { Spinner } from "react-bootstrap";
 import { handleLevels } from "../../../utils/helpers";
-
-// بيانات وهمية جميلة تلقائية
-const FAKE_PRODUCTS = [
-  {
-    level: "beginner",
-    title: "أساسيات البرمجة بلغة جافاسكريبت",
-    trainer: "محمد الجهني",
-    price: 99,
-    rated: 5,
-    image: "https://i.imgur.com/znpqLnH.png",
-  },
-  {
-    level: "advanced",
-    title: "تطوير تطبيقات الويب باستخدام React",
-    trainer: "أحمد القحطاني",
-    price: 199,
-    rated: 4.5,
-    image: "https://i.imgur.com/k69uVT2.png",
-  },
-  {
-    level: "intermediate",
-    title: "تصميم تجربة المستخدم (UX)",
-    trainer: "حصة بني خالد",
-    price: 80,
-    rated: 4,
-    image: "https://i.imgur.com/7JxGea0.png",
-  },
-  {
-    level: "beginner",
-    title: "أسس الذكاء الاصطناعي",
-    trainer: "فهد الشهري",
-    price: 120,
-    rated: 4.8,
-    image: "https://i.imgur.com/5keKNLW.png",
-  },
-  {
-    level: "advanced",
-    title: "البيانات الضخمة وعلوم البيانات",
-    trainer: "سارة بخيت",
-    price: 250,
-    rated: 5,
-    image: "https://i.imgur.com/ZFaS4vT.png",
-  },
-  {
-    level: "intermediate",
-    title: "إدارة المشاريع الاحترافية",
-    trainer: "جود الجهيمان",
-    price: 94,
-    rated: 4.1,
-    image: "https://i.imgur.com/n1t6mmR.png",
-  },
-  {
-    level: "advanced",
-    title: "الأمن السيبراني التطبيقي",
-    trainer: "عبدالرحمن مشاري",
-    price: 175,
-    rated: 4.9,
-    image: "https://i.imgur.com/T5vQE68.png",
-  },
-  {
-    level: "beginner",
-    title: "مقدمة في تطوير الجوال",
-    trainer: "ريم الحربي",
-    price: 85,
-    rated: 4.3,
-    image: "https://i.imgur.com/F0BihN4.png",
-  },
-];
+import SARIcon from "../../../components/SARIcon/SARIcon";
 
 const SessionsCardContainer = ({ products, isLoading, isFetched }) => {
-  // بيانات العرض (وهمية إذا لا يوجد بيانات حقيقية)
-  const myProducts =
-    (Array.isArray(products) && products.length > 0
-      ? products
-      : FAKE_PRODUCTS
-    ).map((x, i) => ({
-      ...x,
-      id: x.id || `dummy-${i}`,
-    }));
+  // التحقق من وجود منتجات صالحة
+  const hasValidProducts = Array.isArray(products) && products.length > 0;
+  const myProducts = hasValidProducts ? products.map((x, i) => ({
+    ...x,
+    id: x.id || `product-${i}`,
+  })) : [];
 
   const [currentPage, setCurrentPage] = useState(1);
   const pageSize = 8;
@@ -109,7 +39,7 @@ const SessionsCardContainer = ({ products, isLoading, isFetched }) => {
         </div>
       )}
 
-      {!isLoading && (
+      {!isLoading && hasValidProducts && (
         <>
           <div
             style={{
@@ -225,19 +155,9 @@ const SessionsCardContainer = ({ products, isLoading, isFetched }) => {
                       gap: 8,
                     }}
                   >
-                    <span
-                      style={{
-                        color: "#1967d2",
-                        fontWeight: 800,
-                        fontSize: "1.13rem",
-                        letterSpacing: ".18px",
-                        background: "#e9f1fd",
-                        padding: "3.5px 10px",
-                        borderRadius: "7px",
-                        display: "inline-block",
-                      }}
-                    >
-                      ريال {Number(product.price).toLocaleString()}
+                    <span className="d-flex align-items-center">
+                      {Number(product.price).toLocaleString()}
+                      <SARIcon />
                     </span>
                     <span style={{ fontWeight: 600, fontSize: "0.97rem", color: "#a8a8a8" }}>
                       {product.rated} <span style={{ color: "#FFD700", fontSize: "1.07em" }}>★</span>
@@ -248,6 +168,67 @@ const SessionsCardContainer = ({ products, isLoading, isFetched }) => {
             ))}
           </div>
         </>
+      )}
+
+      {!isLoading && !hasValidProducts && (
+        <div style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          padding: "60px 20px",
+          textAlign: "center",
+          background: "linear-gradient(135deg, #f8fbff 0%, #e8f4ff 100%)",
+          borderRadius: "20px",
+          border: "2px dashed #b8d4ff",
+          margin: "20px 0"
+        }}>
+          <div style={{
+            width: "80px",
+            height: "80px",
+            background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+            borderRadius: "50%",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            marginBottom: "24px",
+            boxShadow: "0 8px 32px rgba(102, 126, 234, 0.3)"
+          }}>
+            <svg width="40" height="40" fill="white" viewBox="0 0 24 24">
+              <path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm5 11h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"/>
+            </svg>
+          </div>
+          <h2 style={{
+            fontSize: "24px",
+            fontWeight: "700",
+            color: "#2c3e50",
+            marginBottom: "12px",
+          }}>
+لم تقم باضافة منتجات رقمية          </h2>
+          <p style={{
+            fontSize: "16px",
+            color: "#64748b",
+            lineHeight: "1.6",
+            marginBottom: "20px",
+            maxWidth: "400px",
+          }}>
+          </p>
+          <div style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "8px",
+            padding: "12px 24px",
+            background: "rgba(102, 126, 234, 0.1)",
+            borderRadius: "50px",
+            color: "#667eea",
+            fontSize: "14px",
+            fontWeight: "600",
+          }}>
+قم باضافة منتجات رقمية             <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M7 18c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12L8.1 13h7.45c.75 0 1.41-.41 1.75-1.03L21.7 4H5.21l-.94-2H1zm16 16c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/>
+            </svg>
+          </div>
+        </div>
       )}
     </div>
   );

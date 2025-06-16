@@ -17,7 +17,7 @@ import BorderColorOutlinedIcon from "@mui/icons-material/BorderColorOutlined";
 import { useNavigate } from "react-router-dom";
 import AreaChartNormal from "../../../component/charts/AreaChart";
 import AreaChart from "../../../component/charts/doubleArea";
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
 import classes from "./dasahboard.module.scss";
 
 const { Column, HeaderCell, Cell } = Table;

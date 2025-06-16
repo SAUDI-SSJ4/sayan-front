@@ -8,7 +8,7 @@ import { FaFacebook, FaSnapchatGhost, FaMapMarkerAlt, FaPhone, FaEnvelope, FaInf
 
 // Assets
 import defaultAcademyImage from "../../../assets/icons/Acadmy.png";
-import defaultHeaderImage from "../../../assets/images/replacement/academyBanner.jpg";
+import defaultHeaderImage from "../../../assets/images/BannerBg.png";
 import Insta from "../../../assets/icons/Insta.svg";
 
 const Profile = () => {
@@ -34,8 +34,15 @@ const Profile = () => {
     cover,
     address,
     about,
-    support_phone: academyPhone,
+    phone: academyPhone,
+    support_phone: academySupportPhone,
   } = academy || {};
+
+  // طباعة بيانات الأكاديمية للتحقق
+  console.log("Academy Profile Data:", academy);
+
+  // استخدام support_phone كأولوية، ثم phone كبديل
+  const displayPhone = academySupportPhone || academyPhone;
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -371,10 +378,10 @@ const Profile = () => {
                       {userEmail || academyEmail || "غير متوفر"}
                     </div>
                   </div>
-                  {(userPhone || academyPhone) && (
+                  {(userPhone || displayPhone) && (
                     <div style={styles.infoRow}>
                       <div style={styles.infoLabel}><FaPhone size={14} style={{marginRight: '6px'}}/>رقم الهاتف</div>
-                      <div style={styles.infoValue}>{academyPhone || userPhone}</div>
+                      <div style={styles.infoValue}>{displayPhone || userPhone}</div>
                     </div>
                   )}
                   {address && (

@@ -6,7 +6,6 @@ import BorderColorOutlinedIcon from "@mui/icons-material/BorderColorOutlined";
 import { useNavigate } from "react-router-dom";
 import { Spinner } from "react-bootstrap";
 import { Error } from "@mui/icons-material";
-import { getFooter } from "../../../utils/apis/client/academy";
 import { useQuery } from "@tanstack/react-query";
 
 const { Column, HeaderCell, Cell } = Table;
@@ -94,10 +93,10 @@ const FooterTable = ({ checkAllHandler, checkedKeys, setData, setCheckedKeys, se
     }
   };
 
-
-  const { data: footerData, isLoading, isError } = useQuery({
+  // تم حذف getFooter API - استخدام بيانات فارغة مؤقتاً
+  const { data: footerData = { footer: { title: "", content: "", image: "" } }, isLoading = false, isError = false } = useQuery({
     queryKey: ["Footer"],
-    queryFn: () => getFooter(),
+    queryFn: () => Promise.resolve({ footer: { title: "", content: "", image: "" } }),
     refetchOnWindowFocus: false,
     refetchOnMount: false,
     retry: 2,

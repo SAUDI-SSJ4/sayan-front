@@ -7,7 +7,6 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Spinner } from "react-bootstrap";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { getFooter, updateFooter } from "../../../utils/apis/client/academy";
 import {  JustifyContentWrapper } from "../../../utils/styles";
 import { ButtonSpinner } from "../../../component/UI/Buttons/ButtonSpinner";
 import { getChangedValues, populateFormData } from "../../../utils/helpers";
@@ -29,10 +28,10 @@ const EditFooter = () => {
   const fileInputRef = useRef(null);
   const queryClient = useQueryClient()
 
-
-  const { data: footerData, isLoading } = useQuery({
+  // تم حذف footer API - استخدام بيانات فارغة مؤقتاً
+  const { data: footerData = { footer: { title: "", content: "", image: "" } }, isLoading = false } = useQuery({
     queryKey: ["Footer"],
-    queryFn: () => getFooter(),
+    queryFn: () => Promise.resolve({ footer: { title: "", content: "", image: "" } }),
     refetchOnWindowFocus: false,
     refetchOnMount: false,
     retry: 2,
@@ -43,26 +42,8 @@ const EditFooter = () => {
     initialValues: {},
     validationSchema,
     onSubmit: (data) => {
-      const formData = new FormData();
-      const values = getChangedValues(data, footerData?.footer);
-
-      console.log(values)
-
-      populateFormData(formData, values);
-      setIsPending(true);
-      updateFooter(data.id, formData)
-        .then((data) => {
-          console.log(data);
-          toast.success("تم تحديث البيانات ", { position: "top-left" });
-          queryClient.invalidateQueries(["Footer"]);
-          // navigate(location.pathname.replace(`/edit/${nav.slug}`, ""));
-        })
-        .catch((error) => {
-          toast.error("حدث خطأ ما ", { position: "top-left" });
-        }).finally(() => {
-          setIsPending(false);
-        });
-
+      // تم إلغاء footer API - عرض رسالة تنبيه
+      toast.info("تم إلغاء ميزة تحديث Footer مؤقتاً", { position: "top-left" });
     },
   });
 

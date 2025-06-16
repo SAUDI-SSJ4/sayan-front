@@ -24,7 +24,15 @@ export const SideBarFilter = ({ filterByCategories, minValue, maxValue }) => {
 
   const { data: categories = [], isLoading } = useQuery({
     queryKey: ["categories"],
-    queryFn: async () => (await getCategories()).data.allCategories,
+    queryFn: async () => {
+      try {
+        const response = await getCategories();
+        return response?.data?.allCategories || [];
+      } catch (error) {
+        console.error('Error fetching categories:', error);
+        return [];
+      }
+    },
     refetchOnMount: false,
     refetchOnWindowFocus: false,
     cacheTime: 1000,
@@ -130,7 +138,7 @@ export const SideBarFilter = ({ filterByCategories, minValue, maxValue }) => {
         <AccordionSummary expandIcon={<ExpandMoreIcon />} className={Style.AccordionHeader}>
           <div className={Style.AccordionTitle}>
             <VideoLibraryIcon />
-            <span>نوع الدورة</span>
+            <span>نوع المادة</span>
           </div>
         </AccordionSummary>
         <AccordionDetails>

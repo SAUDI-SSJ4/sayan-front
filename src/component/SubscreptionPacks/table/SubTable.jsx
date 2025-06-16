@@ -208,7 +208,7 @@ const SubTable = () => {
       },
       {
         field: "package_type",
-        headerName: "اسم الدورة التدريبية",
+        headerName: "اسم المادة التعليمية",
         flex: 3,
         cellStyle: { textAlign: "center" },
       },

@@ -1,5 +1,14 @@
 import React, { useState } from "react";
-import { Modal, Button, Stack, Panel, Form, Input, Uploader } from "rsuite";
+import {
+  Modal,
+  Button,
+  Stack,
+  Panel,
+  Form,
+  Input,
+  Uploader,
+  Loader,
+} from "rsuite";
 import { AiFillEye } from "react-icons/ai";
 import HiddenCard from "../../../../component/UI/HiddenCard";
 import ColorPickerWithPreview from "../../../../component/UI/Inputs/ColorPicker";
@@ -10,31 +19,36 @@ import {
 import { useToast } from "../../../../utils/hooks/useToast";
 import { useDispatch } from "react-redux";
 import { fetchCurrentCourseSummaryThunk } from "../../../../../redux/courses/CourseThunk";
+import { Delete } from "@mui/icons-material";
 
 const HiddenCardsSideBar = ({
-  hiddenCards,
-  setHiddenCards,
+  cards,
+  setCards,
   cardData,
   setCardData,
-  chapterId,
   courseId,
+  chapterId,
 }) => {
   const dispatch = useDispatch();
   const [showPreview, setShowPreview] = useState(false);
+  const [selectedCardIndex, setSelectedCardIndex] = useState(-1);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const toggleModal = () => setShowPreview(!showPreview);
 
   const handleChange = (field, value) => {
     if (field === "order") {
       const newOrder = parseInt(value);
-      const existingCardWithOrder = hiddenCards.find(
+      const existingCardWithOrder = cards.find(
         (card) => card.order === newOrder
       );
       if (existingCardWithOrder) {
-        const updatedCards = hiddenCards.map((card) => {
+        const updatedCards = cards.map((card) => {
           if (card.order === newOrder)
-            return { ...card, order: hiddenCards.length + 1 };
+            return { ...card, order: cards.length + 1 };
           return card;
         });
-        setHiddenCards(updatedCards);
+        setCards(updatedCards);
       }
       setCardData((prevData) => ({ ...prevData, order: newOrder }));
     } else {
@@ -42,51 +56,121 @@ const HiddenCardsSideBar = ({
     }
   };
 
-  const { succes, error } = useToast();
-  const handleSubmit = async () => {
-    setHiddenCards([...hiddenCards, cardData]);
-    cardData.type = "tool";
+  const { success, error } = useToast();
 
-    const resLesson = await createLesson(
-      {
-        courseId,
-        chapterId,
-      },
-      {
-        title: "بطاقة مقلوبة",
-        type: "tool",
-      }
-    );
-    if (resLesson.status) {
-      const resTool = await postLessonTools(resLesson.data.id, cardData);
-      if (resTool.status) {
-        succes("تمت إضافة البطاقة بنجاح");
-        dispatch(fetchCurrentCourseSummaryThunk(courseId));
+  const handleSubmit = async () => {
+    setIsLoading(true);
+    const newCard = { ...cardData, id: Date.now() };
+    try {
+      const resLesson = await createLesson(
+        { courseId, chapterId },
+        { title: newCard.title, type: "tool" }
+      );
+      if (resLesson.status && resLesson.data?.id) {
+        const resTool = await postLessonTools(resLesson.data.id, {
+          ...newCard,
+          type: "hidden_cards",
+        });
+        if (resTool.status) {
+          setCards([...cards, resTool.data || newCard]);
+          success("تمت إضافة البطاقة المخفية بنجاح");
+          dispatch(fetchCurrentCourseSummaryThunk(courseId));
+          resetForm();
+        } else {
+          error(resTool.message || "فشل في إضافة أداة البطاقة المخفية");
+        }
       } else {
-        error("فشل في إضافة البطاقة");
+        error(resLesson.message || "فشل في إنشاء درس للبطاقة المخفية");
+      }
+    } catch (err) {
+      error(err.message || "حدث خطأ أثناء إضافة البطاقة");
+    }
+    setIsLoading(false);
+  };
+
+  const resetForm = () => {
+    setCardData({
+      title: "عنوان البطاقة المخفية",
+      content: "محتوى البطاقة المخفية",
+      image: null,
+      color: "#3498db",
+    });
+    setSelectedCardIndex(-1);
+  };
+
+  const handleFileChange = (e) => {
+    if (e.target && e.target.files) {
+      const file = e.target.files[0];
+      if (file) {
+        handleChange("image", file);
       }
     }
   };
 
-  const toggleModal = () => setShowPreview(!showPreview);
+  const handleUpdateCard = () => {
+    if (selectedCardIndex !== -1) {
+      const updatedCards = [...cards];
+      updatedCards[selectedCardIndex] = { ...cardData };
+      setCards(updatedCards);
+      success("تم تحديث البطاقة (محلياً - placeholder)");
+      resetForm();
+    }
+  };
+
+  const handleDeleteCard = () => {
+    if (selectedCardIndex !== -1) {
+      setCards(cards.filter((_, index) => index !== selectedCardIndex));
+      success("تم حذف البطاقة (محلياً - placeholder)");
+      resetForm();
+    }
+  };
 
   const [displayCard, setDisplayCard] = useState(null);
 
-  const handleFileChange = (files) => {
-    const file = files[0];
-    if (file) {
-      handleChange("image", file); // Store the image URL in the state
-    }
-  };
   return (
     <div className="container col-12">
-      <h4 style={{ color: "#2B3674", fontWeight: "600" }}>إعدادات الأداة</h4>
+      <h4 style={{ color: "#2B3674", fontWeight: "600" }}>إعدادات البطاقات المخفية</h4>
       <div className="d-flex flex-column gap-2 border-bottom">
         <div className="d-flex justify-content-between p-2">
           <div>نوع الأداة:</div>
-          <div>الاداة التعليمية </div>
+          <div>بطاقات مخفية</div>
         </div>
         <div>
+          <div className="w-100">
+            <div className="d-flex row justify-content-center mt-4">
+              {cards.map((card, index) => (
+                <div
+                  key={index}
+                  className="col-10 p-2"
+                  style={{
+                    border: selectedCardIndex === index ? "1px solid #3498db" : "1px solid #eee",
+                    backgroundColor: selectedCardIndex === index ? "#eaf5ff" : "transparent",
+                    borderRadius: "10px",
+                    cursor: "pointer",
+                    marginBottom: "10px",
+                  }}
+                  onClick={() => {
+                    setCardData(card);
+                    setSelectedCardIndex(index);
+                  }}
+                >
+                  <p><strong>{card.title}</strong></p>
+                  <p>{card.content}</p>
+                  {selectedCardIndex === index && (
+                    <Button
+                      appearance="ghost"
+                      color="red"
+                      onClick={handleDeleteCard}
+                      style={{ marginTop: "5px" }}
+                    >
+                      <Delete /> حذف
+                    </Button>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+
           <Form className="w-100">
             <Form.Group className="CustomFormControl">
               <Form.ControlLabel>عنوان البطاقة</Form.ControlLabel>
@@ -98,37 +182,20 @@ const HiddenCardsSideBar = ({
               />
             </Form.Group>
 
-            <Form.ControlLabel>صورة البطاقة</Form.ControlLabel>
             <Form.Group className="CustomFormControl">
-              <input
-                type="file"
-                onChange={(e) => handleFileChange(e.target.files)}
-                accept="image/*"
+              <Form.ControlLabel>محتوى البطاقة</Form.ControlLabel>
+              <Input
+                as="textarea"
+                rows={3}
+                placeholder="أدخل محتوى البطاقة"
+                value={cardData.content}
+                onChange={(value) => handleChange("content", value)}
               />
             </Form.Group>
 
             <Form.Group className="CustomFormControl">
-              <Form.ControlLabel>محتوى البطاقة</Form.ControlLabel>
-              <Input
-                placeholder="أدخل محتوى البطاقة"
-                value={cardData.description}
-                onChange={(value) => handleChange("description", value)}
-              />
-            </Form.Group>
-            <Form.Group className="CustomFormControl">
-              <Form.ControlLabel>ترتيب البطاقة</Form.ControlLabel>
-              <Input
-                as="select"
-                placeholder="اختر ترتيب البطاقة"
-                value={cardData.order}
-                onChange={(value) => handleChange("order", value)}
-              >
-                {Array.from({ length: hiddenCards.length + 1 }, (_, i) => (
-                  <option key={i} value={i + 1}>
-                    {i + 1}
-                  </option>
-                ))}
-              </Input>
+              <Form.ControlLabel>صورة البطاقة (اختياري)</Form.ControlLabel>
+              <input type="file" onChange={(e) => handleFileChange(e)} />
             </Form.Group>
 
             <Form.Group className="CustomFormControl">
@@ -139,127 +206,73 @@ const HiddenCardsSideBar = ({
                 onChange={(value) => handleChange("color", value)}
               />
             </Form.Group>
-            <div className="d-flex justify-content-center">
-              <Button className="btn btn-primary" onClick={handleSubmit}>
-                انشاء البطاقة
-              </Button>
+
+            <div className="d-flex justify-content-center gap-2">
+              {selectedCardIndex !== -1 ? (
+                <>
+                  <Button className="btn btn-primary" onClick={handleUpdateCard}>
+                    تحديث البطاقة
+                  </Button>
+                  <Button className="btn btn-secondary" onClick={resetForm}>
+                    إلغاء
+                  </Button>
+                </>
+              ) : (
+                <Button
+                  className="btn btn-primary"
+                  disabled={isLoading}
+                  onClick={handleSubmit}
+                >
+                  {isLoading ? (
+                    <>
+                      <Loader size="xs" /> جاري الإنشاء...
+                    </>
+                  ) : (
+                    "انشاء البطاقة"
+                  )}
+                </Button>
+              )}
             </div>
           </Form>
         </div>
         <div className="d-flex justify-content-between p-2">
           <div>عدد البطاقات:</div>
-          <div>{hiddenCards?.length}</div>
+          <div>{cards?.length}</div>
         </div>
       </div>
       <div
-        className="d-flex justify-content-start gap-2 align-items-center p-2"
-        style={{ cursor: "pointer" }}
+        className="d-flex justify-content-start gap-2 align-items-center p-2 cursor-pointer"
         onClick={toggleModal}
+        style={{ cursor: "pointer" }}
       >
         معاينة الأداة <AiFillEye />
       </div>
 
-      {/* Preview Modal */}
       <Modal open={showPreview} onClose={toggleModal} size="lg" centered>
         <Modal.Header>
-          <Modal.Title>معاينة الأداة</Modal.Title>
+          <Modal.Title>معاينة البطاقات المخفية</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <div
             style={{
               display: "flex",
-              flexDirection: "row",
               flexWrap: "wrap",
               gap: "1rem",
               justifyContent: "center",
             }}
           >
-            <Stack
-              direction="column"
-              style={{
-                gap: "2rem",
-                padding: "1rem",
-                position: "relative",
-              }}
-              className="timeline-stack"
-            >
-              {hiddenCards.length > 0 ? (
-                hiddenCards
-                  .sort((a, b) => a.order - b.order)
-                  .map((card, index) => (
-                    <div
-                      key={index}
-                      style={{ display: "flex", alignItems: "center" }}
-                    >
-                      <div
-                        style={{
-                          width: "32px",
-                          height: "32px",
-                          backgroundColor: card.color,
-                          color: "#fff",
-                          borderRadius: "50%",
-                          flexShrink: 0,
-                          marginRight: "1rem",
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                          position: "relative",
-                        }}
-                      >
-                        {card.order}
-                        {index !== 0 && (
-                          <div
-                            style={{
-                              position: "absolute",
-                              bottom: "15px",
-                              left: "50%",
-                              width: "2px",
-                              height: "calc(100% - 15px)",
-                              transform: "translateX(-50%)",
-                            }}
-                          ></div>
-                        )}
-                      </div>
-                      <Panel
-                        bordered
-                        bodyFill
-                        style={{
-                          flex: 1,
-                          cursor: "pointer",
-                          padding: "1rem",
-                          transition: "transform 0.3s, box-shadow 0.3s",
-                        }}
-                        onClick={() => setDisplayCard(card)}
-                        className="timeline-card"
-                      >
-                        <h6
-                          style={{
-                            marginBottom: "0.5rem",
-                            fontWeight: "bold",
-                            fontSize: "0.9rem",
-                          }}
-                        >
-                          {card.title}
-                        </h6>
-                        <p style={{ color: "#666", fontSize: "0.7rem" }}>
-                          اضغط لعرض المزيد
-                        </p>
-                      </Panel>
-                    </div>
-                  ))
-              ) : (
-                <p
-                  style={{
-                    color: "#666",
-                    textAlign: "center",
-                    margin: "1rem 0",
-                  }}
-                >
-                  لا توجد بطاقات للعرض.
-                </p>
-              )}
-            </Stack>
-            <HiddenCard cardData={displayCard} />
+            {cards.length > 0 ? (
+              cards.map((card, index) => (
+                <div key={index} style={{ border: "1px solid #ccc", padding: "10px", borderRadius: "5px", width: "200px" }}>
+                  <h5>{card.title}</h5>
+                  <p>{card.content}</p>
+                  {card.image && <p><em>Image would be here</em></p>}
+                  <div style={{ height: "20px", backgroundColor: card.color }}></div>
+                </div>
+              ))
+            ) : (
+              <p>لا توجد بطاقات للعرض.</p>
+            )}
           </div>
         </Modal.Body>
         <Modal.Footer>

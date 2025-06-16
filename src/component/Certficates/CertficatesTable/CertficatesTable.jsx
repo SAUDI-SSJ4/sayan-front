@@ -130,6 +130,7 @@ const CertficatesTable = ({ checkAllHandler, checkedKeys, setData, setCheckedKey
 
   return (
     <div style={{ overflowX: "auto" }}>
+      {data && data.length > 0 ? (
       <Table
         height={600}
         style={{ direction: "rtl" }}
@@ -274,6 +275,18 @@ const CertficatesTable = ({ checkAllHandler, checkedKeys, setData, setCheckedKey
           <ActionCell dataKey="id" setShow={setShowModal2} />
         </Column>
       </Table>
+      ) : (
+        <div className="text-center p-5" style={{ 
+          backgroundColor: '#f8f9fa', 
+          borderRadius: '12px', 
+          border: '2px dashed #dee2e6',
+          margin: '20px 0'
+        }}>
+          <div style={{ fontSize: '48px', color: '#6c757d', marginBottom: '16px' }}>🎓</div>
+          <h4 style={{ color: '#495057', marginBottom: '8px' }}>لا توجد شهادات حالياً</h4>
+          <p style={{ color: '#6c757d', marginBottom: '0' }}>لم يتم إصدار أي شهادة بعد. ستظهر الشهادات هنا بعد إكمال الطلاب للدورات.</p>
+        </div>
+      )}
 
       <Modal
         style={{ direction: "rtl" }}

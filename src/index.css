@@ -1,4 +1,8 @@
 @import url("https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@200..700&display=swap");
+/* إضافة خط Baloo Bhaijaan المجاني من Google Fonts */
+@import url("https://fonts.googleapis.com/css2?family=Baloo+Bhaijaan+2:wght@400;500;600;700;800&display=swap");
+
+/* Quill CSS مُستورد في App.jsx */
 
 @tailwind base;
 @tailwind components;
@@ -14,12 +18,114 @@
   --text-color-white: #fff;
   --border-color-light: #dcdcdc;
   --bg-white: #ffffff;
-  --font-primary: 'Noto Kufi Arabic', sans-serif;
+  --font-primary: 'Baloo Bhaijaan 2', 'Noto Kufi Arabic', sans-serif;
+  /* تكبير الخطوط بنسبة 25% */
+  --font-scale: 1.10;
+}
+
+/* Academy Layout Typography Styles */
+.academy-typography h1,
+.academy-typography h2,
+.academy-typography h3,
+.academy-typography h4,
+.academy-typography h5,
+.academy-typography h6,
+.academy-typography p,
+.academy-typography span,
+.academy-typography a,
+.academy-typography button,
+.academy-typography .text-content,
+.academy-typography .title-text {
+  font-family: 'Baloo Bhaijaan 2', sans-serif !important;
+}
+
+/* Specific Academy Layout Components */
+.academy-layout-container * {
+  font-family: 'Baloo Bhaijaan 2', sans-serif;
+}
+
+/* Academy specific color scheme */
+.academy-primary-text {
+  color: var(--academy-primary-color, #2563eb);
+}
+
+.academy-secondary-text {
+  color: var(--academy-secondary-color, #1d4ed8);
+}
+
+.academy-content-text {
+  color: #4B5563;
+}
+
+.academy-muted-text {
+  color: #6B7280;
+}
+
+/* Academy Layout Button Styles */
+.academy-btn-primary {
+  background: var(--academy-primary-color, #2563eb);
+  color: white;
+  border: none;
+  border-radius: 49px;
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 14px 28px;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 14px 0 rgba(0, 118, 255, 0.39);
+}
+
+.academy-btn-primary:hover {
+  transform: scale(1.05);
+  color: white;
+  text-decoration: none;
+}
+
+.academy-btn-secondary {
+  background: transparent;
+  border: 2px solid var(--academy-secondary-color, #1d4ed8);
+  color: var(--academy-secondary-color, #1d4ed8);
+  border-radius: 49px;
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 12px 28px;
+  transition: all 0.2s ease;
+}
+
+.academy-btn-secondary:hover {
+  transform: scale(1.05);
+  background-color: rgba(0, 0, 0, 0.05);
+  color: var(--academy-secondary-color, #1d4ed8);
+  text-decoration: none;
+}
+
+/* Academy Typography Utilities */
+.academy-hero-title {
+  font-size: 3.5rem;
+  font-weight: 800;
+  line-height: 1.2;
+  margin-bottom: 1.5rem;
+}
+
+.academy-section-title {
+  font-size: 3rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.academy-content-large {
+  font-size: 1.1rem;
+  line-height: 1.8;
+}
+
+.academy-feature-text {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #1F2937;
 }
 
 * {
   box-sizing: border-box;
-  font-family: var(--font-primary) !important; /* Ensures Noto Kufi Arabic is applied everywhere */
+  font-family: var(--font-primary) !important; /* Ensures Baloo Bhaijaan is applied everywhere */
   /* scrollbar-width: thin; /* Firefox - Moved to specific section */
   /* scrollbar-color: var(--primary-color-alt) transparent; /* Firefox - Moved */
   /* -ms-overflow-style: -ms-autohiding-scrollbar; /* IE/Edge - Moved */
@@ -29,6 +135,13 @@ body {
   /* font-family: var(--font-primary); Already set by '*' */
   overflow: clip; /* Consider overflow-x: hidden; if only horizontal overflow is an issue */
   min-height: 100vh;
+  /* تكبير حجم الخط الأساسي بنسبة 25% */
+  font-size: calc(1rem * var(--font-scale));
+}
+
+/* تطبيق التكبير على العناصر الأساسية */
+html {
+  font-size: calc(16px * var(--font-scale)); /* تكبير الخط الأساسي من 16px إلى 20px */
 }
 
 /* --- SCROLLBAR STYLES --- */
@@ -64,6 +177,39 @@ body {
 
 .hidden-sm {
   display: none;
+}
+
+/* --- BALOO BHAIJAAN FONT UTILITIES --- */
+.font-shamel, .font-baloo {
+  font-family: 'Baloo Bhaijaan 2', 'Noto Kufi Arabic', sans-serif !important;
+}
+
+.font-shamel-sans, .font-baloo-sans {
+  font-family: 'Baloo Bhaijaan 2', 'Noto Kufi Arabic', sans-serif !important;
+}
+
+.font-shamel-serif, .font-baloo-serif {
+  font-family: 'Baloo Bhaijaan 2', 'Noto Kufi Arabic', sans-serif !important;
+}
+
+.font-shamel-light, .font-baloo-light {
+  font-family: 'Baloo Bhaijaan 2', 'Noto Kufi Arabic', sans-serif !important;
+  font-weight: 400 !important;
+}
+
+.font-shamel-medium, .font-baloo-medium {
+  font-family: 'Baloo Bhaijaan 2', 'Noto Kufi Arabic', sans-serif !important;
+  font-weight: 500 !important;
+}
+
+.font-shamel-bold, .font-baloo-bold {
+  font-family: 'Baloo Bhaijaan 2', 'Noto Kufi Arabic', sans-serif !important;
+  font-weight: 700 !important;
+}
+
+.font-baloo-extrabold {
+  font-family: 'Baloo Bhaijaan 2', 'Noto Kufi Arabic', sans-serif !important;
+  font-weight: 800 !important;
 }
 
 
@@ -1088,4 +1234,39 @@ body {
   left: initial !important;
   right: 50% !important;
   transform: translateX(50%) !important;
+}
+
+/* متغيرات CSS للألوان الديناميكية في صفحة المادة الواحدة */
+.academy-single-course-container {
+  --academy-primary-color: #0062ff;
+  --academy-secondary-color: #1d4ed8;
+}
+
+/* أنماط للمكونات الفردية */
+.academy-single-course-container .academy-primary-color {
+  color: var(--academy-primary-color) !important;
+}
+
+.academy-single-course-container .academy-primary-bg {
+  background-color: var(--academy-primary-color) !important;
+}
+
+.academy-single-course-container .academy-primary-border {
+  border-color: var(--academy-primary-color) !important;
+}
+
+/* تحديث أنماط التبويبات */
+.academy-single-course-container .academy-tabs .academy-tab-active {
+  background-color: rgba(0, 98, 255, 0.08) !important;
+  color: var(--academy-primary-color) !important;
+}
+
+/* تحديث أنماط الأزرار */
+.academy-single-course-container .academy-join-btn {
+  background-color: var(--academy-primary-color) !important;
+  border-color: var(--academy-primary-color) !important;
+}
+
+.academy-single-course-container .academy-join-btn:hover {
+  color: var(--academy-primary-color) !important;
 }

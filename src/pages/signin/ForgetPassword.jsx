@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import axiosInstance from "../../../axios";
 import OtpInput from "./OtpInput";
@@ -29,9 +29,9 @@ const ForgetPassword = () => {
       await axiosInstance.post("/otp", { email: values.email });
       setSearchParams({ step: "otp" });
       setEmail(values.email);
-      toast.success("تم إرسال رمز التحقق إلى بريدك الإلكتروني.");
-    } catch (error) {
-      toast.error(error?.response?.data?.message || "فشل في إرسال رمز التحقق.");
+              toast.success("تم إرسال رمز التحقق إلى بريدك الإلكتروني.");
+      } catch (error) {
+        toast.error(error?.response?.data?.message || "فشل في إرسال رمز التحقق.");
     } finally {
       setLoading(false);
     }

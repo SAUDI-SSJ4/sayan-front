@@ -159,15 +159,14 @@ export const getClient = () => {
 // التحقق من صلاحية الجلسة
 export const checkSession = async () => {
   try {
-    const client = createAuthClient();
-    await client.get('/api/v1/user/profile');
-    return true;
-  } catch (error) {
-    if (error.response && error.response.status === 401) {
-      removeToken();
+    const token = getToken();
+    if (!token) {
       return false;
     }
+    // مؤقتاً: إرجاع true إذا كان التوكن موجود
     return true;
+  } catch (error) {
+    return false;
   }
 };
 
@@ -181,33 +180,9 @@ export const validateTokenBeforeRequest = async () => {
       return false;
     }
 
-    // إضافة تأخير بسيط قبل التحقق
-    await new Promise(resolve => setTimeout(resolve, 200));
-    
-    // إجراء اختبار بطلب بسيط
-    const client = createAuthClient();
-    await client.get('/api/v1/user/profile');
-    
-    // إذا لم تحدث أخطاء، فالرمز صالح
+    // مؤقتاً: إرجاع true إذا كان التوكن موجود
     return true;
   } catch (error) {
-    // في حالة الخطأ 401، حاول تجديد الرمز
-    if (error.response && error.response.status === 401) {
-      try {
-        const newToken = await refreshToken();
-        if (newToken) {
-          // تم تجديد الرمز بنجاح
-          return true;
-        }
-      } catch (refreshError) {
-        console.error('فشل تجديد الرمز:', refreshError);
-      }
-      
-      // إذا وصلنا إلى هنا، فقد فشل التجديد
-      removeToken();
-      return false;
-    }
-    
     // أخطاء أخرى، نفترض الرمز لا يزال صالح
     return true;
   }

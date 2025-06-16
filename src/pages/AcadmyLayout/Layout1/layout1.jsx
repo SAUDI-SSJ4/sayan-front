@@ -1,11 +1,18 @@
+import { useEffect, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
+import { motion } from "framer-motion";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Pagination, Autoplay } from "swiper/modules";
+import { FaInstagram, FaLinkedinIn, FaTwitter, FaYoutube, FaSnapchatGhost, FaFacebookF, FaPhone } from "react-icons/fa";
 import CertificationIcon from "../../../component/Icons/CertificationIcon";
 import GraduateIcon from "../../../component/Icons/GraduateIcon";
 import StudentRateSection from "../../../component/AcadmyLayouts/studentRate/StudentRate";
-import { Spinner } from "react-bootstrap";
-import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
 import AcademyLayoutNavbar from "../../../component/AcadmyLayouts/AcademyLayoutNavbar/AcademyLayoutNavbar";
 import FAQ from "../../../component/AcadmyLayouts/Faq/FAQ";
+import ScrollToHashElement from "../../../components/ScrollToHashElement.jsx";
+import SubjectCard from "../../../component/MainPages/SubjectCard/SubjectCard";
+import classes from "../../../component/MainPages/SubjectCard/SubjectCard.module.scss";
 import {
   getAbout,
   getAcademyCourses,
@@ -15,23 +22,159 @@ import {
   getAcademySettings,
   getSlider,
 } from "../../../utils/apis/client/academy";
-import Youtube from "../../../assets/icons/social-icons/Youtube.svg";
-import LinkedIn from "../../../assets/icons/social-icons/LinkedIn.svg";
-import Twitter from "../../../assets/icons/social-icons/Twitter.svg";
-import Instagram from "../../../assets/icons/social-icons/Instagram.svg";
-import ssl from "../../../component/MainPages/Footer/ssl.svg";
-import ScrollToHashElement from "../../../components/ScrollToHashElement.jsx";
-import classes from "../../../component/MainPages/SubjectCard/SubjectCard.module.scss";
-import { Navigation, Pagination, Autoplay } from "swiper/modules";
-import SubjectCard from "../../../component/MainPages/SubjectCard/SubjectCard";
-import { motion } from "framer-motion";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Helmet } from "react-helmet-async";
-import { FaInstagram, FaLinkedinIn, FaTwitter, FaYoutube } from "react-icons/fa";
-
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
+
+// شاشة التحميل - تغذى بألوان الأكاديمية إذا متاحة
+const BeautifulLoading = ({primaryColor = "#667eea", secondaryColor = "#764ba2" }) => {
+  const [loadingText, setLoadingText] = useState("جاري تحميل الأكاديمية");
+  const [dots, setDots] = useState("");
+
+  useEffect(() => {
+    const textInterval = setInterval(() => {
+      const texts = [
+        "جاري تحميل الأكاديمية",
+        "تحضير المحتوى",
+        "جلب البيانات",
+        "إعداد الصفحة"
+      ];
+      setLoadingText(texts[Math.floor(Math.random() * texts.length)]);
+    }, 2000);
+
+    const dotsInterval = setInterval(() => {
+      setDots(prev => prev.length >= 3 ? "" : prev + ".");
+    }, 500);
+
+    return () => {
+      clearInterval(textInterval);
+      clearInterval(dotsInterval);
+    };
+  }, []);
+
+  useEffect(() => {
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+      @keyframes pulse {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.6; }
+      }
+      @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+      }
+      @keyframes progressSlide {
+        0% { background-position: -200% 0; }
+        100% { background-position: 200% 0; }
+      }
+    `;
+    document.head.appendChild(style);
+    return () => document.head.removeChild(style);
+  }, []);
+
+  const loadingContainerStyle = {
+    position: 'fixed',
+    top: 0,
+    left: 0,
+    width: '100%',
+    height: '100%',
+    background: `linear-gradient(135deg, ${primaryColor} 0%, ${secondaryColor} 100%)`,
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    zIndex: 9999,
+    animation: 'fadeIn 0.5s ease-in'
+  };
+  const orbitStyle = {
+    position: 'relative',
+    width: '100px',
+    height: '100px',
+    marginBottom: '30px'
+  };
+  const orbitRing1Style = {
+    position: 'absolute',
+    width: '100%',
+    height: '100%',
+    border: '2px solid transparent',
+    borderTop: `2px solid ${secondaryColor}CC`,
+    borderRadius: '50%',
+    animation: 'spin 2s linear infinite'
+  };
+  const orbitRing2Style = {
+    position: 'absolute',
+    width: '70%',
+    height: '70%',
+    top: '15%',
+    left: '15%',
+    border: '2px solid transparent',
+    borderTop: `2px solid ${primaryColor}99`,
+    borderRadius: '50%',
+    animation: 'spin 1.5s linear infinite reverse'
+  };
+  const orbitRing3Style = {
+    position: 'absolute',
+    width: '40%',
+    height: '40%',
+    top: '30%',
+    left: '30%',
+    border: '2px solid transparent',
+    borderTop: `2px solid ${primaryColor}F2`,
+    borderRadius: '50%',
+    animation: 'spin 1s linear infinite'
+  };
+  const textStyle = {
+    color: 'white',
+    fontSize: '24px',
+    fontWeight: '600',
+    marginBottom: '15px',
+    textAlign: 'center',
+    animation: 'pulse 2s infinite',
+  };
+  const subtextStyle = {
+    color: 'rgba(255, 255, 255, 0.8)',
+    fontSize: '16px',
+    textAlign: 'center',
+    fontWeight: '400',
+  };
+  const progressBarContainer = {
+    width: '300px',
+    height: '4px',
+    background: 'rgba(255, 255, 255, 0.3)',
+    borderRadius: '2px',
+    overflow: 'hidden',
+    marginTop: '30px'
+  };
+  const progressBar = {
+    height: '100%',
+    background: `linear-gradient(90deg, #ffffff, ${secondaryColor}, #ffffff)`,
+    backgroundSize: '200% 100%',
+    animation: 'progressSlide 2s infinite'
+  };
+
+  return (
+    <div style={loadingContainerStyle}>
+      <div style={orbitStyle}>
+        <div style={orbitRing1Style}></div>
+        <div style={orbitRing2Style}></div>
+        <div style={orbitRing3Style}></div>
+      </div>
+      <div style={textStyle}>
+        {loadingText}{dots}
+      </div>
+      <div style={subtextStyle}>
+        يرجى الانتظار لحظات قليلة
+      </div>
+      <div style={progressBarContainer}>
+        <div style={progressBar}></div>
+      </div>
+    </div>
+  );
+};
 
 const Layout1 = () => {
   const { id } = useParams();
@@ -42,124 +185,149 @@ const Layout1 = () => {
     const getAcademyData = async () => {
       try {
         setIsLoading(true);
-        const [
-          sliderData,
-          settingsData,
-          profile,
-          aboutData,
-          coursesData,
-          opinions,
-          faqs,
-        ] = await Promise.all([
-          getSlider(id),
-          getAcademySettings(id),
-          getAcademyProfile(id),
-          getAbout(id),
-          getAcademyCourses(id),
-          getAcademyOpinions(id),
-          getAcademyFaqs(id),
-        ]);
+        const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+        const sliderData = await getSlider(id);
+        await delay(200);
+        const settingsData = await getAcademySettings(id);
+        await delay(200);
+        const profile = await getAcademyProfile(id);
+        await delay(200);
+        const aboutData = await getAbout(id);
+        await delay(200);
+        const coursesData = await getAcademyCourses(id);
+        await delay(200);
+        const opinions = await getAcademyOpinions(id);
+        await delay(200);
+        const faqs = await getAcademyFaqs(id);
+
         setAcademyData({
           slider: sliderData?.slider,
           settings: settingsData?.template,
           profile,
           about: aboutData?.about,
-          courses: coursesData?.data,
-          opinions: opinions?.data,
-          faqs: faqs.data,
+          courses: coursesData?.data || [],
+          opinions: opinions?.data || [],
+          faqs: faqs?.data || [],
         });
       } catch (error) {
-        console.error("Error fetching academy slider:", error);
+        setAcademyData({
+          slider: null,
+          settings: null,
+          profile: null,
+          about: null,
+          courses: [],
+          opinions: [],
+          faqs: [],
+        });
       } finally {
         setIsLoading(false);
       }
     };
-    getAcademyData();
+    const timer = setTimeout(() => {
+      getAcademyData();
+    }, 100);
+    return () => clearTimeout(timer);
   }, [id]);
 
-  if (isLoading)
+  const currentData = academyData;
+  const hasColors =
+    currentData && currentData.settings && currentData.settings.primary_color && currentData.settings.secondary_color;
+
+  const academyStyles = hasColors
+    ? {
+        '--academy-primary-color': currentData.settings.primary_color,
+        '--academy-secondary-color': currentData.settings.secondary_color,
+        paddingTop: '30px',
+      }
+    : { paddingTop: '30px' };
+
+  if (isLoading || !hasColors) {
+    // في حال التحميل أو لا يوجد ألوان، استعمل ألوان افتراضية أو من السيرفر إذا متوفرة
     return (
-      <div className="w-full h-50 d-flex justify-content-center align-items-center">
-        <Spinner />
+      <BeautifulLoading
+        primaryColor={currentData?.settings?.primary_color}
+        secondaryColor={currentData?.settings?.secondary_color}
+      />
+    );
+  }
+
+  if (!currentData.settings || !currentData.slider) {
+    return (
+      <div className="text-center my-16 text-lg font-bold">
+        حدث خطأ أو البيانات غير متوفرة حالياً
       </div>
     );
+  }
 
   return (
-    !isLoading &&
-    academyData && (
-      <>
-        <Helmet>
-          <title>{academyData.settings.name}</title>
-          <link
-            rel="icon"
-            type="image/svg+xml"
-            href={`${academyData.settings.favicon}?v=${Date.now()}`}
-            key="favicon"
-          />
-          {/* No custom font specification - will use system default */}
-        </Helmet>
-        <div style={{ backgroundColor: '#F9FAFB' }}>
-          <AcademyLayoutNavbar
-            profile={academyData.profile}
-            academySettings={academyData.settings}
-            faqs={academyData.faqs}
-            studentOpinions={academyData.opinions}
-          />
-          <ScrollToHashElement />
-          <div className="mt-[75px] md:mt-[100px]">
-            <div id="hero">
-              <Hero academyData={academyData} />
-            </div>
+    <>
+      <Helmet>
+        <title>{currentData.settings.name || ""}</title>
+        <link
+          rel="icon"
+          type="image/svg+xml"
+          href={`${currentData.settings.favicon || "/favicon.svg"}?v=${Date.now()}`}
+          key="favicon"
+        />
+      </Helmet>
+      <div
+        className="academy-layout-container academy-typography"
+        style={{
+          backgroundColor: '#F9FAFB',
+          ...academyStyles,
+        }}
+      >
+        <AcademyLayoutNavbar
+          profile={currentData.profile}
+          academySettings={currentData.settings}
+          faqs={currentData.faqs}
+          studentOpinions={currentData.opinions}
+          academyId={id}
+        />
+        <ScrollToHashElement />
+        <div className="mt-[75px] md:mt-[100px]">
+          <div id="hero">
+            {currentData.slider ? (
+              <Hero academyData={currentData} />
+            ) : (
+              <div className="text-center my-10 text-md text-gray-500">لا يوجد بيانات</div>
+            )}
           </div>
-
-          {/* نبذة عن المعلم */}
-          <div id="about">
-            <About academyData={academyData} />
-          </div>
-          <div style={{ marginTop: '200px' }}>
-            <Courses academyData={academyData} />
-          </div>
-          {academyData.opinions.length > 0 && (
-            <div style={{ marginBottom: '150px' }}>
-              <StudentRateSection
-                opinions={academyData.opinions}
-                academySettings={academyData.settings}
-              />
-            </div>
-          )}
-          {academyData.faqs.length > 0 && (
-            <div>
-              <FAQ faqs={academyData.faqs} academySettings={academyData.settings} />
-            </div>
-          )}
-          <Footer academySettings={academyData.settings} />
         </div>
-      </>
-    )
+        <div id="about">
+          {currentData.about ? (
+            <About academyData={currentData} />
+          ) : (
+            <div className="text-center my-10 text-md text-gray-500">لا يوجد بيانات</div>
+          )}
+        </div>
+        <div style={{ marginTop: '200px' }}>
+          <Courses academyData={currentData} />
+        </div>
+        {currentData.opinions && currentData.opinions.length > 0 && (
+          <div style={{ marginBottom: '150px' }}>
+            <StudentRateSection
+              opinions={currentData.opinions}
+              academySettings={currentData.settings}
+            />
+          </div>
+        )}
+        {currentData.faqs && currentData.faqs.length > 0 && (
+          <div>
+            <FAQ faqs={currentData.faqs} academySettings={currentData.settings} />
+          </div>
+        )}
+        <Footer academySettings={currentData.settings} academyProfile={currentData.profile} />
+      </div>
+    </>
   );
 };
 
 export default Layout1;
 
 const Courses = ({ academyData }) => {
-  // Add detailed console logs to debug
-  console.log('Courses Component - Full academyData:', academyData);
-  console.log('Courses Component - Settings:', academyData.settings);
-  console.log('Courses Component - Profile:', academyData.profile);
-  
-  // Filter courses to only show those with status = 1
-  const activeCourses = academyData.courses.filter(course => {
-    console.log('Course details:', {
-      id: course.id,
-      name: course.name,
-      status: course.status,
-      statusType: typeof course.status,
-      rawCourse: course
-    });
-    return course.status == 1; // Using loose equality to handle both string and number
-  });
-  
-  console.log('Active courses after filter:', activeCourses);
+  if (!academyData || !academyData.courses) return null;
+  const activeCourses = academyData.courses.filter(course => course.status == 1);
 
   return (
     <div
@@ -170,8 +338,17 @@ const Courses = ({ academyData }) => {
     >
       {activeCourses.length > 0 ? (
         <>
-          <div className={`${classes.title} text-center`} style={{ marginBottom: '15px' }}>
-            المواد التعليمية 
+          <div
+            className={`${classes.title} text-center academy-primary-text`}
+            style={{
+              fontSize: '2.0rem',
+              fontWeight: '800',
+              textAlign: 'center',
+              marginBottom: '2rem',
+              color: academyData.settings.primary_color
+            }}
+          >
+            المواد التعليمية
           </div>
           <Swiper
             pagination={{ clickable: true }}
@@ -184,28 +361,11 @@ const Courses = ({ academyData }) => {
             loop
             modules={[Pagination, Autoplay]}
             breakpoints={{
-              0: { 
-                slidesPerView: 1,
-                spaceBetween: 0
-              },
-              768: { 
-                slidesPerView: 2,
-                spaceBetween: 10
-              },
-              991: { 
-                slidesPerView: 2,
-                spaceBetween: 10
-              },
-              1200: { 
-                slidesPerView: 3,
-                pagination: { enabled: true },
-                spaceBetween: 10
-              },
-              1400: { 
-                slidesPerView: 4,
-                pagination: { enabled: true },
-                spaceBetween: 10
-              },
+              0: { slidesPerView: 1, spaceBetween: 0 },
+              768: { slidesPerView: 2, spaceBetween: 10 },
+              991: { slidesPerView: 2, spaceBetween: 10 },
+              1200: { slidesPerView: 3, pagination: { enabled: true }, spaceBetween: 10 },
+              1400: { slidesPerView: 4, pagination: { enabled: true }, spaceBetween: 10 },
             }}
             className="mySwiperContainer pb-5"
             style={{
@@ -217,13 +377,8 @@ const Courses = ({ academyData }) => {
             {activeCourses.map((course) => {
               const courseData = {
                 ...course,
-                academy_id: academyData.profile.id
+                academy_id: academyData.profile?.id
               };
-              console.log('Passing to SubjectCard:', {
-                courseData,
-                academySettings: academyData.settings
-              });
-              
               return (
                 <SwiperSlide key={course.id} style={{ display: 'flex', justifyContent: 'center' }}>
                   <motion.div
@@ -245,9 +400,14 @@ const Courses = ({ academyData }) => {
           </Swiper>
         </>
       ) : (
-        <div className="text-center mt-5">
-          <h2 className="text-2xl font-bold">لا توجد مواد تعليمية متاحة</h2>
-          <p className="text-gray-500">يرجى التحقق لاحقًا.</p>
+                  <div className="text-center mt-5">
+          <h2 className="text-2xl font-bold mb-4 academy-primary-text"
+              style={{ color: academyData.settings.primary_color, fontSize: '2.0rem' }}>
+            لا توجد مواد تعليمية متاحة
+          </h2>
+          <p className="text-lg academy-muted-text">
+            يرجى التحقق لاحقًا.
+          </p>
         </div>
       )}
     </div>
@@ -255,48 +415,42 @@ const Courses = ({ academyData }) => {
 };
 
 const Hero = ({ academyData }) => {
+  if (!academyData.slider) return null;
   return (
     <div className="container" style={{marginBottom: '150px' }}>
       <div className="row aboutAcademyLayout g-4">
         <div className="col-lg-6">
           <div data-aos="fade-up" className="SectionText">
-            <h2>
-              <span style={{ color: academyData.settings.primary_color }}>
+            <h2 className="academy-hero-title" style={{ fontSize: '2.0rem' }}>
+              <span className="academy-primary-text" style={{color: academyData.settings.primary_color}}>
                 {academyData.slider.title}
               </span>{" "}
               <br />
-              {academyData.slider.sub_title}{" "}
-              <span style={{ color: academyData.settings.primary_color }}>.</span>
+              <span style={{ color: '#1F2937' }}>{academyData.slider.sub_title}</span>{" "}
+              <span className="academy-primary-text" style={{color: academyData.settings.primary_color}}>.</span>
             </h2>
-            <p className="fs-6 fw-medium text-content--1">
+            <p className="academy-content-large academy-content-text" style={{ marginBottom: '2rem' }}>
               {academyData.slider.content}
             </p>
             <div className="Btn buttons-header">
               <a
                 href={academyData.slider.first_button_link}
-                style={{
-                  background: academyData.settings.primary_color,
-                }}
-                className="w-[160px] h-[56px] rounded-[49px] text-sm text-white flex justify-center items-center opacity-90 hover:opacity-100 duration-200 transition-opacity font-bold"
+                className="academy-btn-primary w-[160px] h-[56px] flex justify-center items-center"
+                style={{ background: academyData.settings.primary_color }}
               >
                 {academyData.slider.first_button_title}
               </a>
               <a
-                style={{
-                  border: `1px solid ${academyData.settings.secondary_color}`,
-                }}
-                className="w-[226px] h-[56px] rounded-[49px] text-sm gap-3 flex justify-center items-center opacity-90 hover:opacity-100 duration-200 transition-opacity font-bold"
                 href={academyData.slider.second_button_link}
                 target="_blank"
                 rel="noreferrer"
+                className="academy-btn-secondary w-[226px] h-[56px] gap-3 flex justify-center items-center"
+                style={{
+                  borderColor: academyData.settings.secondary_color,
+                  color: academyData.settings.secondary_color
+                }}
               >
-                <span
-                  style={{
-                    color: academyData.settings.secondary_color,
-                  }}
-                >
-                  {academyData.slider.second_button_title}
-                </span>
+                {academyData.slider.second_button_title}
               </a>
             </div>
           </div>
@@ -304,7 +458,7 @@ const Hero = ({ academyData }) => {
         <div className="col-lg-6 !pr-10">
           <div data-aos="fade-right" className="SectionImage">
             <img
-              src={academyData.slider.image} 
+              src={academyData.slider.image}
               alt="Slider"
               loading="lazy"
               width="800"
@@ -319,6 +473,7 @@ const Hero = ({ academyData }) => {
 };
 
 const About = ({ academyData }) => {
+  if (!academyData.about) return null;
   return (
     <div className="container">
       <div className="row g-4 aboutAcademyLayout">
@@ -340,26 +495,36 @@ const About = ({ academyData }) => {
         </div>
         <div className="col-lg-6 order-1 order-lg-2">
           <div className="SectionText px-4 lg:px-0">
-            <h2 data-aos="fade-up" data-aos-duration="1000" className="text-3xl lg:text-4xl mb-4">
-              <span style={{ color: academyData.settings.primary_color }}>
+            <h2
+              data-aos="fade-up"
+              data-aos-duration="1000"
+              className="academy-section-title mb-4"
+              style={{ fontSize: '2.0rem' }}
+            >
+              <span className="academy-primary-text" style={{color: academyData.settings.primary_color}}>
                 {academyData.about.title}
               </span>{" "}
               <br />
-              {academyData.about.sub_title}{" "}
-              <span style={{ color: academyData.settings.primary_color }}>.</span>
+              <span style={{ color: '#1F2937' }}>{academyData.about.sub_title}</span>{" "}
+              <span className="academy-primary-text" style={{color: academyData.settings.primary_color}}>.</span>
             </h2>
-            <p className="fs-6 fw-medium text-content--1 mb-6">
+            <p className="academy-content-large academy-content-text mb-6">
               {academyData.about.content}
             </p>
             <div className="flex flex-wrap gap-6 lg:gap-10 mt-6">
-              <div className="flex items-center gap-3 title-text--1">
+              <div className="flex items-center gap-3">
                 <CertificationIcon color={academyData.settings.secondary_color} />
-                <span className="">{academyData.about.feature_one}</span>
+                <span className="academy-feature-text">
+                  {academyData.about.feature_one}
+                </span>
               </div>
-              <div className="hidden lg:block w-0.5 h-8 bg-opacity-50" style={{ backgroundColor: academyData.settings.secondary_color }}></div>
-              <div className="flex items-center gap-3 title-text--1">
+              <div className="hidden lg:block w-0.5 h-8 bg-opacity-50"
+                   style={{ backgroundColor: academyData.settings.secondary_color }}></div>
+              <div className="flex items-center gap-3">
                 <GraduateIcon color={academyData.settings.secondary_color} />
-                <span className="text-base lg:text-lg">{academyData.about.feature_two}</span>
+                <span className="academy-feature-text">
+                  {academyData.about.feature_two}
+                </span>
               </div>
             </div>
           </div>
@@ -369,88 +534,140 @@ const About = ({ academyData }) => {
   );
 };
 
-const Footer = ({ academySettings }) => {
+const Footer = ({ academySettings, academyProfile }) => {
   const navigate = useNavigate();
-
-  const socialLinks = [
-    {
-      icon: <FaInstagram />,
-      url: "https://www.instagram.com/sayan_edtech",
-    },
-    {
-      icon: <FaLinkedinIn />,
-      url: "https://www.linkedin.com/in/sayan-edtech/",
-    },
-    {
-      icon: <FaTwitter />,
-      url: "https://x.com/sayan_edtech",
-    },
-    {
-      icon: <FaYoutube />,
-      url: "https://www.youtube.com/@sayan_edtech",
-    },
-  ];
-
-  const handleRedirect = (url) => {
-    window.open(url, "_blank");
-  };
+  const socialLinks = [];
+  if (academyProfile?.facebook && academyProfile.facebook !== "http://google.com.sa/") {
+    socialLinks.push({ icon: <FaFacebookF />, url: academyProfile.facebook, platform: "Facebook" });
+  }
+  if (academyProfile?.instagram && academyProfile.instagram !== "http://google.com.sa/") {
+    socialLinks.push({ icon: <FaInstagram />, url: academyProfile.instagram, platform: "Instagram" });
+  }
+  if (academyProfile?.twitter && academyProfile.twitter !== "http://google.com.sa/") {
+    socialLinks.push({ icon: <FaTwitter />, url: academyProfile.twitter, platform: "Twitter" });
+  }
+  if (academyProfile?.youtube) {
+    socialLinks.push({ icon: <FaYoutube />, url: academyProfile.youtube, platform: "YouTube" });
+  }
+  if (academyProfile?.linkedin) {
+    socialLinks.push({ icon: <FaLinkedinIn />, url: academyProfile.linkedin, platform: "LinkedIn" });
+  }
+  if (academyProfile?.snapchat && academyProfile.snapchat !== "s") {
+    socialLinks.push({ icon: <FaSnapchatGhost />, url: `https://snapchat.com/add/${academyProfile.snapchat}`, platform: "Snapchat" });
+  }
+  const handleRedirect = (url) => { window.open(url, "_blank"); };
+  const phoneNumber = academyProfile?.support_phone || academyProfile?.phone;
 
   return (
     <footer className="bg-gradient-to-r from-gray-50 to-gray-100 pt-14 pb-8 border-t border-gray-200">
       <div className="container mx-auto px-6">
-        {/* Main Content */}
-        <div className="flex flex-col md:flex-row justify-between items-center md:items-start mb-12">
-          {/* Social Icons - Right Side */}
-          <div className="flex flex-col items-center md:items-start order-2 md:order-1 mt-8 md:mt-0">
-            <h3 className="text-gray-800 font-bold mb-6 text-lg">تابعنا على وسائل التواصل</h3>
-            <div className="flex gap-4 justify-center md:justify-start">
-              {socialLinks.map((link, index) => (
-                <button 
-                  key={index}
-                  onClick={() => handleRedirect(link.url)}
+        <div className="flex flex-col lg:flex-row justify-between items-center lg:items-start mb-12 gap-8">
+          <div className="flex flex-col items-center lg:items-start order-2 lg:order-1">
+            <h3 className="font-bold mb-6 academy-primary-text"
+                style={{ fontSize: '1.2rem', color: academySettings.primary_color }}>
+              تواصل معنا
+            </h3>
+            <div className="mb-4">
+              <div className="flex items-center gap-3 text-gray-700">
+                <div
                   style={{ backgroundColor: academySettings.primary_color }}
-                  className="w-10 h-10 rounded-[8px] text-white flex items-center justify-center transition-all duration-300 hover:opacity-90"
+                  className="w-10 h-10 rounded-lg text-white flex items-center justify-center"
                 >
-                  {link.icon}
-                </button>
-              ))}
+                  <FaPhone />
+                </div>
+                <span className="font-medium">
+                  {phoneNumber ? (
+                    <a
+                      href={`tel:${phoneNumber.startsWith('0') ? '+963' + phoneNumber.substring(1) : phoneNumber}`}
+                      className="hover:opacity-80 transition-opacity academy-primary-text academy-content-large font-semibold"
+                      style={{ color: academySettings.primary_color }}
+                    >
+                      {phoneNumber}
+                    </a>
+                  ) : (
+                    <span className="academy-muted-text">لا يوجد</span>
+                  )}
+                </span>
+              </div>
             </div>
+            {socialLinks.length > 0 && (
+              <>
+                <h4 className="font-semibold mb-4 academy-content-large" style={{ color: '#374151' }}>
+                  تابعنا على وسائل التواصل
+                </h4>
+                <div className="flex gap-3 justify-center lg:justify-start flex-wrap">
+                  {socialLinks.map((link, index) => (
+                    <button
+                      key={index}
+                      onClick={() => handleRedirect(link.url)}
+                      style={{ backgroundColor: academySettings.primary_color }}
+                      className="w-10 h-10 rounded-lg text-white flex items-center justify-center transition-all duration-300 hover:opacity-90 hover:scale-105"
+                      title={`تابعنا على ${link.platform}`}
+                    >
+                      {link.icon}
+                    </button>
+                  ))}
+                </div>
+              </>
+            )}
           </div>
-
-          {/* Brand & Logo - Left Side */}
-          <div className="flex flex-col items-start order-1 md:order-2">
-            <img 
+          <div className="flex flex-col items-center lg:items-start order-1 lg:order-2">
+            <img
               src={academySettings.logo}
-              className="h-14 mb-4" 
+              className="h-14 mb-4"
               alt={academySettings.name}
             />
-            <p className="text-gray-600 text-sm" style={{ direction: "rtl" }}>
-              تم التطوير بواسطة{' '}
-              <a 
-                href="https://sayan.pro" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                style={{ color: academySettings.primary_color }}
-                className="hover:opacity-90"
-              >
-                منصة سيان
-              </a>
-            </p>
+            <h3 className="text-xl font-bold mb-2 text-center lg:text-right academy-primary-text"
+                style={{ color: academySettings.primary_color }}>
+              {academySettings.name}
+            </h3>
+            {academySettings.about && (
+              <p className="text-sm text-center lg:text-right mb-4 max-w-xs academy-muted-text" style={{ lineHeight: '1.6' }}>
+                {academySettings.about}
+              </p>
+            )}
           </div>
         </div>
-
-        {/* Bottom Section - Copyright & Legal */}
-        <div className="text-center border-t border-gray-200 pt-8">
-          <p className="text-gray-500 text-sm">
-            جميع الحقوق محفوظة © {new Date().getFullYear()}
-            <button 
-              onClick={() => navigate("/privacy-policy")}
-              style={{ color: academySettings.primary_color }}
-              className="hover:opacity-90 text-sm font-medium mr-2 transition-colors"
-            >
-              الشروط والأحكام
-            </button>
-          </p>
+        <div className="border-t border-gray-200 pt-6">
+          <div className="flex flex-col lg:flex-row justify-between items-center gap-4">
+            <div className="text-center lg:text-right text-sm academy-muted-text" style={{ direction: "rtl" }}>
+              <p>
+                جميع الحقوق محفوظة © {new Date().getFullYear()} سيان. تم التطوير بواسطة{' '}
+                <a
+                  href="/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-semibold hover:opacity-90 academy-primary-text"
+                  style={{ color: academySettings.primary_color }}
+                >
+                  منصة سيان
+                </a>
+              </p>
+            </div>
+            <div className="flex gap-6 order-1 lg:order-2">
+              <button
+                onClick={() => window.open("/updates", "_blank")}
+                className="hover:opacity-90 text-sm font-medium transition-colors border-l border-gray-300 pl-6 academy-primary-text"
+                style={{ color: academySettings.primary_color }}
+              >
+                تحديثات المنصة
+              </button>
+              <button
+                onClick={() => window.open("/privacy-policy", "_blank")}
+                className="hover:opacity-90 text-sm font-medium transition-colors border-l border-gray-300 pl-6 academy-primary-text"
+                style={{ color: academySettings.primary_color }}
+              >
+                سياسة الخصوصية
+              </button>
+              <button
+                onClick={() => window.open("/privacy-policy", "_blank")}
+                className="hover:opacity-90 text-sm font-medium transition-colors academy-primary-text"
+                style={{ color: academySettings.primary_color }}
+              >
+                الشروط والأحكام
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </footer>

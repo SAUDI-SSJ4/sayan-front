@@ -18,7 +18,7 @@ import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined
 import BorderColorOutlinedIcon from "@mui/icons-material/BorderColorOutlined";
 import ScrollbarSize from "react-scrollbar-size";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
 const { Column, HeaderCell, Cell } = Table;
 const data = mockUsers(8);
 

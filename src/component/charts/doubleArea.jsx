@@ -74,14 +74,14 @@ const data = {
     {
       fill: true,
       label: "Dataset 1",
-      data: labels.map(() => faker.datatype.number({ min: 0, max: 500 })),
+      data: labels.map(() => faker.number.int({ min: 0, max: 500 })),
       borderColor: "rgba(255, 71, 170, 0.8)",
       backgroundColor: "rgba(255, 71, 170, 0.8)",
     },
     {
       fill: true,
       label: "Dataset 2",
-      data: labels.map(() => faker.datatype.number({ min: 500, max: 1000 })),
+      data: labels.map(() => faker.number.int({ min: 500, max: 1000 })),
       borderColor: "#47FFFF80",
       backgroundColor: "#47FFFF80",
     },

@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { useCallback } from "react";
 import {
   postChapter,
-  postLesson,
+  createLesson,
   postLessonExam,
   postLessonTools,
   postUploadLessonVideo,
@@ -174,7 +174,7 @@ export const useLessonMutation = (currentCourseId) => {
   }, []);
 
   return useMutation({
-    mutationFn: (params) => postLesson(params),
+    mutationFn: (params) => createLesson(params),
     onSuccess: handleSuccess,
     onError: handleError,
     ...QUERY_CONFIG,
@@ -260,12 +260,12 @@ export const useExamMutation = (currentCourseId, lessonId) => {
     
     // تغيير التنقل وعرض رسالة النجاح
     dispatch(changeNavigate("lesson"));
-    showSuccessMessage("نجاح!", "تمت إضافة الامتحان بنجاح");
+    showSuccessMessage("نجاح!", "تمت إضافة الاختبار بنجاح");
   }, [dispatch, queryClient, currentCourseId]);
 
   const handleError = useCallback((error) => {
-    console.error("خطأ في إضافة الامتحان:", error);
-    showErrorMessage("فشل", "حدث خطأ أثناء محاولة إضافة الامتحان. يرجى المحاولة مرة أخرى.");
+    console.error("خطأ في إضافة الاختبار:", error);
+    showErrorMessage("فشل", "حدث خطأ أثناء محاولة إضافة الاختبار. يرجى المحاولة مرة أخرى.");
   }, []);
 
   return useMutation({

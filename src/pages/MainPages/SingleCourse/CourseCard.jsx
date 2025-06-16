@@ -28,6 +28,7 @@ export const CourseCard = ({
   courseData,
   setshowBuyCourses,
   isLoading,
+  academySettings,
 }) => {
   const { addToCart, cartItems } = useCart();
   const [purchasedCourses, setPurchasedCourses] = useState([]);
@@ -75,14 +76,14 @@ export const CourseCard = ({
     }
 
     if (!course) {
-      toast.error("بيانات الدورة ناقصة");
+      toast.error("بيانات المادة ناقصة");
       return;
     }
 
     // التحقق مما إذا كانت الدورة مضافة بالفعل في العربة
     const isAlreadyInCart = cartItems.some(item => item.item_id === course.id);
     if (isAlreadyInCart) {
-      toast.info("هذه الدورة مضافة بالفعل في عربة التسوق");
+      toast.info("هذه المادة مضافة بالفعل في عربة التسوق");
       return;
     }
 
@@ -93,7 +94,7 @@ export const CourseCard = ({
       image: course.image,
     };
     addToCart(courseItem);
-    toast.success("تمت إضافة الدورة إلى عربة التسوق");
+    toast.success("تمت إضافة المادة إلى عربة التسوق");
   };
 
   const handleViewCourse = () => {
@@ -112,8 +113,8 @@ export const CourseCard = ({
         <div className="flex flex-col gap-2">
           {/* عنوان الدورة */}
           <div>
-            <h1 className="text-lg font-bold text-gray-800 leading-tight">
-              {course?.title || "اسم الدورة غير متوفر"}
+            <h1 className="text-lg font-bold leading-tight academy-primary-text">
+              {course?.title || "اسم المادة غير متوفر"}
             </h1>
           </div>
           
@@ -209,8 +210,8 @@ export const CourseCard = ({
           <div className={Style.detials}>
             <div className={Style.Price}>
               {isPurchased ? (
-                <div style={{ color: '#0062ff', fontWeight: 'bold', fontSize: '0.9rem', marginBottom: '5px' }}>
-                  تم شراء هذه الدورة مسبقاً
+                <div style={{ color: academySettings?.primary_color || '#0062ff', fontWeight: 'bold', fontSize: '0.9rem', marginBottom: '5px' }}>
+                  تم شراء هذه المادة مسبقاً
                 </div>
               ) : (
                 Number.isFinite(course?.price) ? `${course.price} ر.س.` : '---'
@@ -220,9 +221,9 @@ export const CourseCard = ({
               <div 
                 className={Style.JoinBtn} 
                 onClick={handleViewCourse}
-                style={{ backgroundColor: '#0062ff' }}
+                style={{ backgroundColor: academySettings?.primary_color || '#0062ff' }}
               >
-                عرض الدورة التدريبية <PlayCircleOutline />
+                عرض المادة التعليمية <PlayCircleOutline />
               </div>
             ) : (
               <div className={Style.JoinBtn} onClick={handleAddToCart}>
@@ -260,7 +261,7 @@ export const CourseCard = ({
                     height: "80px",
                     borderRadius: "15px",
                     objectFit: "cover",
-                    border: "3px #0062ff",
+                    border: `3px solid ${academySettings?.primary_color || '#0062ff'}`,
                     boxShadow: "0 4px 8px rgba(0,0,0,0.1)"
                   }}
                 />

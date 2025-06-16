@@ -10,8 +10,8 @@ export const HomeMainHeader = () => {
       <div className={`${Style.Container} container-header pt-4`}>
         <div className="row align-items-center ">
           <div className="col-lg-5 col-12">
-             <div data-aos="fade-left" className={`${Style.BannerText} banner-text-header`}>
-              <h1>تعليم يفتح افاق المستقبل </h1>
+             <div data-aos="fade-left" className={Style.BannerText}>
+              <h1>تعليم يفتح افاق المستقبل</h1>
               <p>
                 سيان تقدم لكم تجربة تعليمية متطورة معززة بالذكاء الاصطناعي أنشئ منصتك التعليمية لبيع محتواك التعليمي بسهولة.
               </p>

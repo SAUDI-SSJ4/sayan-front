@@ -35,7 +35,7 @@ const FaqTraining = () => {
       content: "نعم، عبر لوحة تحكم تُظهر معدلات الإتمام والإحصائيات.",
     },
     {
-      title: "هل يمكنني الوصول للمحتوى بعد انتهاء الدورة؟",
+      title: "هل يمكنني الوصول للمحتوى بعد انتهاء المادة",
       content: "نعم، يمكنك الوصول للمحتوى طوال مدة الاشتراك.",
     },
     {
@@ -55,7 +55,6 @@ const FaqTraining = () => {
         <div className="col-lg-4 col-md-12">
           <h3
             style={{
-              fontFamily: " Noto Kufi Arabic",
               fontSize: "60px",
               fontWeight: 700,
               lineHeight: "72px",

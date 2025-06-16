@@ -24,7 +24,7 @@ import AddNewInteractiveTool from "./Features/InteractiveTools/AddNewInteractive
 import AddFlippingCard from "./Features/InteractiveTools/Cards/AddFlippingCard";
 import FlippingCardSideBar from "../../SideBars/FlippingCardSideBar";
 import HiddenCardsSideBar from "../../SideBars/HiddenCardsSideBar";
-import AddHiddenCards from "./Features/InteractiveTools/Cards/AddHiddenCards";
+import InteractiveToolForm from "../../course/manage/components/curriculum/InteractiveToolForm";
 import IconTextButton from "../../UI/IconTextButton";
 import CustomAccordion from "../../UI/CustomAccordion";
 import DeleteButton from "../../UI/DeleteButton";
@@ -33,7 +33,7 @@ const fakeData = {
   data: {
     categories: [
       {
-        title: "مقدمة في البرمجة",
+        title: "مقدمة في الاعاب",
         lessons: [
           { type: "video", video: { title: "ما هي البرمجة؟" } },
           { type: "video", video: { title: "تاريخ البرمجة" } },
@@ -175,7 +175,13 @@ function AddNewCourseSteperTwo() {
             margin: "10px",
           }}
         >
-          {category.lessons.map((lesson, index) => (
+          {[...category.lessons]
+            .sort((a, b) => {
+              const dateA = new Date(a.updated_at || a.created_at || 0);
+              const dateB = new Date(b.updated_at || b.created_at || 0);
+              return dateB.getTime() - dateA.getTime();
+            })
+            .map((lesson, index) => (
             <div
               key={index}
               onClick={() => handleLessonClick(lesson)}
@@ -264,11 +270,15 @@ function AddNewCourseSteperTwo() {
         );
       case "hiddenCards":
         return (
-          <AddHiddenCards
-            setCardData={setCardData}
-            cardData={cardData}
+          <InteractiveToolForm
             hiddenCards={hiddenCards}
             setHiddenCards={setHiddenCards}
+            cardData={cardData}
+            setCardData={setCardData}
+            courseId={course.id}
+            chapterId={currentChapter?.id}
+            lesson={currentLesson}
+            onClose={() => {}}
           />
         );
       default:

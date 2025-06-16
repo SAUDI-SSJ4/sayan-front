@@ -13,7 +13,7 @@ import UpdateProfile from "./UpdateProfile";
 
 // Assets
 import Insta from "../../assets/icons/Insta.svg";
-import StudentBanner from "../../assets/images/StudentBanner.jpg";
+import ProfileBanner from "../../assets/images/ProfileBanner.png";
 import defaultUser from "../../assets/images/default-user.jpg";
 
 // Styles
@@ -30,7 +30,6 @@ const fallbackData = {
 
 const styles = {
   profileContainer: {
-    fontFamily: "'Tajawal', sans-serif",
     marginTop: "1rem",
     position: "relative"
   },
@@ -321,7 +320,7 @@ const Profile = () => {
       <div style={styles.profileHeader}>
         <div style={styles.profileBg}>
           <img 
-            src={displayData?.image || StudentBanner} 
+            src={displayData?.image || ProfileBanner} 
             style={styles.profileBgImg}
             className="rounded" 
             alt="صورة الغلاف" 
@@ -369,10 +368,6 @@ const Profile = () => {
                 ) : (
                   <span style={styles.infoValue}>{displayData?.name || "غير متوفر"}</span>
                 )}
-              </div>
-              <div className="col-12 col-sm-6">
-                <h3 style={styles.infoLabel}>كلمة المرور</h3>
-                <span style={styles.infoValue}>* * * * * *</span>
               </div>
               <div className="col-12 col-sm-6">
                 <h3 style={styles.infoLabel}>رقم الهاتف</h3>

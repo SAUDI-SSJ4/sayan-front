@@ -1,12 +1,35 @@
 import { ArrowBack } from "@mui/icons-material";
-import React from "react";
+import React, { useState } from "react";
 import addcourse from "../../../../assets/icons/Button.svg";
-import { Button } from "react-bootstrap";
-import { useNavigate, useParams } from "react-router-dom";
+import { Button, Spinner } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
+import { publishCourseDraft } from "../../../../utils/apis/client/academy";
+import { useToast } from "../../../../utils/hooks/useToast";
+import { fetchCurrentCourseSummaryThunk } from "../../../../../redux/courses/CourseThunk";
+import { useDispatch } from "react-redux";
 
-function CourseHeader() {
+function CourseHeader({ course }) {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { courseId } = useParams();
+  const [isPublishing, setIsPublishing] = useState(false);
+  const { success, error } = useToast();
+  const handlePublish = async () => {
+    try {
+      setIsPublishing(true);
+      const response = await publishCourseDraft(course.id);
+      if (response.status) {
+        success(response.data.message);
+        dispatch(fetchCurrentCourseSummaryThunk(course.id));
+      } else {
+        error(response.data.error || "فشل في نشر المادة");
+      }
+    } catch (err) {
+      error("حدث خطأ أثناء نشر المادة");
+    } finally {
+      setIsPublishing(false);
+    }
+  };
+
   return (
     <div className="TablePageHeader" style={{ marginBottom: "24px" }}>
       <div className="HeaderContainer">
@@ -22,16 +45,34 @@ function CourseHeader() {
                 fontSize: "18px",
               }}
             >
-              {courseId ? "تعديل الدورة التدريبية" : "إضافة دورة تدريبية"}
+              {course ? "تعديل المادة التعليمية" : "إضافة مادة تعليمية"}
             </div>
           </div>
           <div className="flex items-center gap-3">
-            {courseId && (
+            {course && (
               <Button
                 type="button"
+                variant={course.status ? "outline-dark" : "primary"}
                 className="!flex !items-center justify-center gap-2 h-10 w-36"
+                onClick={handlePublish}
+                disabled={isPublishing}
               >
-                نشر الدورة
+                {isPublishing ? (
+                  <>
+                    <Spinner
+                      as="span"
+                      animation="border"
+                      size="sm"
+                      role="status"
+                      aria-hidden="true"
+                    />
+                    <span>جاري النشر...</span>
+                  </>
+                ) : course.status ? (
+                  "جعلها مسودة"
+                ) : (
+                  "نشر المادة"
+                )}
               </Button>
             )}
             <Button

@@ -10,7 +10,7 @@ import ProductSlider from "../../../component/AcadmyLayouts/ProductCard/ProductS
 import PartnerSection from "../../../component/AcadmyLayouts/PartnerSection/PartnerSection";
 import quma from "../../../assets/images/quma.png";
 import StudentRateSection from "../../../component/AcadmyLayouts/studentRate/StudentRate";
-import AcademyFooter from "../../../component/AcadmyLayouts/Footer/Footer";
+import AcademyFooter from "../../../component/MainPages/Footer/Footer";
 import Numbers from "../../../component/AcadmyLayouts/Numbers/Numbers";
 import BlogSection from "../../../component/AcadmyLayouts/Blog/BlogSection";
 import comp1 from "../../../assets/images/comp1.png";

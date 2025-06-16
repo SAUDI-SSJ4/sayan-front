@@ -10,7 +10,7 @@ import AreaChart from "../../component/charts/doubleArea";
 import { Link } from "react-router-dom";
 import axiosInstance from "../../../axios";
 import DeleteModal from "../../component/UI/DeleteModal/DeleteModal";
-import { toast } from "react-toastify";
+import toast from "react-hot-toast";
 
 const Categories = () => {
   const [TableOrNot, setTableOrNot] = useState(false);

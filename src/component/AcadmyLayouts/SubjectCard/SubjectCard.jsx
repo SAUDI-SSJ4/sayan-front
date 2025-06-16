@@ -2,6 +2,8 @@ import classes from "./SubjectCard.module.scss";
 import Image from "../../../assets/images/CourseImage.png";
 import StarIcon from "@mui/icons-material/Star";
 import TeacherMask from "../../../assets/images/TeacherMask.png";
+import SARIcon from "../../../components/SARIcon/SARIcon";
+
 const SubjectCard = () => {
   return (
     <div className={classes.CardContainer}>
@@ -29,8 +31,14 @@ const SubjectCard = () => {
           </div>
         </div>
         <div>
-          <h5 className="fs-6 fw-bold">320 ريال</h5>
-          <h6 className="fs-6 fw-medium">320 ريال</h6>
+          <h5 className="fs-6 fw-bold d-flex align-items-center">
+            320
+            <SARIcon />
+          </h5>
+          <h6 className="fs-6 fw-medium d-flex align-items-center">
+            320
+            <SARIcon />
+          </h6>
         </div>
       </div>
     </div>

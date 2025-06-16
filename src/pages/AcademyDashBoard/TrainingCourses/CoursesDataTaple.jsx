@@ -6,6 +6,7 @@ import axios from "axios";
 import { useDispatch } from "react-redux";
 import { getAcademyCoursesThunk } from "../../../../redux/courses/CourseThunk";
 import { FiEdit2, FiTrash2 } from "react-icons/fi";
+import SARIcon from "../../../components/SARIcon/SARIcon";
 
 const typeTranslations = {
   live: "مباشرة",
@@ -24,8 +25,8 @@ function CoursesDataTable({ CoursesData, academyId }) {
 
   const handleDelete = (courseId) => {
     Swal.fire({
-      title: "حذف الدورة",
-      text: "هل تريد بالتأكيد حذف هذه الدورة؟",
+      title: "حذف المادة",
+      text: "هل تريد بالتأكيد حذف هذه المادة",
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#d33",
@@ -43,7 +44,7 @@ function CoursesDataTable({ CoursesData, academyId }) {
             },
           })
           .then(() => {
-            Swal.fire("تم الحذف!", "تم حذف الدورة بنجاح", "success");
+            Swal.fire("تم الحذف!", "تم حذف المادة بنجاح", "success");
             dispatch(getAcademyCoursesThunk(academyId)).unwrap();
           })
           .catch(() => Swal.fire("خطأ", "حدث خطأ أثناء الحذف", "error"));
@@ -100,8 +101,11 @@ function CoursesDataTable({ CoursesData, academyId }) {
                   </span>
                 </td>
                 <td className="p-3 text-gray-700">{course.trainer}</td>
-                <td className="p-3 font-bold text-indigo-600">
-                  {course.price.toLocaleString()} ريال
+                <td className="p-3">
+                  <div className="d-flex align-items-center">
+                    {course.price.toLocaleString()}
+                    <SARIcon />
+                  </div>
                 </td>
                 <td className="p-3">
                   <div className="flex items-center justify-center gap-2">
@@ -112,7 +116,7 @@ function CoursesDataTable({ CoursesData, academyId }) {
                         </button>
                       </Link>
                       <div className="absolute -top-10 right-1/2 transform translate-x-1/2 hidden group-hover:block bg-gray-800 text-white text-xs px-2 py-1 rounded whitespace-nowrap">
-                        تعديل الدورة
+                        تعديل المادة
                       </div>
                     </div>
                     <div className="relative group">
@@ -123,7 +127,7 @@ function CoursesDataTable({ CoursesData, academyId }) {
                         <FiTrash2 size={16} />
                       </button>
                       <div className="absolute -top-10 right-1/2 transform translate-x-1/2 hidden group-hover:block bg-gray-800 text-white text-xs px-2 py-1 rounded whitespace-nowrap">
-                        حذف الدورة
+                        حذف المادة
                       </div>
                     </div>
                   </div>

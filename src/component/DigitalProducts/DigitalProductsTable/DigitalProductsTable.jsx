@@ -1,7 +1,6 @@
 import { Table, Popover, Dropdown } from "rsuite";
-import { mockUsers } from "../DigitalProductsCard/mock";
 import { Checkbox } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 import BorderColorOutlinedIcon from "@mui/icons-material/BorderColorOutlined";
 import { useNavigate } from "react-router-dom";
@@ -70,11 +69,10 @@ const ActionCell = ({ rowData, dataKey, setShow, setid, ...props }) => {
 };
 
 const DigitalProductTable = ({
-  data,
-  setidDeleteModal,
-  setDeleteModal,
+  data = [],
+  setidDeleteModal = () => {},
+  setDeleteModal = () => {},
 }) => {
-
   const router = useNavigate();
 
   return (
@@ -301,4 +299,97 @@ const DigitalProductTable = ({
   );
 };
 
-export default DigitalProductTable;
+// حاوي الجدول مع منطق عرض رسالة عدم وجود محتوى
+const DigitalProductsTable = ({
+  checkedKeys,
+  setCheckedKeys,
+  checkAllHandler,
+  setData,
+  digitalProducts = [],
+  isLoading = false
+}) => {
+  useEffect(() => {
+    setData(digitalProducts);
+  }, [digitalProducts, setData]);
+
+  // التحقق من وجود منتجات صالحة
+  const hasValidProducts = Array.isArray(digitalProducts) && digitalProducts.length > 0;
+
+  if (!isLoading && !hasValidProducts) {
+    return (
+      <div style={{ backgroundColor: "white", padding: "25px", border: "1px #EDEFF2 solid", borderRadius: "10px" }}>
+        <div style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          padding: "60px 20px",
+          textAlign: "center",
+          background: "linear-gradient(135deg, #f8fbff 0%, #e8f4ff 100%)",
+          borderRadius: "20px",
+          border: "2px dashed #b8d4ff",
+          margin: "20px 0"
+        }}>
+          <div style={{
+            width: "80px",
+            height: "80px",
+            background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+            borderRadius: "50%",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            marginBottom: "24px",
+            boxShadow: "0 8px 32px rgba(102, 126, 234, 0.3)"
+          }}>
+            <svg width="40" height="40" fill="white" viewBox="0 0 24 24">
+              <path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm5 11h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"/>
+            </svg>
+          </div>
+          <h2 style={{
+            fontSize: "24px",
+            fontWeight: "700",
+            color: "#2c3e50",
+            marginBottom: "12px",
+          }}>
+            ابدأ في إضافة منتجاتك الرقمية!
+          </h2>
+          <p style={{
+            fontSize: "16px",
+            color: "#64748b",
+            lineHeight: "1.6",
+            marginBottom: "20px",
+            maxWidth: "400px"
+          }}>
+            لا توجد منتجات رقمية حالياً. قم بإضافة منتجاتك الأولى لبدء بيع المحتوى الرقمي والوصول إلى عملائك.
+          </p>
+          <div style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "8px",
+            padding: "12px 24px",
+            background: "rgba(102, 126, 234, 0.1)",
+            borderRadius: "50px",
+            color: "#667eea",
+            fontSize: "14px",
+            fontWeight: "600"
+          }}>
+            <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M13 7h-2v4H7v2h4v4h2v-4h4v-2h-4V7z"/>
+              <path d="M12 2C6.477 2 2 6.477 2 12s4.477 10 10 10 10-4.477 10-10S17.523 2 12 2zm0 18c-4.411 0-8-3.589-8-8s3.589-8 8-8 8 3.589 8 8-3.589 8-8 8z"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <DigitalProductTable
+      data={digitalProducts}
+      setidDeleteModal={() => {}}
+      setDeleteModal={() => {}}
+    />
+  );
+};
+
+export default DigitalProductsTable;

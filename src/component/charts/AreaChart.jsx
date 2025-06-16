@@ -78,7 +78,7 @@ export default function AreaChartNormal({color,borderColor,borderRadius}) {
       {
         fill: true,
         label: "Dataset 1",
-        data: labels.map(() => faker.datatype.number({ min: 700, max: 1000 })),
+        data: labels.map(() => faker.number.int({ min: 700, max: 1000 })),
         borderColor:borderColor,
         backgroundColor: color,
       },

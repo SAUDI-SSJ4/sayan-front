@@ -5,7 +5,6 @@ import { Route, Routes } from "react-router-dom";
 import SearchAndShowBar from "../../../component/UI/SearchAndShowBar/SearchAndShowBar";
 import SessionsCardContainer from "../../../component/Sessions/SessionsCard/SessionsCardContainer";
 import SessionsTable from "../../../component/Sessions/SessionsTable/SessionsTable";
-import { getStudentProducts } from "../../../utils/apis/client";
 import { useQuery } from "@tanstack/react-query";
 
 const StudentProducts = () => {
@@ -13,9 +12,10 @@ const StudentProducts = () => {
   const [checkedKeys, setCheckedKeys] = useState([]);
   const [data, setData] = useState([]);
 
-  const { data: products = [], isLoading, isFetched } = useQuery({
+  // استخدام بيانات فارغة مؤقتاً بعد حذف API
+  const { data: products = [], isLoading = false, isFetched = true } = useQuery({
     queryKey: ["studentProducts"],
-    queryFn: getStudentProducts,
+    queryFn: () => Promise.resolve([]), // إرجاع مصفوفة فارغة
     retry: 2,
     refetchOnWindowFocus: false,
     refetchOnMount: false,

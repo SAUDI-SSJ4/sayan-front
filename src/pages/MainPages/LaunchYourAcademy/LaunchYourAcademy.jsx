@@ -300,10 +300,10 @@ const LaunchYourAcademy = () => {
                     <img src={Achivement} />
                   </div>
                 </div>
-                <h2 style={{ fontFamily: "Noto Kufi Arabic", fontWeight: 700, fontSize: "32px" }}>
+                <h2 style={{fontWeight: 700, fontSize: "32px" }}>
                   إنجازاتنا في أرقام
                 </h2>
-                <p style={{ fontFamily: "Noto Kufi Arabic", fontWeight: 400, fontSize: "18px" }}>
+                <p style={{fontWeight: 400, fontSize: "18px" }}>
                   في منصة سيان، نفخر بإنجازاتنا المتميزة
                 </p>
               </div>
@@ -322,10 +322,10 @@ const LaunchYourAcademy = () => {
                   style={{ right: "unset", left: "70px" }}
                 />
               </div>
-              <h2 style={{ fontFamily: "Noto Kufi Arabic", fontWeight: 700, fontSize: "32px" }}>
+              <h2 style={{fontWeight: 700, fontSize: "32px" }}>
                 هدفنا
               </h2>
-              <p style={{ fontFamily: "Noto Kufi Arabic", fontWeight: 400, fontSize: "18px" }}>
+              <p style={{fontWeight: 400, fontSize: "18px" }}>
                 بناء جيل متعلم ومبدع، مجهز بالمعرفة والقدرات لقيادة
                 <br /> عصر جديد من التقدم
               </p>
@@ -344,10 +344,10 @@ const LaunchYourAcademy = () => {
                   style={{ right: "unset", left: "70px" }}
                 />
               </div>
-              <h2 style={{ fontFamily: "Noto Kufi Arabic", fontWeight: 700, fontSize: "32px" }}>
+              <h2 style={{fontWeight: 700, fontSize: "32px" }}>
                 رؤيتنا؟
               </h2>
-              <p style={{ fontFamily: "Noto Kufi Arabic", fontWeight: 400, fontSize: "18px" }}>
+              <p style={{fontWeight: 400, fontSize: "18px" }}>
                 نؤمن بأن التعليم هو القوة الدافعة لمستقبل مشرق،
                 <br /> يسوده الإبداع والابتكار.
               </p>
@@ -357,68 +357,202 @@ const LaunchYourAcademy = () => {
        
       </div>
 
-      {/* <div className="CustomContainer">
-        <div
-          style={{
-            color: "black",
-            textAlign: "center",
-            marginBottom: "50px",
-            fontFamily: "Noto Kufi Arabic",
-            fontWeight: 600,
-            fontSize: "36px",
-          }}
-        >
-          باقاتنا هي قدرات مختلفة للنمو
+      {/* Packages Section */}
+      <div className="CustomContainer" style={{ marginTop: "150px", marginBottom: "150px" }}>
+        <div className={Style.WhoText} style={{ textAlign: "center", marginBottom: "80px" }}>
+          <h2>
+            باقاتنا المصممة <span>لنجاحك</span>
+          </h2>
+          <p className="fs-6 fw-medium text-content--1" style={{ maxWidth: "600px", margin: "0 auto" }}>
+            اختر الباقة التي تناسب احتياجاتك وابدأ رحلتك في التعليم الرقمي
+          </p>
         </div>
-        <div className="d-flex justify-content-center">
-          <div className={`${Style.Swithcer} swithcer---1`}>
-            <span
-              className={Style.marker}
-              style={active ? { transform: "translateX(-100%" } : {}}
-            ></span>
-            <div className={active == 0 ? Style.acitve : ""} onClick={() => setActive(0)}>
-              سنوي
+        
+        <div className="row justify-content-center">
+          {/* Free Package */}
+          <div className="col-lg-5 col-md-6 col-12 mt-4">
+            <div className={Style.GoalCard} style={{
+              background: "white",
+              borderRadius: "15px",
+              padding: "40px 30px",
+              height: "100%",
+              border: "1px solid #e8ecf4",
+              position: "relative",
+              transition: "all 0.3s ease"
+            }}>
+              <div className="d-flex justify-content-between align-items-center mb-3">
+                <div style={{ 
+                  background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)", 
+                  padding: "8px 16px", 
+                  borderRadius: "25px", 
+                  color: "white",
+                  fontSize: "12px",
+                  fontWeight: "600"
+                }}>
+                  الباقة المجانية
+                </div>
+                <div style={{
+                  background: "#f8f9fa",
+                  borderRadius: "50%",
+                  width: "40px",
+                  height: "40px",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center"
+                }}>
+                  <span style={{ fontSize: "20px" }}>🆓</span>
+                </div>
+              </div>
+              
+              <h2 className="fs-4 fw-bold title-text--1 mb-3">
+                ابدأ مجاناً
+              </h2>
+              
+              <p className="fs-6 fw-medium text-content--1 mb-4">
+                عمولة 10% من كل دورة تدريبية
+              </p>
+
+              <div className="mb-4">
+                {[
+                  "إضافة مدربين بلا حدود",
+                  "إضافة دورات تدريبية",
+                  "تخصيص صفحتك الشخصية",
+                  "عدد طلاب لا محدود",
+                  "دعم فني 24/7",
+                  "قوالب جاهزة للأكاديمية"
+                ].map((feature, index) => (
+                  <div key={index} className="d-flex align-items-center mb-3">
+                    <div style={{
+                      width: "18px",
+                      height: "18px",
+                      backgroundColor: "#28a745",
+                      borderRadius: "50%",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      marginLeft: "12px",
+                      flexShrink: 0
+                    }}>
+                      <span style={{ color: "white", fontSize: "10px", fontWeight: "bold" }}>✓</span>
+                    </div>
+                    <span className="fs-6 fw-medium text-content--1">{feature}</span>
+                  </div>
+                ))}
+              </div>
+
+              <button
+                onClick={() => navigate("/signin")}
+                className={`${Style.Primary}`}
+                style={{
+                  width: "100%",
+                  padding: "12px 20px",
+                  border: "none",
+                  borderRadius: "8px",
+                  fontSize: "16px",
+                  fontWeight: "600",
+                  cursor: "pointer",
+                  transition: "all 0.3s ease"
+                }}
+              >
+                ابدأ مجاناً الآن
+              </button>
             </div>
-            <div className={active == 1 ? Style.acitve : ""} onClick={() => setActive(1)}>
-              شهري
+          </div>
+
+          {/* Coming Soon Package */}
+          <div className="col-lg-5 col-md-6 col-12 mt-4">
+            <div className={Style.GoalCard} style={{
+              background: "linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%)",
+              borderRadius: "15px",
+              padding: "40px 30px",
+              height: "100%",
+              border: "2px dashed #6c757d",
+              position: "relative",
+              opacity: "0.8"
+            }}>
+              <div className="d-flex justify-content-between align-items-center mb-3">
+                <div style={{ 
+                  background: "#6c757d", 
+                  padding: "8px 16px", 
+                  borderRadius: "25px", 
+                  color: "white",
+                  fontSize: "12px",
+                  fontWeight: "600"
+                }}>
+                  قادم قريباً
+                </div>
+                <div style={{
+                  background: "#fff",
+                  borderRadius: "50%",
+                  width: "40px",
+                  height: "40px",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  border: "2px solid #6c757d"
+                }}>
+                  <span style={{ fontSize: "20px" }}>🚀</span>
+                </div>
+              </div>
+              
+              <h2 className="fs-4 fw-bold title-text--1 mb-3" style={{ color: "#6c757d" }}>
+                الباقة المتقدمة
+              </h2>
+              
+              <p className="fs-6 fw-medium text-content--1 mb-4" style={{ color: "#6c757d" }}>
+                مميزات احترافية للأكاديميات المتقدمة
+              </p>
+
+              <div className="mb-4">
+                {[
+                  "جميع مميزات الباقة المجانية",
+                  "دورات مباشرة ومتزامنة",
+                  "جلسات فردية مع الطلاب",
+                  "إضافة مدونات تعليمية",
+                  "إضافة منتجات رقمية",
+                  "إحصائيات تفصيلية متقدمة",
+                  "أدوات تسويق متطورة",
+                  "شهادات مخصصة"
+                ].map((feature, index) => (
+                  <div key={index} className="d-flex align-items-center mb-3">
+                    <div style={{
+                      width: "18px",
+                      height: "18px",
+                      backgroundColor: "#6c757d",
+                      borderRadius: "50%",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      marginLeft: "12px",
+                      flexShrink: 0
+                    }}>
+                      <span style={{ color: "white", fontSize: "10px", fontWeight: "bold" }}>✓</span>
+                    </div>
+                    <span className="fs-6 fw-medium" style={{ color: "#6c757d" }}>{feature}</span>
+                  </div>
+                ))}
+              </div>
+
+              <button
+                disabled
+                style={{
+                  width: "100%",
+                  padding: "12px 20px",
+                  backgroundColor: "transparent",
+                  color: "#6c757d",
+                  border: "2px dashed #6c757d",
+                  borderRadius: "8px",
+                  fontSize: "16px",
+                  fontWeight: "600",
+                  cursor: "not-allowed"
+                }}
+              >
+                قادم قريباً
+              </button>
             </div>
           </div>
         </div>
-        <Swiper
-          modules={[Navigation, Pagination, Scrollbar, A11y, Autoplay]}
-          loop={true}
-          autoplay={{ delay: 2000, disableOnInteraction: false, pauseOnMouseEnter: true }}
-          pagination={{ el: ".swiper-pagination", enabled: true }}
-          spaceBetween={15}
-          breakpoints={{
-            768: { slidesPerView: 1 },
-            1200: {
-              slidesPerView: 3,
-              pagination: {
-                dynamicBullets: true,
-                el: ".swiper-pagination",
-                enabled: false,
-              },
-            },
-          }}
-          style={{ marginBottom: "300px" }}
-        >
-          {isLoading ? (
-            <MainSpinner />
-          ) : (
-            packages.data && (
-              <SwiperSlide
-                className="d-flex justify-content-between"
-                style={{ marginRight: "38px" }}
-              >
-                <ShowPackages packages={packages.data} />
-                <ShowPackages packages={packages.data} />
-                <ShowPackages packages={packages.data} />
-              </SwiperSlide>
-            )
-          )}
-        </Swiper>
-      </div> */}
+      </div>
 
       <FAQ />
       <Footer />

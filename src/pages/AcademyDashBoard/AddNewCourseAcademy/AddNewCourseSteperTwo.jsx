@@ -1,6 +1,28 @@
 import React, { useRef, useEffect, useState } from "react";
 import { Formik, Form, Field, useFormik } from "formik";
 import * as Yup from "yup";
+import { motion, AnimatePresence } from "framer-motion";
+import { 
+  FiVideo, 
+  FiUsers, 
+  FiEdit3, 
+  FiFileText, 
+  FiPlus,
+  FiEye,
+  FiLayers,
+  FiClock,
+  FiTrendingUp,
+  FiEdit,
+  FiTrash2,
+  FiSettings,
+  FiBook,
+  FiPlayCircle,
+  FiX,
+  FiCheck
+} from "react-icons/fi";
+import { Spinner } from "react-bootstrap";
+import toast from "react-hot-toast";
+
 import videotype from "../../../assets/icons/videotype.png";
 import examtype from "../../../assets/icons/examtype.png";
 import style from "./AddNewCourse.module.css";
@@ -26,156 +48,251 @@ import { formatLongText } from "../../../utils/helpers";
 const validationSchema = Yup.object().shape({
   title: Yup.string().required("العنوان مطلوب"),
   content: Yup.string().required("الوصف مطلوب"),
-  video: Yup.string().required("الفديو الخاص بالدرس مطلوب"),
+  video: Yup.string().required("الفيديو الخاص بالدرس مطلوب"),
 });
 
-function AddNewCourseSteperTwo() {
-  const { courseId, categoryId } = useParams();
-  const [CatFunctionalty, setCatFunctionalty] = useState([]);
-  const [addNewLesson, setAddNewLesson] = useState(1);
-  const [CategoryDetails, setCategoryDetails] = useState();
-  const [expanded, setExpanded] = useState(false);
+// Import the real Curriculum component and its forms
+import Curriculum from "../course/manage/components/curriculum/index.jsx";
+// Removed imports for forms that are now handled by modals:
+// import ChapterForm from "../course/manage/components/curriculum/ChapterForm.jsx";
+// import LessonForm from "../course/manage/components/curriculum/LessonForm.jsx";
+// import AddNewExam from "../course/manage/components/curriculum/AddNewExam.jsx";
+// Placeholder for other forms if needed, e.g., for interactive tools
+// import AddFlippingCardForm from "../course/manage/components/curriculum/AddFlippingCardForm.jsx"; 
+// import AddHiddenCardsForm from "../course/manage/components/curriculum/AddHiddenCardsForm.jsx";
 
-  const handleChange = (panel) => (event, isExpanded) => {
-    setExpanded(isExpanded ? panel : false);
+// Sample data structure - this will eventually be replaced by fetched course data
+const initialCourseData = {
+  id: "sampleCourse123", // Added for context
+  title: "دورة تطوير الويب الشاملة",
+  chapters: [
+    {
+      id: "chapter1", // Changed to string ID for consistency
+      title: "الفصل الأول: مقدمة",
+      lessons: [
+        { id: "lesson1a", type: "video", title: "درس تقديمي", video: { title: "مقدمة المادة" } },
+        { id: "lesson1b", type: "exam", title: "اختبار تقييمي" }
+      ]
+    },
+    {
+      id: "chapter2", // Changed to string ID
+      title: "الفصل الثاني: التطبيق العملي",
+      lessons: [
+        { id: "lesson2a", type: "video", title: "التطبيق الأول", video: { title: "بناء التطبيق" } }
+      ]
+    }
+  ]
+};
+
+function AddNewCourseSteperTwo() {
+  const { courseId: routeCourseIdFromParams } = useParams(); 
+  const [courseData, setCourseData] = useState(initialCourseData); 
+
+  const [activeSection, setActiveSection] = useState("curriculum"); 
+
+  // TODO: useEffect to fetch real course data based on routeCourseIdFromParams and setCourseData
+  // For now, if routeCourseIdFromParams exists, we can assume it might be used to load data
+  useEffect(() => {
+    if (routeCourseIdFromParams) {
+      console.log("Course ID from route:", routeCourseIdFromParams);
+      // Placeholder: fetch course data using routeCourseIdFromParams
+      // setCourseData(fetchedData);
+      // For now, we ensure the initialCourseData uses a dynamic ID if needed or logs it
+      if (courseData.id !== routeCourseIdFromParams && routeCourseIdFromParams) {
+        // This is a bit simplistic; real data fetching would occur here.
+        // setCourseData(prev => ({ ...prev, id: routeCourseIdFromParams }));
+      }
+    }
+  }, [routeCourseIdFromParams, courseData.id]);
+
+  // This function could be passed to forms if they need to trigger a global data refresh
+  // or forms could dispatch a Redux action.
+  const refreshCourseData = (updatedCourseData) => {
+    console.log("Refreshing course data with:", updatedCourseData);
+    // This is a placeholder. In a real app, you might fetch new data or merge updates.
+    setCourseData(updatedCourseData || initialCourseData); // or fetch based on courseData.id
+    // toast.success("تم تحديث بيانات الدورة!");
   };
 
+  const sidebarButtons = [
+    {
+      id: "course-info",
+      icon: <FiSettings />,
+      label: "معلومات المادة",
+      description: "تعديل بيانات المادة الأساسية",
+      color: "#0062ff"
+    },
+    {
+      id: "curriculum", 
+      icon: <FiBook />,
+      label: "المقرر",
+      description: "إدارة فصول ودروس المادة",
+      color: "#29e088"
+    }
+  ];
+
+  // Ensure the Curriculum component receives the correct course structure.
+  const currentCourseForCurriculum = courseData || { id: routeCourseIdFromParams || initialCourseData.id, chapters: [] };
+
   return (
-    <div className={style.mainSec}>
-      <div className={style.container}>
-        <div className={`${style.sidexld} d-flex`}>
-          <div className={style.sideBarNav}>
-            <div className={`${style.sideup} d-flex flex-column`}>
-              <div className="d-flex align-items-center justify-content-between ">
-                <div className={`${style.iconTextNotCursor} disabled`}>
-                  <img src={vact1} alt="icon" />
-                  <p className="text-nowrap text-center">اضافة فيديو </p>
-                </div>
-                <ButtonSoon>قريبا</ButtonSoon>
-              </div>
-
-              <div className="d-flex align-items-center justify-content-between ">
-                <div className={`${style.iconTextNotCursor} disabled`}>
-                  <img src={vact2} alt="icon" />
-                  <p className="text-nowrap text-center">اضافة اداة تفاعلية</p>
-                </div>
-                <ButtonSoon>قريبا</ButtonSoon>
-              </div>
-
-              <div className="d-flex align-items-center justify-content-between ">
-                <div className={style.iconText} onClick={() => setAddNewLesson(2)}>
-                  <img src={vact3} alt="icon" />
-                  <p>اضافة اختبار</p>
-                </div>
-              </div>
-            </div>
-
-            <div className={style.sidedown}>
-              <div className="d-flex align-items-center justify-content-between ">
-                <div className={style.iconText} onClick={() => setAddNewLesson(1)}>
-                  <img src={vact4} alt="icon" />
-                  <p>اضافة درس</p>
-                </div>
-              </div>
-              <div className="d-flex align-items-center justify-content-between">
-                <div
-                  className={style.iconTextNotCursor}
-                  // onClick={() => setAddNewLesson(0)}
+    <div className={style.mainSec}> {/* Ensure style.mainSec is defined in your CSS module */}
+      <div style={{ 
+        display: 'flex', 
+        gap: '20px', 
+        minHeight: 'calc(100vh - 100px)',
+        padding: '20px'
+      }}>
+        
+        {/* Right Column - Navigation */}
+        <div style={{
+          flex: '0 0 280px',
+          minWidth: '280px'
+        }}>
+          <div style={{
+            background: 'white',
+            borderRadius: '12px',
+            padding: '20px',
+            boxShadow: '0 4px 12px rgba(0,0,0,0.08)', // Softer shadow
+            border: '1px solid #e2e8f0',
+            height: '100%' // Make it full height of the row
+          }}>
+            <h6 style={{ 
+              color: '#0062ff', 
+              fontWeight: 'bold', 
+              marginBottom: '20px',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+              fontSize: '18px' // Slightly larger heading
+            }}>
+              <FiLayers size={20}/>
+              إدارة المادة
+            </h6>
+            
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+              {sidebarButtons.map((button) => (
+                <button
+                  key={button.id}
+                  className={`btn w-100 ${
+                    activeSection === button.id ? 'btn-primary' : 'btn-outline-primary'
+                  }`}
+                  onClick={() => setActiveSection(button.id)}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '12px',
+                    padding: '15px',
+                    borderRadius: '10px', // Slightly more rounded
+                    textAlign: 'right',
+                    border: activeSection === button.id ? `2px solid ${button.color}` : '2px solid #e2e8f0',
+                    transition: 'all 0.3s ease' // Smooth transition
+                  }}
                 >
-                  <img src={vact5} alt="icon" />
-                  <p>اضافة فصل جديد</p>
-                </div>
-                <ButtonSoon>قريبا</ButtonSoon>
-              </div>
-            </div>
-          </div>
-          <div className={style.sideSecLap}>
-            {CatFunctionalty?.data?.categories?.map((e, i) => (
-              <Accordion
-                style={{
-                  padding: "10px",
-                  margin: "10px",
-                }}
-                onClick={() => {
-                  setCategoryDetails(e);
-                  setAddNewLesson(2);
-                }}
-                key={i}
-                expanded={expanded === `panel${i}`}
-                onChange={handleChange(`panel${i}`)}
-              >
-                <AccordionSummary aria-controls="panel1d-content" id="panel1d-header">
-                  <p
-                    style={{
-                      fontSize: "16px",
-                      color: "#292D32",
-                      fontWeight: "600",
-                    }}
-                    className="fs-6 fw-bold  title-text--1"
-                  >
-                    {formatLongText(e.title, 10)}
-                  </p>
-                </AccordionSummary>
-                <AccordionDetails>
-                  <div
-                    style={{
-                      fontSize: "14px",
-                      color: "#585C61",
-                      fontWeight: "400",
-                      padding: "10px !important",
-                      margin: "10px !important",
-                      backgroundColor: "red !important",
-                    }}
-                    className="fs-6 fw-medium text-content--1"
-                  >
-                    {e.lessons.map((lesson, index) => (
-                      <div
-                        className={style.lessons}
-                        key={index}
-                        onClick={(ed) => {
-                          console.log(ed);
-                        }}
-                      >
-                        <img
-                          src={lesson.type === "video" ? videotype : examtype}
-                          alt="lesson type"
-                        />
-                        {lesson?.video?.title}
-                      </div>
-                    ))}
+                  <div style={{ 
+                    width: '36px', 
+                    height: '36px', 
+                    borderRadius: '8px', // Squarish icon background
+                    backgroundColor: activeSection === button.id ? button.color : `${button.color}20`, // Use color with alpha
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    transition: 'all 0.3s ease'
+                  }}>
+                    {React.cloneElement(button.icon, { 
+                      size: 18, // Slightly larger icon
+                      color: activeSection === button.id ? 'white' : button.color 
+                    })}
                   </div>
-                </AccordionDetails>
-              </Accordion>
-            ))}
+                  <div style={{ flexGrow: 1, textAlign: 'right' }}>
+                    <div style={{ 
+                      fontWeight: 'bold',
+                      color: activeSection === button.id ? 'white' : '#333' // Darker text for inactive
+                    }}>
+                      {button.label}
+                    </div>
+                    <small style={{ 
+                      color: activeSection === button.id ? 'rgba(255,255,255,0.85)' : '#718096'
+                    }}>
+                      {button.description}
+                    </small>
+                  </div>
+                </button>
+              ))}
+            </div>
           </div>
         </div>
-        {addNewLesson === 0 ? (
-          <AddNewChapter CategoryID={courseId} CourseID={categoryId} />
-        ) : addNewLesson === 3 ? (
-          <div className={style.categoryShow}>
-            <h4 className="mb-4">عرض بيانات القسم</h4>
-            <span></span>
-            <p>العنوان : </p>
-            <h4 className="mb-4">{CategoryDetails?.title}</h4>
-            <p>الوصف : </p>
-            <h4 className="mb-4">{CategoryDetails?.content}</h4>
-            <p>الصورة : </p>
-            <div className={style.catImage}>
-              <img src={CategoryDetails?.image} alt="" />
+
+        {/* Middle Column - Content */}
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <div style={{
+            background: 'white',
+            borderRadius: '12px',
+            boxShadow: '0 4px 12px rgba(0,0,0,0.08)',
+            border: '1px solid #e2e8f0',
+            height: '100%',
+            display: 'flex',
+            flexDirection: 'column'
+          }}>
+            {/* Header */}
+            <div style={{ 
+              borderBottom: '1px solid #e2e8f0', 
+              padding: '20px', 
+              display: 'flex', 
+              alignItems: 'center', 
+              justifyContent: 'space-between' 
+            }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                <div style={{ 
+                  width: '48px', 
+                  height: '48px', 
+                  borderRadius: '12px',
+                  backgroundColor: activeSection === "curriculum" ? `${sidebarButtons.find(b => b.id === "curriculum").color}20` : `${sidebarButtons.find(b => b.id === "course-info").color}20`,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center'
+                }}>
+                  {activeSection === "course-info" ? <FiSettings color={sidebarButtons.find(b=>b.id==="course-info").color} size={24} /> : <FiBook color={sidebarButtons.find(b=>b.id==="curriculum").color} size={24}/>}
+                </div>
+                <div>
+                  <h5 style={{ margin: 0, color: '#1a202c', fontWeight: 'bold', fontSize: '20px' }}>
+                    {activeSection === "course-info" ? "معلومات المادة التدريبية" : "فصول ودروس المادة"}
+                  </h5>
+                  <p style={{ margin: 0, color: '#718096', fontSize: '14px' }}>
+                    {activeSection === "course-info" ? "قم بتعديل البيانات الأساسية للدورة" : "إدارة المحتوى التعليمي"}
+                  </p>
+                </div>
+              </div>
+              {/* Add Action Button if needed, e.g., a global "Save Course" button */}
             </div>
-            <p>عدد الدروس : </p>
-            <h4 className="mb-4">{CategoryDetails?.lessons.length}</h4>
-            <button className={`${style.saveBtnTwo} fs-6 mt-1`} onClick={() => setAddNewLesson(1)}>
-              اضافة درس جديد
-            </button>
+
+            {/* Content Area */}
+            <div style={{ 
+              padding: '20px', 
+              flexGrow: 1,
+              overflowY: 'auto' 
+            }}>
+              {activeSection === "course-info" && (
+                <div style={{ textAlign: 'center', padding: '60px 20px', color: '#718096' }}>
+                  <FiSettings size={64} color="#0062ff" style={{ marginBottom: '16px' }} />
+                  <h5 style={{ color: '#0062ff', marginBottom: '12px' }}>معلومات المادة التدريبية</h5>
+                  <p style={{ marginBottom: '24px' }}>
+                    سيتم عرض نموذج تعديل معلومات المادة هنا قريباً.
+                  </p>
+                  <button className="btn btn-primary" onClick={() => toast.info("نموذج معلومات المادة قيد التطوير")}>
+                    <FiEdit style={{ marginRight: '8px' }} />
+                    تعديل معلومات المادة (قيد الإنشاء)
+                  </button>
+                </div>
+              )}
+              {activeSection === "curriculum" && (
+                 <Curriculum 
+                    course={currentCourseForCurriculum}
+                 />
+              )}
+            </div>
           </div>
-        ) : addNewLesson === 1 ? (
-          <AddNewLesson CategoryID={courseId} CourseID={categoryId} />
-        ) : addNewLesson === 2 ? (
-          <AddNewExam CategoryID={courseId} CourseID={categoryId} />
-        ) : (
-          <div>test fucking this shit</div>
-        )}
+        </div>
+
       </div>
     </div>
   );

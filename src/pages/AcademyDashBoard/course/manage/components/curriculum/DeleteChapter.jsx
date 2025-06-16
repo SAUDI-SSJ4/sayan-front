@@ -33,7 +33,13 @@ export default function DeleteChapter({ chapterId, courseId }) {
   return (
     <Button
       variant="text"
-      onClick={() => handleDelete(chapterId)}
+      type="button"
+      form="none"
+      onClick={(e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        handleDelete(chapterId);
+      }}
       className="text-danger !min-w-10"
     >
       <Trash2 size={16} />

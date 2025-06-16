@@ -3,7 +3,7 @@ User-agent: *
 Allow: /
 
 # Sitemap location
-Sitemap: https://sayan.sa/sitemap.xml
+Sitemap: https://sayan.pro/sitemap.xml
 
 # Disallow admin and private routes
 Disallow: /admin/

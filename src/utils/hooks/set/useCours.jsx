@@ -6,8 +6,8 @@ const { success, error } = useToast()
 
 
 export const useSetCourseMutation = () => {
-    const successMessage = "تم إضافة الدورة التعليمية";
-    const errorMessage = "حدث خطأ أثناء إضافة الدورة ";
+    const successMessage = "تم إضافة المادة التعليمية";
+    const errorMessage = "حدث خطأ أثناء إضافة المادة ";
     const queryClient = useQueryClient();
   
     return useMutation({
@@ -15,7 +15,7 @@ export const useSetCourseMutation = () => {
       onSuccess: ({data}) => {
         console.log(data);
         queryClient.refetchQueries({ queryKey: ["studentCourses"] });
-        success('تم إضافة الدورة بنجاح')
+        success('تم إضافة المادة بنجاح')
       },
       onError: ({ response }) => {
         if (response.data?.errors) {

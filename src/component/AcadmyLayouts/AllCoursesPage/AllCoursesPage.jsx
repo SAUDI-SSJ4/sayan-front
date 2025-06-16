@@ -1,7 +1,7 @@
 import AcademyHeaderContainer from "../AcademyHeaderContainer/AcademyHeaderContainer";
 import SearchIcon from "@mui/icons-material/Search";
 
-import AcademyFooter from "../Footer/Footer";
+import AcademyFooter from "../../MainPages/Footer/Footer";
 import SubjectCard from "../SubjectCard/SubjectCard";
 const AllCoursesPage = () => {
   return (

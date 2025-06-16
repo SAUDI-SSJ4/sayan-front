@@ -200,7 +200,7 @@ const PaymentSuccess = () => {
             total_amount: 'تم الدفع بنجاح',
             payment_date: new Date().toISOString()
           });
-          setError('تم تأكيد الدفع، ولكن قد يستغرق ظهور الدورات بعض الوقت');
+          setError('تم تأكيد الدفع، ولكن قد يستغرق ظهور المواد التعليمية بعض الوقت');
           
           // إفراغ السلة
           if (!cartCleared) {
@@ -279,7 +279,7 @@ const PaymentSuccess = () => {
                 className={classes.primaryButton}
                 onClick={() => navigate('/student/TrainingCourses')}
               >
-                عرض دوراتي
+                عرض موادي التعليمية
               </button>
               <button
                 className={classes.secondaryButton}

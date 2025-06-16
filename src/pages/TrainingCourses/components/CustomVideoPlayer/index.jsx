@@ -2,7 +2,6 @@ import React, { useState, useRef, useEffect } from 'react';
 import classes from './CustomVideoPlayer.module.scss';
 import { FaExpand, FaPause, FaPlay, FaVolumeMute, FaVolumeUp } from 'react-icons/fa';
 import Cookies from 'js-cookie';
-import { apiCall } from '../../../../utils/auth';
 
 const BASE_URL = "https://www.sayan-server.com";
 
@@ -14,54 +13,33 @@ const CustomVideoPlayer = ({ video }) => {
   const [currentTime, setCurrentTime] = useState('0:00');
   const [duration, setDuration] = useState('0:00');
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
   const videoRef = useRef(null);
 
   // Load video with authentication
   useEffect(() => {
     const loadVideo = async () => {
-      console.log('CustomVideoPlayer: video prop received:', video);
-      if (!video) {
-        console.log('CustomVideoPlayer: No video ID provided');
-        return;
-      }
-      
+      if (!video) return;
+
       const token = Cookies.get("student_token");
-      console.log('CustomVideoPlayer: Token found:', !!token);
       if (!token) {
-        console.error('No authentication token found');
+        setError('لا يوجد رمز مصادقة');
         return;
       }
 
       setLoading(true);
-      console.log('CustomVideoPlayer: Starting video load for ID:', video);
-      
+      setError(null);
+
       try {
         const videoUrl = `${BASE_URL}/website/videos/${video}/stream`;
-        console.log('CustomVideoPlayer: Checking video URL:', videoUrl);
+        const authenticatedUrl = `${videoUrl}?token=${encodeURIComponent(token)}&t=${Date.now()}`;
         
-        // استخدام apiCall للتحقق من الوصول للفيديو
-        const response = await apiCall(videoUrl, {
-          method: 'HEAD'
-        });
-
-        console.log('CustomVideoPlayer: HEAD response status:', response.status);
-
-        if (response.ok) {
-          // Use token as query parameter for video streaming
-          const authenticatedUrl = `${videoUrl}?token=${encodeURIComponent(token)}`;
-          console.log('CustomVideoPlayer: Setting video src to:', authenticatedUrl);
-          
-          if (videoRef.current) {
-            videoRef.current.src = authenticatedUrl;
-            console.log('CustomVideoPlayer: Video src set successfully');
-          } else {
-            console.error('CustomVideoPlayer: videoRef.current is null');
-          }
-        } else {
-          console.error('Failed to access video:', response.status, response.statusText);
+        if (videoRef.current) {
+          videoRef.current.src = authenticatedUrl;
         }
       } catch (error) {
         console.error('Error loading video:', error);
+        setError('حدث خطأ في تحميل الفيديو');
       } finally {
         setLoading(false);
       }
@@ -196,6 +174,21 @@ const CustomVideoPlayer = ({ video }) => {
     return <div className="text-center p-4">لا يتوفر فيديو لهذا الدرس.</div>;
   }
 
+  if (error) {
+    return (
+      <div className="text-center p-4" style={{ background: '#fff3cd', border: '1px solid #ffeaa7', borderRadius: '8px' }}>
+        <h5 style={{ color: '#856404' }}>تحذير أمني</h5>
+        <p style={{ color: '#856404', margin: 0 }}>{error}</p>
+        <button 
+          className="btn btn-warning mt-2" 
+          onClick={() => window.location.reload()}
+        >
+          إعادة المحاولة
+        </button>
+      </div>
+    );
+  }
+
   return (
     <div className={classes.videoWrapper} dir="rtl">
       <div className={classes.customVideoPlayer}>
@@ -210,6 +203,10 @@ const CustomVideoPlayer = ({ video }) => {
           width="100%"
           preload="metadata"
           crossOrigin="anonymous"
+          controlsList="nodownload nofullscreen noremoteplayback"
+          disablePictureInPicture
+          disableRemotePlayback
+          playsInline
         >
           المتصفح الخاص بك لا يدعم عرض الفيديو.
         </video>

@@ -42,8 +42,8 @@ export const useToggleMutation = () => {
 };
 
 export const useCreateCourseMutation = () => {
-  const successMessage = "تم إضافة الدورة التعليمية";
-  const errorMessage = "حدث خطأ أثناء إضافة الدورة ";
+  const successMessage = "تم إضافة المادة التعليمية";
+  const errorMessage = "حدث خطأ أثناء إضافة المادة ";
   const queryClient = useQueryClient();
 
   return useMutation({

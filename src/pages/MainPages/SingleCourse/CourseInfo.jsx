@@ -11,7 +11,7 @@ import {
 from "../../../component/MainPages/FAQ/Accordion";
 import classNames from "classnames";
 
-const MotionCard = ({ children, title, additionalClasses = "" }) => (
+const MotionCard = ({ children, title, additionalClasses = "", academySettings }) => (
   <motion.div
     initial={{ y: 0, opacity: 0 }}
     animate={{ y: 0, opacity: 1 }}
@@ -19,23 +19,28 @@ const MotionCard = ({ children, title, additionalClasses = "" }) => (
     transition={{ duration: 1 }}
     className={classNames(Style.Card, additionalClasses)}
   >
-    <h2 className={classNames(Style.CardTitle, additionalClasses)}>{title}</h2>
+    <h2 
+      className={classNames(Style.CardTitle, additionalClasses)} 
+      style={{ color: academySettings?.primary_color || '#0062ff' }}
+    >
+      {title}
+    </h2>
     {children}
   </motion.div>
 );
 
-export const CourseInfo = ({ courseData, active, expanded, handleChange }) => {
+export const CourseInfo = ({ courseData, active, expanded, handleChange, academySettings }) => {
   const renderContent = () => {
     switch (active) {
       case 0:
         return (
-          <MotionCard title="نظرة عامة:" additionalClasses="">
+          <MotionCard title="نظرة عامة:" additionalClasses="" academySettings={academySettings}>
             <p>{courseData?.course?.content} </p>
           </MotionCard>
         );
       case 1:
         return (
-          <MotionCard title={`عدد الدروس ${courseData?.course?.lessons_count}`} additionalClasses="lessons">
+          <MotionCard title={`عدد الدروس ${courseData?.course?.lessons_count}`} additionalClasses="lessons" academySettings={academySettings}>
             <div>
               {courseData?.course.categories.map((e, i) => (
                 <Accordion
@@ -48,7 +53,13 @@ export const CourseInfo = ({ courseData, active, expanded, handleChange }) => {
                   </AccordionSummary>
                   <AccordionDetails>
                     <div className="fs-6 fw-medium text-content--1">
-                      {e.lessons.map((lesson, index) => (
+                      {[...e.lessons]
+                        .sort((a, b) => {
+                          const dateA = new Date(a.updated_at || a.created_at || 0);
+                          const dateB = new Date(b.updated_at || b.created_at || 0);
+                          return dateB.getTime() - dateA.getTime();
+                        })
+                        .map((lesson, index) => (
                         <div className={Style.lessons} key={index}>
                           <img
                             src={lesson.type === "video" ? videotype : examtype}
@@ -66,13 +77,13 @@ export const CourseInfo = ({ courseData, active, expanded, handleChange }) => {
         );
       case 2:
         return (
-          <MotionCard title="ماذا سوف تتعلم:" additionalClasses="learn">
+          <MotionCard title="ماذا سوف تتعلم:" additionalClasses="learn" academySettings={academySettings}>
             <p>{courseData?.course.learn}</p>
           </MotionCard>
         );
       case 3:
         return (
-          <MotionCard title="تجربة الطلاب:" additionalClasses="experience">
+          <MotionCard title="تجربة الطلاب:" additionalClasses="experience" academySettings={academySettings}>
             <p>Details about student experiences will go here.</p>
           </MotionCard>
         );

@@ -3,8 +3,10 @@ import { useCart } from "../../../context/CartContext";
 import { useNotification } from "../../../context/NotificationContext";
 import { useNavigate } from "react-router-dom";
 import classes from "./Checkout.module.scss";
-import { RadioGroup, FormControlLabel, Radio } from "@mui/material";
 import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
+import CreditCardIcon from "@mui/icons-material/CreditCard";
+import SecurityIcon from "@mui/icons-material/Security";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import Visa from "../../../assets/icons/payment/visa.svg?react";
 import Paypal from "../../../assets/icons/payment/paypal.svg?react";
 import Mada from "../../../assets/icons/payment/mada.svg?react";
@@ -12,12 +14,14 @@ import ApplePay from "../../../assets/icons/payment/apple-pay.svg?react";
 import axios from "axios";
 import Cookies from "js-cookie";
 
+// URL قاعدة الـ API الصحيح
+const API_BASE_URL = "https://www.sayan-server.com/api/v1";
+
 const Checkout = () => {
   const { cartItems, clearCart } = useCart();
   const { showNotification } = useNotification();
   const navigate = useNavigate();
 
-  const [paymentMethod, setPaymentMethod] = useState("credit");
   const [couponCode, setCouponCode] = useState("");
   const [isProcessing, setIsProcessing] = useState(false);
   const [couponApplied, setCouponApplied] = useState(false);
@@ -29,7 +33,10 @@ const Checkout = () => {
   const calculateSubtotal = () =>
     cartItems.reduce((total, item) => total + item.price, 0);
   const calculateTotal = () =>
-    calculateSubtotal() +  - discountAmount;
+    calculateSubtotal() - discountAmount;
+
+  // التحقق من وجود دورات مجانية
+  const isFreeOrder = () => calculateTotal() === 0;
 
   useEffect(() => {
     // التأكد من وجود عناصر في السلة
@@ -47,10 +54,11 @@ const Checkout = () => {
 
       // استدعاء API للتحقق من الكوبون
       const response = await axios.post(
-        "https://www.sayan-server.com/api/v1/coupons/validate",
+        `${API_BASE_URL}/coupons/validate`,
         { code: couponCode },
         {
           headers: {
+            "Content-Type": "application/json",
             Accept: "application/json",
             Authorization: `Bearer ${Cookies.get("student_token")}`,
           },
@@ -108,22 +116,41 @@ const Checkout = () => {
       setIsProcessing(true);
       setError("");
 
+      const isOrderFree = isFreeOrder();
+      
+      // إضافة logging لتتبع العملية
+      console.log("بدء عملية الطلب:", {
+        isOrderFree,
+        cartItems: cartItems.length,
+        total: calculateTotal(),
+        couponApplied,
+        couponCode
+      });
+      
       showNotification({
         type: "info",
-        title: "جاري معالجة الطلب",
+        title: isOrderFree ? "جاري تسجيل الدورات المجانية..." : "جاري معالجة الطلب...",
         message: "يرجى الانتظار...",
         duration: 2000,
       });
 
-      // إرسال طلب الدفع إلى الباك إند
+      // إعداد بيانات الطلب
+      const requestData = {
+        coupon: couponApplied ? couponCode : null,
+      };
+
+      // إضافة payment_method للطلبات المدفوعة فقط
+      if (!isOrderFree) {
+        requestData.payment_method = "credit";
+      }
+
+      // إرسال طلب الدفع/التسجيل إلى الباك إند
       const response = await axios.post(
-        "https://www.sayan-server.com/api/v1/checkout/process",
-        {
-          coupon: couponApplied ? couponCode : null,
-          payment_method: paymentMethod,
-        },
+        `${API_BASE_URL}/checkout/process`,
+        requestData,
         {
           headers: {
+            "Content-Type": "application/json",
             Accept: "application/json",
             Authorization: `Bearer ${Cookies.get("student_token")}`,
             TheCookie: Cookies.get("cart_id"),
@@ -131,40 +158,80 @@ const Checkout = () => {
         }
       );
 
-      if (response.data.data && response.data.data.redirect_url) {
-        // تخزين بيانات المعاملة للرجوع إليها لاحقًا
-        localStorage.setItem(
-          "transaction_id",
-          response.data.data.transaction_id
-        );
-        localStorage.setItem("invoice_id", response.data.data.invoice_id);
+      // إضافة logging لتتبع الـ response
+      console.log("Checkout Response:", response.data);
 
-        // توجيه المستخدم إلى صفحة الدفع
-        window.location.href = response.data.data.redirect_url;
+      // التحقق من نجاح العملية بطرق مختلفة
+      const isSuccess = response.data?.success || 
+                       response.data?.status === 'success' || 
+                       response.status === 200;
+
+      if (isSuccess) {
+        if (isOrderFree) {
+          // للدورات المجانية - إفراغ السلة وإظهار رسالة نجاح
+          try {
+            clearCart();
+            console.log("تم إفراغ السلة للدورات المجانية");
+          } catch (cartError) {
+            console.warn("خطأ في إفراغ السلة:", cartError);
+          }
+          
+          showNotification({
+            type: "success",
+            title: "تم التسجيل بنجاح! 🎉",
+            message: "تم تسجيلك في الدورات المجانية بنجاح وأصبحت متاحة في حسابك",
+            duration: 4000,
+          });
+          
+          // انتظار قصير قبل التوجيه للتأكد من اكتمال العمليات
+          setTimeout(() => {
+            navigate("/student/TrainingCourses");
+          }, 1500);
+        } else {
+          // للدورات المدفوعة - توجيه لبوابة الدفع
+          if (response.data.data && response.data.data.redirect_url) {
+            // تخزين بيانات المعاملة للرجوع إليها لاحقًا
+            localStorage.setItem(
+              "transaction_id",
+              response.data.data.transaction_id
+            );
+            localStorage.setItem("invoice_id", response.data.data.invoice_id);
+
+            // توجيه المستخدم إلى صفحة الدفع
+            window.location.href = response.data.data.redirect_url;
+          } else {
+            throw new Error("فشل في الحصول على رابط الدفع");
+          }
+        }
       } else {
-        setError("حدث خطأ أثناء معالجة طلب الدفع");
-        showNotification({
-          type: "error",
-          title: "فشل الدفع",
-          message: "حدث خطأ أثناء معالجة طلب الدفع",
-          duration: 3000,
-        });
+        // في حالة عدم نجاح العملية
+        const serverMessage = response.data?.message || 
+                             response.data?.error || 
+                             "فشل في معالجة الطلب";
+        throw new Error(serverMessage);
       }
     } catch (error) {
-      console.error("خطأ في معالجة الدفع:", error);
-      if (error.response && error.response.data.message) {
-        setError(error.response.data.message);
-      } else {
-        setError("حدث خطأ أثناء الاتصال بالخادم");
-      }
-
+      console.error("خطأ في معالجة الطلب:", error);
+      console.error("تفاصيل الخطأ:", {
+        response: error.response?.data,
+        status: error.response?.status,
+        message: error.message
+      });
+      
+      const errorMessage = error.response?.data?.message || 
+                          error.response?.data?.error ||
+                          error.message || 
+                          "حدث خطأ أثناء الاتصال بالخادم";
+      
+      setError(errorMessage);
+      
+      // رسالة خطأ واضحة حسب نوع الطلب
+      const isOrderFree = isFreeOrder();
       showNotification({
         type: "error",
-        title: "فشل في معالجة الدفع",
-        message:
-          error.response?.data?.message ||
-          "حدث خطأ أثناء معالجة طلبك. يرجى المحاولة مرة أخرى.",
-        duration: 3000,
+        title: isOrderFree ? "فشل في تسجيل الدورات المجانية" : "فشل في معالجة الدفع",
+        message: `${errorMessage}. يرجى المحاولة مرة أخرى أو التواصل مع الدعم الفني.`,
+        duration: 5000,
       });
     } finally {
       setIsProcessing(false);
@@ -184,7 +251,7 @@ const Checkout = () => {
             <div className="icon">
               <PeopleAltIcon sx={{ color: "#A3AED0" }} />
             </div>
-            <div style={{ color: "#7E8799" }}> الدفع </div>
+            <div style={{ color: "#7E8799" }}> إتمام الشراء </div>
           </div>
         </div>
       </div>
@@ -203,65 +270,70 @@ const Checkout = () => {
                       <p className={classes.courseSize}>
                         {item.size || "حجم الدورة غير محدد"}
                       </p>
-                      <span>{item.price.toFixed(2)} ر.س.</span>
+                      <span>
+                        {item.price === 0 ? "مجاني" : `${item.price.toFixed(2)} ر.س.`}
+                      </span>
                     </div>
                   </div>
                 ))}
               </div>
             </div>
 
-            <div className={classes.Card}>
-              <h2>طريقة الدفع</h2>
-              <RadioGroup
-                value={paymentMethod}
-                onChange={(e) => setPaymentMethod(e.target.value)}
-                className={classes.paymentMethodsGroup}
-                row
-                sx={{ gap: '20px' }}
-              >
-                {[
-                  { value: "credit", label: "بطاقة ائتمان", icon: <Visa /> },
-                  { value: "mada", label: "مدى", icon: <Mada /> },
-                  { value: "paypal", label: "باي بال", icon: <Paypal /> },
-                  { value: "applePay", label: "آبل باي", icon: <ApplePay /> },
-                ].map(({ value, label, icon }) => (
-                  <FormControlLabel
-                    key={value}
-                    value={value}
-                    control={<Radio />}
-                    sx={{ margin: 0 }}
-                    label={
-                      <div className={classes.paymentOption}>
-                        {icon}
-                        <span>{label}</span>
+            {!isFreeOrder() && (
+              <div className={classes.Card}>
+                <h2>طريقة الدفع</h2>
+                <div className={classes.paymentMethodsGroup}>
+                  <div className={classes.creditCardOption}>
+                    <CreditCardIcon className={classes.paymentIcon} />
+                    <div className={classes.paymentDetails}>
+                      <h3>بطاقة ائتمانية</h3>
+                      <p>ادفع بأمان باستخدام بطاقتك الائتمانية</p>
+                      <div className={classes.supportedCards}>
+                        <Visa />
+                        <span>Visa, Mastercard, American Express</span>
                       </div>
-                    }
-                    className={classes.paymentMethodLabel}
-                    disabled={isProcessing}
-                  />
-                ))}
-              </RadioGroup>
-              <p className={classes.paymentNote}>
-                سيتم تحويلك إلى بوابة الدفع الآمنة عند النقر على زر &quot;متابعة
-                وشراء&quot;
-              </p>
+                    </div>
+                  </div>
+                </div>
+                
+                <div className={classes.securityInfo}>
+                  <SecurityIcon className={classes.securityIcon} />
+                  <span>جميع المدفوعات محمية ومشفرة بتقنية SSL</span>
+                </div>
 
-              <div className={classes.termsSection}>
-                <label className={classes.termsLabel}>
-                  <input
-                    type="checkbox"
-                    checked={termsAccepted}
-                    onChange={(e) => setTermsAccepted(e.target.checked)}
-                  />
-                  <span style={{ fontWeight: 'bold' }}>
-                    أوافق على <a href="/terms">الشروط والأحكام</a> و{" "}
-                    <a href="/policy">سياسة الخصوصية</a>
-                  </span>
-                </label>
+                <p className={classes.paymentNote}>
+                  سيتم تحويلك إلى بوابة الدفع الآمنة عند النقر على زر "إتمام الشراء"
+                </p>
               </div>
+            )}
 
-              {error && <div className={classes.errorMessage}>{error}</div>}
+            {isFreeOrder() && (
+              <div className={classes.Card}>
+                <div className={classes.freeOrderNotice}>
+                  <CheckCircleIcon className={classes.freeIcon} />
+                  <div>
+                    <h3>دورات مجانية</h3>
+                    <p>يمكنك الحصول على هذه الدورات مجانًا بدون دفع</p>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            <div className={classes.termsSection}>
+              <label className={classes.termsLabel}>
+                <input
+                  type="checkbox"
+                  checked={termsAccepted}
+                  onChange={(e) => setTermsAccepted(e.target.checked)}
+                />
+                <span style={{ fontWeight: 'bold' }}>
+                  أوافق على <a href="/privacy-policy">الشروط والأحكام</a> و{" "}
+                  <a href="/privacy-policy">سياسة الخصوصية</a>
+                </span>
+              </label>
             </div>
+
+            {error && <div className={classes.errorMessage}>{error}</div>}
           </div>
 
           <div className="col-lg-4">
@@ -290,37 +362,31 @@ const Checkout = () => {
                 <p>{calculateSubtotal().toFixed(2)} ر.س.</p>
               </div>
 
-            
-
               {discountAmount > 0 && (
-                <>  
                 <div className={`${classes.summaryRow} ${classes.discount}`}>
                   <p>الخصم</p>
                   <p>- {discountAmount.toFixed(2)} ر.س.</p>
                 </div>
+              )}
 
               <div className={`${classes.summaryRow} ${classes.total}`}>
                 <p>المجموع النهائي</p>
-                <p>{calculateTotal().toFixed(2)} ر.س.</p>
+                <p>
+                  {isFreeOrder() ? "مجاني" : `${calculateTotal().toFixed(2)} ر.س.`}
+                </p>
               </div>
-              </>
-
-)}
-
 
               <button
-                className={classes.checkoutButton}
+                className={`${classes.checkoutButton} ${isFreeOrder() ? classes.freeButton : ""}`}
                 onClick={handleCheckout}
                 disabled={isProcessing}
               >
                 {isProcessing
                   ? "جاري المعالجة..."
-                  : `متابعة وشراء ${calculateTotal().toFixed(2)} ر.س.`}
+                  : isFreeOrder()
+                  ? "الحصول على الدورات مجانًا"
+                  : `إتمام الشراء ${calculateTotal().toFixed(2)} ر.س.`}
               </button>
-
-              <div className={classes.securePayment}>
-                <small>الدفع آمن ومشفر عبر بوابة ميسر</small>
-              </div>
             </div>
           </div>
         </div>

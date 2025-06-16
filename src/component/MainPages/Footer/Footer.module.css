@@ -5,7 +5,6 @@
   flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
-  font-family: "Tajawal", sans-serif !important;
   margin-top: 150px;
   color: white;
 }
@@ -14,17 +13,13 @@
     padding: 47px 30px;
   }
 }
-.FooterContainer h2 {
-  font-family: "Tajawal", sans-serif !important;
-}
+
 @media (max-width: 1002px) {
   .FooterContainer h2 {
     margin-top: 30px;
   }
 }
-.FooterContainer p {
-  font-family: "Tajawal", sans-serif !important;
-}
+
 
 .CopyRight {
   text-align: center;
@@ -33,7 +28,6 @@
   padding-block: 32px;
   text-align: center;
   color: white;
-  font-family: "Tajawal", sans-serif !important;
 }
 
 .Socials img {

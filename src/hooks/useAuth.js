@@ -10,10 +10,11 @@ export const useAuth = () => {
   const checkAuth = useCallback(async () => {
     setIsLoading(true);
     try {
-      const isValid = await AuthUtils.checkTokenExpiration();
-      setIsAuthenticated(isValid);
+      // فقط نتحقق من وجود التوكن ولا نسجل الخروج تلقائياً
+      const hasToken = AuthUtils.hasToken();
+      setIsAuthenticated(hasToken);
       
-      if (!isValid) {
+      if (!hasToken) {
         setUser(null);
       }
     } catch (error) {
@@ -43,8 +44,9 @@ export const useAuth = () => {
 
     const interval = setInterval(async () => {
       console.log('Performing periodic token validation...');
-      const isValid = await AuthUtils.checkTokenExpiration();
-      if (!isValid) {
+      // فقط نتحقق من وجود التوكن محلياً
+      const hasToken = AuthUtils.hasToken();
+      if (!hasToken) {
         setIsAuthenticated(false);
         setUser(null);
       }

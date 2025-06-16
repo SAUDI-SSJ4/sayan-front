@@ -82,9 +82,6 @@ const SideBar = ({ flag, mobile, setShow, profileData }) => {
 
   return (
     <div className={`${flag ? [classes.active, classes.sideBar].join(" ") : classes.sideBar}`}>
-      <div onClick={() => setShow(false)} className="icon-close-side">
-        اغلاق
-      </div>
 
       <div className={classes.sidebarHeader}>{handleProfileSwitch()}</div>
 

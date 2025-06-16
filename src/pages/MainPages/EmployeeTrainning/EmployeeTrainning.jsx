@@ -109,7 +109,6 @@ const EmployeeTrainning = () => {
         <div className="CustomContainer " style={{ marginTop: "120px" }}>
           <h1
             style={{
-              fontFamily: "Noto Kufi Arabic",
               fontSize: "32px",
               fontWeight: 800,
               textAlign: "center",
@@ -128,7 +127,6 @@ const EmployeeTrainning = () => {
                   style={{
                     color: "black",
                     marginBottom: "20px",
-                    fontFamily: "Noto Kufi Arabic",
                     fontSize: "24px",
                     fontWeight: 800,
                     lineHeight: "32.4px",
@@ -140,7 +138,6 @@ const EmployeeTrainning = () => {
                 <p
                   style={{
                     color: "black",
-                    fontFamily: "Noto Kufi Arabic",
                     fontSize: "18px",
                     fontWeight: 400,
                     lineHeight: "28.8px",
@@ -164,7 +161,6 @@ const EmployeeTrainning = () => {
                   style={{
                     color: "black",
                     marginBottom: "20px",
-                    fontFamily: "Noto Kufi Arabic",
                     fontSize: "24px",
                     fontWeight: 800,
                     lineHeight: "32.4px",
@@ -176,7 +172,6 @@ const EmployeeTrainning = () => {
                 <p
                   style={{
                     color: "black",
-                    fontFamily: "Noto Kufi Arabic",
                     fontSize: "18px",
                     fontWeight: 400,
                     lineHeight: "28.8px",
@@ -199,7 +194,6 @@ const EmployeeTrainning = () => {
             style={{
               color: "#272727",
               marginBottom: "32px",
-              fontFamily: "Noto Kufi Arabic",
               fontSize: "24px",
               fontWeight: 800,
               lineHeight: "43.2px",
@@ -218,7 +212,6 @@ const EmployeeTrainning = () => {
                   style={{
                     color: "black",
                     marginBottom: "20px",
-                    fontFamily: "Noto Kufi Arabic",
                     fontSize: "24px",
                     fontWeight: 800,
                     lineHeight: "32.4px",
@@ -230,7 +223,6 @@ const EmployeeTrainning = () => {
                 <p
                   style={{
                     color: "black",
-                    fontFamily: "Noto Kufi Arabic",
                     fontSize: "18px",
                     fontWeight: 400,
                     lineHeight: "28.8px",
@@ -252,7 +244,6 @@ const EmployeeTrainning = () => {
                   style={{
                     color: "black",
                     marginBottom: "20px",
-                    fontFamily: "Noto Kufi Arabic",
                     fontSize: "24px",
                     fontWeight: 800,
                     lineHeight: "32.4px",
@@ -264,7 +255,6 @@ const EmployeeTrainning = () => {
                 <p
                   style={{
                     color: "black",
-                    fontFamily: "Noto Kufi Arabic",
                     fontSize: "18px",
                     fontWeight: 400,
                     lineHeight: "28.8px",
@@ -292,7 +282,6 @@ const EmployeeTrainning = () => {
                   style={{
                     color: "black",
                     marginBottom: "20px",
-                    fontFamily: "Noto Kufi Arabic",
                     fontSize: "24px",
                     fontWeight: 800,
                     lineHeight: "32.4px",
@@ -304,7 +293,6 @@ const EmployeeTrainning = () => {
                 <p
                   style={{
                     color: "black",
-                    fontFamily: "Noto Kufi Arabic",
                     fontSize: "18px",
                     fontWeight: 400,
                     lineHeight: "28.8px",

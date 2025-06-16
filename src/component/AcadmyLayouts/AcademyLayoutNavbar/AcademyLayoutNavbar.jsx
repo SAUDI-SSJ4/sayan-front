@@ -38,7 +38,7 @@ const AcademyLayoutNavbar = ({
       }
     },
     { 
-      title: "الدورات", 
+      title: "المواد التعليمية", 
       path: "#courses",
       onClick: (e, path) => {
         e.preventDefault();
@@ -87,6 +87,10 @@ const AcademyLayoutNavbar = ({
           <Link
             className={classes.Secondry}
             to={dashboardPath}
+            style={{
+              fontSize: '1rem',
+              fontWeight: '600'
+            }}
           >
             لوحة التحكم
           </Link>
@@ -106,12 +110,20 @@ const AcademyLayoutNavbar = ({
         <Link 
           className={classes.Secondry}
           to="/login"
+          style={{
+            fontSize: '1rem',
+            fontWeight: '600'
+          }}
         >
           دخول
         </Link>
         <Link
           className={`${classes.Primary} button-new-account`}
           to="/signin"
+          style={{
+            fontSize: '1rem',
+            fontWeight: '600'
+          }}
         >
           حساب جديد
         </Link>
@@ -132,9 +144,17 @@ const AcademyLayoutNavbar = ({
     if (user) {
       return (
         <div className="flex flex-col gap-4">
+          {/* Cart Button for Mobile */}
+          <div className="flex justify-center mb-4">
+            <CartButton />
+          </div>
           <Link
             className="w-full px-4 py-2 text-center text-gray-700 hover:text-blue-600 transition-colors rounded-lg border border-gray-200 hover:border-blue-200"
             to={user.academy?.id === profile.id ? "/academy" : `/student/dashboard`}
+            style={{
+              fontSize: '1rem',
+              fontWeight: '600'
+            }}
           >
             لوحة التحكم
           </Link>
@@ -160,15 +180,27 @@ const AcademyLayoutNavbar = ({
 
     return (
       <div className="flex flex-col gap-3">
+        {/* Cart Button for Mobile */}
+        <div className="flex justify-center mb-4">
+          <CartButton />
+        </div>
         <Link 
           className="w-full px-4 py-3 text-center text-gray-700 hover:text-blue-600 transition-colors rounded-lg border border-gray-200 hover:border-blue-200"
           to="/login"
+          style={{
+            fontSize: '1rem',
+            fontWeight: '600'
+          }}
         >
           دخول
         </Link>
         <Link
           className="w-full px-4 py-3 text-center text-white bg-blue-600 hover:bg-blue-700 transition-colors rounded-lg"
           to="/signin"
+          style={{
+            fontSize: '1rem',
+            fontWeight: '600'
+          }}
         >
           حساب جديد
         </Link>
@@ -195,6 +227,10 @@ const AcademyLayoutNavbar = ({
                     href={link.path}
                     className="hover:!text-[#009AFF] duration-200 transition-colors"
                     onClick={(e) => link.onClick(e, link.path)}
+                    style={{
+                      fontSize: '1.1rem',
+                      fontWeight: '600'
+                    }}
                   >
                     {link.title}
                   </a>

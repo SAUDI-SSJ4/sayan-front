@@ -17,7 +17,7 @@ const SingleCertificateComponent = ({classes}) => {
           <div className={classes.PageContainer}>
             <img src={cer} />
         <h3 className="mt-3">
-        شهادة للدورة التدريبية (عنوان الدورة)
+        شهادة للدورة التدريبية (عنوان المادة)
 
         </h3>
         <h2>عنوان الشهادة  </h2>

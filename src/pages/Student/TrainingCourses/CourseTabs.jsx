@@ -11,7 +11,7 @@ export const CourseTabs = () => {
           return isActive ? " tablePage active" : "tablePage";
         }}
       >
-        الدورات (2214)
+        المواد التعليمية (2214)
       </NavLink>
       {/* <NavLink
         to={"/student/TrainingCourses/DirectCourse"}
@@ -19,7 +19,7 @@ export const CourseTabs = () => {
           return isActive ? " tablePage active" : "tablePage";
         }}
       >
-        الدورات المباشرة
+        المواد المباشرة
       </NavLink>
       <NavLink
         to={"/student/TrainingCourses/AffiliateMarketingSetting"}
@@ -27,7 +27,7 @@ export const CourseTabs = () => {
           return isActive ? " tablePage active" : "tablePage";
         }}
       >
-        الدورات الخحضورية
+        المواد الحضورية
       </NavLink> */}
     </ul>
   </div>

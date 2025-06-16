@@ -22,7 +22,6 @@ const PartnerSection = () => {
             style={{
               marginBottom: "55px",
               textAlign: "center",
-              fontFamily: "Noto Kufi Arabic",
               fontWeight: 700,
               fontSize: "32px",
             }}

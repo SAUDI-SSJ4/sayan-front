@@ -9,6 +9,7 @@ import { useToggleMutation } from "../../../../services/mutation";
 import { MdFavoriteBorder, MdFavorite } from "react-icons/md";
 import { GoArrowUpRight } from "react-icons/go";
 import { handleLevels, handleRateStare } from "../../../utils/helpers";
+import SARIcon from "../../../components/SARIcon/SARIcon";
 
 const TrainingCoursesCardContainer = ({ rowData, isLoading }) => {
   // Handles course details redirection
@@ -30,8 +31,8 @@ const TrainingCoursesCardContainer = ({ rowData, isLoading }) => {
       const result = await Swal.fire({
         title: isFavored ? "إزالة من المفضلة" : "الإضافة إلى المفضلة",
         text: isFavored
-          ? "هل تريد إزالة هذه الدورة من المفضلة؟"
-          : "هل تريد إضافة هذه الدورة إلى المفضلة؟",
+          ? "هل تريد إزالة هذه المادة من المفضلة؟"
+          : "هل تريد إضافة هذه المادة إلى المفضلة؟",
         icon: "warning",
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
@@ -99,7 +100,12 @@ const TrainingCoursesCardContainer = ({ rowData, isLoading }) => {
       {
         field: "price",
         headerName: "السعر",
-        valueFormatter: ({ value }) => `ريال ${value.toLocaleString()}`,
+        valueFormatter: ({ value }) => (
+          <span className="d-flex align-items-center">
+            {value.toLocaleString()}
+            <SARIcon />
+          </span>
+        ),
         cellClassRules: {
           "red-cell": ({ value }) => value > 100,
           "blue-cell": ({ value }) => value <= 100,
@@ -107,7 +113,7 @@ const TrainingCoursesCardContainer = ({ rowData, isLoading }) => {
       },
       {
         field: "title",
-        headerName: "اسم الدورة التدريبية",
+        headerName: "اسم المادة التعليمية",
         flex: 3,
       },
     ],

@@ -6,7 +6,14 @@ module.exports = {
     flowbite.content(),
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        'shamel': ['Baloo Bhaijaan 2', 'Noto Kufi Arabic', 'sans-serif'],
+        'baloo': ['Baloo Bhaijaan 2', 'Noto Kufi Arabic', 'sans-serif'],
+        'primary': ['Baloo Bhaijaan 2', 'Noto Kufi Arabic', 'sans-serif'],
+        'sans': ['Baloo Bhaijaan 2', 'Noto Kufi Arabic', 'system-ui', 'sans-serif'],
+      },
+    },
   },
   plugins: [
     flowbite.plugin(),

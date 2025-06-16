@@ -12,6 +12,9 @@ const DigitalProducts = () => {
   const [TableOrNot, setTableOrNot] = useState(false);
   const [checkedKeys, setCheckedKeys] = useState([]);
   const [data, setData] = useState([]);
+  const [digitalProducts, setDigitalProducts] = useState([]); // بيانات المنتجات من API
+  const [isLoading, setIsLoading] = useState(false); // حالة التحميل
+  
   const checkAllHandler = () => {
     setCheckedKeys((perv) => {
       if (
@@ -24,6 +27,7 @@ const DigitalProducts = () => {
       }
     });
   };
+
   return (
     <div className="all-info-top-header main-info-top">
       <div className="TablePageHeader">
@@ -53,7 +57,7 @@ const DigitalProducts = () => {
             key="expanded-content"
             initial={{ y: 10, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
-            exit={{ y: 10, opacity: 0 }} // Exit animation for the first motion.div
+            exit={{ y: 10, opacity: 0 }}
             transition={{ duration: 0.2 }}
           >
             <DigitalProductsTable
@@ -61,6 +65,8 @@ const DigitalProducts = () => {
               setCheckedKeys={setCheckedKeys}
               checkAllHandler={checkAllHandler}
               setData={setData}
+              digitalProducts={digitalProducts}
+              isLoading={isLoading}
             />
           </motion.div>
         ) : (
@@ -71,13 +77,13 @@ const DigitalProducts = () => {
             exit={{ y: -10, opacity: 0 }}
             transition={{ duration: 0.2 }}
           >
-            <>
-              <DigitalProductsCardContainer
-                setData={setData}
-                checkedKeys={checkedKeys}
-                setCheckedKeys={setCheckedKeys}
-              />
-            </>
+            <DigitalProductsCardContainer
+              setData={setData}
+              checkedKeys={checkedKeys}
+              setCheckedKeys={setCheckedKeys}
+              digitalProducts={digitalProducts}
+              isLoading={isLoading}
+            />
           </motion.div>
         )}
       </AnimatePresence>

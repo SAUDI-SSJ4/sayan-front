@@ -10,7 +10,7 @@ const CoursesContainerNew = ({ isLoading, courses }) => {
             {isLoading ? (
                 <div className={styles.loading}>جاري العرض</div>
             ) : courses.length === 0 ? (
-                <div className={styles.noCourses}>لايوجد دورات حالياً</div>
+                <div className={styles.noCourses}>لا توجد مواد تعليمية حالياً</div>
             ) : (
                 <div className={styles.courseGrid}>
                     {courses.map((course) => (

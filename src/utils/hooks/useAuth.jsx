@@ -27,7 +27,7 @@ export function useAuth() {
       loginType === "academy" ? getAuthAcademyProfile() : getStudentProfile(),
     retry: 2,
     enabled: !!token,
-    staleTime: 600000,
+    staleTime: 900000,
     cacheTime: 1000000,
     refetchOnWindowFocus: false,
     refetchOnMount: false,

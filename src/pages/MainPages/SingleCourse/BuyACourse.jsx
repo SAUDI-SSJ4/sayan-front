@@ -72,7 +72,7 @@ const BuyACourse = ({ courseId, setshowBuyCourses }) => {
           </div>
           
           <p className="text-gray-600 text-lg leading-relaxed px-4">
-            لشراء الدورة التدريبية عليك تسجيل الدخول أو إنشاء حساب أولاً.
+            لشراء المادة التدريبية عليك تسجيل الدخول أو إنشاء حساب أولاً.
           </p>
           
           {/* Divider */}

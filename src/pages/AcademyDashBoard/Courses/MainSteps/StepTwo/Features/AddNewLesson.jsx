@@ -42,8 +42,8 @@ function AddNewLesson({ categoryId, courseId }) {
     validationSchema,
     onSubmit: (values, { resetForm }) => {
       Swal.fire({
-        title: "اضافة درس الي الدورة",
-        text: "هل تريد اضافة هذا الدرس الي هذا القسم في هذة الدورة",
+        title: "اضافة درس الي المادة",
+        text: "هل تريد اضافة هذا الدرس الي هذا القسم في هذة المادة",
         icon: "warning",
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
@@ -102,4 +102,4 @@ function AddNewLesson({ categoryId, courseId }) {
   );
 }
 //mutation
-export default AddNewLesson;
+export default AddNewLesson; 

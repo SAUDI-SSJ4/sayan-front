@@ -14,8 +14,12 @@ export const getCourseSchema = (course) =>
     }),
     title: Yup.string().required("العنوان مطلوب"),
     type: Yup.string().required("نوع الدورة مطلوب"),
-    trainer_id: Yup.string().required("المدرب مطلوب"),
-    category_id: Yup.string().required("الفئة مطلوبة"),
+    trainer_id: Yup.string()
+      .required("المدرب مطلوب")
+      .test('not-empty', 'يجب اختيار مدرب صالح', value => value && value !== '' && value !== '0'),
+    category_id: Yup.string()
+      .required("الفئة مطلوبة")
+      .test('not-empty', 'يجب اختيار فئة صالحة', value => value && value !== '' && value !== '0'),
     price: Yup.number()
       .required("السعر مطلوب")
       .min(0, "السعر يجب أن يكون رقم موجب"),
@@ -26,14 +30,18 @@ export const getCourseSchema = (course) =>
     requirments: Yup.string().required("المتطلبات مطلوبة"),
   });
 
-export const getCourseLessonSchema = (lesson) =>
+export const getCourseLessonSchema = (lesson, isInteractiveTool = false) =>
   Yup.object().shape({
     title: Yup.string().required("عنوان الدرس مطلوب"),
-    video: Yup.mixed().when([], {
-      is: () => !lesson,
-      then: (schema) => schema.required("الفيديو مطلوب"),
-      otherwise: (schema) => schema.notRequired(),
-    }),
-    video_title: Yup.string().required("عنوان الفيديو مطلوب"),
-    description: Yup.string().required("وصف الفيديو مطلوب"),
+    video: isInteractiveTool ? 
+      Yup.mixed().notRequired() : 
+      Yup.mixed().when([], {
+        is: () => !lesson,
+        then: (schema) => schema.required("الفيديو مطلوب"),
+        otherwise: (schema) => schema.notRequired(),
+      }),
+    video_title: isInteractiveTool ? 
+      Yup.string().notRequired() : 
+      Yup.string().required("عنوان الفيديو مطلوب"),
+    description: Yup.string().required(isInteractiveTool ? "وصف الدرس مطلوب" : "وصف الفيديو مطلوب"),
   });

@@ -106,7 +106,7 @@ const StudentDashboard = () => {
                     marginBottom: "8px",
                   }}
                 >
-                  دورة تدريبية قادمة
+                  مادة تعليمية قادمة
                 </p>
                 <h2
                   style={{
@@ -116,7 +116,7 @@ const StudentDashboard = () => {
                     lineHeight: "1.2",
                   }}
                 >
-                  عنوان الدورة
+                  عنوان المادة
                 </h2>
               </div>
             </div>

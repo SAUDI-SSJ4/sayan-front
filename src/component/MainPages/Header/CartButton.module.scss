@@ -1,6 +1,7 @@
 .cartButtonContainer {
   position: relative;
   display: inline-block;
+  z-index: 10000;
 }
 
 .cartButton {
@@ -15,6 +16,7 @@
   border-radius: 12px;
   transition: all 0.3s ease;
   color: #272727;
+  z-index: 10000;
 
   &:hover {
     background-color: rgba(0, 98, 255, 0.05);
@@ -117,7 +119,7 @@
   border-radius: 4px;
   font-size: 14px;
   margin-top: 8px;
-  z-index: 1000;
+  z-index: 10001;
   white-space: nowrap;
   animation: fadeIn 0.3s ease-in-out;
 }
@@ -131,6 +133,7 @@
   margin-top: 8px;
   border-radius: 16px !important;
   box-shadow: 0 4px 24px rgba(0, 0, 0, 0.1) !important;
+  z-index: 10001 !important;
 }
 
 .cartPopover {
@@ -144,7 +147,6 @@
     font-size: 20px;
     color: #272727;
     margin-bottom: 16px;
-    font-family: "Noto Kufi Arabic";
     text-align: right;
   }
 
@@ -222,7 +224,6 @@
       font-size: 14px;
       color: #272727;
       margin-bottom: 4px;
-      font-family: "Noto Kufi Arabic";
     }
 
     p {
@@ -276,7 +277,6 @@
     padding: 12px;
     border: none;
     border-radius: 8px;
-    font-family: "Noto Kufi Arabic";
     font-weight: 500;
     cursor: pointer;
     transition: all 0.2s ease;

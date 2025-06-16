@@ -7,6 +7,7 @@ import checkk from "../../../assets/icons/BillCheck.svg";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import Cookies from 'js-cookie';
 
 const AcademyHeader = ({ academy, StudentData }) => {
   const router = useNavigate();
@@ -17,10 +18,34 @@ const AcademyHeader = ({ academy, StudentData }) => {
 useEffect(() => {
   const fetchSales = async () => {
     try {
-      const response = await axios.get('https://www.sayan-server.com/academy/finance/wallet');
-      setSales(response.data);
+      // الحصول على توكن الأكاديمية
+      const academyToken = Cookies.get("academy_token");
+      
+      if (!academyToken) {
+        console.error('لا يوجد توكن أكاديمية');
+        return;
+      }
+
+      const response = await axios.get('https://www.sayan-server.com/academy/finance/wallet', {
+        headers: {
+          'Authorization': `Bearer ${academyToken}`,
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        withCredentials: true
+      });
+      
+      // استخراج balance من الاستجابة إذا كانت موجودة
+      if (response.data && typeof response.data === 'object') {
+        setSales(response.data.balance || 0);
+      } else {
+        setSales(response.data || 0);
+      }
     } catch (error) {
-      console.error('Error fetching sales data:', error);
+      console.error('خطأ في جلب بيانات المبيعات:', error);
+      if (error.response?.status === 401) {
+        console.error('انتهت صلاحية توكن الأكاديمية');
+      }
     }
   };
   fetchSales();

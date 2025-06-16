@@ -66,11 +66,6 @@ export const getStudentCourses = async () => {
   return res.data;
 };
 
-export const getStudentProducts = async () => {
-  const { data: res } = await website_client.get("/myproducts");
-  return res.data;
-};
-
 export const getStudentFavourites = async () => {
   const { data: res } = await website_client.get("/favourites");
   return res.data;

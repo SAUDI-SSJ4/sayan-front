@@ -49,18 +49,19 @@ const CartButton = () => {
   const open = Boolean(anchorEl);
 
   return (
-    <div className={Style.cartButton}>
-      <div
-        className={`${Style.cartIconWrapper} ${
-          isAnimating ? Style.animate : ""
-        }`}
-        onClick={handleClick}
-      >
-        <ShoppingCartOutlinedIcon className={Style.cartIcon} />
-        {cartItemCount > 0 && (
-          <span className={Style.cartCount}>{cartItemCount}</span>
-        )}
-      </div>
+    <div className={Style.cartButtonContainer}>
+      <div className={Style.cartButton}>
+        <div
+          className={`${Style.cartIconWrapper} ${
+            isAnimating ? Style.animate : ""
+          }`}
+          onClick={handleClick}
+        >
+          <ShoppingCartOutlinedIcon className={Style.cartIcon} />
+          {cartItemCount > 0 && (
+            <span className={Style.cartCount}>{cartItemCount}</span>
+          )}
+        </div>
 
       {showPopup && cartItemCount > 0 && (
         <div className={Style.addedPopup}>تمت الإضافة للسلة</div>
@@ -80,6 +81,14 @@ const CartButton = () => {
         }}
         classes={{
           paper: Style.popoverPaper,
+        }}
+        style={{
+          zIndex: 10001
+        }}
+        PaperProps={{
+          style: {
+            zIndex: 10001
+          }
         }}
       >
         <div className={Style.cartPopover}>
@@ -144,6 +153,7 @@ const CartButton = () => {
           )}
         </div>
       </Popover>
+      </div>
     </div>
   );
 };

@@ -103,7 +103,7 @@ const FavoriteCard = ({ course, onRemove }) => {
           }}
           title={course.title}
         >
-          {course.title || "اسم الدورة غير متوفر"}
+          {course.title || "اسم المادة غير متوفر"}
         </Typography>
         {/* الشيبس (الفروقات صغيرة) */}
         <Stack direction="row" spacing={0.7} useFlexGap flexWrap="wrap" sx={{
@@ -140,7 +140,7 @@ const FavoriteCard = ({ course, onRemove }) => {
             {course.price ? `${course.price.toLocaleString()} ر.س` : "مجاني"}
           </Typography>
           <Box sx={{ display: "flex", alignItems: "center", gap: 0.6 }}>
-            <Tooltip title="عرض تفاصيل الدورة" arrow>
+            <Tooltip title="عرض تفاصيل المادة" arrow>
               <IconButton component={Link} to={`/SingleCourse/${course.id}`}
                 size="small"
                 sx={{
@@ -175,7 +175,7 @@ const FavoritesGrid = ({ setData = [], isLoading }) => {
     // إضافة رسالة تأكيد قبل الحذف
     Swal.fire({
       title: 'هل أنت متأكد؟',
-      text: 'هل تريد حذف هذه الدورة من المفضلة؟',
+      text: 'هل تريد حذف هذه المادة من المفضلة؟',
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
@@ -188,7 +188,7 @@ const FavoritesGrid = ({ setData = [], isLoading }) => {
         // إظهار رسالة نجاح بعد الحذف
         Swal.fire(
           'تم الحذف!',
-          'تم حذف الدورة من المفضلة بنجاح.',
+          'تم حذف المادة من المفضلة بنجاح.',
           'success'
         );
       }

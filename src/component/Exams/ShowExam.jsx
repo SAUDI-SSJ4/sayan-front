@@ -23,7 +23,6 @@ const Accordion = styled((props) => (
   border: "1px solid #EDEFF2",
   transition: "0.4s",
   background: "#FFF",
-  fontFamily: "'Readex Pro', sans-serif !important",
   "&:not(:last-child)": {},
   "&:before": {
     display: "none"

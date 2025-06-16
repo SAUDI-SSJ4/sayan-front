@@ -54,7 +54,6 @@ const FaqAI = () => {
         <div className="col-lg-4 col-md-12">
           <h3
             style={{
-              fontFamily: " Noto Kufi Arabic",
               fontSize: "60px",
               fontWeight: 700,
               lineHeight: "72px",

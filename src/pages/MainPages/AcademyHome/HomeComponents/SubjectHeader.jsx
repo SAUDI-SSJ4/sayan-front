@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import Style from "../home.module.scss";
-import { debounce } from "lodash";
+import debounce from "lodash/debounce";
 import { motion } from "framer-motion";
 
 export const SubjectHeader = ({ filterByCourseTitle }) => {

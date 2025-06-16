@@ -14,7 +14,6 @@
   color: #202020;
   min-width: 160px;
   text-align: right;
-  font-family: "Tajawal", sans-serif !important;
   font-size: 20px;
   font-style: normal;
   font-weight: 800;
@@ -46,7 +45,6 @@
   border: 1px solid rgba(0, 0, 0, 0.03);
 }
 .SwieperContainer .SliderCard h2 {
-  font-family: "Tajawal", sans-serif !important;
   color: #2b3674;
   font-size: 28px;
   margin: 0px;
@@ -54,7 +52,6 @@
 .SwieperContainer .SliderCard p {
   color: #636363;
   text-align: right;
-  font-family: "Tajawal", sans-serif !important;
   margin: 0px;
   font-size: 18px;
   font-style: normal;

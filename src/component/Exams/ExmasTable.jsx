@@ -206,7 +206,7 @@ const ExmasTable = ({ acadmey }) => {
               fontWeight: "700",
             }}
           >
-            الدورة التدريبية
+            المادة التعليمية
           </HeaderCell>
           <Cell
             style={{
@@ -216,7 +216,7 @@ const ExmasTable = ({ acadmey }) => {
               justifyContent: "center",
             }}
           >
-            عنوان الدورة
+            عنوان المادة
           </Cell>
         </Column>
         <Column flexGrow={1} minWidth={150}>

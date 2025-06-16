@@ -1,6 +1,6 @@
 import AcademyHeaderContainer from "../AcademyHeaderContainer/AcademyHeaderContainer";
 
-import AcademyFooter from "../Footer/Footer";
+import AcademyFooter from "../../MainPages/Footer/Footer";
 import Phone from "../../../assets/images/fi_597177.png";
 import email from "../../../assets/images/email 1.png";
 import Layer from "../../../assets/images/Layer 2.png";

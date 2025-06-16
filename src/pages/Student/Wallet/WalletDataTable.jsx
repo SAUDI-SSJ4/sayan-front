@@ -52,7 +52,7 @@ function WalletDataTable({ WalletData }) {
     () => [
       {
         field: "id",
-        headerName: "تفاصيل الكورس",
+        headerName: "تفاصيل المادة التعليمية",
         flex: 1,
         cellStyle: { textAlign: "center" },
         cellRenderer: renderCourseDetailsLink,
@@ -102,7 +102,7 @@ function WalletDataTable({ WalletData }) {
       },
       {
         field: "title",
-        headerName: "اسم الدورة التدريبية",
+        headerName: "اسم المادة التعليمية",
         flex: 3,
         cellStyle: { textAlign: "center" },
       },

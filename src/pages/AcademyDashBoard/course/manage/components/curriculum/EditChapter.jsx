@@ -1,49 +1,79 @@
 import * as React from "react";
+import { FiEdit2, FiX } from "react-icons/fi";
+import { Button as MuiButton } from "@mui/material";
 import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
-import { Edit2Icon, XIcon } from "lucide-react";
-import ChapterForm from "./ChapterForm";
 import { Button } from "@mui/material";
+import ChapterForm from "./ChapterForm";
 
 const style = {
   position: "absolute",
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 400,
+  width: 600,
   bgcolor: "background.paper",
+  border: "2px solid #000",
   boxShadow: 24,
   p: 4,
+  borderRadius: "8px",
 };
 
 export default function EditChapter({ chapter, courseId }) {
   const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  
+  const handleEditClick = (e) => {
+    e.stopPropagation();
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   return (
     <>
-      <Button variant="text" className="!min-w-10" onClick={handleOpen}>
-        <Edit2Icon size={16} />
-      </Button>
+      <MuiButton 
+        variant="text" 
+        type="button"
+        form="none"
+        onClick={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          handleEditClick(e);
+        }}
+        sx={{
+          minWidth: 'auto',
+          padding: '8px',
+          borderRadius: '50%',
+          color: '#5a6a85',
+          '&:hover': {
+            backgroundColor: 'rgba(0, 98, 255, 0.08)',
+            color: '#0062ff'
+          }
+        }}
+      >
+        <FiEdit2 size={16} />
+      </MuiButton>
 
       <Modal
         open={open}
         onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
+        aria-labelledby="edit-chapter-modal"
+        aria-describedby="edit-chapter-form"
       >
         <Box sx={style}>
           <div className="flex justify-end">
             <Button
-              variant="light"
+              variant="text"
               onClick={handleClose}
               className="!min-w-fit"
+              sx={{ minWidth: 'auto', padding: '8px' }}
             >
-              <XIcon size={16} />
+              <FiX size={16} />
             </Button>
           </div>
-          <ChapterForm chapter={chapter} courseId={courseId} />
+          <ChapterForm courseId={courseId} chapter={chapter} onClose={handleClose} />
         </Box>
       </Modal>
     </>

@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import Cookies from "js-cookie";
+import SARIcon from "../../../components/SARIcon/SARIcon";
 
 const NewLayout = () => {
   const { id } = useParams();
@@ -36,7 +37,7 @@ const NewLayout = () => {
       axios
         .get("https://www.sayan-server.com/api/v1/academies/courses", {
           headers: {
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${Cookies.get("academy_token")}`,
           },
         })
         .then((res) => res.data)
@@ -254,9 +255,13 @@ const NewLayout = () => {
                     </div>
                   </div>
                   <div className="flex flex-col text-end">
-                    <p className="font-bold">{course.price} ريال</p>
-                    <p className="text-gray-400 line-through">
-                      {(course.price * 1.1).toFixed(2)} ريال
+                    <p className="font-bold d-flex align-items-center">
+                      {course.price}
+                      <SARIcon />
+                    </p>
+                    <p className="text-decoration-line-through text-muted d-flex align-items-center">
+                      {(course.price * 1.1).toFixed(2)}
+                      <SARIcon />
                     </p>
                   </div>
                 </div>

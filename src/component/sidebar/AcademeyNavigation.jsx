@@ -437,21 +437,6 @@ const AcademeyNavigation = ({ setShow, mobile }) => {
           <Badge color="failure">قريباً</Badge>
         </div>
       </div>
-      <div className={`${classes.Bot} gap-3`}>
-        <div className={classes.Icon}>
-          <SmartToyIcon sx={{ fontSize: "35px", color: "white" }} />
-        </div>
-        <div className="main-info-sidebar-bottom">
-          <h2 className="fs-6 fw-bold">
-            مساعدك الذكي !
-            <br />
-            قادم قريبا
-          </h2>
-          <span className="fs-6 fw-medium  button-sidebar-bottom">
-            <KeyboardBackspaceIcon />
-          </span>
-        </div>
-      </div>
     </Fragment>
   );
 };

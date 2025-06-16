@@ -1,7 +1,7 @@
 import React from "react";
 import { Button } from "react-bootstrap";
 import {
-  // editChapter,
+  editChapter,
   postChapter,
 } from "../../../../../../utils/apis/client/academy";
 import { fetchCurrentCourseSummaryThunk } from "../../../../../../../redux/courses/CourseThunk";
@@ -14,7 +14,7 @@ const validationSchema = Yup.object().shape({
   title: Yup.string().required("العنوان مطلوب"),
 });
 
-function ChapterForm({ chapter, courseId }) {
+function ChapterForm({ chapter, courseId, onClose }) {
   const dispatch = useDispatch();
   const { success } = useToast();
 
@@ -35,6 +35,7 @@ function ChapterForm({ chapter, courseId }) {
         if (res.status) {
           success("تم تعديل الفصل بنجاح");
           dispatch(fetchCurrentCourseSummaryThunk(courseId));
+          onClose && onClose();
         }
       } else {
         const res = await postChapter(courseId, {
@@ -44,6 +45,7 @@ function ChapterForm({ chapter, courseId }) {
         if (res.status) {
           success("تم اضافة فصل جديد بنجاح");
           dispatch(fetchCurrentCourseSummaryThunk(courseId));
+          onClose && onClose();
         }
       }
     },

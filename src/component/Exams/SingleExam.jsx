@@ -15,7 +15,7 @@ const SingleExamComponent = ({ classes, academy }) => {
     <div className={`${classes.ExamInfo} card-exam-one`}>
       <div className={classes.PageContainer}>
         <h3 className="fs-5 fw-medium title-text--1">
-          الاختبار الذكي للدورة التدريبية (عنوان الدورة)
+          الاختبار الذكي للدورة التدريبية (عنوان المادة)
         </h3>
         <h2 className="fs-6 fw-medium title-text--1 mt-2">عنوان الاختبار </h2>
         <span className="fs-6 fw-medium text-content--1 mt-2">
@@ -35,7 +35,7 @@ const SingleExamComponent = ({ classes, academy }) => {
           className="text-content--1"
         >
           <CheckCircleIcon sx={{ color: "#0FE8E8" }} /> تم اعداد هذا الاختبار
-          الذكي بناءً على تحليل محتوى الدورة التدريبية
+          الذكي بناءً على تحليل محتوى المادة التعليمية
         </div>
         <div
           style={{

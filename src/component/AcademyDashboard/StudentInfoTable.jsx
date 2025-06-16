@@ -159,7 +159,6 @@ const StudentInfoTable = () => {
     <div style={{ overflowX: "auto" }}>
       <Table
         height={600}
-        style={{ direction: "rtl" }}
         headerHeight={60}
         rowHeight={60}
         data={data}

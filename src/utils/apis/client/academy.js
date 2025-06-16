@@ -1,5 +1,6 @@
 import axios from "axios";
 import { user_token, academy_client } from "../client.config";
+import Cookies from "js-cookie";
 
 academy_client.interceptors.request.use(
   (config) => {
@@ -16,7 +17,7 @@ academy_client.interceptors.request.use(
 export const postRegister = async (data) => {
   const { data: response } = await academy_client.post("/register", data, {
     headers: { "Content-Type": "multipart/form-data" },
-    timeout: 600000,
+    timeout: 900000,
   });
   return response;
 };
@@ -44,7 +45,7 @@ export const getCourseSummary = async (id) => {
     `${baseUrl}/api/v1/academies/courses/${id}`,
     {
       headers: {
-        Authorization: `Bearer ${user_token()}`,
+        Authorization: `Bearer ${Cookies.get("academy_token")}`,
       },
     }
   );
@@ -52,11 +53,15 @@ export const getCourseSummary = async (id) => {
 };
 
 export const postLessonTools = async (lessonId, formData) => {
-  const { data: res } = await academy_client.post(
-    `/lessons/tools/store/${lessonId}`,
+  const baseUrl = new URL(import.meta.env.VITE_SERVER_DEV).origin;
+  const { data } = await axios.post(
+    `${baseUrl}/api/v1/academies/lessons/${lessonId}/tools`,
     formData,
     {
-      headers: { "Content-Type": "multipart/form-data" },
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Authorization: `Bearer ${user_token()}`,
+      },
       onUploadProgress: (progressEvent) => {
         console.log(
           `${Math.round((progressEvent.loaded / progressEvent.total) * 100)}%`
@@ -67,7 +72,35 @@ export const postLessonTools = async (lessonId, formData) => {
       timeout: Infinity,
     }
   );
-  return res;
+  return data;
+};
+
+export const editLessonTools = async (lessonId, toolId, formData) => {
+  const baseUrl = new URL(import.meta.env.VITE_SERVER_DEV).origin;
+  const { data } = await axios.post(
+    `${baseUrl}/api/v1/academies/lessons/${lessonId}/tools/${toolId}`,
+    formData,
+    {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Authorization: `Bearer ${user_token()}`,
+      },
+    }
+  );
+  return data;
+};
+
+export const deleteLessonTools = async (lessonId, toolId) => {
+  const baseUrl = new URL(import.meta.env.VITE_SERVER_DEV).origin;
+  const { data } = await axios.delete(
+    `${baseUrl}/api/v1/academies/lessons/${lessonId}/tools/${toolId}`,
+    {
+      headers: {
+        Authorization: `Bearer ${user_token()}`,
+      },
+    }
+  );
+  return data;
 };
 
 export const postUploadLessonVideo = async (lessonId, formData) => {
@@ -96,29 +129,67 @@ export const postLessonExam = async (lessonId, params) => {
   );
   return res;
 };
-console.log("user_token", user_token());
-export const createCourseAPI = async (data) => {
+
+export const createCourseAPI = async (data, onUploadProgress = null) => {
   const baseUrl = new URL(import.meta.env.VITE_SERVER_DEV).origin;
+  const token = Cookies.get("academy_token");
+  console.log('Creating course with academy token:', token);
+  console.log('Current user token:', user_token());
+  
+  // التأكد من وجود توكن الأكاديمية
+  if (!token) {
+    throw new Error('Academy token is required. Please login to your academy account.');
+  }
+  
+  const config = {
+    headers: {
+      "Content-Type": "multipart/form-data",
+      Authorization: `Bearer ${token}`,
+    },
+    maxContentLength: Infinity,
+    maxBodyLength: Infinity,
+    timeout: Infinity,
+  };
+
+  // إضافة دالة تتبع التقدم إذا تم تمريرها
+  if (onUploadProgress && typeof onUploadProgress === 'function') {
+    config.onUploadProgress = onUploadProgress;
+  }
+  
   const { data: res } = await axios.post(
     `${baseUrl}/api/v1/academies/courses`,
     data,
-    {
-      headers: {
-        "Content-Type": "multipart/form-data",
-        Authorization: `Bearer ${user_token()}`,
-      },
-      onUploadProgress: (progressEvent) => {
-        console.log(
-          `${Math.round((progressEvent.loaded / progressEvent.total) * 100)}%`
-        );
-      },
-      maxContentLength: Infinity,
-      maxBodyLength: Infinity,
-      timeout: 120000,
-    }
+    config
   );
   return res;
 };
+
+export const updateCourseAPI = async (courseId, data, onUploadProgress = null) => {
+  const baseUrl = new URL(import.meta.env.VITE_SERVER_DEV).origin;
+  
+  const config = {
+    headers: {
+      "Content-Type": "multipart/form-data",
+      Authorization: `Bearer ${Cookies.get("academy_token")}`,
+    },
+    maxContentLength: Infinity,
+    maxBodyLength: Infinity,
+    timeout: Infinity,
+  };
+
+  // إضافة دالة تتبع التقدم إذا تم تمريرها
+  if (onUploadProgress && typeof onUploadProgress === 'function') {
+    config.onUploadProgress = onUploadProgress;
+  }
+  
+  const { data: res } = await axios.post(
+    `${baseUrl}/api/v1/academies/courses/${courseId}`,
+    data,
+    config
+  );
+  return res;
+};
+
 export const getAcademyCourses = async (id) => {
   const baseUrl = new URL(import.meta.env.VITE_SERVER_DEV).origin;
 
@@ -134,27 +205,43 @@ export const deleteLessonItem = async (lessonId, params) => {
   return data;
 };
 
-export const postChapter = async (params) => {
+export const postChapter = async (courseId, formData) => {
   const baseURL = new URL(import.meta.env.VITE_SERVER_DEV).origin;
   const { data } = await axios.post(
-    `${baseURL}/api/v1/academies/courses/${params?.courseId}/chapters`,
-    params,
+    `${baseURL}/api/v1/academies/courses/${courseId}/chapters`,
+    formData,
     {
       headers: {
         "Content-Type": "multipart/form-data",
-        Authorization: `Bearer ${user_token()}`,
+        Authorization: `Bearer ${Cookies.get("academy_token")}`,
       },
     }
   );
   return data;
 };
-export const deleteChapter = async (params) => {
+
+export const editChapter = async ({ chapterId, courseId }, formData) => {
   const baseURL = new URL(import.meta.env.VITE_SERVER_DEV).origin;
-  const { data } = await axios.delete(
-    `${baseURL}/api/v1/academies/courses/${params.courseId}/chapters/${params.chapterId}`,
+  const { data } = await axios.post(
+    `${baseURL}/api/v1/academies/courses/${courseId}/chapters/${chapterId}`,
+    formData,
     {
       headers: {
-        Authorization: `Bearer ${user_token()}`,
+        "Content-Type": "multipart/form-data",
+        Authorization: `Bearer ${Cookies.get("academy_token")}`,
+      },
+    }
+  );
+  return data;
+};
+
+export const deleteChapter = async ({ courseId, chapterId }) => {
+  const baseURL = new URL(import.meta.env.VITE_SERVER_DEV).origin;
+  const { data } = await axios.delete(
+    `${baseURL}/api/v1/academies/courses/${courseId}/chapters/${chapterId}`,
+    {
+      headers: {
+        Authorization: `Bearer ${Cookies.get("academy_token")}`,
       },
     }
   );
@@ -166,10 +253,51 @@ export const getChapterById = async (id) => {
   return data;
 };
 
-export const postLesson = async (params) => {
-  const { data } = await academy_client.post("/lessons", params);
+export const createLesson = async ({ courseId, chapterId }, formData, onProgress = null) => {
+  const baseURL = new URL(import.meta.env.VITE_SERVER_DEV).origin;
+  
+  // تحديد إعدادات مختلفة للفيديوهات الكبيرة
+  const hasVideo = formData.has('video');
+  const videoFile = hasVideo ? formData.get('video') : null;
+  const isLargeVideo = videoFile && videoFile.size > 50 * 1024 * 1024; // أكبر من 50MB
+  
+  const config = {
+    headers: {
+      "Content-Type": "multipart/form-data",
+      Authorization: `Bearer ${Cookies.get("academy_token")}`,
+    },
+  };
+  
+  // إضافة تتبع التقدم إذا تم تمرير دالة callback
+  if (onProgress && hasVideo) {
+    config.onUploadProgress = onProgress;
+  }
+  
+  // إعدادات خاصة للفيديوهات الكبيرة
+  if (isLargeVideo) {
+    config.timeout = 900000; // 10 دقائق
+    config.maxContentLength = Infinity;
+    config.maxBodyLength = Infinity;
+    
+    // إذا لم يكن هناك callback مخصص، استخدم الافتراضي
+    if (!onProgress) {
+      config.onUploadProgress = (progressEvent) => {
+        const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+        console.log(`Upload Progress: ${percentCompleted}%`);
+      };
+    }
+  } else {
+    config.timeout = 900000; // دقيقتان للملفات العادية
+  }
+  
+  const { data } = await axios.post(
+    `${baseURL}/api/v1/academies/courses/${courseId}/chapters/${chapterId}/lessons`,
+    formData,
+    config
+  );
   return data;
 };
+
 export const createExam = async (lessonId, formData) => {
   const baseURL = new URL(import.meta.env.VITE_SERVER_DEV).origin;
   const { data } = await axios.post(
@@ -178,21 +306,93 @@ export const createExam = async (lessonId, formData) => {
     {
       headers: {
         "Content-Type": "multipart/form-data",
-        Authorization: `Bearer ${user_token()}`,
+        Authorization: `Bearer ${Cookies.get("academy_token")}`,
       },
     }
   );
   return data;
 };
 
-export const createLesson = async (data) => {
-  const res = await academy_client.post("/lesson", data, {
-    headers: { "Content-Type": "multipart/form-data" },
-    maxContentLength: Infinity,
-    maxBodyLength: Infinity,
-    timeout: 120000,
-  });
-  return res;
+/**
+ * جلب بيانات اختبار محدد
+ * @param {string} lessonId - معرف الدرس
+ * @param {string} examId - معرف الاختبار
+ * @returns {Promise} - بيانات الاختبار
+ */
+export const getExamById = async (lessonId, examId) => {
+  const baseURL = new URL(import.meta.env.VITE_SERVER_DEV).origin;
+  const { data } = await axios.get(
+    `${baseURL}/api/v1/academies/lessons/${lessonId}/exams/${examId}`,
+    {
+      headers: {
+        Authorization: `Bearer ${user_token()}`,
+        Accept: "application/json",
+      },
+    }
+  );
+  return data;
+};
+
+export const editLesson = async (
+  { courseId, chapterId, lessonId },
+  formData,
+  onProgress = null
+) => {
+  const baseURL = new URL(import.meta.env.VITE_SERVER_DEV).origin;
+  
+  // تحديد إعدادات مختلفة للفيديوهات الكبيرة
+  const hasVideo = formData.has('video');
+  const videoFile = hasVideo ? formData.get('video') : null;
+  const isLargeVideo = videoFile && videoFile.size > 50 * 1024 * 1024; // أكبر من 50MB
+  
+  const config = {
+    headers: {
+      "Content-Type": "multipart/form-data",
+      Authorization: `Bearer ${Cookies.get("academy_token")}`,
+    },
+  };
+  
+  // إضافة تتبع التقدم إذا تم تمرير دالة callback
+  if (onProgress && hasVideo) {
+    config.onUploadProgress = onProgress;
+  }
+  
+  // إعدادات خاصة للفيديوهات الكبيرة
+  if (isLargeVideo) {
+    config.timeout = 900000; // 10 دقائق
+    config.maxContentLength = Infinity;
+    config.maxBodyLength = Infinity;
+    
+    // إذا لم يكن هناك callback مخصص، استخدم الافتراضي
+    if (!onProgress) {
+      config.onUploadProgress = (progressEvent) => {
+        const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+        console.log(`Upload Progress: ${percentCompleted}%`);
+      };
+    }
+  } else {
+    config.timeout = 900000; // دقيقتان للملفات العادية
+  }
+  
+  const { data } = await axios.post(
+    `${baseURL}/api/v1/academies/courses/${courseId}/chapters/${chapterId}/lessons/${lessonId}`,
+    formData,
+    config
+  );
+  return data;
+};
+
+export const deleteLesson = async ({ courseId, chapterId, lessonId }) => {
+  const baseURL = new URL(import.meta.env.VITE_SERVER_DEV).origin;
+  const { data } = await axios.delete(
+    `${baseURL}/api/v1/academies/courses/${courseId}/chapters/${chapterId}/lessons/${lessonId}`,
+    {
+      headers: {
+        Authorization: `Bearer ${Cookies.get("academy_token")}`,
+      },
+    }
+  );
+  return data;
 };
 
 export const getAllcategories = async () => {
@@ -328,29 +528,9 @@ export const DeleteAcademyFaq = async (id) => {
   const { data } = await academy_client.delete(`/faq/${id}`);
   return data;
 };
+
 export const getAcademyFaqs = async (id) => {
   const { data } = await academy_client.get(`/faq/${id}`);
-  return data;
-};
-
-export const getFooter = async () => {
-  const { data } = await academy_client.get("/footer");
-  return data;
-};
-
-export const postUpdateFooter = async (formData) => {
-  const { data } = await academy_client.post("/footer", formData, {
-    headers: { "Content-Type": "multipart/form-data" },
-    timeout: 60000,
-  });
-  return data;
-};
-
-export const updateFooter = async (id, formData) => {
-  const { data } = await academy_client.post(`/footer/${id}`, formData, {
-    headers: { "Content-Type": "multipart/form-data" },
-    timeout: 60000,
-  });
   return data;
 };
 
@@ -358,4 +538,29 @@ export const getAllSetting = async (id = null) => {
   let url = !id ? "/all-settings" : `/all-settings/${id}`;
   const { data } = await academy_client.get(url);
   return data;
+};
+
+export const publishCourseDraft = async (courseId) => {
+  const baseUrl = new URL(import.meta.env.VITE_SERVER_DEV).origin;
+
+  try {
+    const response = await axios(
+      `${baseUrl}/api/v1/academies/courses/${courseId}/publish-draft`,
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${Cookies.get("academy_token")}`,
+        },
+      }
+    );
+    return {
+      status: true,
+      data: response.data,
+    };
+  } catch (error) {
+    return {
+      status: false,
+      error: error.response?.data || "حدث خطأ أثناء نشر المادة",
+    };
+  }
 };

@@ -1,14 +1,14 @@
 import AcademyHeaderContainer from "../../AcademyHeaderContainer/AcademyHeaderContainer";
 import SearchIcon from "@mui/icons-material/Search";
 import SingleBlogCard from "../SingleBlogCard";
-import AcademyFooter from "../../Footer/Footer";
 import { useAllBlog } from "../../../../framework/website/blog";
 import { Spinner } from "react-bootstrap";
 import { useEffect } from "react";
+
 const AllBlogpage = () => {
   let { data: profileData, isLoading, errors } = useAllBlog();
 
-  if (errors) return <Error />;
+  if (errors) return <div>حدث خطأ في تحميل البيانات</div>;
   if (isLoading)
     return (
       <>
